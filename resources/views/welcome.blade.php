@@ -1,5 +1,7 @@
-@extends('components/layouts.app')
 
-@section('content')
+
+<x-layouts.app>
     <livewire:counter />
-@endsection
+</x-layouts.app>
+
+

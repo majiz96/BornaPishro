@@ -1,8 +1,25 @@
 *{
     font-family:"B Yekan", sans-serif;
 }
-
-.nav-logo
+input:focus
 {
-    color: #096781;
+    outline-color: #84919e;
+}
+i
+{
+    cursor: pointer;
+}
+.cs-navbar
+{
+    /*background-color:#096781;*/
+    background: #84919e;
+    color:white;
+}
+.submit-button
+{
+    /*background-color: #096781 !important;*/
+    background-color: #84919e !important;
+    color:white !important;
+    outline: none !important;
+    border: none !important;
 }
