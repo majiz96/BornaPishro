@@ -1,6 +1,6 @@
 @use(\Illuminate\Support\Facades\Auth)
 
-<nav class="cs-navbar navbar navbar-expand-lg text-light m-2 py-0 rounded-4">
+<nav class="cs-navbar navbar navbar-expand-lg text-light m-4 py-0 rounded-4">
     <div class="container-fluid">
         <a class="navbar-brand text-light" href="/"><h1>برناپیشرو</h1></a>
 
@@ -31,8 +31,6 @@
                 </ul>
             </div>
 
-
-
         @endauth
 
         @guest
@@ -49,7 +47,15 @@
 
 
     <div class="me-0 px-4">
-    <i class="bi-moon"></i>
+        <i
+    @if($theme === 'dark')
+            class= "bi-sun"
+        @else
+            class= "bi-moon"
+        @endif
+        wire:click="toggleTheme"></i>
+
+
     </div>
 
     <div class="me-0 px-4">

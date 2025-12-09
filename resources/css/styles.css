@@ -15,6 +15,31 @@ i
     background: #84919e;
     color:white;
 }
+.cs-header
+{
+    background: #84919e !important;
+    color:white !important;
+}
+.cs-header-web
+{
+    background: #5a75ff !important;
+    color:white !important;
+}
+.cs-header-product
+{
+    background: #ff2424 !important;
+    color:white !important;
+}
+.cs-header-mag
+{
+    background: #269700 !important;
+    color:white !important;
+}
+.cs-header-service
+{
+    background: #8533ff !important;
+    color:white !important;
+}
 .submit-button
 {
     /*background-color: #096781 !important;*/
@@ -22,4 +47,8 @@ i
     color:white !important;
     outline: none !important;
     border: none !important;
+}
+.showbox,.sidebar
+{
+    min-height: 50vh;
 }

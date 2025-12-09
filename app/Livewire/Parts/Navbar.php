@@ -8,6 +8,15 @@ use Livewire\Component;
 
 class Navbar extends Component
 {
+
+    public $theme = 'dark';
+
+    public function toggleTheme()
+    {
+        $this->theme = ($this->theme == 'dark') ? 'light' : 'dark';
+        session(['theme' => $this->theme]);
+        $this->dispatch('themeChanged',theme: $this->theme);
+    }
     public function logout()
     {
         Auth::logout();

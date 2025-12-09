@@ -4,6 +4,9 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Laravel\Fortify\FortifyServiceProvider;
+use Illuminate\Support\Facades\Gate;
+
+use App\Models\User;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -20,7 +23,19 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+
+        Gate::define('isAdmin', function ($user) {
+            return $user->position && $user->position->access >= 1;
+        });
+        Gate::define('isAdmin', function ($user) {
+            return $user->position && $user->position->level >= 1;
+        });
+        Gate::define('isAssistant', function ($user) {
+            return $user->position && $user->position->level >= 2;
+        });
+        Gate::define('isManager', function ($user) {
+            return $user->position && $user->position->level == 3;
+        });
     }
 
 }
