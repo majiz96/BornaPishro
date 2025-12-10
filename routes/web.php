@@ -1,13 +1,28 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Auth;
 
-use App\Livewire\Counter;
-use App\Livewire\Parts\Navbar;
-use App\Livewire\Auth\Register;
 use App\Livewire\Auth\Login;
-use App\Livewire\Auth\Dashboard;
+use App\Livewire\Auth\Register;
+use App\Livewire\Counter;
+
+use App\Livewire\Dashboard\Users\EditProfile;
+use App\Livewire\Dashboard\Users\Levels;
+use App\Livewire\Dashboard\Users\UsersManagement;
+use App\Livewire\Dashboard\Website\Info;
+use App\Livewire\Dashboard\Website\Notices;
+use App\Livewire\Dashboard\Website\AboutUs;
+use App\Livewire\Dashboard\Website\Social;
+use App\Livewire\Dashboard\Website\Licenses;
+use App\Livewire\Dashboard\Website\Categories;
+use App\Livewire\Dashboard\Website\Communications;
+use App\Livewire\Dashboard\Products\Products;
+use App\Livewire\Dashboard\Products\Brands;
+use App\Livewire\Dashboard\Articles;
+use App\Livewire\Dashboard\Services;
+
+
+
 
 Route::get('/', function () {
     return view('welcome');
@@ -18,6 +33,27 @@ Route::get('register',Register::class)->name('register');
 Route::get('login',Login::class)->name('login');
 
 
-Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('dashboard',Dashboard::class)->name('dashboard');
+Route::middleware(['auth', 'verified'])->prefix('dashboard')->group(function () {
+
+    //users routes
+    Route::get('profile',EditProfile::class)->name('profile');
+    Route::get('levels',Levels::class)->name('levels');
+    Route::get('users',UsersManagement::class)->name('users');
+
+    //website routes
+    Route::get('info',Info::class)->name('info');
+    Route::get('notices',Notices::class)->name('notices');
+    Route::get('about',AboutUs::class)->name('about');
+    Route::get('social',Social::class)->name('social');
+    Route::get('licences',Licenses::class)->name('licenses');
+    Route::get('categories',Licenses::class)->name('categories');
+    Route::get('comms',Communications::class)->name('comms');
+
+    //products routes
+    Route::get('products',Products::class)->name('products');
+    Route::get('brands',Brands::class)->name('brands');
+
+    Route::get('articles',Articles::class)->name('articles');
+
+    Route::get('services',Services::class)->name('services');
 });

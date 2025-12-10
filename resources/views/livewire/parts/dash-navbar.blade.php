@@ -11,14 +11,14 @@
         </button>
 
         @auth
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ms-auto">
-                <li class="nav-item"><a class="nav-link text-light" href="#">محصولات</a></li>
-                <li class="nav-item"><a class="nav-link text-light" href="#">خدمات</a></li>
-                <li class="nav-item"><a class="nav-link text-light" href="#">مقالات</a></li>
-                <li class="nav-item"><a class="nav-link text-light" href="#">ارتباط با ما</a></li>
-            </ul>
-        </div>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link text-light" href="#">محصولات</a></li>
+                    <li class="nav-item"><a class="nav-link text-light" href="#">خدمات</a></li>
+                    <li class="nav-item"><a class="nav-link text-light" href="#">مقالات</a></li>
+                    <li class="nav-item"><a class="nav-link text-light" href="#">ارتباط با ما</a></li>
+                </ul>
+            </div>
 
             <!-- Example single danger button -->
             <div class="btn-group me-0 px-5 ">
@@ -48,18 +48,18 @@
 
     <div class="me-0 px-4">
         <i
-    @if($theme === 'light')
-            class= "bi-moon"
-        @else
-            class= "bi-sun"
-        @endif
-        wire:click="toggleTheme"></i>
+            @if($dashtheme === 'light')
+                class= "bi-moon"
+            @else
+                class= "bi-sun"
+            @endif
+            wire:click="toggleTheme"></i>
 
 
     </div>
 
     <div class="me-0 px-4">
-    <i class="bi-search"></i>
+        <i class="bi-search"></i>
     </div>
 
 </nav>

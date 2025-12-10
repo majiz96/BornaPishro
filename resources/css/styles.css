@@ -15,9 +15,9 @@ i
     background: #84919e;
     color:white;
 }
-.cs-header
+.cs-header-user
 {
-    background: #84919e !important;
+    background: #151719 !important;
     color:white !important;
 }
 .cs-header-web
@@ -51,4 +51,29 @@ i
 .showbox,.sidebar
 {
     min-height: 50vh;
+}
+.active-page-user
+{
+    color: #f16914 !important;
+    font-weight: bold !important;
+}
+.active-page-web
+{
+    color:#5a75ff  !important;
+    font-weight: bold !important;
+}
+.active-page-product
+{
+    color:#ff2424 !important;
+    font-weight: bold !important;
+}
+.active-page-article
+{
+    color:#269700 !important;
+    font-weight: bold !important;
+}
+.active-page-service
+{
+    color:#8533ff !important;
+    font-weight: bold !important;
 }

@@ -1,0 +1,3 @@
+<div>
+    <h2>Users Management</h2>
+</div>

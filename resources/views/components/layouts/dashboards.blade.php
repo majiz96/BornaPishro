@@ -11,23 +11,38 @@
 
 <body>
 
-<livewire:parts.navbar />
+<livewire:parts.dash-navbar />
 
-<main class="py-4">
-    {{ $slot }}
-</main>
+
+
+<div class="container-fluid">
+    <div class="row">
+
+        <!--        sidebar         -->
+        <livewire:dashboard.sidebar />
+
+        {{--        show page contents         --}}
+        <div class="showbox col-10 border border-secondary mx-auto rounded-4">
+            {{ $slot }}
+        </div>
+
+
+    </div>
+</div>
+
 
 @livewireScripts
+
 <script>
     // ذخیره تم هنگام تغییر
-    window.addEventListener('themeChanged', e => {
-        document.documentElement.setAttribute('data-bs-theme', e.detail.theme);
-        localStorage.setItem('theme', e.detail.theme);
+    window.addEventListener('DashthemeChanged', e => {
+        document.documentElement.setAttribute('data-bs-theme', e.detail.dashtheme);
+        localStorage.setItem('dashtheme', e.detail.dashtheme);
     });
 
     // بازیابی تم هنگام لود صفحه
     document.addEventListener('DOMContentLoaded', () => {
-        const savedTheme = localStorage.getItem('theme');
+        const savedTheme = localStorage.getItem('dashtheme');
         if (savedTheme) {
             document.documentElement.setAttribute('data-bs-theme', savedTheme);
         }
@@ -35,7 +50,7 @@
 
     // بازیابی تم هنگام تغییر route با wire:navigate
     document.addEventListener("livewire:navigated", () => {
-        const savedTheme = localStorage.getItem('theme');
+        const savedTheme = localStorage.getItem('dashtheme');
         if (savedTheme) {
             document.documentElement.setAttribute('data-bs-theme', savedTheme);
         }
