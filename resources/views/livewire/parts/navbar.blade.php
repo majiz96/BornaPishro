@@ -1,5 +1,3 @@
-@use(\Illuminate\Support\Facades\Auth)
-
 <nav class="cs-navbar navbar navbar-expand-lg text-light m-4 py-0 rounded-4">
     <div class="container-fluid">
         <a class="navbar-brand text-light" href="/"><h1>برناپیشرو</h1></a>
@@ -23,7 +21,10 @@
             <!-- Example single danger button -->
             <div class="btn-group me-0 px-5 ">
                 <button type="button" class="btn dropdown-toggle text-light" data-bs-toggle="dropdown" aria-expanded="false">
-                    {{Auth::user()->name}}  {{Auth::user()->lastname}}
+                    @if($name && $lastname)
+                        {{$name}}  {{$lastname}}
+                    @endif
+
                 </button>
                 <ul class="dropdown-menu text-end">
                     <li><a href="{{route('profile')}}" class="dropdown-item" wire:navigate> پروفایل </a></li>

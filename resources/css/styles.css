@@ -52,10 +52,15 @@ i
 {
     min-height: 50vh;
 }
+.active-page
+{
+    background: #84919e !important;
+    color: white !important;
+    font-weight: bold !important;
+}
 .active-page-user
 {
-    color: #f16914 !important;
-    font-weight: bold !important;
+
 }
 .active-page-web
 {
