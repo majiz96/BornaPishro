@@ -47,13 +47,16 @@
 
 
     <div class="me-0 px-4">
-        <i
-    @if($theme === 'light')
-            class= "bi-moon"
-        @else
-            class= "bi-sun"
-        @endif
-        wire:click="toggleTheme"></i>
+
+    @if(  $theme === 'light')
+            <i class= "bi-moon" wire:click="toggleTheme"></i>
+    @endif
+
+    @if(  $theme === 'dark')
+            <i class= "bi-sun" wire:click="toggleTheme"></i>
+    @endif
+
+
 
 
     </div>
