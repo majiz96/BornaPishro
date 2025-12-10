@@ -9,8 +9,12 @@ use Livewire\Component;
 class Navbar extends Component
 {
 
-    public $theme = 'dark';
+    public $theme;
 
+    public function mount()
+    {
+        $this->theme = session('theme', 'dark');
+    }
     public function toggleTheme()
     {
         $this->theme = ($this->theme == 'dark') ? 'light' : 'dark';
@@ -27,3 +31,5 @@ class Navbar extends Component
         return view('livewire.parts.navbar');
     }
 }
+
+

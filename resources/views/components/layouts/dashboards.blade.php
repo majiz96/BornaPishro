@@ -42,26 +42,43 @@
 
 @livewireScripts
 <script>
-    // ذخیره تم هنگام تغییر
+    function applyTheme(theme) {
+        document.documentElement.setAttribute('data-bs-theme', theme);
+
+        // اگر آیکن تغییر تم داری
+        const icon = document.getElementById('themeToggleIcon');
+        if (icon) {
+            if (theme === 'dark') {
+                icon.classList.remove('bi-sun');
+                icon.classList.add('bi-moon');
+            } else {
+                icon.classList.remove('bi-moon');
+                icon.classList.add('bi-sun');
+            }
+        }
+    }
+
+    // ذخیره تم و آیکن هنگام تغییر
     window.addEventListener('themeChanged', e => {
-        document.documentElement.setAttribute('data-bs-theme', e.detail.theme);
+        applyTheme(e.detail.theme);
         localStorage.setItem('theme', e.detail.theme);
     });
 
-    // بازیابی تم هنگام لود صفحه
+    // بازیابی تم و آیکن هنگام لود صفحه
     document.addEventListener('DOMContentLoaded', () => {
         const savedTheme = localStorage.getItem('theme');
-        if (savedTheme) {
-            document.documentElement.setAttribute('data-bs-theme', savedTheme);
-        }
+        if (savedTheme) applyTheme(savedTheme);
     });
 
-    // بازیابی تم هنگام تغییر route با wire:navigate
-    document.addEventListener("livewire:navigated", () => {
+    // بازیابی تم و آیکن بعد از navigate
+    document.addEventListener('navigated', () => {
         const savedTheme = localStorage.getItem('theme');
-        if (savedTheme) {
-            document.documentElement.setAttribute('data-bs-theme', savedTheme);
-        }
+        if (savedTheme) applyTheme(savedTheme);
+    });
+
+    document.addEventListener('livewire:navigated', () => {
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme) applyTheme(savedTheme);
     });
 </script>
 </body>

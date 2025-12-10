@@ -50,14 +50,9 @@
 
     @if(  $theme === 'light')
             <i class= "bi-moon" wire:click="toggleTheme"></i>
-    @endif
-
-    @if(  $theme === 'dark')
+    @else
             <i class= "bi-sun" wire:click="toggleTheme"></i>
     @endif
-
-
-
 
     </div>
 
