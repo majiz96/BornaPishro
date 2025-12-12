@@ -89,6 +89,29 @@ class UsersManagement extends Component
         }
     }
 
+    public function updatedSelectAll($value)
+    {
+        if($value)
+        {
+            $this->selected = [];
+
+            $users = User::with('position')->get();
+            $maxLevel = Position::max('level');
+
+            foreach ($users as $user) {
+                if ($user->position->level < $maxLevel) {
+                    $this->selected[] = $user->id;
+                }
+            }
+
+        }
+        else
+        {
+            $this->selected = [];
+        }
+
+    }
+
     public function delete($id)
     {
         User::findOrFail($id)->delete();
@@ -97,6 +120,7 @@ class UsersManagement extends Component
     {
         User::whereIn('id',$this->selected)->delete();
         $this->selected = [];
+        $this->selectAll = false;
     }
 
     public function render()
