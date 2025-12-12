@@ -1,6 +1,6 @@
 
 {{--        list of pages--}}
-<div class="col-1">
+<div class="col-1 d-none d-xl-inline">
 
     <ul class="list-group row py-2">
 
@@ -10,7 +10,6 @@
             <a class="nav-link" href="{{route('profile')}}" wire:navigate> ویرایش پروفایل </a></li>
 
         @can('isManager')
-            <li class="list-group-item list-group-item-action text-end py-1 {{request()->routeIs('levels') ? 'active-page' : ''}}"><a class="nav-link" href="{{route('levels')}}" wire:navigate> مدیریت دسترسی </a></li>
             <li class="list-group-item list-group-item-action text-end py-1 {{request()->routeIs('users') ? 'active-page' : ''}}"><a class="nav-link" href="{{route('users')}}" wire:navigate> مدیریت کاربران </a></li>
         @endcan
 

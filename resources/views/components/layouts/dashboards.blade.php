@@ -31,7 +31,7 @@
         <livewire:dashboard.sidebar />
 
         {{--        show page contents         --}}
-        <div class="showbox col-10 border border-secondary mx-auto rounded-4">
+        <div class="showbox col-10 mx-auto rounded-4">
             {{ $slot }}
         </div>
 

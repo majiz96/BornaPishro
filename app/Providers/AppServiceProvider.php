@@ -25,7 +25,7 @@ class AppServiceProvider extends ServiceProvider
     {
 
         Gate::define('isAdmin', function ($user) {
-            return $user->position && $user->position->access >= 1;
+            return $user->position && $user->position->level >= 1;
         });
         Gate::define('isAdmin', function ($user) {
             return $user->position && $user->position->level >= 1;

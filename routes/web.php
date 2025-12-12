@@ -7,7 +7,6 @@ use App\Livewire\Auth\Register;
 use App\Livewire\Counter;
 
 use App\Livewire\Dashboard\Users\EditProfile;
-use App\Livewire\Dashboard\Users\Levels;
 use App\Livewire\Dashboard\Users\UsersManagement;
 use App\Livewire\Dashboard\Website\Info;
 use App\Livewire\Dashboard\Website\Notices;
@@ -37,7 +36,6 @@ Route::middleware(['auth', 'verified'])->prefix('dashboard')->group(function () 
 
     //users routes
     Route::get('profile',EditProfile::class)->name('profile');
-    Route::get('levels',Levels::class)->name('levels');
     Route::get('users',UsersManagement::class)->name('users');
 
     //website routes
