@@ -8,5 +8,5 @@ class Information extends Model
 {
     protected $table = 'information';
     protected $primaryKey = 'id';
-    protected $fillable = ['phone', 'mobile', 'email', 'address', 'location', 'start_date', 'about_us'];
+    protected $fillable = ['phone', 'mobile', 'email', 'address','activity','response','start_date', 'about_us'];
 }

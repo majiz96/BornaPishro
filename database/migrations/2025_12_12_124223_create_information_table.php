@@ -17,9 +17,10 @@ return new class extends Migration
             $table->string('mobile');
             $table->string('email');
             $table->string('address');
-            $table->string('location');
+            $table->string('activity');
+            $table->string('response');
             $table->date('start_date');
-            $table->string('about_us');
+            $table->text('about_us');
             $table->timestamps();
         });
     }

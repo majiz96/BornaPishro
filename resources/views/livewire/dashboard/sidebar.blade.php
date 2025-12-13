@@ -20,8 +20,6 @@
         <li class="cs-header-web t list-group-item text-center border py-1"> <h5>وبسایت</h5> </li>
         @can('isManager')
             <li class="list-group-item list-group-item-action text-end py-1 {{request()->routeIs('info') ? 'active-page' : ''}}"><a class="nav-link" href="{{route('info')}}" wire:navigate> اطلاعات وبسایت </a></li>
-            <li class="list-group-item list-group-item-action text-end py-1 {{request()->routeIs('notices') ? 'active-page' : ''}}"><a class="nav-link" href="{{route('notices')}}" wire:navigate> اعلانات </a></li>
-            <li class="list-group-item list-group-item-action text-end py-1 {{request()->routeIs('about') ? 'active-page' : ''}}"><a class="nav-link" href="{{route('about')}}" wire:navigate> درباره ما </a></li>
             <li class="list-group-item list-group-item-action text-end py-1 {{request()->routeIs('social') ? 'active-page' : ''}}"><a class="nav-link" href="{{route('social')}}" wire:navigate> صفحات مجازی </a></li>
             <li class="list-group-item list-group-item-action text-end py-1 {{request()->routeIs('licenses') ? 'active-page' : ''}}"><a class="nav-link" href="{{route('licenses')}}" wire:navigate> مجوزها </a></li>
             <li class="list-group-item list-group-item-action text-end py-1 {{request()->routeIs('categories') ? 'active-page' : ''}}"><a class="nav-link" href="{{route('categories')}}" wire:navigate> دسته‌بندی‌ ها </a></li>
