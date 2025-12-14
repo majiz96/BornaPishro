@@ -9,7 +9,7 @@ use App\Livewire\Counter;
 use App\Livewire\Dashboard\Users\EditProfile;
 use App\Livewire\Dashboard\Users\UsersManagement;
 use App\Livewire\Dashboard\Website\Info;
-use App\Livewire\Dashboard\Website\Social;
+use App\Livewire\Dashboard\Website\Socials;
 use App\Livewire\Dashboard\Website\Licenses;
 use App\Livewire\Dashboard\Website\Categories;
 use App\Livewire\Dashboard\Website\Communications;
@@ -38,7 +38,7 @@ Route::middleware(['auth', 'verified'])->prefix('dashboard')->group(function () 
 
     //website routes
     Route::get('info',Info::class)->name('info');
-    Route::get('social',Social::class)->name('social');
+    Route::get('social',Socials::class)->name('social');
     Route::get('licences',Licenses::class)->name('licenses');
     Route::get('categories',Licenses::class)->name('categories');
     Route::get('comms',Communications::class)->name('comms');
