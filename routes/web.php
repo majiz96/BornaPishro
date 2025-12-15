@@ -40,7 +40,7 @@ Route::middleware(['auth', 'verified'])->prefix('dashboard')->group(function () 
     Route::get('info',Info::class)->name('info');
     Route::get('social',Socials::class)->name('social');
     Route::get('licences',Licenses::class)->name('licenses');
-    Route::get('categories',Licenses::class)->name('categories');
+    Route::get('categories',Categories::class)->name('categories');
     Route::get('comms',Communications::class)->name('comms');
 
     //products routes

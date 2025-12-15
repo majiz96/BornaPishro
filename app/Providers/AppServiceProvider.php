@@ -3,7 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use Laravel\Fortify\FortifyServiceProvider;
+//use Laravel\Fortify\FortifyServiceProvider;
 use Illuminate\Support\Facades\Gate;
 
 use App\Models\User;
