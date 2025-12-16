@@ -91,3 +91,7 @@ i
 {
     background: #84919e !important;
 }
+.field
+{
+    cursor: pointer;
+}
