@@ -15,11 +15,11 @@ class FieldSeeder extends Seeder
     public function run(): void
     {
         Field::create([
-            'name'=>'articles'
+            'name'=>'مقالات'
         ]);
 
         Field::create([
-            'name'=>'services'
+            'name'=>'خدمات'
         ]);
     }
 }

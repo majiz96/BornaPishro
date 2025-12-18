@@ -15,7 +15,7 @@
         <div class="col-xl-2">
             <label class="form-label">نام</label>
             <input type="text" wire:model.blur="name" class="form-control">
-            @error('name') <small class="text-danger">{{ $message }}</small> @enderror
+
         </div>
 
         <div class="col-xl-4">

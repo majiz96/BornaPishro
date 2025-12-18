@@ -29,6 +29,7 @@
 
             </form>
 
+
             <div class="row">
 
             @if($fields->isNotEmpty())
@@ -39,7 +40,7 @@
                             <div class="field col-xl-8 h5 my-auto" wire:click="selectField({{$field->id}})"> {{$field->name}} </div>
 
                             <div class="col-xl-1 mt-2"><i class="bi-trash-fill"
-                            wire:confirm="آیا از حذف زمینه ی ({{$field->name}}) مطمئن هستید؟" wire:click="deleteField({{$field->id}})"></i></div>
+                            wire:confirm="آیا از حذف زمینه ی ({{$field->name}}) و تمام دسته هایش مطمئن هستید؟" wire:click="deleteField({{$field->id}})"></i></div>
 
                             <div class="col-xl-1"></div>
                             <div class="col-xl-1 mt-2"><i class="bi-pen-fill" wire:click="editField({{$field->id}})"></i></div>
@@ -65,7 +66,7 @@
 
                 @csrf
 
-                <div class="col-xl-4"></div>
+                <div class="col-xl-3"></div>
 
                 <div class="col-xl-4">
                     <label for="category_name" class="form-label">نام دسته</label>
@@ -74,29 +75,54 @@
                 </div>
 
                 @if($editingCategory)
-                    <div class="col-xl-1 d-flex">
-                        <button type="submit" class="btn btn-secondary mt-auto"> ثبت </button>
+                    <div class="col-xl-1 py-1">
+                        <button type="submit" class="btn btn-secondary mt-4"> ثبت </button>
                     </div>
 
-                    <div class="col-xl-1 d-flex">
-                    <button type="button" class="btn btn-danger h-auto col-xl-1 mt-auto" wire:click="cancelField"> انصراف </button>
+                    <div class="col-xl-3 py-1">
+                        <button type="button" class="btn btn-danger h-auto col-xl-2 mt-4" wire:click="cancelCategory"> <i class="btn-close"></i> </button>
                     </div>
 
-                    <div class="col-xl-2"></div>
                 @else
-                    <div class="col-xl-1 d-flex">
-                        <button type="submit" class="btn btn-secondary mt-auto"> ثبت </button>
+
+                    <div class="col-xl-1 text-center py-1">
+                        <button type="submit" class="btn btn-secondary mt-4"> ثبت </button>
                     </div>
 
-                    <div class="col-xl-4"></div>
+                    <div class="col-xl-3"></div>
                 @endif
-
 
             </form>
 
-            <div class="row text-center">
+
+
+            <div class="row text-center border-top mt-5 px-3 pt-5">
 
                 @if($categories->isNotEmpty())
+                    @foreach($categories as $category)
+
+
+
+                        <div class="col-xl-3 px-4 mx-auto">
+
+                            <div class="row border rounded mt-3 {{$categoryActive == $category->id ? 'bg-success text-light' : ''}} ">
+
+                                <div class="field col-xl-7 py-1 text-end text-nowrap"
+                                     wire:click="selectCategory({{$category->id}})">
+                                    {{$category->name}}
+                                </div>
+
+                                <div class="col-xl-2 mt-2"><i class="bi-trash-fill"
+                                wire:confirm="آیا از حذف دسته ({{$category->name}}) و زیردسته هایش مطمئن هستید؟" wire:click="deleteCategory({{$category->id}})"></i></div>
+
+
+                                <div class="col-xl-2 mt-2"> <i class="bi-pen-fill" wire:click="editCategory({{$category->id}})"></i></div>
+
+                            </div>
+                        </div>
+
+                    @endforeach
+
                 @else
                     <h3 class="text-warning mt-5"> هیچ دسته ای ثبت نشده است </h3>
                 @endif
@@ -105,6 +131,91 @@
         </div>
     </div>
 
+    </div>
+
+    <div class="row card mt-5">
+        <div class="card-header">  <h4>شاخه ها</h4> </div>
+
+        <div class="card-body">
+
+            <form wire:submit.prevent="saveChild" class="row pt-5">
+
+                @csrf
+
+                <div class="col-xl-3"></div>
+
+                <div class="col-xl-1 text-start"><label for="child_name" class="form-label my-2">نام شاخه</label></div>
+
+                <div class="col-xl-3 px-2">
+                    <input type="text" id="child_name" class="form-control" wire:model.blur="child_name">
+                    @error('child_name') <small class="text-danger">{{ $message }}</small> @enderror
+                </div>
+                <div class="col-xl-2">
+                    <button type="submit" class="btn btn-secondary">ثبت</button>
+
+                   @if($editingChild)
+                    <button type="submit" class="btn btn-danger w-auto" wire:click.prevent="cancelChild">انصراف</button>
+                   @endif
+                </div>
+                <div class="col-xl-3"></div>
+
+            </form>
+
+
+            <div class="row border my-5 mx-2 rounded-4 py-3">
+
+                @if($childs->isNotEmpty())
+
+                    @foreach($childs as $child)
+
+                        @if(strlen($child->name) > 35)
+
+                        <div class="col-xl-4 px-5 mx-auto">
+
+                            <div class="row text-nowrap border rounded-4 py-2 my-3 cs-navbar">
+                                <div class="col-xl-8"> {{$child->name}} </div>
+
+                                <div class="col-xl-1"></div>
+
+                                <div class="col-xl-1 text-start">
+                                    <i class="bi-trash-fill" wire:click="deleteChild({{$child->id}})" wire:confirm="آیا از حذف ({{$child->name}}) مطمئن هستید؟"></i>
+                                </div>
+
+                                <div class="col-xl-1 text-start mx-auto">
+                                    <i class="bi-pen-fill" wire:click="editChild({{$child->id}})"></i>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        @else
+                            <div class="col-xl-3 px-5 mx-auto">
+
+                                <div class="row text-nowrap border rounded-4 py-2 my-3 cs-navbar">
+
+                                    <div class="col-xl-8"> {{$child->name}} </div>
+
+                                    <div class="col-xl-1 text-start">
+                                        <i class="bi-trash-fill" wire:click="deleteChild({{$child->id}})" wire:confirm="آیا از حذف ({{$child->name}}) مطمئن هستید؟"></i>
+                                    </div>
+
+                                    <div class="col-xl-1 text-end mx-auto">
+                                        <i class="bi-pen-fill" wire:click="editChild({{$child->id}})"></i>
+                                    </div>
+                                </div>
+
+                            </div>
+                        @endif
+                    @endforeach
+
+                @else
+                    <div class="row text-center p-3"><h4 class="text-warning mt-1">زیردسته و شاخه ای در این دسته بندی موجود نیست</h4></div>
+                @endif
+
+            </div>
+
+
+        </div>
     </div>
 
 </div>

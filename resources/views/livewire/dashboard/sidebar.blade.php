@@ -1,4 +1,3 @@
-
 {{--        list of pages--}}
 <div class="col-1 d-none d-xl-inline">
 
