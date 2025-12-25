@@ -1,7 +1,7 @@
 
 
 <x-layouts.app>
-    <livewire:counter />
+    <livewire:home />
 </x-layouts.app>
 
 

@@ -14,7 +14,8 @@ i
     /*background-color:#096781;*/
     background: #84919e;
     color:white;
-}.cs-button
+}
+.cs-button
 {
     /*background-color:#096781;*/
     background: #84919e !important;
@@ -92,6 +93,36 @@ i
     background: #84919e !important;
 }
 .field
+{
+    cursor: pointer;
+}
+.fullscreen-menu {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1050;
+}
+.navbar-toggler {
+    border: none !important;
+    box-shadow: none !important;
+    color: white !important;
+}
+.navbar-toggler-icon
+{
+    color: white !important;
+}
+.navbar-toggler-icon span
+{
+    color: white !important;
+}
+
+.home-tile
+{
+    min-height: 40vh;
+}
+.delete-badge
 {
     cursor: pointer;
 }

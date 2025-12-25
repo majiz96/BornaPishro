@@ -1,4 +1,4 @@
-<nav class="cs-navbar navbar navbar-expand-lg text-light m-4 py-0 rounded-4" dir="rtl">
+<nav class="cs-navbar navbar navbar-expand-lg text-light m-4 py-xl-0 rounded-4 sticky-top" dir="rtl">
 
     <div class="container-fluid">
 
@@ -64,70 +64,83 @@
 
         </div>
 
-        <div class="w-100 d-none d-md-flex d-lg-none">
+        <div class="w-100 d-md-flex d-lg-none align-items-center" dir="rtl">
 
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#navbarNav" aria-controls="navbarNav"
-                    aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon text-light"></span>
-            </button>
+            <div class="d-flex align-items-center w-100 position-relative">
 
-            @auth
-                <div class="collapse navbar-collapse" id="navbarNav">
+                <!-- راست: آیکن همبرگر (تریگر منو) -->
+                <button class="navbar-toggler position-absolute top-50 translate-middle-y text-white"
+                        style="right: 1.5rem; color:white !important;"
+                        type="button" data-bs-toggle="collapse"
+                        data-bs-target="#fullscreenMenu" aria-controls="fullscreenMenu"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon text-white fw-bold"></span>
+                </button>
 
-                    <!-- Example single danger button -->
-                    <div class="btn-group me-0 px-5 ">
-                        <button type="button" class="btn dropdown-toggle text-light" data-bs-toggle="dropdown" aria-expanded="false">
-                            @if($name && $lastname)
-                                {{$name}}  {{$lastname}}
-                            @endif
+                <!-- وسط: برند (واقعاً وسط صفحه) -->
+                <a class="navbar-brand text-light mx-auto text-center" href="/">
+                    <h1 class="m-0">برناپیشرو</h1>
+                </a>
 
-                        </button>
-                        <ul class="dropdown-menu text-end">
-                            <li><a href="{{route('profile')}}" class="dropdown-item" wire:navigate> پروفایل </a></li>
-                            <li><a href="" class="dropdown-item" wire:click="logout" wire:confirm="آیابرای خروج از وبسایت مطمئن هستید؟" wire:navigate> خروج </a></li>
-                        </ul>
+                <!-- چپ: آیکن سرچ با فاصله از کنار -->
+                <div class="position-absolute top-50 translate-middle-y"
+                     style="left: 1.5rem;">
+                    <i class="bi-search fs-5"></i>
+                </div>
+            </div>
+
+            <!-- منوی فول‌اسکرین -->
+            <div class="collapse fullscreen-menu bg-body text-body" id="fullscreenMenu">
+                <div class="menu-content d-flex flex-column justify-content-between h-100 text-center">
+
+                    <!-- بالای بالا: کلوز راست، سوییچ چپ -->
+                    <div class="d-flex justify-content-between align-items-center p-3">
+
+                        <!-- راست: دکمه بستن -->
+                        <button type="button" class="btn-close" data-bs-toggle="collapse"
+                                data-bs-target="#fullscreenMenu" aria-label="Close"></button>
+
+                        <!-- چپ: سوییچ حالت روشن/تیره -->
+                        <div class="form-check form-switch ms-2">
+                            <input class="form-check-input" type="checkbox" id="themeSwitch"
+                                   @if($theme === 'dark') checked @endif
+                                   wire:click="toggleTheme">
+                            <label class="form-check-label" for="themeSwitch">
+                                @if($theme === 'dark') حالت تیره @else حالت روشن @endif
+                            </label>
+                        </div>
                     </div>
 
-                    <ul class="navbar-nav ms-auto">
-                        <li class="nav-item"><a class="nav-link text-light" href="#">محصولات</a></li>
-                        <li class="nav-item"><a class="nav-link text-light" href="#">خدمات</a></li>
-                        <li class="nav-item"><a class="nav-link text-light" href="#">مقالات</a></li>
-                        <li class="nav-item"><a class="nav-link text-light" href="#">ارتباط با ما</a></li>
+                    <!-- وسط: لینک‌ها (کاملاً وسط چین) -->
+                    <ul class="navbar-nav flex-column my-auto align-items-center px-0">
+                        <li class="nav-item"><a class="nav-link text-body fs-3 mt-3 mx-auto" href="#">محصولات</a></li>
+                        <li class="nav-item"><a class="nav-link text-body fs-3 mt-3 mx-auto" href="#">خدمات</a></li>
+                        <li class="nav-item"><a class="nav-link text-body fs-3 mt-3 mx-auto" href="#">مقالات</a></li>
+                        <li class="nav-item"><a class="nav-link text-body fs-3 mt-3 mx-auto" href="#">ارتباط با ما</a></li>
                     </ul>
 
-                    <div class="me-0 px-4 my-auto">
+                    <!-- پایین: نام راست، خروج چپ روی قرمز -->
+                    @auth
+                        <div class="d-flex justify-content-between align-items-center text-white px-3 py-2 cs-navbar">
+                            <a href="{{ route('profile') }}" class="text-decoration-none text-white">@if($name && $lastname) {{$name}} {{$lastname}} @endif</a href=>
+                            <a href="" class="text-white text-decoration-none btn btn-danger px-5 py-2 rounded-4" wire:click="logout" wire:confirm="آیابرای خروج از وبسایت مطمئن هستید؟" wire:navigate>خروج</a>
+                        </div>
+                    @endauth
 
-                        @if(  $theme === 'light')
-                            <i class= "bi-moon" wire:click="toggleTheme"></i>
-                        @else
-                            <i class= "bi-sun" wire:click="toggleTheme"></i>
-                        @endif
-
-                    </div>
-
-                    <div class="me-0 px-4 my-auto">
-                        <i class="bi-search"></i>
-                    </div>
+                    @guest
+                        <div class="d-flex justify-content-between align-items-center text-white p-3">
+                            <a href="{{route('login')}}" class="text-white text-decoration-none cs-button rounded-4 px-4 py-2" wire:navigate>ورود</a>
+                            <a href="{{route('register')}}" class="text-white text-decoration-none cs-button rounded-4 px-4 py-2" wire:navigate>ثبت نام</a>
+                        </div>
+                    @endguest
                 </div>
-
-                <a class="navbar-brand text-light" href="/"><h1>برناپیشرو</h1></a>
-
-            @endauth
-
-            @guest
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav ms-auto">
-                        <li class="nav-item"><a class="nav-link text-light" href="{{route('login')}}" wire:navigate>ورود</a></li>
-                        <li class="nav-item"><a class="nav-link text-light" href="{{route('register')}}" wire:navigate>ثبت نام</a></li>
-                    </ul>
-                </div>
-            @endguest
-
-
-
-
+            </div>
         </div>
+
+        <style>
+
+        </style>
+
 
 
     </div>

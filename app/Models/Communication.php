@@ -4,22 +4,24 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
-use Illuminate\Database\Eloquent\Relations\MorphOne;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+use App\Models\Files;
 
 class Communication extends Model
 {
     protected $table = 'communications';
-    protected $fillable = ['user_id','email','subject', 'message'];
+    protected $fillable = ['user_id', 'name', 'email', 'subject', 'message', 'phone'];
 
-    public function user():HasOne
+    public function user():belongsTo
     {
-        return $this->hasOne(User::class, 'id', 'user_id');
+        return $this->belongsTo(User::class);
     }
 
-    public function file():MorphOne
+    public function files():MorphMany
     {
-        return $this->morphOne(Files::class, 'fileable');
+        return $this->morphMany(Files::class, 'fileable');
     }
 
 }
