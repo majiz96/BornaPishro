@@ -122,6 +122,12 @@ i
 {
     min-height: 40vh;
 }
+
+.home-blocks
+{
+    min-height: 20vh;
+}
+
 .delete-badge
 {
     cursor: pointer;

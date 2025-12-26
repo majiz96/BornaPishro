@@ -1,14 +1,26 @@
 <div class="container-fluid py-0">
 
-    <div class="home-tile row bg-success text-light text-center mx-2 rounded-4"><h2 class="mx-auto my-auto">نمادهای محصول</h2></div>
+    <div class="home-tile row bg-danger text-light text-center mx-2 rounded-5"><h2 class="mx-auto my-auto"> اسلایدر اعلانات </h2></div>
 
-    <div class="home-tile row bg-primary text-light text-center mx-2 rounded-4 my-5"><h2 class="mx-auto my-auto">اسلایدر خدمات</h2></div>
+    <div class="row text-center mx-2">
 
-    <div class="home-tile row bg-warning text-dark text-center mx-2 rounded-4 my-5"><h2 class="mx-auto my-auto">اسلایدر محصولات</h2></div>
+        <div class="col-xl-2 home-blocks rounded-5 bg-secondary text-light mx-auto mt-5"> <h2 class="mx-auto mt-5">بلوک اول</h2> </div>
+        <div class="col-xl-4 home-blocks rounded-5 bg-secondary text-light mx-auto mt-5"> <h2 class="mx-auto mt-5">بلوک دوم</h2> </div>
+        <div class="col-xl-1 home-blocks rounded-5 bg-secondary text-light mx-auto mt-5"> <h2 class="mx-auto mt-5">بلوک سوم</h2> </div>
+        <div class="col-xl-2 home-blocks rounded-5 bg-secondary text-light mx-auto mt-5"> <h2 class="mx-auto mt-5">بلوک چهارم</h2> </div>
 
-    <div class="home-tile row bg-danger text-light text-center mx-2 rounded-4 my-5"><h2 class="mx-auto my-auto">اسلایدر مقالات</h2></div>
+    </div>
 
-    <div class="row border text-center mx-2 rounded-4 my-5 px-1 py-2">
+
+    <div class="home-tile row bg-success text-light text-center mx-2 rounded-5 my-5"><h2 class="mx-auto my-auto">نمادهای محصول</h2></div>
+
+    <div class="home-tile row bg-primary text-light text-center mx-2 rounded-5 my-5"><h2 class="mx-auto my-auto">اسلایدر خدمات</h2></div>
+
+    <div class="home-tile row bg-warning text-dark text-center mx-2 rounded-5 my-5"><h2 class="mx-auto my-auto">اسلایدر محصولات</h2></div>
+
+    <div class="home-tile row bg-info text-dark text-center mx-2 rounded-5 my-5"><h2 class="mx-auto my-auto">اسلایدر مقالات</h2></div>
+
+    <div class="row border text-center mx-2 rounded-5 my-5 px-1 py-2">
 
 
         @auth()
