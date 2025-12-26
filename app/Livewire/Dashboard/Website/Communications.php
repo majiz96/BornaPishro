@@ -27,6 +27,9 @@ class Communications extends Component
     public $modalFileId;
     public string $modalErr;
 
+    public $selected = [];
+    public $selectAll = false;
+
     public function seeMessage($id)
     {
         $this->messageModal = true;
@@ -70,6 +73,25 @@ class Communications extends Component
         $this->filesModal = false;
     }
 
+    public function updatedSelectAll($value)
+    {
+
+        if($value){
+
+            $this->selected = [];
+
+            $comm = Communication::all();
+            foreach($comm as $com){
+                $this->selected[] = $com->id;
+            }
+
+        }
+        else
+        {
+            $this->selected = [];
+        }
+    }
+
     public function delete($id)
     {
         $com = Communication::with('files')->findOrFail($id);
@@ -86,6 +108,31 @@ class Communications extends Component
       }
 
       $com->delete();
+
+    }
+
+    public function selectedDelete()
+    {
+        $com = Communication::whereIn('id',$this->selected)->with('files')->get();
+
+        foreach ($com as $coms)
+        {
+            foreach ($coms->files as $file)
+            {
+                $path = 'attachments/'.$file->file;
+                if (Storage::disk('public')->exists($path))
+                {
+                    Storage::disk('public')->delete($path);
+                }
+
+                $file->delete();
+            }
+
+            $coms->delete();
+
+            $this->selected = [];
+        }
+
 
     }
 

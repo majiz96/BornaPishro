@@ -116,7 +116,8 @@
                             <div class="col-xl-1"></div>
 
                             <div class="col-xl-2 text-center">
-                                <button class="btn btn-sm btn-danger mt-1 rounded-3" wire:click="delete({{$license->id}})" wire:confirm="آیا از حذف (( {{$license->name}} )) مطمئن هستید؟">حذف</button>
+                                <button class="btn btn-sm btn-danger mt-1 rounded-3" wire:click="delete({{$license->id}})"
+                                wire:confirm="آیا از حذف (( {{$license->name}} )) مطمئن هستید؟">حذف</button>
                             </div>
 
                             <div class="col-xl-2">

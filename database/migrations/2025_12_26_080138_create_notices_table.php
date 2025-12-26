@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('display');
             $table->string('contact');
             $table->string('style')->nullable();
-            $table->integer('position_id')->nullable();
+            $table->integer('position_id')->default(4);
             $table->integer('status')->default(0);
             $table->date('expired_at');
 

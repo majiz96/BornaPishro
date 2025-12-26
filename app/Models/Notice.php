@@ -9,11 +9,12 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 class Notice extends Model
 {
     protected $table = 'notices';
-    protected $fillable = ['title', 'description', 'display', 'contact','style','status','expired_at'];
+    protected $fillable = ['title', 'description', 'display', 'contact','style','position_id','status','expired_at'];
 
-    public function Position():BelongsTo
+    public function position(): BelongsTo
     {
-        $this->belongsTo(Position::class);
+        return $this->belongsTo(Position::class);
     }
+
 }
 

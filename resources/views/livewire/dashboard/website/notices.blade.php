@@ -1,30 +1,31 @@
 <div class="container my-4">
+
     <form wire:submit.prevent="save" class="row g-3">
 
         {{-- عنوان --}}
         <div class="col-md-12">
             <label for="title" class="form-label">عنوان</label>
-            <input type="text" id="title" wire:model.defer="title" class="form-control" placeholder="عنوان اعلان">
+            <input type="text" id="title" wire:model.blur="title" class="form-control" placeholder="عنوان اعلان">
             @error('title') <span class="text-danger">{{ $message }}</span> @enderror
         </div>
 
         {{-- توضیحات --}}
         <div class="col-md-12">
             <label for="description" class="form-label">پیام</label>
-            <textarea id="description" wire:model.defer="description" class="form-control" rows="4"></textarea>
+            <textarea id="description" wire:model.blur="description" class="form-control" rows="4"></textarea>
             @error('description') <span class="text-danger">{{ $message }}</span> @enderror
         </div>
 
         {{-- محل نمایش --}}
         <div class="col-md-4">
             <label for="display" class="form-label">نحوه نمایش</label>
-            <select id="display" wire:model.defer="display" class="form-select">
+            <select id="display" wire:model.live="display" class="form-select">
                 <option value="">انتخاب کنید...</option>
-                <option value="home">زیر نوبار (صفحه اصلی)</option>
-                <option value="icon">اعلانات نوبار</option>
-                <option value="email">ایمیل</option>
-                <option value="slider">اسلایدر</option>
-                <option value="tiles">کاشی‌های صفحه اصلی</option>
+                <option value="خانه">زیر نوبار (صفحه اصلی)</option>
+                <option value="نماد">اعلانات نوبار</option>
+                <option value="ایمیل">ایمیل</option>
+                <option value="اسلایدر">اسلایدر</option>
+                <option value="کاشی ها">کاشی‌های صفحه اصلی</option>
             </select>
             @error('display') <span class="text-danger">{{ $message }}</span> @enderror
         </div>
@@ -33,34 +34,37 @@
         <div class="col-md-4">
             <label for="contact" class="form-label">مخاطبین</label>
             <select id="contact" wire:model.live="contact" class="form-select">
+
                 <option value="">انتخاب کنید...</option>
-                <option value="all">همه</option>
-                <option value="users">کاربران عضو</option>
-                <option value="admins">ادمین‌ها</option>
+                <option value="همه">همه</option>
+                @if($display == 'نماد' ||$display == 'ایمیل')
+                    <option value="کاربران">کاربران عضو</option>
+                    <option value="ادمین ها">ادمین‌ها</option>
+                @endif
+
             </select>
             @error('contact') <span class="text-danger">{{ $message }}</span> @enderror
         </div>
 
         {{-- موقعیت (فقط برای ادمین‌ها) --}}
-        @if($contact === 'admins')
+        @if($contact === 'ادمین ها')
             <div class="col-md-4">
-                <label for="position_id" class="form-label">موقعیت</label>
-                <select id="position_id" wire:model.defer="position_id" class="form-select">
+                <label for="position_id" class="form-label">حداقل سطح</label>
+                <select id="position_id" wire:model.blur="position_id" class="form-select">
                     <option value="">انتخاب کنید...</option>
                     @foreach($positions as $position)
-                        <option value="{{$position->id}}">{{$position->title}}</option>
+                        @if($position->level > 0)
+                        <option value="{{$position->id}}">{{$position->title}} </option>
+                        @endif
                     @endforeach
                 </select>
                 @error('position_id') <span class="text-danger">{{ $message }}</span> @enderror
             </div>
         @else
             <div class="col-md-4">
-                <label for="position_id" class="form-label">جایگاه</label>
-                <select id="position_id" wire:model.defer="position_id" class="form-select" disabled>
-                    <option value="">انتخاب کنید...</option>
-                    @foreach($positions as $position)
-                        <option value="{{$position->id}}">{{$position->title}}</option>
-                    @endforeach
+                <label for="position_id" class="form-label">حداقل سطح</label>
+                <select id="position_id" wire:model.blur="position_id" class="form-select" >
+                        <option value="4"> همه </option>
                 </select>
                 @error('position_id') <span class="text-danger">{{ $message }}</span> @enderror
             </div>
@@ -68,14 +72,15 @@
 
         {{-- استایل --}}
         <div class="col-md-4">
-            <label for="style" class="form-label">استایل</label>
-            <select id="style" wire:model.defer="style" class="form-select">
+            <label for="style" class="form-label"> تم </label>
+            <select id="style" wire:model.blur="style" class="form-select">
                 <option value="">انتخاب کنید...</option>
-                <option value="primary">آبی (پرایمری)</option>
-                <option value="success">سبز (ساکسس)</option>
-                <option value="danger">قرمز (خطر)</option>
-                <option value="warning">زرد (هشدار)</option>
-                <option value="info">فیروزه‌ای (اطلاعات)</option>
+                <option value="secondary">خاکستری</option>
+                <option value="primary">آبی</option>
+                <option value="info">فیروزه‌ای</option>
+                <option value="success">سبز</option>
+                <option value="warning">زرد</option>
+                <option value="danger">قرمز</option>
             </select>
             @error('style') <span class="text-danger">{{ $message }}</span> @enderror
         </div>
@@ -83,7 +88,7 @@
 {{--        --}}{{-- وضعیت --}}
 {{--        <div class="col-md-6 d-flex align-items-center">--}}
 {{--            <div class="form-check mt-4">--}}
-{{--                <input type="checkbox" id="status" wire:model.defer="status" class="form-check-input" value="1">--}}
+{{--                <input type="checkbox" id="status" wire:model.blur="status" class="form-check-input" value="1">--}}
 {{--                <label for="status" class="form-check-label">فعال</label>--}}
 {{--            </div>--}}
 {{--            @error('status') <span class="text-danger">{{ $message }}</span> @enderror--}}
@@ -92,15 +97,113 @@
         {{-- تاریخ انقضا (شمسی) --}}
         <div class="col-md-4">
             <label for="expired_at" class="form-label">تاریخ انقضا</label>
-            <input type="text" id="expired_at" wire:model.defer="expired_at" class="form-control"
+            <input type="text" id="expired_at" wire:model.blur="expired_at" class="form-control"
                    placeholder="مثلاً 1404/10/05">
             @error('expired_at') <span class="text-danger">{{ $message }}</span> @enderror
         </div>
 
         {{-- دکمه ذخیره --}}
         <div class="col-md-4 py-0">
+
+            @if($editing)
+            <div class="row mt-3 px-3">
+
+                <button type="submit" class="btn btn-success mt-3 mx-auto w-auto"> ذخیره </button>
+                <button type="button" class="btn btn-danger mt-3 mx-auto w-auto" wire:click="cancel"> انصراف  </button>
+
+            </div>
+            @else
             <div class="row mt-3 px-3"><button type="submit" class="btn btn-primary mt-3 mx-auto"> ارسال پیام </button></div>
+            @endif
+
 
         </div>
     </form>
-</div>
+
+
+    <div class="row mt-5 border rounded-4 p-2">
+
+        @if($notices->isNotEmpty())
+
+        <div class="cs-navbar row mx-auto py-3 border rounded-3">
+
+            <div class="col-xl-1 text-end">
+
+                <input type="checkbox" class="mx-2" wire:model.live="selectAll">
+                ردیف
+            </div>
+
+            <div class="col-xl-2 text-center">عنوان</div>
+            <div class="col-xl-1 text-center"> نحوه نمایش </div>
+            <div class="col-xl-1 text-center"> مخاطب </div>
+            <div class="col-xl-1 text-center"> جایگاه </div>
+            <div class="col-xl-1 text-center"> تم </div>
+            <div class="col-xl-2 text-center"> انقضاء </div>
+            <div class="col-xl-1 text-center"> فعال </div>
+            <div class="col-xl-2 text-center">
+
+                @if( count($selected) > 1)
+
+                <button class="btn btn-sm btn-danger mt-1 rounded-2" wire:click="selectedDelete"
+                wire:confirm="آیا از حذف کاربران انتخاب شده مطمئن هستید؟"> حذف همه </button>
+
+                @endif
+
+            </div>
+            </div>
+
+
+
+
+            @foreach($notices as $notice)
+
+
+
+            <div class="row mx-auto py-2 border rounded-3 mt-4 mb-1">
+
+                <div class="col-xl-1 text-end">
+                    <input class="mt-2 mx-3" type="checkbox" value="{{$notice->id}}" wire:model.live="selected">
+                    {{$row++}}
+                </div>
+
+                <div class="col-xl-2 pt-1 text-center">{{$notice->title}}</div>
+                <div class="col-xl-1 pt-1 text-center"> {{$notice->display}} </div>
+                <div class="col-xl-1 pt-1 text-center"> {{$notice->contact}} </div>
+                <div class="col-xl-1 pt-1 text-center"> {{$notice->position->title}} </div>
+                <div class="col-xl-1 pt-1 text-{{$notice->style}}  text-center"> {{$notice->style}} </div>
+
+                <div class="col-xl-2 text-center"> {{$notice->expired_at}} </div>
+
+                <div class="col-xl-1 text-center">
+                    <input class="mt-2" type="checkbox" id="active" wire:change="toggleStatus({{$notice->id}})" @checked($notice->status == 1)>
+                </div>
+
+                <div class="col-xl-2 px-0">
+
+                    <button class="btn btn-sm btn-success mt-1 rounded-2 ms-3" wire:click="see({{$notice->id}})"> مشاهده </button>
+
+                    <button class="btn btn-sm btn-danger mt-1 rounded-2 mx-2" wire:click="delete({{$notice->id}})"
+                    wire:confirm="آیا از حذف (( {{$notice->title}} )) مطمئن هستید؟">حذف</button>
+
+                    <button class="btn btn-sm btn-primary mt-1 rounded-2 me-2 ms-0" wire:click="edit({{$notice->id}})"> ویرایش </button>
+
+                </div>
+
+            </div>
+
+                @include('modals.see-notice')
+              @endforeach
+
+        </div>
+        @else
+
+            <div class="row mt-1 text-center text-danger"> <h3> هیچ پیامی ارسال نشده است </h3> </div>
+
+        @endif
+
+
+    </div>
+
+
+
+
