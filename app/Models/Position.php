@@ -15,4 +15,9 @@ class Position extends Model
     {
         return $this->hasMany(User::class);
     }
+
+    public function notices(): HasMany
+    {
+        return $this->hasMany(Notice::class);
+    }
 }
