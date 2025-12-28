@@ -2,10 +2,13 @@
 
 namespace App\Livewire\Dashboard\Website;
 
-use Livewire\Component;
-
+use App\Mail\NoticeMail;
+use App\Models\User;
 use App\Models\Notice;
 use App\Models\Position;
+
+use Illuminate\Support\Facades\Mail;
+use Livewire\Component;
 
 class Notices extends Component
 {
@@ -113,10 +116,25 @@ class Notices extends Component
             $data = $this->pull(['title','description','display','position_id','contact','style','expired_at']);
 
             $notice = Notice::create($data);
+
+            if($notice->display === 'ایمیل')
+            {
+                $this->sendEmail($notice);
+            }
+
         }
 
+    }
 
+    protected function sendEmail(Notice $notice)
+    {
+        $recipients = match ($notice->contact)
+        {
+          'همه'   =>  User::pluck('email'),
+          default =>  User::where('position_id',$notice->position_id)->pluck('email')
+        };
 
+        $recipients->each(fn($email) => Mail::to($email)->send(new NoticeMail($notice)));
     }
 
     public function see($id)
