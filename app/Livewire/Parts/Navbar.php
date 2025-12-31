@@ -2,11 +2,13 @@
 
 namespace App\Livewire\Parts;
 
+use App\Livewire\Dashboard\Website\Notices;
 use Illuminate\Support\Facades\Auth;
 
 use Livewire\Component;
 
 use App\Models\User;
+use App\Models\Notice;
 
 class Navbar extends Component
 {
@@ -15,6 +17,10 @@ class Navbar extends Component
     public string $lastname;
 
     public $theme;
+
+    public $unreadNotice = [];
+    public $lastUnreadNotice = [];
+    public $noticeTitle;
 
     public function mount()
     {
@@ -26,10 +32,29 @@ class Navbar extends Component
 
             $this->name = User::where('id', $user_id)->pluck('name')->first();
             $this->lastname = User::where('id', $user_id)->pluck('lastname')->first();
+
+            $this->unreadNotice = collect();
+
+            $this->unreadNotice = auth()->user()
+                ->notices()->whereNull('user_notice.read_at')
+                ->where('notices.status', 1)->latest()->get();
+
+            $this->lastUnreadNotice = auth()->user()
+                ->notices()->whereNull('user_notice.read_at')
+                ->where('notices.status', 1)->latest()->limit(1)->get();
+
+
         }
 
 
     }
+
+
+//    public function getUnreadMessagesTitle()
+//    {
+//        return auth()->user()->notices()->whereNull('user_notice.read_at')->pluck('user_notice.title')->get();
+//    }
+
     public function toggleTheme()
     {
         $this->theme = ($this->theme == 'dark') ? 'light' : 'dark';

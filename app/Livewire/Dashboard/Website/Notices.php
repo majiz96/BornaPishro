@@ -122,6 +122,11 @@ class Notices extends Component
                 $this->sendEmail($notice);
             }
 
+            if($notice->display === 'نماد')
+            {
+                $this->sendNotice($notice);
+            }
+
         }
 
     }
@@ -136,6 +141,18 @@ class Notices extends Component
 
         $recipients->each(fn($email) => Mail::to($email)->send(new NoticeMail($notice)));
     }
+
+    protected function sendNotice(Notice $notice)
+    {
+        $users = match ($notice->contact)
+        {
+            'همه'   =>  User::pluck('id'),
+            default =>  User::where('position_id',$notice->position_id)->pluck('id')
+        };
+
+        $notice->users()->attach($users);
+    }
+
 
     public function see($id)
     {

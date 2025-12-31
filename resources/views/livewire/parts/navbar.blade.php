@@ -23,17 +23,44 @@
                 </div>
 
                 <!-- Example single danger button -->
-                <div class="btn-group me-0 px-5 ">
-                    <button type="button" class="btn dropdown-toggle text-light" data-bs-toggle="dropdown" aria-expanded="false">
+                <div class="btn-group me-0 px-5">
+
+                    <button type="button" class="btn dropdown-toggle text-light borderless" id="dropdownUser" data-bs-toggle="dropdown" aria-expanded="false">
                         @if($name && $lastname)
                             {{$name}}  {{$lastname}}
                         @endif
-
                     </button>
-                    <ul class="dropdown-menu text-end">
+
+                    <ul class="dropdown-menu text-end" aria-labelledby="dropdownUser">
                         <li><a href="{{route('profile')}}" class="dropdown-item" wire:navigate> پروفایل </a></li>
                         <li><a href="" class="dropdown-item" wire:click="logout" wire:confirm="آیابرای خروج از وبسایت مطمئن هستید؟" wire:navigate> خروج </a></li>
                     </ul>
+
+                </div>
+
+                <!-- Example single bell button -->
+                <div class="btn-group me-0 px-4">
+
+                    <button type="button" class="btn dropdown-toggle text-light no-caret borderless" id="dropdownBellBtn" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi-bell my-auto"></i>
+
+                        @if(($unreadNotice ?? collect())->count()>0)
+                        <sup class="bg-danger text-light rounded-5 px-1">{{ ($unreadNotice ?? collect())->count() }}</sup>
+                    </button>
+
+                    <ul aria-labelledby="dropdownBellBtn" class="dropdown-menu text-end px-2">
+
+                        @foreach($unreadNotice as $notice)
+                        <li class="mt-2">
+                            <a class="dropdown-item text-{{$notice->style}} rounded" href="{{route('messages.show',$notice->id)}}" wire:navigate> {{$notice->title}} </a>
+                        </li>
+                        @endforeach
+
+
+
+                    </ul>
+
+                    @endif
                 </div>
 
             @endauth
@@ -46,6 +73,12 @@
                     </ul>
                 </div>
             @endguest
+
+
+
+
+
+
 
 
             <div class="me-0 px-4 my-auto">
@@ -75,6 +108,12 @@
                         data-bs-target="#fullscreenMenu" aria-controls="fullscreenMenu"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon text-white fw-bold"></span>
+
+                    @auth()
+                    @if(($unreadNotice ?? collect())->count()>0)
+                        <sup class="bg-danger text-light rounded-5 px-1">{{ ($unreadNotice ?? collect())->count() }}</sup>
+                    @endif
+                    @endauth
                 </button>
 
                 <!-- وسط: برند (واقعاً وسط صفحه) -->
@@ -110,6 +149,26 @@
                             </label>
                         </div>
                     </div>
+
+                    <div class="row px-5 text-center mt-5">
+                        @auth()
+                        @if($unreadNotice->isNotEmpty())
+
+                            @foreach($unreadNotice as $notice)
+
+
+                                <a class="alert alert-{{$notice->style}} text-decoration-none py-1 mt-2" href="{{route('messages.show',$notice->id)}}" wire:navigate>
+                                    {{$notice->title}}
+                                </a>
+
+                            @endforeach
+
+                        @else
+
+                        @endif
+                        @endauth
+                    </div>
+
 
                     <!-- وسط: لینک‌ها (کاملاً وسط چین) -->
                     <ul class="navbar-nav flex-column my-auto align-items-center px-0">

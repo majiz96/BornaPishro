@@ -19,7 +19,7 @@ use App\Livewire\Dashboard\Products\Brands;
 use App\Livewire\Dashboard\Articles;
 use App\Livewire\Dashboard\Services;
 
-
+use App\Livewire\Parts\Messages;
 
 
 Route::get('/', function () {
@@ -52,4 +52,7 @@ Route::middleware(['auth', 'verified'])->prefix('dashboard')->group(function () 
     Route::get('articles',Articles::class)->name('articles');
 
     Route::get('services',Services::class)->name('services');
+
+    Route::get('/messages/{notice?}',Messages::class)->name('messages.show');
+
 });

@@ -132,3 +132,11 @@ i
 {
     cursor: pointer;
 }
+.no-caret::after
+{
+    display: none !important;
+}
+.borderless
+{
+    border: none !important;
+}
