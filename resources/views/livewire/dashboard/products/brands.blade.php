@@ -87,9 +87,6 @@
                 @else
                     حذف
                 @endif
-
-
-
             </div>
 
             <div class="col-xl-1 text-center">ویرایش</div>
