@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->id();
             $table->foreignId('category_id')->constrained()->cascadeOnDelete();
-            $table->integer('brand_id')->nullable();
-//            $table->foreignId('brand_id')->nullable()->constrained()->cascadeOnDelete();
+
+            $table->foreignId('brand_id')->nullable()->constrained('brands')->cascadeOnDelete();
             $table->string('brand_name')->nullable();
             $table->string('name');
             $table->string('fullname')->nullable();
