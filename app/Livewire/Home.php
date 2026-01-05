@@ -10,7 +10,7 @@ use Livewire\Attributes\Validate;
 use Livewire\WithFileUploads;
 
 use App\Models\User;
-use App\Models\Files;
+use App\Models\File;
 use App\Models\Communication;
 use Nette\Schema\ValidationException;
 
@@ -77,7 +77,7 @@ class Home extends Component
             $filestore = uniqid('guest_') . '.' . $file->getClientOriginalExtension();
             $file->storeAs('attachments', $filestore, 'public');
 
-            Files::create([
+            File::create([
                 'filename' => $file->getClientOriginalName(),
                 'file' => $filestore,
                 'size' => ($file->getSize())/1024/1024,2 ,
@@ -106,7 +106,7 @@ class Home extends Component
             'text.string'=>'نوع پیام باید متنی باشد',
             'text.max'=>'حداکثر کرکتر مجاز برای پیام ۲۰۰۰ حرف است',
             'files.*.mimes'=>'فایل انتخاب شده باید فرمت فایلهای آفیس ورد،اکسل و پاورپوینت یا rar و zip و یا pdf باشد',
-            'files.*.max'=>'متن پیام حداکثر ۲۰۰۰ حرف می تواند باشد'
+            'files.*.max'=>'هر فایل نهایت ۱۰ مگابایت باید باشد'
         ]);
 
         $this->user_id = Auth::id();
@@ -128,7 +128,7 @@ class Home extends Component
             $filestore = uniqid('auth_'.Auth::user()->id.'_') . '.' . $file->getClientOriginalExtension();
             $file->storeAs('attachments', $filestore, 'public');
 
-            Files::create([
+            File::create([
                 'filename'=>$file->getClientOriginalName(),
                 'file'=>$filestore,
                 'size'=>($file->getSize())/1024 / 1024, 2,

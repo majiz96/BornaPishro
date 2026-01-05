@@ -141,6 +141,7 @@
                             <div class="col-xl-2 text-xl-start">
                                 <button type="submit" class="cs-button ms-0 w-auto rounded-3 border-0 mx-auto py-2 px-3"> ارسال </button>
                             </div>
+
                         </div>
 
                         @error('files.*')

@@ -21,6 +21,9 @@ use App\Livewire\Dashboard\Services;
 
 use App\Livewire\Parts\Messages;
 
+use App\Livewire\Dashboard\Attachments\Files;
+use App\Livewire\Dashboard\Attachments\Galleries;
+
 
 Route::get('/', function () {
     return view('welcome');
@@ -54,5 +57,8 @@ Route::middleware(['auth', 'verified'])->prefix('dashboard')->group(function () 
     Route::get('services',Services::class)->name('services');
 
     Route::get('/messages/{notice?}',Messages::class)->name('messages.show');
+
+    Route::get('files/{product}',Files::class)->name('files.show');
+    Route::get('galleries/{product}',Galleries::class)->name('galleries.show');
 
 });

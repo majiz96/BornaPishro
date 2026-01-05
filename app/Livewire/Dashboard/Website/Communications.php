@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
 
 use App\Models\Communication;
-use App\Models\Files;
+use App\Models\File;
 use App\Models\User;
 
 class Communications extends Component
@@ -58,7 +58,7 @@ class Communications extends Component
 
     public function download($id)
     {
-        $file = Files::findOrFail($id);
+        $file = File::findOrFail($id);
 
         return Storage::disk('public')->download('attachments/'.$file->file);
     }

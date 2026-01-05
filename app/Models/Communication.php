@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-use App\Models\Files;
+use App\Models\File;
 
 class Communication extends Model
 {
@@ -21,7 +21,7 @@ class Communication extends Model
 
     public function files():MorphMany
     {
-        return $this->morphMany(Files::class, 'fileable');
+        return $this->morphMany(File::class, 'fileable');
     }
 
 }

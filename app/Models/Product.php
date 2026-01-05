@@ -56,7 +56,7 @@ class Product extends Model
 
     public function files():MorphMany
     {
-        return $this->morphMany(Files::class, 'fileable');
+        return $this->morphMany(File::class, 'fileable');
     }
 
     public function sources():MorphMany

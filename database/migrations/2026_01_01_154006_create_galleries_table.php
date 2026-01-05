@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id();
 
             $table->string('image');
-            $table->integer('size');
             $table->integer('show')->default(0);
             $table->integer('order')->default(0);
             $table->morphs('galleryable');
