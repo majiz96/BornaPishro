@@ -7,8 +7,10 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 class Video extends Model
 {
-protected $table = 'video';
-protected $fillable = ['video', 'size', 'url' , 'status'];
+protected $table = 'videos';
+protected $fillable = ['title', 'description','aparat', 'youtube', 'show', 'videoable_id', 'videoable_type',
+    'priority',
+];
 
 public function videoable():MorphTo
 {

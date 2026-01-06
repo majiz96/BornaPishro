@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
 class Gallery extends Model
 {
     protected $table = 'galleries';
+
     protected $fillable = ['image', 'order', 'show',
         'galleryable_id',
         'galleryable_type'

@@ -156,7 +156,7 @@
 
                         <ul class="dropdown-menu text-end" aria-labelledby="dropdownOptions">
                             <li><a href="{{route('galleries.show',$product->id)}}" class="dropdown-item" wire:navigate> گالری </a></li>
-                            <li><a href="{{route('profile')}}" class="dropdown-item" wire:navigate> ویدیوها </a></li>
+                            <li><a href="{{route('videos.show',$product->id)}}" class="dropdown-item" wire:navigate> ویدیوها </a></li>
                             <li><a href="{{route('files.show', $product->id)}}" class="dropdown-item" wire:navigate> فایل ها </a></li>
                             <li><a href="{{route('profile')}}" class="dropdown-item" wire:navigate> کامنت ها </a></li>
                             <li><a href="{{route('profile')}}" class="dropdown-item" wire:navigate> منابع </a></li>

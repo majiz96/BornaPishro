@@ -14,10 +14,12 @@ return new class extends Migration
         Schema::create('videos', function (Blueprint $table) {
 
             $table->id();
-            $table->string('video');
-            $table->integer('size');
-            $table->string('url')->nullable();
-            $table->integer('status')->default(0);
+            $table->string('title');
+            $table->text('description')->nullable();
+            $table->string('aparat')->nullable();
+            $table->string('youtube')->nullable();
+            $table->string('priority')->default('آپارات');
+            $table->integer('show')->default(0);
             $table->morphs('videoable');
 
             $table->timestamps();

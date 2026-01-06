@@ -93,16 +93,16 @@ class Galleries extends Component
 
     public function showAll()
     {
-        $this->showed = Gallery::where('galleryable_id', $this->product->id)->where('galleryable_type', Product::class)->pluck('id')->toArray();
+        $this->showed = Gallery::where('galleryable_id', $this->product->id)->where('galleryable_type', Product::class)->where('show',0)->pluck('id')->toArray();
 
-        Gallery::where('galleryable_id', $this->product->id)->where('galleryable_type', Product::class)->update(['show' => 1]);
+        Gallery::where('galleryable_id', $this->product->id)->where('galleryable_type', Product::class)->where('show',0)->update(['show' => 1]);
     }
 
     public function showNone()
     {
-        $this->showed = Gallery::where('galleryable_id', $this->product->id)->where('galleryable_type', Product::class)->pluck('id')->toArray();
+        $this->showed = Gallery::where('galleryable_id', $this->product->id)->where('galleryable_type', Product::class)->where('show',1)->pluck('id')->toArray();
 
-        Gallery::where('galleryable_id', $this->product->id)->where('galleryable_type', Product::class)->update(['show' => 0]);
+        Gallery::where('galleryable_id', $this->product->id)->where('galleryable_type', Product::class)->where('show',1)->update(['show' => 0]);
     }
 
 
