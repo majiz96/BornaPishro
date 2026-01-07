@@ -187,6 +187,7 @@ class Videos extends Component
         $product_videos = $products->videos;
         $showed_videos = Video::where('videoable_id', $this->product->id)->where(['videoable_type' => Product::class])->where('show', 1)->pluck('id')->toArray();
 
-        return view('livewire.dashboard.attachments.videos',['products'=>$products, 'product_videos'=>$product_videos,'showed_videos'=>$showed_videos]);
+        return view('livewire.dashboard.attachments.videos',['products'=>$products, 'product_videos'=>$product_videos,'showed_videos'=>$showed_videos])
+            ->layout('components.layouts.dashboards');
     }
 }

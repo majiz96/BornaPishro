@@ -144,6 +144,7 @@ class Galleries extends Component
 
         $imagesShow = Gallery::where('galleryable_id', $this->product->id)->where('galleryable_type', Product::class)->where('show',1)->pluck('id')->toArray();
 
-        return view('livewire.dashboard.attachments.galleries',['products'=>$products,'galleries'=>$pg,'imagesShow'=>$imagesShow]);
+        return view('livewire.dashboard.attachments.galleries',['products'=>$products,'galleries'=>$pg,'imagesShow'=>$imagesShow])
+            ->layout('components.layouts.dashboards');
     }
 }

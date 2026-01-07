@@ -8,7 +8,10 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
 class Source extends Model
 {
     protected $table = 'sources';
-    protected $fillable = ['title', 'url', 'webname'];
+    protected $fillable = ['title', 'url', 'webname',
+        'sourceable_id',
+        'sourceable_type'
+    ];
 
     public function sourceable():MorphTo
     {

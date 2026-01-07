@@ -24,6 +24,8 @@ use App\Livewire\Parts\Messages;
 use App\Livewire\Dashboard\Attachments\Files;
 use App\Livewire\Dashboard\Attachments\Galleries;
 use App\Livewire\Dashboard\Attachments\Videos;
+use App\Livewire\Dashboard\Attachments\Sources;
+
 
 
 Route::get('/', function () {
@@ -62,6 +64,7 @@ Route::middleware(['auth', 'verified'])->prefix('dashboard')->group(function () 
     Route::get('files/{product}',Files::class)->name('files.show');
     Route::get('galleries/{product}',Galleries::class)->name('galleries.show');
     Route::get('videos/{product}',Videos::class)->name('videos.show');
+    Route::get('sources/{product}',Sources::class)->name('sources.show');
 
 
 });

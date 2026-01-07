@@ -140,3 +140,8 @@ i
 {
     border: none !important;
 }
+.side-img img
+{
+    width: 80%;
+    height:80%;
+}

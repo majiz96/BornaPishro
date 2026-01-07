@@ -121,6 +121,7 @@ class Files extends Component
 
         $pf = File::where('fileable_id', $this->product->id)->where('fileable_type', Product::class)->get();
 
-        return view('livewire.dashboard.attachments.files',['products'=>$products, 'product_files'=>$pf]);
+        return view('livewire.dashboard.attachments.files',['products'=>$products, 'product_files'=>$pf])
+            ->layout('components.layouts.dashboards');
     }
 }
