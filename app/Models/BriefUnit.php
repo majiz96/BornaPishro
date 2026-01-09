@@ -6,17 +6,19 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
-class briefUnit extends Model
+class BriefUnit extends Model
 {
     protected $table = 'brief_units';
-    protected $fillable = ['brief_id','title'];
+    protected $fillable = ['brief_id', 'title',
+        'product_id'
+    ];
 
     public function brief():BelongsTo
     {
         return $this->belongsTo(Brief::class);
     }
-    public function briefValues():HasOne
+    public function values():HasOne
     {
-        return $this->hasOne(BriefValues::class);
+        return $this->hasOne(BriefValue::class,'unit_id','id');
     }
 }

@@ -24,6 +24,7 @@ class Product extends Model
 //
 
 
+
     public function brand(): BelongsTo
     {
     return $this->belongsTo(Brand::class);
@@ -39,7 +40,7 @@ class Product extends Model
         return $this->hasOne(Brief::class);
     }
 
-    public function specifications(): hasOne
+    public function specification(): hasOne
     {
         return $this->hasOne(Specification::class);
     }

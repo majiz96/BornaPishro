@@ -18,6 +18,6 @@ class Brief extends Model
 
     public function unit():HasOne
     {
-        return $this->hasOne(briefUnit::class);
+        return $this->hasOne(BriefUnit::class);
     }
 }

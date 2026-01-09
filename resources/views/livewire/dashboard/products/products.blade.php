@@ -28,7 +28,22 @@
                 @if($categories->isNotEmpty())
                 <option> ... </option>
                     @foreach($categories as $category)
-                        <option value="{{$category->id}}"> {{$category->name}} </option>
+                        @if($category->children->isNotEmpty())
+
+                            <option value="{{$category->id}}"> {{$category->name}} </option>
+
+                            <optgroup label="">
+
+                                @foreach($category->children as $child)
+                                    <option value="{{$child->id}}"> {{$child->name}} </option>
+                                @endforeach
+
+                            </optgroup>
+
+                        @else
+                            <option value="{{$category->id}}"> {{$category->name}} </option>
+                        @endif
+
                     @endforeach
                 @else
                     <option> دسته ای ثبت نشده است </option>
@@ -143,7 +158,24 @@
                 <div class="col-xl-1 my-auto text-center"> <img src="{{asset('storage/products/'.$product->image) }}"  alt="پیش نمایش" height="100" class="rounded"> </div>
                 <div class="col-xl-1 my-auto text-center"> {{$product->name}} </div>
                 <div class="col-xl-3 my-auto text-center"> {{$product->fullname}} </div>
-                <div class="col-xl-1 my-auto text-center"> {{$product->category->name}} </div>
+
+                <div class="col-xl-1 my-auto text-center">
+
+                    @if($product->category->parent_id == 0)
+
+                        {{$product->category->name}}
+
+
+                    @else
+                        {{ $product->category->parent->name}}
+                        {{$product->category->name}}
+
+                    @endif
+
+
+
+                </div>
+
                 <div class="col-xl-1 my-auto text-center"> {{$product->brand->name ?? $product->brand_name ?? 'فاقد برند'}} </div>
 
                 <div class="col-xl-1 my-auto text-center">
@@ -158,10 +190,10 @@
                             <li><a href="{{route('galleries.show',$product->id)}}" class="dropdown-item" wire:navigate> گالری </a></li>
                             <li><a href="{{route('videos.show',$product->id)}}" class="dropdown-item" wire:navigate> ویدیوها </a></li>
                             <li><a href="{{route('files.show', $product->id)}}" class="dropdown-item" wire:navigate> فایل ها </a></li>
-                            <li><a href="{{route('profile')}}" class="dropdown-item" wire:navigate> کامنت ها </a></li>
                             <li><a href="{{route('sources.show',$product->id)}}" class="dropdown-item" wire:navigate> منابع </a></li>
-                            <li><a href="{{route('sources.show',$product->id)}}" class="dropdown-item" wire:navigate> خلاصه ها </a></li>
-                            <li><a href="{{route('sources.show',$product->id)}}" class="dropdown-item" wire:navigate> مشخصات </a></li>
+                            <li><a href="{{route('briefs.show',$product->brief->id ?? $product->id)}}" class="dropdown-item" wire:navigate> خلاصه ها </a></li>
+                            <li><a href="{{route('specifications.show',$product->specification->id ?? $product->id)}}" class="dropdown-item" wire:navigate> مشخصات </a></li>
+                            <li><a href="{{route('profile')}}" class="dropdown-item" wire:navigate> کامنت ها </a></li>
                         </ul>
 
                     </div>

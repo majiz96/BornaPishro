@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('group_id')->constrained('spec_groups')->cascadeOnDelete();
             $table->string('title');
+            $table->integer('filterable')->default(0);
             $table->timestamps();
         });
     }

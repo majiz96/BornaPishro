@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 class SpecUnit extends Model
 {
     protected $table = 'specs_units';
-    protected $fillable = ['spec_group','title'];
+    protected $fillable = ['spec_group','title','filterable'];
 
     public function specGroup(): BelongsTo
     {

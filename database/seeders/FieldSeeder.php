@@ -21,5 +21,9 @@ class FieldSeeder extends Seeder
         Field::create([
             'name'=>'خدمات'
         ]);
+
+        Field::create([
+            'name'=>'محصولات'
+        ]);
     }
 }

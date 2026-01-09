@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Dashboard\Products;
 
+
 use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
 use Livewire\Attributes\Validate;
@@ -10,6 +11,8 @@ use Livewire\WithFileUploads;
 use App\Models\Product;
 use App\Models\Brand;
 use App\Models\Category;
+use App\Models\Brief;
+use App\Models\Specification;
 
 
 class Products extends Component
@@ -119,7 +122,7 @@ class Products extends Component
                 $this->image->storeAs('products',$imagename,'public');
             }
 
-            Product::create([
+           $product = Product::create([
                 'name'=>$this->name,
                 'fullname'=>$this->fullname,
                 'category_id'=>$this->category_id,
@@ -128,6 +131,8 @@ class Products extends Component
                 'intro'=>$this->intro,
                 'image'=>$imagename,
             ]);
+
+            $product->brief()->create([]);
 
             $this->reset(['name','fullname','category_id','brand_id','brand_name','intro','image']);
 
@@ -171,15 +176,11 @@ class Products extends Component
 
     public function render()
     {
-     $categories = Category::where('field_id',3)->get();
+     $categories = Category::with('children','parent')->where('field_id',3)->where('parent_id',0)->get();
      $brands = Brand::all();
-     $products = Product::with('category','brand')->get();
+     $products = Product::with('category','brand','brief','specification')->get();
 
-        return view('livewire.dashboard.products.products',[
-            'categories'=>$categories,
-            'brands'=>$brands,
-            'products'=>$products
-        ])
+        return view('livewire.dashboard.products.products',compact('products','categories','brands'))
             ->layout('components.layouts.dashboards');
     }
 }
