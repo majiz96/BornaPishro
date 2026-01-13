@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('unit_id')->constrained('spec_units')->cascadeOnDelete();
             $table->string('value');
-            $table->string('type');
+            $table->string('type')->default('string');
             $table->string('suffix')->nullable();
             $table->timestamps();
         });

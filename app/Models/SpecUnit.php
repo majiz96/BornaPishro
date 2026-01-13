@@ -9,16 +9,16 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class SpecUnit extends Model
 {
-    protected $table = 'specs_units';
-    protected $fillable = ['spec_group','title','filterable'];
+    protected $table = 'spec_units';
+    protected $fillable = ['group_id','title','filterable'];
 
     public function specGroup(): BelongsTo
     {
         return $this->belongsTo(SpecGroup::class, 'group_id');
     }
 
-    public function values(): HasOne
+    public function values(): HasMany
     {
-        return $this->hasOne(SpecValue::class, 'unit_id');
+        return $this->hasMany(SpecValue::class,'unit_id','id');
     }
 }

@@ -10,8 +10,8 @@ class SpecValue extends Model
     protected $table = 'spec_values';
     protected $fillable = ['unit_id', 'value','type','suffix'];
 
-    public function unit():BelongsTo
+    public function specUnit():BelongsTo
     {
-        return $this->belongsTo(SpecUnit::class, 'unit_id');
+        return $this->belongsTo(SpecUnit::class,'unit_id','id');
     }
 }

@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('spec_units', function (Blueprint $table) {
             $table->id();
             $table->foreignId('group_id')->constrained('spec_groups')->cascadeOnDelete();
+            $table->integer('filter_id')->default(0);
             $table->string('title');
-            $table->integer('filterable')->default(0);
             $table->timestamps();
         });
     }

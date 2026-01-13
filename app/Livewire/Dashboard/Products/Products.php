@@ -133,6 +133,7 @@ class Products extends Component
             ]);
 
             $product->brief()->create([]);
+            $product->specification()->create(['name'=>'جدول اصلی']);
 
             $this->reset(['name','fullname','category_id','brand_id','brand_name','intro','image']);
 

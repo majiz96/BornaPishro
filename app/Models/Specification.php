@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Specification extends Model
 {
     protected $table = 'specifications';
-    protected $fillable = ['product_id'];
+    protected $fillable = ['product_id','name','price'];
 
     public function product():BelongsTo
     {
@@ -17,6 +17,8 @@ class Specification extends Model
     }
     public function group():HasMany
     {
-        return $this->hasMany(SpecGroup::class, 'spec_id');
+        return $this->hasMany(SpecGroup::class, 'specification_id', 'id');
+
     }
+
 }
