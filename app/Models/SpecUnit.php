@@ -10,11 +10,16 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 class SpecUnit extends Model
 {
     protected $table = 'spec_units';
-    protected $fillable = ['group_id','title','filterable'];
+    protected $fillable = ['group_id','title','filter_id'];
 
     public function specGroup(): BelongsTo
     {
         return $this->belongsTo(SpecGroup::class, 'group_id');
+    }
+
+    public function filter(): BelongsTo
+    {
+        return $this->belongsTo(Filter::class, 'filter_id');
     }
 
     public function values(): HasMany

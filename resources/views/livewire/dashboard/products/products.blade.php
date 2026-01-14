@@ -165,7 +165,6 @@
 
                         {{$product->category->name}}
 
-
                     @else
                         {{ $product->category->parent->name}}
                         {{$product->category->name}}

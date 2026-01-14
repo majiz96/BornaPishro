@@ -197,7 +197,6 @@ class Notices extends Component
         $notice = Notice::findOrFail($id);
         $notice->status = $notice->status == 1 ? 0 : 1;
         $notice->save();
-
     }
 
     public function render()

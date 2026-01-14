@@ -100,10 +100,19 @@
         <form wire:submit.prevent="saveUnit" class="row py-2 border">
 
             <div class="col-xl-2 my-auto">
-{{--                <input type="checkbox" id="filterable" class="" wire:model.live="filterable">--}}
-                <select wire:model.live="filter" class="form-select">
+
+                <select wire:model.live="filter_id" class="form-select">
+                    @if($filters->isNotEmpty())
+                        <option value="">انتخاب برای فیلتر</option>
+                        @foreach($filters as $filter)
+                         <option value="{{$filter->id}}">{{$filter->title}}</option>
+                        @endforeach
+                    @else
                     <option value="">فیلتری ثبت نشده است</option>
+                    @endif
+
                 </select>
+
             </div>
 
             <div class="col-xl-1 my-auto text-start"> <label for="title"> عنوان </label> </div>

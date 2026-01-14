@@ -22,6 +22,7 @@
             <li class="list-group-item list-group-item-action text-end py-1 {{request()->routeIs('social') ? 'active-page' : ''}}"><a class="nav-link" href="{{route('social')}}" wire:navigate> صفحات مجازی </a></li>
             <li class="list-group-item list-group-item-action text-end py-1 {{request()->routeIs('licenses') ? 'active-page' : ''}}"><a class="nav-link" href="{{route('licenses')}}" wire:navigate> مجوزها </a></li>
             <li class="list-group-item list-group-item-action text-end py-1 {{request()->routeIs('categories') ? 'active-page' : ''}}"><a class="nav-link" href="{{route('categories')}}" wire:navigate> دسته‌بندی‌ ها </a></li>
+            <li class="list-group-item list-group-item-action text-end py-1 {{request()->routeIs('filters') ? 'active-page' : ''}}"><a class="nav-link" href="{{route('filters')}}" wire:navigate> فیلترها </a></li>
             <li class="list-group-item list-group-item-action text-end py-1 {{request()->routeIs('notices') ? 'active-page' : ''}}"><a class="nav-link" href="{{route('notices')}}" wire:navigate> اعلانات </a></li>
 
         @endcan

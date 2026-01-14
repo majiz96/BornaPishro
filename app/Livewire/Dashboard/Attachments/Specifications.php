@@ -2,6 +2,8 @@
 
 namespace App\Livewire\Dashboard\Attachments;
 
+use App\Livewire\Dashboard\Website\Filtes;
+use App\Models\Filter;
 use App\Models\Product;
 use App\Models\Specification;
 use App\Models\SpecGroup;
@@ -12,7 +14,9 @@ use Livewire\Component;
 
 class Specifications extends Component
 {
-    public $product,$name,$price,$group,$filter,$title,$value,$suffix;
+    public $product,$name,$price,$group,$title,$value,$suffix;
+
+    public int $filter_id = 0;
 
     public $type = 'string';
 
@@ -50,7 +54,7 @@ class Specifications extends Component
         $unit = SpecUnit::findOrFail($id);
         $this->editingUnit = $id;
         $this->title = $unit->title;
-        $this->filter = $unit->filter;
+        $this->filter_id = $unit->filter_id;
     }
 
     public function editValue($id)
@@ -77,7 +81,7 @@ class Specifications extends Component
     public function cancelUnit()
     {
         $this->editingUnit = null;
-        $this->reset(['filter', 'title']);
+        $this->reset(['filter_id', 'title']);
     }
 
     public function cancelValue()
@@ -162,38 +166,39 @@ class Specifications extends Component
 
     public function saveUnit()
     {
+
+
         if ($this->editingUnit)
         {
             $this->validate([
-                'title' => 'required|string',
-            ]
-            ,
-            [
-                'title.required'=>'هر گروه باید یک نام داشته باشد',
-            ]);
-
+                    'title' => 'required|string',
+                    'filter_id' => 'nullable|integer',
+                ]
+                ,
+                [
+                    'title.required'=>'هر گروه باید یک نام داشته باشد',
+                ]);
             $unit = SpecUnit::findOrFail($this->editingUnit);
-            $unit->update(['title' => $this->title]);
-            $this->reset(['title','filter','editingUnit']);
+            $unit->update(['title' => $this->title,'filter_id'=>$this->filter_id]);
+            $this->reset(['title','filter_id','editingUnit']);
         }
         else
         {
             $this->validate([
                     'title' => 'required|string',
+                    'filter_id' => 'nullable|integer',
                 ]
                 ,
                 [
                     'title.required'=>'هر گروه باید یک نام داشته باشد',
                 ]);
 
-
-
             if(SpecGroup::where('specification_id',$this->activeTable)->exists())
             {
                 $activate = SpecUnit::where('group_id',$this->activeGroup)->create([
                 'group_id'=>$this->activeGroup,
                 'title'=>$this->title,
-                'filter'=>$this->filter
+                'filter_id'=>$this->filter_id
                 ]);
 
                 $this->activeUnit = $activate->id;
@@ -203,13 +208,13 @@ class Specifications extends Component
             {
                 $new = SpecGroup::create(['specification_id'=>$this->activeTable,'title'=>'مشخصات']);
 
-                $activate = $new->units()->create(['title'=>$this->title,'filter'=>$this->filter]);
+                $activate = $new->units()->create(['title'=>$this->title,'filter_id'=>$this->filter_id]);
 
                 $this->activeGroup = $new->id;
                 $this->activeUnit = $activate->id;
 
             }
-            $this->reset(['title','group']);
+            $this->reset(['title','filter_id','group']);
 
 
         }
@@ -419,10 +424,19 @@ class Specifications extends Component
 
         $groups = SpecGroup::with('specification','units')->where('specification_id',$this->activeTable)->get();
 
-        $values = SpecValue::with('specUnit')->get();
+        if ($this->product->category->parent_id == null)
+        {
+
+        $filters = Filter::where('field_id',3)->where('category_id',$this->product->category_id)->get();
+        }
+        else
+        {
+            $filters = Filter::where('field_id',3)->where('category_id',$this->product->category->parent_id)->get();
+        }
+
 
         return view('livewire.dashboard.attachments.specifications',
-            compact('products', 'specifications', 'groups', 'table','values'))
+            compact('products', 'specifications', 'groups', 'table','filters'))
             ->layout('components.layouts.dashboards');
     }
 }

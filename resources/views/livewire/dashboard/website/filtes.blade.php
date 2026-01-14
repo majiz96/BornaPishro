@@ -1,0 +1,181 @@
+<div class="container">
+
+    <div class="row text-center mt-4"><h2> فیلترها </h2></div>
+
+    <form wire:submit.prevent="save" class="row border rounded-4 py-2">
+
+        <div class="col-xl-1 my-auto"><label for="title">عنوان فیلتر</label></div>
+        <div class="col-xl-3 my-auto">
+            <input type="text" id="title" class="form-control" wire:model.blur="title">
+            @error('title') <small class="text-danger"> {{$message}} </small> @enderror
+        </div>
+
+        <div class="col-xl-2 my-auto">
+            <select class="form-select" wire:model.blur="type">
+                <option value="">نوع فیلتر</option>
+                <option value="checkbox">انتخاب (چندتایی)</option>
+                <option value="radio"> انتخاب تکی </option>
+                <option value="range">محدوده</option>
+            </select>
+            @error('type') <small class="text-danger"> {{$message}} </small> @enderror
+        </div>
+
+        <div class="col-xl-2 my-auto">
+            <select class="form-select" wire:model.live="field_id">
+
+                <option value="">انتخاب موضوع</option>
+
+                @if($fields->isNotEmpty())
+
+                    @foreach($fields as $field)
+                    <option value="{{$field->id}}"> {{$field->name}} </option>
+                    @endforeach
+
+                @else
+                    <option value=""> موضوعی ثبت نکردید </option>
+                @endif
+
+            </select>
+            @error('field_id') <small class="text-danger"> {{$message}} </small> @enderror
+        </div>
+
+        <div class="col-xl-2 my-auto">
+
+            @if($field_id)
+                <select class="form-select" wire:model.live="category_id">
+
+                    <option value="">انتخاب دسته</option>
+
+                    @if($categories->isNotEmpty())
+
+                        @foreach($categories as $category)
+                                <option value="{{$category->id}}"> {{$category->name}} </option>
+                        @endforeach
+
+                    @else
+                        <option value=""> موضوعی ثبت نکردید </option>
+                    @endif
+
+                </select>
+            @else
+                <select class="form-select" wire:model.blur="category_id" disabled>
+
+                    <option value="">انتخاب دسته</option>
+
+                </select>
+            @endif
+
+
+            @error('category_id') <small class="text-danger"> {{$message}} </small> @enderror
+
+        </div>
+
+
+
+        <div class="col-xl-2 text-start my-auto">
+
+            @if($editing)
+                <button type="button" class="btn btn-danger rounded-3 mx-2" wire:click="cancel">انصراف</button>
+            @endif
+
+            <button type="submit" class="cs-button border-0 rounded-3 py-2 px-4">ذخیره</button>
+
+        </div>
+
+
+    </form>
+
+    @if($fields->isNotEmpty())
+
+       <div class="row text-center py-2 mt-4">
+        @foreach($fields as $field)
+
+             <input type="radio" class="btn-check mx-3" id="btn-check-{{$field->id}}-outlined" wire:model.live="activeField" value="{{$field->id}}">
+             <label class="btn btn-outline-secondary w-auto rounded-4 mx-auto" for="btn-check-{{$field->id}}-outlined" wire:click="selectField({{$field->id}})">
+             {{$field->name}}
+             </label>
+
+        @endforeach
+        </div>
+        @if($filters->isNotEmpty())
+
+            <div class="cs-navbar row text-center py-2 mt-4 mb-2 border rounded-4">
+
+                <div class="col-xl-1 my-auto"><input type="checkbox" wire:model.live="selectAll"></div>
+
+
+
+                    @if(count($showed) == count($filters))
+                        <div class="col-xl-1 my-auto">
+                            <label for="show"> نمایش همه </label>
+                            <input type="checkbox" id="show" wire:change="showNone" checked>
+                        </div>
+                    @else
+                        <div class="col-xl-1 my-auto">
+                            <label for="show"> نمایش ({{count($showed) .'/'. count($filters)}}) </label>
+                            <input type="checkbox" id="show" wire:change="showAll">
+                        </div>
+                    @endif
+
+
+                <div class="col-xl-1 my-auto">ردیف</div>
+                <div class="col-xl-2 my-auto">عنوان</div>
+                <div class="col-xl-1 my-auto">نوع نمایش</div>
+                <div class="col-xl-1 my-auto">موضوع</div>
+                <div class="col-xl-2 my-auto">دسته</div>
+                <div class="col-xl-1 my-auto">مقادیر</div>
+
+                <div class="col-xl-1 my-auto">
+
+                    @if(count($selected) > 1)
+                        <button class="btn btn-sm btn-danger rounded-3" wire:click="selectiveDelete"
+                        wire:confirm="آیا از حذف فیلترهای انتخاب شده مطمئن هستید؟">
+                            حذف همه
+                        </button>
+                    @else
+                        حذف
+                    @endif
+
+                </div>
+
+                <div class="col-xl-1 my-auto">ویرایش</div>
+
+            </div>
+
+                @foreach($filters as $filter)
+                <div class="row text-center py-2 mt-3 border rounded-4">
+
+                    <div class="col-xl-1 my-auto"><input type="checkbox" wire:model.live="selected" value="{{$filter->id}}"></div>
+                    <div class="col-xl-1 my-auto"><input type="checkbox" wire:change="toggleShow({{$filter->id}})" @checked($filter->show == 1)></div>
+                    <div class="col-xl-1 my-auto">{{$counter++}}</div>
+                    <div class="col-xl-2 my-auto">{{$filter->title}}</div>
+                    <div class="col-xl-1 my-auto">{{$filter->type}}</div>
+                    <div class="col-xl-1 my-auto">{{$filter->field->name}}</div>
+                    <div class="col-xl-2 my-auto">{{$filter->category->name}}</div>
+
+                    <div class="col-xl-1 my-auto"> <button class="btn btn-sm btn-success rounded-3" wire:click="showModal({{$filter->id}})"> مشاهده </button> </div>
+
+                    <div class="col-xl-1 my-auto">
+                        <button class="btn btn-sm btn-danger rounded-3" wire:click="delete({{$filter->id}})" wire:confirm="آیا از حذف فیلتر ({{$filter->title}}) مطمئن هستید؟">
+                            حذف
+                        </button>
+                    </div>
+
+                    <div class="col-xl-1 my-auto"><button class="btn btn-sm btn-primary rounded-3" wire:click="edit({{$filter->id}})"> ویرایش </button></div>
+
+                </div>
+
+                    @include('modals.see-filters')
+                @endforeach
+
+
+        @else
+            <div class="row text-center py-2 mt-4 border rounded-4"> <h3 class="text-danger my-auto"> فیلتری در این زمینه ثبت نکرده اید </h3> </div>
+        @endif
+
+    @else
+        <div class="row text-center py-2 mt-4 border rounded-4"> <h3 class="text-danger"> موضوعی ثبت نکرده اید </h3> </div>
+    @endif
+
+
+</div>
