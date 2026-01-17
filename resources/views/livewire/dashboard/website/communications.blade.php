@@ -1,6 +1,6 @@
 <div class="container-fluid">
 
-    @include('see-files')
+    @include('modals.see-files')
 
     <div class="row text-center">
         <h1 class="my-4"> ارتباطات </h1>
@@ -25,7 +25,8 @@
 
                     @if(count($selected) > 1)
                         <button class="btn btn-sm btn-danger rounded-3" wire:click="selectedDelete"
-                        wire:confirm="آیا از حذف کاربران انتخاب شده مطمئن هستید؟"> حذف همه </button>
+                                wire:confirm="آیا از حذف کاربران انتخاب شده مطمئن هستید؟"> حذف همه
+                        </button>
                     @else
                         حذف
                     @endif
@@ -39,7 +40,8 @@
             @foreach($comm as $com)
                 <div class="row mx-auto border rounded-4 mt-3">
 
-                    <div class="col-xl-1 text-center pt-2"><input type="checkbox" value="{{$com->id}}" wire:model.live="selected"></div>
+                    <div class="col-xl-1 text-center pt-2"><input type="checkbox" value="{{$com->id}}"
+                                                                  wire:model.live="selected"></div>
                     <div class="col-xl-1 text-center pt-2">{{$row++}}</div>
                     <div class="col-xl-3 text-center pt-2"> {{$com->subject}} </div>
 
@@ -48,32 +50,35 @@
                     <div
                         class="col-xl-2 text-center pt-2"> {{ $com->email !== null ? $com->email : $com->user->email }} </div>
 
-                    <div class="col-xl-1 text-center pt-2" dir="ltr"> {{ $com->phone !== null ? $com->phone : '' }} </div>
+                    <div class="col-xl-1 text-center pt-2"
+                         dir="ltr"> {{ $com->phone !== null ? $com->phone : '' }} </div>
 
                     <div class="col-xl-1 text-center py-1">
-                        <span class="btn btn-link text-decoration-none text-success fw-bold" wire:click="seeMessage({{$com->id}})"> مشاهده </span>
+                        <span class="btn btn-link text-decoration-none text-success fw-bold"
+                              wire:click="seeMessage({{$com->id}})"> مشاهده </span>
                     </div>
 
                     <div class="col-xl-1 text-center py-1">
 
                         @if(count($com->files) > 0)
 
-                        <span class="btn btn-link text-decoration-none text-primary fw-bold" wire:click="seeFiles({{$com->id}})"> فایلها </span>
-                        <span class="small px-1 rounded-5 bg-primary text-light"> {{count($com->files)}} </span>
-                       @endif
+                            <span class="btn btn-link text-decoration-none text-primary fw-bold"
+                                  wire:click="seeFiles({{$com->id}})"> فایلها </span>
+                            <span class="small px-1 rounded-5 bg-primary text-light"> {{count($com->files)}} </span>
+                        @endif
 
                     </div>
 
                     <div class="col-xl-1 text-center py-1">
                         <span class="btn btn-link text-decoration-none text-danger fw-bold"
-                        wire:click="delete({{$com->id}})" wire:confirm="آیا از حذف پیام ({{$com->subject}}) مطمئن هستید؟"> حذف </span>
+                              wire:click="delete({{$com->id}})"
+                              wire:confirm="آیا از حذف پیام ({{$com->subject}}) مطمئن هستید؟"> حذف </span>
                     </div>
-
 
 
                 </div>
 
-                    @include('see-message')
+                @include('modals.see-message')
 
             @endforeach
         @else
@@ -82,7 +87,6 @@
             </div>
         @endif
     </div>
-
 
 
 </div>

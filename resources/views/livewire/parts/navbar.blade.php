@@ -2,7 +2,7 @@
 
     <div class="container-fluid">
 
-        <div class="w-100 d-none d-lg-flex">
+        <div class="w-100 d-none d-lg-flex mt-0">
 
             <a class="navbar-brand text-light" href="/"><h1>برناپیشرو</h1></a>
 
@@ -14,12 +14,13 @@
 
             @auth
                 <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav ms-auto">
-                        <li class="nav-item"><a class="nav-link text-light" href="#">محصولات</a></li>
-                        <li class="nav-item"><a class="nav-link text-light" href="#">خدمات</a></li>
-                        <li class="nav-item"><a class="nav-link text-light" href="#">مقالات</a></li>
-                        <li class="nav-item"><a class="nav-link text-light" href="#">ارتباط با ما</a></li>
-                    </ul>
+
+                        <ul class="navbar-nav ms-auto">
+                            <li class="nav-item"><a class="nav-link text-light" href="{{ route('products') }}" wire:click="toggleMenu(1)">محصولات</a></li>
+                            <li class="nav-item"><a class="nav-link text-light" href="#">خدمات</a></li>
+                            <li class="nav-item"><a class="nav-link text-light" href="#">مقالات</a></li>
+                            <li class="nav-item"><a class="nav-link text-light" href="#">ارتباط با ما</a></li>
+                        </ul>
                 </div>
 
                 <!-- Example single danger button -->
@@ -73,11 +74,6 @@
                     </ul>
                 </div>
             @endguest
-
-
-
-
-
 
 
 
@@ -196,16 +192,7 @@
             </div>
         </div>
 
-        <style>
-
-        </style>
-
-
-
     </div>
-
-
 </nav>
-
 
 

@@ -123,7 +123,7 @@ i
     min-height: 40vh;
 }
 
-.home-blocks
+.home-blocks, .submenu
 {
     min-height: 20vh;
 }
@@ -148,4 +148,10 @@ i
 .side-img2 img
 {
     width: 80%;
+}
+
+.main-img
+{
+    width: 80%;
+    height: 80%;
 }

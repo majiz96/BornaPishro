@@ -15,7 +15,7 @@ use App\Models\Brief;
 use App\Models\Specification;
 
 
-class Products extends Component
+class ProductsManagement extends Component
 {
     use WithFileUploads;
 
@@ -181,7 +181,7 @@ class Products extends Component
      $brands = Brand::all();
      $products = Product::with('category','brand','brief','specification')->get();
 
-        return view('livewire.dashboard.products.products',compact('products','categories','brands'))
+        return view('livewire.dashboard.products.products-managements',compact('products','categories','brands'))
             ->layout('components.layouts.dashboards');
     }
 }

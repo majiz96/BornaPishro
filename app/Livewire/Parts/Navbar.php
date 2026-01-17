@@ -22,6 +22,8 @@ class Navbar extends Component
     public $lastUnreadNotice = [];
     public $noticeTitle;
 
+    public int $submenu = 0;
+
     public function mount()
     {
         $this->theme = session('theme', 'dark');
@@ -61,6 +63,12 @@ class Navbar extends Component
         session(['theme' => $this->theme]);
         $this->dispatch('themeChanged',theme: $this->theme);
     }
+
+    public function toggleMenu($submenu)
+    {
+        $this->submenu = ($this->submenu == $submenu) ? 0 : 1;
+    }
+
     public function logout()
     {
         Auth::logout();

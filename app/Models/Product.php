@@ -40,9 +40,9 @@ class Product extends Model
         return $this->hasOne(Brief::class);
     }
 
-    public function specification(): hasOne
+    public function specification(): hasMany
     {
-        return $this->hasOne(Specification::class);
+        return $this->hasMany(Specification::class);
     }
 
     public function videos():MorphMany

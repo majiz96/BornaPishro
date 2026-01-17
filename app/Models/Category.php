@@ -12,9 +12,9 @@ class Category extends Model
     protected $table = 'categories';
     protected $fillable = ['name', 'field_id', 'parent_id'];
 
-    public function products(): HasOne
+    public function products(): HasMany
     {
-        return $this->hasOne(Product::class);
+        return $this->hasMany(Product::class);
     }
 
     public function children(): HasMany

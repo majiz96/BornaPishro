@@ -6,6 +6,8 @@ use App\Livewire\Auth\Login;
 use App\Livewire\Auth\Register;
 use App\Livewire\Counter;
 
+use App\Livewire\Products;
+
 use App\Livewire\Dashboard\Users\EditProfile;
 use App\Livewire\Dashboard\Users\UsersManagement;
 use App\Livewire\Dashboard\Website\Info;
@@ -15,7 +17,7 @@ use App\Livewire\Dashboard\Website\Categories;
 use App\Livewire\Dashboard\Website\Filtes;
 use App\Livewire\Dashboard\Website\Communications;
 use App\Livewire\Dashboard\Website\Notices;
-use App\Livewire\Dashboard\Products\Products;
+use App\Livewire\Dashboard\Products\ProductsManagement;
 use App\Livewire\Dashboard\Products\Brands;
 use App\Livewire\Dashboard\Articles;
 use App\Livewire\Dashboard\Services;
@@ -29,8 +31,6 @@ use App\Livewire\Dashboard\Attachments\Sources;
 use App\Livewire\Dashboard\Attachments\Briefs;
 use App\Livewire\Dashboard\Attachments\Specifications;
 
-
-
 Route::get('/', function () {
     return view('welcome');
 })->name('home');
@@ -39,6 +39,7 @@ Route::get('counter',Counter::class)->name('counter');
 Route::get('register',Register::class)->name('register');
 Route::get('login',Login::class)->name('login');
 
+Route::get('products',Products::class)->name('products');
 
 Route::middleware(['auth', 'verified'])->prefix('dashboard')->group(function () {
 
@@ -56,7 +57,7 @@ Route::middleware(['auth', 'verified'])->prefix('dashboard')->group(function () 
     Route::get('comms',Communications::class)->name('comms');
 
     //products routes
-    Route::get('products',Products::class)->name('products');
+    Route::get('products-management',ProductsManagement::class)->name('products-management');
     Route::get('brands',Brands::class)->name('brands');
 
     Route::get('articles',Articles::class)->name('articles');

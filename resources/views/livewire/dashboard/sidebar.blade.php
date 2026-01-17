@@ -35,7 +35,7 @@
 
         <li class="cs-header-product t list-group-item text-center border py-1"> <h5>محصولات</h5> </li>
 
-        <li class="list-group-item list-group-item-action text-end py-1 {{request()->routeIs('products') ? 'active-page' : ''}}"><a class="nav-link" href="{{route('products')}}" wire:navigate> مدیریت محصولات </a></li>
+        <li class="list-group-item list-group-item-action text-end py-1 {{request()->routeIs('products-management') ? 'active-page' : ''}}"><a class="nav-link" href="{{route('products-management')}}" wire:navigate> مدیریت محصولات </a></li>
         <li class="list-group-item list-group-item-action text-end py-1 {{request()->routeIs('brands') ? 'active-page' : ''}}"><a class="nav-link" href="{{route('brands')}}" wire:navigate> مدیریت برندها </a></li>
 
     </ul>
