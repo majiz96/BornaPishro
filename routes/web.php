@@ -31,6 +31,7 @@ use App\Livewire\Dashboard\Attachments\Videos;
 use App\Livewire\Dashboard\Attachments\Sources;
 use App\Livewire\Dashboard\Attachments\Briefs;
 use App\Livewire\Dashboard\Attachments\Specifications;
+use App\Livewire\Dashboard\Attachments\Comments;
 
 Route::get('/', function () {
     return view('welcome');
@@ -75,6 +76,7 @@ Route::middleware(['auth', 'verified'])->prefix('dashboard')->group(function () 
     Route::get('sources/{product}',Sources::class)->name('sources.show');
     Route::get('briefs/{product}',Briefs::class)->name('briefs.show');
     Route::get('specifications/{product}',Specifications::class)->name('specifications.show');
+    Route::get('comments/{product}',Comments::class)->name('comments.show');
 
 
 });

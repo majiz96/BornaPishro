@@ -14,9 +14,11 @@ return new class extends Migration
         Schema::create('comments', function (Blueprint $table) {
             $table->id();
             $table->integer('user_id');
-            $table->integer('parent_id')->default(0);
+            $table->integer('parent_id')->default(0)->constrained('comments')->cascadeOnDelete();
             $table->text('text');
             $table->integer('votes')->default(0);
+            $table->integer('see')->default(0);
+            $table->integer('show')->default(0);
             $table->morphs('commentable');
             $table->timestamps();
         });

@@ -40,12 +40,12 @@
 
                         <div class="col-xl-1">
                             <small>{{$comment->votes}}</small>
-                            @if($vote)
+                            @if($vote == 1)
                                 <input type="checkbox" id="vote" class="d-none">
-                                <label for="vote" wire:model="vote({{$comment->id}})"><i class="bi-hand-thumbs-up-fill" ></i></label>
+                                <label for="vote" wire:click="toggleVote({{$comment->id}})"><i class="bi-hand-thumbs-up-fill" ></i></label>
                             @else
                                 <input type="checkbox" id="vote" class="d-none">
-                                <label for="vote" wire:model="vote({{$comment->id}})"><i class="bi-hand-thumbs-up" ></i></label>
+                                <label for="vote" wire:click="toggleVote({{$comment->id}})"><i class="bi-hand-thumbs-up" ></i></label>
                             @endif
                         </div>
 
@@ -71,37 +71,43 @@
 
                         @foreach($comment->children as $child)
 
-                            <div class="row border mt-2 mx-auto" dir="rtl">
+                            @if($child->show == 1)
+                                <div class="row border mt-2 mx-auto" dir="rtl">
 
-                                <div class="row border-bottom">
-                                    <h5 class="col-xl-2"> {{$name}} {{$lastname}} </h5>
-                                    <div class="col-xl-6"></div>
-                                    <h5 class="col-xl-4 text-start"> {{$child->created_at}}  </h5>
-                                </div>
-
-                                <div class="row p-2 border-bottom"> {{$child->text}} </div>
-
-                                <div class="row p-2 ">
-
-                                    <div class="col-xl-1">
-                                        <i class="bi-reply-fill" wire:click="makeReply({{$child->id}})"></i>
+                                    <div class="row border-bottom">
+                                        <h5 class="col-xl-2"> {{$name}} {{$lastname}} </h5>
+                                        <div class="col-xl-6"></div>
+                                        <h5 class="col-xl-4 text-start"> {{$child->created_at}}  </h5>
                                     </div>
 
-                                    <div class="col-xl-10"></div>
+                                    <div class="row p-2 border-bottom"> {{$child->text}} </div>
 
-                                    <div class="col-xl-1">
-                                        <small>{{$comment->votes}}</small>
-                                        @if($vote)
-                                            <input type="checkbox" id="vote" class="d-none">
-                                            <label for="vote" wire:model="vote({{$comment->id}})"><i class="bi-hand-thumbs-up-fill" ></i></label>
-                                        @else
-                                            <input type="checkbox" id="vote" class="d-none">
-                                            <label for="vote" wire:model="vote({{$comment->id}})"><i class="bi-hand-thumbs-up" ></i></label>
-                                        @endif
+                                    <div class="row p-2 ">
+
+                                        <div class="col-xl-1">
+                                            <i class="bi-reply-fill" wire:click="makeReply({{$child->id}})"></i>
+                                        </div>
+
+                                        <div class="col-xl-10"></div>
+
+                                        <div class="col-xl-1">
+                                            <small>{{$child->votes}}</small>
+                                            @if($vote)
+                                                <input type="checkbox" id="vote" class="d-none">
+                                                <label for="vote" wire:model="vote({{$child->id}})"><i class="bi-hand-thumbs-up-fill" ></i></label>
+                                            @else
+                                                <input type="checkbox" id="vote" class="d-none">
+                                                <label for="vote" wire:model="vote({{$child->id}})"><i class="bi-hand-thumbs-up" ></i></label>
+                                            @endif
+                                        </div>
+
                                     </div>
-
                                 </div>
-                            </div>
+                            @else
+
+                            @endif
+
+
                         @endforeach
 
                     @endif

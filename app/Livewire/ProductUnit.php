@@ -13,7 +13,14 @@ class ProductUnit extends Component
 
     public $product,$text,$replyText,$parent_id,$vote;
 
+    public $showed = [];
+
     public $reply = null;
+
+    public function mount(Product $product)
+    {
+        $this->product = $product;
+    }
 
     public function makeReply($id)
     {
@@ -29,7 +36,7 @@ class ProductUnit extends Component
     {
         $comment = Comment::findOrFail($id);
 
-        $this->vote = $this->vote == 1 ? 0 : 1;
+        $this->vote = $this->vote == 1 ? -1 : 1;
 
         $comment->votes = $this->vote + $comment->votes;
 
@@ -81,18 +88,14 @@ class ProductUnit extends Component
         $this->reset('replyText','reply');
     }
 
-
-    public function mount(Product $product)
-    {
-        $this->product = $product;
-    }
-
     public function render()
     {
 
 
-        $comments = Comment::with('parent','children')->where('commentable_id',$this->product->id)
-            ->where('commentable_type',Product::class)->get();
+        $comments = Comment::with('parent','children')
+            ->where('commentable_id',$this->product->id)
+            ->where('commentable_type',Product::class)
+            ->where('show',1)->get();
 
         if($comments->isNotEmpty())
         {
