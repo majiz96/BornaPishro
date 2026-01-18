@@ -88,7 +88,7 @@
 
                             @foreach($category->products as $product)
 
-                                <a class="col-xl-2 col-md-4 pt-3 mx-auto delete-badge text-decoration-none">
+                                <a href="{{ route('product.show',$product->id) }}" class="col-xl-2 col-md-4 pt-3 mx-auto delete-badge text-decoration-none">
 
                                     <div class="side-img text-center overflow-hidden border bg-white pb-3 rounded-top-4" style="height: 80%">
                                     <img class="rounded-4 mt-1" src="{{asset('storage/products/'.$product->image) }}" alt="پیش نمایش">
@@ -123,7 +123,7 @@
 
                                 @foreach($category->products as $product)
 
-                                        <div class="col-xl-2 col-md-4 pt-3 mx-auto">
+                                        <a href="{{ route('product.show',$product->id) }}" class="col-xl-2 col-md-4 pt-3 mx-auto">
 
                                             <div class="side-img text-center overflow-hidden border bg-white pb-3 rounded-top-4" style="height: 80%">
                                                 <img class="rounded-4 mt-1" src="{{asset('storage/products/'.$product->image) }}" alt="پیش نمایش">
@@ -138,7 +138,7 @@
                                                 </h5>
                                             </div>
 
-                                        </div>
+                                        </a>
 
                                 @endforeach
 

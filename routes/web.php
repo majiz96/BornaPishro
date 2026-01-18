@@ -7,6 +7,7 @@ use App\Livewire\Auth\Register;
 use App\Livewire\Counter;
 
 use App\Livewire\Products;
+use App\Livewire\ProductUnit;
 
 use App\Livewire\Dashboard\Users\EditProfile;
 use App\Livewire\Dashboard\Users\UsersManagement;
@@ -39,7 +40,9 @@ Route::get('counter',Counter::class)->name('counter');
 Route::get('register',Register::class)->name('register');
 Route::get('login',Login::class)->name('login');
 
+
 Route::get('products',Products::class)->name('products');
+Route::get('product/{product}',ProductUnit::class)->name('product.show');
 
 Route::middleware(['auth', 'verified'])->prefix('dashboard')->group(function () {
 

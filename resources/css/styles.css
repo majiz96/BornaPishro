@@ -155,3 +155,7 @@ i
     width: 80%;
     height: 80%;
 }
+.comment
+{
+    max-height: auto !important;
+}
