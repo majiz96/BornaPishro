@@ -181,7 +181,7 @@ class ProductsManagement extends Component
      $brands = Brand::all();
      $products = Product::with('category','brand','brief','specification','comments')->get();
 
-        return view('livewire.dashboard.products.products-managements',compact('products','categories','brands'))
+        return view('livewire.dashboard.products.products-management',compact('products','categories','brands'))
             ->layout('components.layouts.dashboards');
     }
 }

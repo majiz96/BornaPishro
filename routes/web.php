@@ -21,7 +21,7 @@ use App\Livewire\Dashboard\Website\Notices;
 use App\Livewire\Dashboard\Products\ProductsManagement;
 use App\Livewire\Dashboard\Products\Brands;
 use App\Livewire\Dashboard\ArticlesManagement;
-use App\Livewire\Dashboard\Services;
+use App\Livewire\Dashboard\ServicesManagement;
 
 use App\Livewire\Parts\Messages;
 
@@ -66,7 +66,7 @@ Route::middleware(['auth', 'verified'])->prefix('dashboard')->group(function () 
 
     Route::get('articles-management',ArticlesManagement::class)->name('articles-management');
 
-    Route::get('services',Services::class)->name('services');
+    Route::get('services-management',ServicesManagement::class)->name('services-management');
 
     Route::get('/messages/{notice?}',Messages::class)->name('messages.show');
 

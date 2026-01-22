@@ -52,7 +52,7 @@
 
         <li class="cs-header-service t list-group-item text-center border py-1"> <h5>خدمات</h5> </li>
 
-        <li class="list-group-item list-group-item-action text-end py-1 {{request()->routeIs('services') ? 'active-page' : ''}}"><a class="nav-link" href="{{route('services')}}" wire:navigate> مدیریت خدمات </a></li>
+        <li class="list-group-item list-group-item-action text-end py-1 {{request()->routeIs('services-management') ? 'active-page' : ''}}"><a class="nav-link" href="{{route('services-management')}}" wire:navigate> مدیریت خدمات </a></li>
 
     </ul>
     @endcan {{-- just manager & assistants have access to these categories --}}

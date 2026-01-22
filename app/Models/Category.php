@@ -17,11 +17,6 @@ class Category extends Model
         return $this->hasMany(Product::class);
     }
 
-    public function articles(): HasMany
-    {
-        return $this->hasMany(Article::class, 'category_id', 'id');
-    }
-
     public function children(): HasMany
     {
         return $this->hasMany(Category::class, 'parent_id', 'id');
@@ -35,5 +30,15 @@ class Category extends Model
     public function filters(): HasMany
     {
         return $this->hasMany(Filter::class);
+    }
+
+    public function articles(): HasMany
+    {
+        return $this->hasMany(Article::class, 'category_id', 'id');
+    }
+
+    public function sevices(): HasMany
+    {
+        return $this->hasMany(Service::class, 'category_id', 'id');
     }
 }

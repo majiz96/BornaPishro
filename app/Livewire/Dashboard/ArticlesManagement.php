@@ -67,6 +67,7 @@ class ArticlesManagement extends Component
         $this->editing = $id;
         $article = Article::findOrFail($id);
         $this->editor_id = Auth::id();
+        $this->category_id = $article->category_id;
         $this->title = $article->title;
         $this->intro = $article->intro;
         $this->content = $article->content;
