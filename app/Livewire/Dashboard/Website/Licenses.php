@@ -157,7 +157,6 @@ class Licenses extends Component
     $licence = License::findOrFail($id);
     $licence->delete();
     Storage::disk('public')->delete('license_icons/' . $licence->icon);
-
    }
 
    public function toggleActive($id)

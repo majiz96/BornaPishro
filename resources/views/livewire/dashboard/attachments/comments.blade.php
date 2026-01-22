@@ -22,7 +22,7 @@
 
 
             @if(count($seen_comments) == count($comments))
-                <div class="col-xl-1 mt-2 text-end"><label for="see"> نمایش همه </label></div>
+                <div class="col-xl-1 mt-2 text-end"><label for="see"> دیدن همه </label></div>
                 <div class="col-xl-1 mt-2 text-end"><input type="checkbox" id="see" wire:change="seeNone" checked></div>
             @else
                 <div class="col-xl-1 mt-2 text-end"><label for="see"> نمایش {{count($seen_comments)}} از {{count($comments)}} </label></div>

@@ -44,7 +44,7 @@
 
         <li class="cs-header-mag t list-group-item text-center border py-1"> <h5>مقالات</h5> </li>
 
-        <li class="list-group-item list-group-item-action text-end py-1 {{request()->routeIs('articles') ? 'active-page' : ''}}"><a class="nav-link" href="{{route('articles')}}" wire:navigate> مدیریت مقالات </a></li>
+        <li class="list-group-item list-group-item-action text-end py-1 {{request()->routeIs('articles-management') ? 'active-page' : ''}}"><a class="nav-link" href="{{route('articles-management')}}" wire:navigate> مدیریت مقالات </a></li>
 
     </ul>
 

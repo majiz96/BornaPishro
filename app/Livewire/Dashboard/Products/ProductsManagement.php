@@ -179,7 +179,7 @@ class ProductsManagement extends Component
     {
      $categories = Category::with('children','parent')->where('field_id',3)->where('parent_id',0)->get();
      $brands = Brand::all();
-     $products = Product::with('category','brand','brief','specification')->get();
+     $products = Product::with('category','brand','brief','specification','comments')->get();
 
         return view('livewire.dashboard.products.products-managements',compact('products','categories','brands'))
             ->layout('components.layouts.dashboards');

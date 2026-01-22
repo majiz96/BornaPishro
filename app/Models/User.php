@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Traits\Creator;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -79,6 +80,16 @@ class User extends Authenticatable implements MustVerifyEmail
     public function notices(): BelongsToMany
     {
         return $this->belongsToMany(Notice::class,'user_notice')->withPivot('read_at')->withTimestamps();
+    }
+
+    public function writers(): HasMany
+    {
+        return $this->hasMany(Article::class, 'writer_id','id');
+    }
+
+    public function editors(): HasMany
+    {
+        return $this->hasMany(Article::class, 'editor_id','id');
     }
 
 }
