@@ -7,7 +7,42 @@
     </div>
 
     <div class="row mt-3 border rounded-5 p-3">
+
         @if($comm->isNotEmpty())
+
+            <div class="row my-2">
+
+                <div class="col-xl-3">
+                    <input type="text" class="form-control" wire:model.live="search" placeholder="جستجو..." autocomplete="off">
+                </div>
+
+                <div class="col-xl-1 my-auto">
+                    <select class="form-select" wire:model.live="perPage">
+                        <option value="5">5</option>
+                        <option value="10">10</option>
+                        <option value="25">25</option>
+                        <option value="">همه</option>
+                    </select>
+                </div>
+
+                <div class="col-xl-1 my-auto">
+                    <select class="form-select" wire:model.live="sort">
+                        <option value="created_at">تاریخ</option>
+                        <option value="name">نام</option>
+                        <option value="subject">موضوع</option>
+                        <option value="email">ایمیل</option>
+                        <option value="phone">شماره همراه</option>
+                    </select>
+                </div>
+
+                <div class="col-xl-1 my-auto">
+                    <select class="form-select" wire:model.live="direction">
+                        <option value="desc">نزولی</option>
+                        <option value="asc">صعودی</option>
+                    </select>
+                </div>
+
+            </div>
 
             <div class="row cs-navbar border rounded-4 py-1 mx-auto">
 
@@ -35,10 +70,9 @@
 
             </div>
 
-            <div class="row mt-5"></div>
 
             @foreach($comm as $com)
-                <div class="row mx-auto border rounded-4 mt-3">
+                <div class="row mx-auto border rounded-4 my-3">
 
                     <div class="col-xl-1 text-center pt-2"><input type="checkbox" value="{{$com->id}}"
                                                                   wire:model.live="selected"></div>
@@ -86,6 +120,9 @@
                 <h2 class="my-4 text-danger"> هیچ پیامی ارسال نشده است </h2>
             </div>
         @endif
+
+        {{$comm->links(data:['scrollTo',false])}}
+
     </div>
 
 

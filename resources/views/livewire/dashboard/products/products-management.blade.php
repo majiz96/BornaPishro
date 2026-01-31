@@ -125,6 +125,40 @@
 
     @if($products->isNotEmpty())
 
+        <div class="row mt-4">
+
+            <div class="col-xl-3">
+                <input type="text" class="form-control" wire:model.live="search" placeholder="جستجو" autocomplete="off">
+            </div>
+
+            <div class="col-xl-1">
+                <select wire:model.live="perPage" class="form-select">
+                    <option value="5">5</option>
+                    <option value="10">10</option>
+                    <option value="25">25</option>
+                    <option value="">همه</option>
+                </select>
+            </div>
+
+            <div class="col-xl-1">
+                <select wire:model.live="sort" class="form-select">
+                    <option value="created_at">تاریخ ایجاد</option>
+                    <option value="name">نام</option>
+                    <option value="fullname">نام کامل</option>
+                    <option value="brand_id">نام برند</option>
+                    <option value="brand_name">نام کامل برند</option>
+                </select>
+            </div>
+
+            <div class="col-xl-1 my-auto">
+                <select class="form-select" wire:model.live="direction">
+                    <option value="desc">نزولی</option>
+                    <option value="asc">صعودی</option>
+                </select>
+            </div>
+
+        </div>
+
         <div class="row border rounded-3 mt-5 py-2">
 
             <div class="col-xl-1 my-auto text-center"> <input type="checkbox" wire:model.live="selectAll"> </div>
@@ -152,10 +186,10 @@
 
     @foreach($products as $product)
 
-            <div class="row border rounded-3 mt-3 py-2">
+            <div class="row border rounded-3 my-3 py-2">
                 <div class="col-xl-1 my-auto text-center"> <input type="checkbox" value="{{$product->id}}" wire:model.live="selected"> </div>
                 <div class="col-xl-1 my-auto text-center"> {{$counter++}} </div>
-                <div class="col-xl-1 my-auto text-center"> <img src="{{asset('storage/products/'.$product->image) }}"  alt="پیش نمایش" height="100" class="rounded"> </div>
+                <div class="col-xl-1 my-auto text-center side-img2"> <img src="{{asset('storage/products/'.$product->image) }}"  alt="پیش نمایش" height="100" class="rounded"> </div>
                 <div class="col-xl-1 my-auto text-center"> {{$product->name}} </div>
                 <div class="col-xl-3 my-auto text-center"> {{$product->fullname}} </div>
 
@@ -219,5 +253,7 @@
         <div class="row border rounded-3 mt-5 text-center py-3"><h2 class="text-danger"> محصولی ثبت نشده است </h2></div>
 
     @endif
+
+    {{$products->links(data:['scrollTo',false])}}
 
 </div>

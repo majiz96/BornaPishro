@@ -8,10 +8,14 @@ use App\Models\Notice;
 use App\Models\Position;
 
 use Illuminate\Support\Facades\Mail;
+
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class Notices extends Component
 {
+    use WithPagination;
+    protected $paginationTheme = 'bootstrap';
 
     public $row = 1;
     public string $title;
@@ -31,6 +35,11 @@ class Notices extends Component
 
     public $selected = [];
     public $selectAll = false;
+
+    public $perPage = 5;
+    public $search = '';
+    public $sort = 'created_at';
+    public $direction = 'desc';
 
     public function edit($id)
     {
@@ -201,9 +210,18 @@ class Notices extends Component
 
     public function render()
     {
-        return view('livewire.dashboard.website.notices',[
-            'positions'=>Position::OrderBy('level','DESC')->get()
-            ,'notices'=>Notice::with('position')->orderBy('created_at','DESC')->get()])
+        $positions =Position::OrderBy('level','DESC')->get();
+
+        $notices = Notice::with('position')
+            ->where('title','like','%'.$this->search.'%')
+            ->orWhere('expired_at','like','%'.$this->search.'%')
+            ->orWhere('contact','like','%'.$this->search.'%')
+            ->orWhere('display','like','%'.$this->search.'%')
+            ->orWhere('style','like','%'.$this->search.'%')
+            ->orderBy($this->sort,$this->direction)
+            ->paginate($this->perPage);
+
+        return view('livewire.dashboard.website.notices',compact('positions','notices'))
             ->layout('components.layouts.dashboards');
     }
 }

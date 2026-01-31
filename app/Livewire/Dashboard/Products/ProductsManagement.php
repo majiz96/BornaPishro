@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
 use Livewire\Attributes\Validate;
 use Livewire\WithFileUploads;
+use Livewire\WithPagination;
 
 use App\Models\Product;
 use App\Models\Brand;
@@ -17,7 +18,8 @@ use App\Models\Specification;
 
 class ProductsManagement extends Component
 {
-    use WithFileUploads;
+    use WithFileUploads, WithPagination;
+    protected $paginationTheme = 'bootstrap';
 
     public $category_id,$name,$fullname,$brand_id,$brand_name,$intro,$image;
 
@@ -27,6 +29,11 @@ class ProductsManagement extends Component
 
     public $selected = [];
     public $selectAll = false;
+
+    public $perPage = 5;
+    public $search = '';
+    public $sort = 'created_at';
+    public $direction = 'desc';
 
     protected $rules = [
         'name'=>'required',
@@ -179,7 +186,12 @@ class ProductsManagement extends Component
     {
      $categories = Category::with('children','parent')->where('field_id',3)->where('parent_id',0)->get();
      $brands = Brand::all();
-     $products = Product::with('category','brand','brief','specification','comments')->get();
+     $products = Product::with('category','brand','brief','specification','comments')
+         ->where('name','LIKE','%'.$this->search.'%')
+         ->orWhere('fullname','LIKE','%'.$this->search.'%')
+         ->orWhere('brand_name','LIKE','%'.$this->search.'%')
+         ->orderBy($this->sort,$this->direction)
+         ->paginate($this->perPage);
 
         return view('livewire.dashboard.products.products-management',compact('products','categories','brands'))
             ->layout('components.layouts.dashboards');

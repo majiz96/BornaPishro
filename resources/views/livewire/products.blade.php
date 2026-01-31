@@ -65,18 +65,57 @@
             <div class="row text-center">
                 @if($activeCategory)
                     <h3>
-                    @foreach($activeCategory as $active)
+                    @foreach($activeFilter as $active)
                      {{$active}}
                     @endforeach
                 </h3>
                 @endif
             </div>
 
-            <div class="col-lg-2 border home-blocks mt-3"></div>
+            <div class="col-lg-2 border home-blocks rounded-end-4 mt-3">
 
-            <div class="col-lg-10 border home-blocks mt-3 px-4">
+                @if($activeCategory)
+                    @if($filters->isNotEmpty())
+                        @foreach($filters as $filter)
 
-                <div class="row text-center mt-3"> <h3> محصولات </h3> </div>
+                            <div class="row m-2 text-end border-bottom">
+                                <h5>{{$filter->title}}</h5>
+
+                                @if($filter->units->isNotEmpty())
+                                    @foreach($filter->units as $unit)
+
+                                        @foreach($unit->values as $value)
+
+                                            <div class="row">
+                                                <div class="col-xl-8 text-end">
+                                                    {{$value->value}}
+                                                    @if($value->suffix)
+                                                        {{$value->suffix}}
+                                                    @endif
+                                                </div>
+
+                                                <div class="col-xl-4 text-start">
+                                                    <input type="{{$filter->type}}" wire:model.live="activeFilter" value="{{$value->id}}">
+                                                </div>
+                                            </div>
+
+                                            <br>
+                                        @endforeach
+                                    @endforeach
+                                @endif
+
+                            </div>
+                        @endforeach
+                    @endif
+                @else
+
+                @endif
+
+
+
+            </div>
+
+            <div class="col-lg-10 border home-blocks rounded-start-4 mt-3 px-4">
 
                 @if(!$activeCategory)
 
@@ -87,6 +126,7 @@
 
 
                             @foreach($category->products as $product)
+
 
                                 <a href="{{ route('product.show',$product->id) }}" class="col-xl-2 col-md-4 pt-3 mx-auto delete-badge text-decoration-none">
 
@@ -118,12 +158,12 @@
                         <div class="row text-center mt-3">
                         @foreach($maincat as $category)
 
-                            @if($category->products->isNotEmpty() || $category->children->isNotEmpty())
+                            @if($category->products->isNotEmpty())
 
 
                                 @foreach($category->products as $product)
 
-                                        <a href="{{ route('product.show',$product->id) }}" class="col-xl-2 col-md-4 pt-3 mx-auto">
+                                        <a href="{{ route('product.show',$product->id) }}" class="col-xl-2 col-md-4 pt-3 mx-auto text-decoration-none">
 
                                             <div class="side-img text-center overflow-hidden border bg-white pb-3 rounded-top-4" style="height: 80%">
                                                 <img class="rounded-4 mt-1" src="{{asset('storage/products/'.$product->image) }}" alt="پیش نمایش">
@@ -150,7 +190,7 @@
 
                                         @foreach($child->products as $subproduct)
 
-                                                <div class="col-xl-2 col-md-4 pt-3 mx-auto">
+                                                <a href="{{route('product.show',$subproduct->id)}}" class="col-xl-2 col-md-4 pt-3 mx-auto text-decoration-none">
 
                                                     <div class="side-img text-center overflow-hidden border bg-white pb-3 rounded-top-4" style="height: 80%">
                                                         <img class="rounded-4 mt-1" src="{{asset('storage/products/'.$subproduct->image) }}" alt="پیش نمایش">
@@ -166,7 +206,7 @@
                                                         </h5>
                                                     </div>
 
-                                                </div>
+                                                </a>
                                         @endforeach
 
                                     @endif

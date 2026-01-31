@@ -6,6 +6,7 @@ namespace App\Livewire\Dashboard\Website;
 use Illuminate\Support\Facades\Storage;
 
 use Livewire\Component;
+use Livewire\WithPagination;
 
 use App\Models\Communication;
 use App\Models\File;
@@ -13,6 +14,8 @@ use App\Models\User;
 
 class Communications extends Component
 {
+    use WithPagination;
+    protected $paginationTheme = 'bootstrap';
 
     public int $row = 1;
     public $messageModal = false;
@@ -29,6 +32,11 @@ class Communications extends Component
 
     public $selected = [];
     public $selectAll = false;
+
+    public $perPage = 5;
+    public $search = '';
+    public $sort = 'created_at';
+    public $direction = 'desc';
 
     public function seeMessage($id)
     {
@@ -138,8 +146,15 @@ class Communications extends Component
 
     public function render()
     {
-        return view('livewire.dashboard.website.communications',['comm'=>Communication::with('user','files')->orderBy('created_at','DESC')->get(),
-        ])
+        $comm = Communication::with('user','files')
+            ->where('name','LIKE','%'.$this->search.'%')
+            ->orWhere('subject','LIKE','%'.$this->search.'%')
+            ->orWhere('email','LIKE','%'.$this->search.'%')
+            ->orWhere('phone','LIKE','%'.$this->search.'%')
+            ->orderBy($this->sort,$this->direction)
+            ->paginate($this->perPage);
+
+        return view('livewire.dashboard.website.communications',compact('comm'))
             ->layout('components.layouts.dashboards');
     }
 }

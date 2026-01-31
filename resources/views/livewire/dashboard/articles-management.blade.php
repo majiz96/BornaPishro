@@ -120,10 +120,11 @@
             @if($children->isNotEmpty() && $activeParent)
                 @foreach($children as $child)
                     <div class="col mt-3 mx-auto text-center delete-badge"
-                         wire:click="$set('activeChild',{{$child->id}})">
+                         wire:click="selectChildren({{$child->id}})">
                         <h5 class=" border rounded-4 py-2 {{ $activeChild == $child->id ? 'cs-button text-light' : '' }}">{{$child->name}}</h5>
                     </div>
                 @endforeach
+
             @else
                 <div class="row text-center"> <h2 class="text-danger mt-5"> دسته ای ثبت نکرده اید </h2> </div>
             @endif
@@ -133,58 +134,99 @@
     </div>
 
         {{--  showing articles  --}}
-    <div class="row mt-4 py-2 px-0 border rounded-4">
+    <div class="row my-4 py-2 px-0 border rounded-4">
 
         @if($articles->isNotEmpty())
 
+            <div class="row mt-4">
+
+                <div class="col-xl-3">
+                    <input type="text" class="form-control" wire:model.live="search" placeholder="جستجو" autocomplete="off">
+                </div>
+
+                <div class="col-xl-1">
+                    <select wire:model.live="perPage" class="form-select">
+                        <option value="3">3</option>
+                        <option value="6">6</option>
+                        <option value="9">9</option>
+                        <option value="12">12</option>
+                        <option value="24">24</option>
+                        <option value="32">32</option>
+                        <option value="">همه</option>
+                    </select>
+                </div>
+
+                <div class="col-xl-1">
+                    <select wire:model.live="sort" class="form-select">
+                        <option value="created_at">تاریخ ایجاد</option>
+                        <option value="title">عنوان</option>
+                    </select>
+                </div>
+
+                <div class="col-xl-1 my-auto">
+                    <select class="form-select" wire:model.live="direction">
+                        <option value="desc">نزولی</option>
+                        <option value="asc">صعودی</option>
+                    </select>
+                </div>
+
+            </div>
+
             @foreach($articles as $article)
 
-                <div class="col-xl-4 card rounded-4 my-2 mx-auto">
+                <div class="col-xl-4">
 
-                    <div class="card-header row">
-                        <div class="col-xl-8"><h5>{{$article->title}}</h5></div>
-                        <div class="col-xl-4 text-xl-start">{{$article->created_at}}</div>
+                    <div class="card rounded-4 my-2 mx-auto">
+
+                        <div class="card-header">
+                            <div class="row">
+                                <div class="col-xl-8"><h5>{{$article->title}}</h5></div>
+                                <div class="col-xl-4 text-xl-start">{{$article->created_at}}</div>
+                            </div>
+                        </div>
+
+                        <div class="card-body">
+
+                            <div class="row">
+                                <img src="{{asset('storage/article_covers/'.$article->cover) }}"  alt="پیش نمایش" class="mt-3 mx-auto">
+                            </div>
+
+                            <div class="row my-2">{{$article->intro}}</div>
+
+                        </div>
+
+                        <div class="card-footer">
+
+                            <div class="row">
+                                <div class="col-xl-4">
+
+                                    {{$article->writer->name}}
+
+                                    {{$article->writer->lastname}}
+
+                                </div>
+
+                                <div class="col-xl-1 text-xl-start my-auto"><label for="show"> نمایش </label></div>
+                                <div class="col-xl-1 my-auto"><input type="checkbox" id="show" wire:change="toggleShow({{$article->id}})" @checked($article->show == 1)></div>
+
+                                <div class="col-xl-2 my-auto text-center">
+                                    <button class="btn btn-sm btn-success rounded-3" wire:click="see({{$article->id}})"> مشاهده </button>
+                                </div>
+
+                                <div class="col-xl-2 my-auto text-center">
+                                    <button class="btn btn-sm btn-danger rounded-3" wire:click="delete({{$article->id}})"
+                                            wire:confirm="آیا از حذف مقاله ({{$article->title}}) مطمئن هستید؟"> حذف </button>
+                                </div>
+
+                                <div class="col-xl-2 my-auto text-center">
+                                    <button class="btn btn-sm btn-primary rounded-3" wire:click="edit({{$article->id}})"> ویرایش </button>
+                                </div>
+                            </div>
+
+                        </div>
+
                     </div>
-                    <div class="card-body">
 
-                        <div class="row">
-                            <img src="{{asset('storage/article_covers/'.$article->cover) }}"  alt="پیش نمایش" class="mt-3 mx-auto">
-                        </div>
-
-                        <div class="row my-2">{{$article->intro}}</div>
-
-                    </div>
-
-                    <div class="card-footer row">
-
-                        <div class="col-xl-4">
-
-
-                                {{$article->writer->name}}
-
-                                {{$article->writer->lastname}}
-
-
-                        </div>
-
-                        <div class="col-xl-1 text-xl-start my-auto"><label for="show"> نمایش </label></div>
-                        <div class="col-xl-1 my-auto"><input type="checkbox" id="show" wire:change="toggleShow({{$article->id}})" @checked($article->show == 1)></div>
-
-                        <div class="col-xl-2 my-auto text-center">
-                            <button class="btn btn-sm btn-success rounded-3" wire:click="see({{$article->id}})"> مشاهده </button>
-                        </div>
-
-                        <div class="col-xl-2 my-auto text-center">
-                            <button class="btn btn-sm btn-danger rounded-3" wire:click="delete({{$article->id}})"
-                            wire:confirm="آیا از حذف مقاله ({{$article->title}}) مطمئن هستید؟"> حذف </button>
-                        </div>
-
-                        <div class="col-xl-2 my-auto text-center">
-                            <button class="btn btn-sm btn-primary rounded-3" wire:click="edit({{$article->id}})"> ویرایش </button>
-                        </div>
-
-
-                    </div>
 
                 </div>
 
@@ -199,8 +241,8 @@
         @endif
 
 
-
     </div>
 
+        {{$articles->links(data:['scrollTo',false])}}
 
 </div>

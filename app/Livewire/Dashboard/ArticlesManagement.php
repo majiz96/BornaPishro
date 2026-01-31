@@ -13,10 +13,12 @@ use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Livewire\Attributes\Validate;
+use Livewire\WithPagination;
 
 class ArticlesManagement extends Component
 {
-    use WithFileUploads;
+    use WithFileUploads, WithPagination;
+    protected $paginationTheme = 'bootstrap';
 
     public string $message = '';
 
@@ -28,6 +30,11 @@ class ArticlesManagement extends Component
     public $activeChild;
 
     public $modal = false;
+
+    public $perPage = 6;
+    public $search = '';
+    public $sort = 'created_at';
+    public $direction = 'desc';
 
     public $modalContent,$modalTitle,$modalWriter,$modalEditor;
 
@@ -159,6 +166,11 @@ class ArticlesManagement extends Component
         $this->activeChild = Category::where('field_id',1)->where('parent_id',$this->activeParent)->first()->id;
     }
 
+    public function selectChildren($id)
+    {
+        $this->activeChild = $id;
+    }
+
     public function delete($id)
     {
     $delete = Article::findOrFail($id);
@@ -214,8 +226,11 @@ class ArticlesManagement extends Component
 
         $children = Category::with('children','parent')->where('field_id',1)->where('parent_id',$this->activeParent)->get();
 
-        $articles = Article::with('writer','editor')->where('category_id',$this->activeChild)->get();
-
+        $articles = Article::with('writer','editor')
+            ->where('category_id',$this->activeChild)
+            ->where('title','LIKE','%'.$this->search.'%')
+            ->orderBy($this->sort,$this->direction)
+            ->paginate($this->perPage);
 
         return view('livewire.dashboard.articles-management',compact('categories','children','articles'))
             ->layout('components.layouts.dashboards');

@@ -12,12 +12,10 @@
 
                     <select class="col-xxl-7 col-lg-4 text-lg-start my-lg-2 cs-navbar rounded-3 text-center py-1 mx-auto" wire:model.blur="position_id">
                         <option class="text-center bg-body text-body rounded-4"> سطح دسترسی </option>
-                        @foreach($position as $pose)
+                        @foreach($positions as $pose)
                             <option class="text-center bg-body text-body rounded-4" value="{{$pose->id}}">{{$pose->title}}</option>
                         @endforeach
                     </select>
-                    <div class="text-danger my-1">@error('position_id') {{ $message }} @enderror</div>
-
                     <div class="text-danger my-1">@error('position_id') {{ $message }} @enderror</div>
 
                     @if(!$editing)
@@ -65,56 +63,82 @@
 
     <div class="col-xl-8 my-5 mx-auto">
 
-        <div class="row mx-auto py-2 px-5 mx-3 rounded-4">
+        <div class="row my-3 px-5">
 
-            <div class="col-1 text-center mx-auto">
-                <input class="my-2" type="checkbox" wire:model.live="selectAll">
-                @if($selectAll || count($selected) > 1)
-                    <button class="btn btn-sm btn-danger" wire:click="selectedDelete" wire:confirm="آیا از حذف کاربران انتخاب شده مطمئن هستید؟"> حذف همه </button>
-                @endif
-
+            <div class="col-xl-6">
+            <input type="text" class="form-control" placeholder="جستجو..." wire:model.live="search">
             </div>
 
-            <div class="col-1 text-center mx-auto h5"> ردیف </div>
-
-            <div class="col-1 text-center mx-auto h5">نام</div>
-
-            <div class="col-2 text-center mx-auto h5">نام خانوادگی</div>
-
-            <div class="col-3 text-center mx-auto h5">ایمیل</div>
-
-            <div class="col-1 text-center mx-auto h5">عنوان</div>
-
-            <div class="col-1 text-center mx-auto h5">حذف</div>
-            <div class="col-1 text-center mx-auto h5">ویرایش</div>
+            <div class="col-xl-6 my-auto">
+                <select wire:model.live="perPage">
+                    <option value="5">5</option>
+                    <option value="10">10</option>
+                    <option value="25">25</option>
+                    <option value="">همه</option>
+                </select>
+            </div>
 
         </div>
 
-        @foreach($user as $users)
+        @if($users->isNotEmpty())
 
+            <div class="row mx-auto py-2 px-5 mx-3 rounded-4">
 
-            @if($users->position->level !== $maxLevel)
-        <div class="row border-bottom mx-auto py-3 my-3 px-5 mx-3">
+                <div class="col-1 text-center mx-auto">
+                    <input class="my-2" type="checkbox" wire:model.live="selectAll">
+                    @if($selectAll || count($selected) > 1)
+                        <button class="btn btn-sm btn-danger" wire:click="selectedDelete" wire:confirm="آیا از حذف کاربران انتخاب شده مطمئن هستید؟"> حذف همه </button>
+                    @endif
 
-            <div class="col-1 text-center mx-auto border"><input class="my-2" type="checkbox" value="{{$users->id}}" wire:model.live="selected"> </div>
+                </div>
 
-            <div class="col-1 text-center mx-auto border"> {{$counter++}} </div>
+                <div class="col-1 text-center mx-auto h5"> ردیف </div>
 
-            <div class="col-1 text-center mx-auto border">{{$users->name}}</div>
+                <div class="col-1 text-center mx-auto h5">نام</div>
 
-            <div class="col-2 text-center mx-auto border">{{$users->lastname}}</div>
+                <div class="col-2 text-center mx-auto h5">نام خانوادگی</div>
 
-            <div class="col-3 text-center mx-auto border">{{$users->email}}</div>
+                <div class="col-3 text-center mx-auto h5">ایمیل</div>
 
-            <div class="col-1 text-center mx-auto border"> {{ $users->position->title}}
+                <div class="col-1 text-center mx-auto h5">عنوان</div>
+
+                <div class="col-1 text-center mx-auto h5">حذف</div>
+                <div class="col-1 text-center mx-auto h5">ویرایش</div>
+
             </div>
+            @foreach($users as $user)
 
-            <div class="col-1 text-center mx-auto"><button class="btn btn-sm btn-danger" wire:click="delete({{$users->id}})" wire:confirm="آیا از حذف (( {{$users->name}}  {{$users->lastname}} )) مطمئن هستید؟">حذف</button></div>
-            <div class="col-1 text-center mx-auto"><button class="btn btn-sm btn-primary" wire:click="edit({{$users->id}})">ویرایش</button></div>
 
-        </div>
-            @endif
-        @endforeach
+
+
+                    <div class="row border-bottom mx-auto py-3 my-3 px-5 mx-3">
+
+                        <div class="col-1 text-center mx-auto"><input class="my-2" type="checkbox" value="{{$user->id}}" wire:model.live="selected"> </div>
+
+                        <div class="col-1 text-center mx-auto"> {{$counter++}} </div>
+
+                        <div class="col-1 text-center mx-auto">{{$user->name}}</div>
+
+                        <div class="col-2 text-center mx-auto">{{$user->lastname}}</div>
+
+                        <div class="col-3 text-center mx-auto">{{$user->email}}</div>
+
+                        <div class="col-1 text-center mx-auto"> {{ $user->position->title}}
+                        </div>
+
+                        <div class="col-1 text-center mx-auto"><button class="btn btn-sm btn-danger" wire:click="delete({{$user->id}})" wire:confirm="آیا از حذف (( {{$user->name}}  {{$user->lastname}} )) مطمئن هستید؟">حذف</button></div>
+                        <div class="col-1 text-center mx-auto"><button class="btn btn-sm btn-primary" wire:click="edit({{$user->id}})">ویرایش</button></div>
+
+                    </div>
+
+            @endforeach
+
+        @else
+            <div class="row mx-auto py-2 px-5 mx-3 rounded-4 text-center"><h2 class="text-danger">کاربری یافت نشد</h2></div>
+        @endif
+
+        {{$users->links(data:['scrollTo',false])}}
+
     </div>
 
 </div>

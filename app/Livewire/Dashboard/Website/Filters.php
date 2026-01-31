@@ -2,15 +2,19 @@
 
 namespace App\Livewire\Dashboard\Website;
 
+use Livewire\Component;
+use Livewire\WithPagination;
+
 use App\Models\Category;
 use App\Models\Field;
 use App\Models\Filter;
 use App\Models\SpecUnit;
 use App\Models\SpecValue;
-use Livewire\Component;
-
-class Filtes extends Component
+class Filters extends Component
 {
+    use WithPagination;
+    protected $paginationTheme = 'bootstrap';
+
     public $field_id,$category_id,$title,$type,$show,$activeField;
 
     public $counter = 1;
@@ -22,6 +26,12 @@ class Filtes extends Component
     public $filterModal = false;
 
     public $filterUnit,$filterTitle;
+
+    public $perPage = 5;
+    public $search = '';
+
+    public $sort = 'created_at';
+    public $direction = 'desc';
 
     public $rules = [
         'field_id' => 'required',
@@ -147,18 +157,30 @@ class Filtes extends Component
     public function render()
     {
         $fields = Field::all();
-        $categories = Category::where('parent_id',0)->get();
 
         if(!$this->activeField)
         {
             $this->activeField = Field::all()->last()->id;
         }
 
-        $filters = Filter::with('field','category','units')->where('field_id',$this->activeField)->get();
+        if($this->field_id)
+        {
+            $categories = Category::with('children','parent')->where('parent_id',0)->where('field_id',$this->field_id)->get();
+        }
+        else
+        {
+            $categories = Category::where('parent_id',0)->get();
+        }
+
+        $filters = Filter::with('category')
+            ->where('field_id',$this->activeField)
+            ->where('title','like','%'.$this->search.'%')
+            ->orderBy($this->sort,$this->direction)
+            ->paginate($this->perPage);
 
         $this->showed = Filter::where('field_id',$this->activeField)->where('show',1)->pluck('id')->toArray();
 
-        return view('livewire.dashboard.website.filtes',compact('fields','categories','filters'))
+        return view('livewire.dashboard.website.filters',compact('fields','categories','filters'))
             ->layout('components.layouts.dashboards');
     }
 }

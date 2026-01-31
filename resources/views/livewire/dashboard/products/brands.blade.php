@@ -72,6 +72,37 @@
 
     @if($brands->isNotEmpty())
 
+        <div class="row mt-4">
+
+            <div class="col-xl-3">
+                <input type="text" class="form-control" wire:model.live="search" placeholder="جستجو" autocomplete="off">
+            </div>
+
+            <div class="col-xl-1">
+                <select wire:model.live="perPage" class="form-select">
+                    <option value="5">5</option>
+                    <option value="10">10</option>
+                    <option value="25">25</option>
+                    <option value="">همه</option>
+                </select>
+            </div>
+
+            <div class="col-xl-2">
+                <select wire:model.live="sort" class="form-select">
+                    <option value="created_at">تاریخ ایجاد</option>
+                    <option value="name">نام</option>
+                </select>
+            </div>
+
+            <div class="col-xl-2 my-auto">
+                <select class="form-select" wire:model.live="direction">
+                    <option value="desc">نزولی</option>
+                    <option value="asc">صعودی</option>
+                </select>
+            </div>
+
+        </div>
+
         <div class="row border-bottom pb-3 my-5">
             <div class="col-xl-1 text-center"><input type="checkbox" wire:model.live="selectAll"></div>
             <div class="col-xl-1 text-center">ردیف</div>
@@ -94,7 +125,7 @@
 
         @foreach($brands as $brand)
 
-        <div class="row py-1 border rounded-4 mt-3">
+        <div class="row py-1 border rounded-4 my-3">
             <div class="col-xl-1 text-center my-auto"><input type="checkbox" value="{{$brand->id}}" wire:model.live="selected" ></div>
             <div class="col-xl-1 text-center my-auto">{{$counter++}}</div>
             <div class="col-xl-3 text-center my-auto">{{$brand->name}}</div>
@@ -133,7 +164,7 @@
         <div class="row py-3 border rounded-4 mt-5 text-danger text-center"><h3 class="my-auto"> برندی ثبت نشده است  </h3></div>
     @endif
 
-
+    {{$brands->links(data:['scrollTo',false])}}
 
 
 

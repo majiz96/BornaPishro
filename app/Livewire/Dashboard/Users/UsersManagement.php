@@ -3,14 +3,20 @@
 namespace App\Livewire\Dashboard\Users;
 
 use Illuminate\Validation\Rules\Password;
+
 use Livewire\Component;
 use Livewire\Attributes\Validate;
+use Livewire\WithPagination;
 
 use App\Models\User;
 use App\Models\Position;
 
 class UsersManagement extends Component
 {
+    use WithPagination;
+
+    protected $paginationTheme = 'bootstrap';
+
     public string $title = 'مدیریت کاربران';
     public int $counter = 1;
 
@@ -24,6 +30,9 @@ class UsersManagement extends Component
 
     public $selected = [];
     public $selectAll = false;
+
+    public $perPage = 5;
+    public $search = '';
 
     public function edit($id)
     {
@@ -125,9 +134,22 @@ class UsersManagement extends Component
 
     public function render()
     {
-        return view('livewire.dashboard.users.users-management',['user'=>User::with('position')->get(),
-            'position'=>Position::orderBy('level','asc')->get(),
-            'maxLevel'=>Position::max('level')])
+        $maxLevel = Position::max('level');
+
+        $positions = Position::with('users')->where('level', '<', $maxLevel)->get();
+
+
+        $users = User::whereHas('position', function($q) use($maxLevel) {
+            $q->where('level', '<', $maxLevel);
+        })
+            ->with('position')
+            ->where('name', 'like', '%' . $this->search . '%')
+            ->orWhere('lastname', 'like', '%' . $this->search . '%')
+            ->orWhere('email', 'like', '%' . $this->search . '%')
+            ->paginate($this->perPage);
+
+
+        return view('livewire.dashboard.users.users-management',compact('users','positions'))
             ->layout('components.layouts.dashboards');
     }
 }

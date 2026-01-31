@@ -21,7 +21,6 @@
             <label for="display" class="form-label">نحوه نمایش</label>
             <select id="display" wire:model.live="display" class="form-select">
                 <option value="">انتخاب کنید...</option>
-                <option value="خانه">زیر نوبار (صفحه اصلی)</option>
                 <option value="نماد">اعلانات نوبار</option>
                 <option value="ایمیل">ایمیل</option>
                 <option value="اسلایدر">اسلایدر</option>
@@ -121,7 +120,43 @@
     </form>
 
 
-    <div class="row mt-5 border rounded-4 p-2">
+    <div class="row my-5 border rounded-4 p-2">
+
+        <div class="row my-3 mx-auto">
+
+            <div class="col-xl-3">
+            <input type="text" class="form-control" placeholder="جستجو..." wire:model.live="search">
+            </div>
+
+            <div class="col-xl-1 my-auto">
+                <select class="form-select" wire:model.live="perPage">
+                    <option value="5">5</option>
+                    <option value="10">10</option>
+                    <option value="25">25</option>
+                    <option value="">همه</option>
+                </select>
+            </div>
+
+            <div class="col-xl-2 my-auto">
+                <select class="form-select" wire:model.live="sort">
+                    <option value="created_at">تاریخ</option>
+                    <option value="title">عنوان</option>
+                    <option value="display">نمایش</option>
+                    <option value="contact">مخاطب</option>
+                    <option value="expired_at">انقضاء</option>
+                    <option value="style">تم</option>
+                    <option value="status">فعال</option>
+                </select>
+            </div>
+
+            <div class="col-xl-1 my-auto">
+                <select class="form-select" wire:model.live="direction">
+                    <option value="desc">نزولی</option>
+                    <option value="asc">صعودی</option>
+                </select>
+            </div>
+
+        </div>
 
         @if($notices->isNotEmpty())
 
@@ -150,6 +185,8 @@
                 @endif
 
             </div>
+
+
             </div>
 
 
@@ -159,7 +196,7 @@
 
 
 
-            <div class="row mx-auto py-2 border rounded-3 mt-4 mb-1">
+            <div class="row mx-auto py-2 border rounded-3 my-4 mb-1">
 
                 <div class="col-xl-1 text-end">
                     <input class="mt-2 mx-3" type="checkbox" value="{{$notice->id}}" wire:model.live="selected">
@@ -200,6 +237,8 @@
             <div class="row mt-1 text-center text-danger"> <h3> هیچ پیامی ارسال نشده است </h3> </div>
 
         @endif
+
+    {{$notices->links(data:['scrollTo',false])}}
 
 
     </div>

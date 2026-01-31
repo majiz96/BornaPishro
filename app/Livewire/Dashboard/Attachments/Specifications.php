@@ -2,7 +2,7 @@
 
 namespace App\Livewire\Dashboard\Attachments;
 
-use App\Livewire\Dashboard\Website\Filtes;
+use App\Livewire\Dashboard\Website\Filters;
 use App\Models\Filter;
 use App\Models\Product;
 use App\Models\Specification;

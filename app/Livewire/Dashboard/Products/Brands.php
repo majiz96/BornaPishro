@@ -4,18 +4,28 @@ namespace App\Livewire\Dashboard\Products;
 
 use App\Models\Brand;
 use Illuminate\Support\Facades\Storage;
+
 use Livewire\Component;
 use Livewire\WithFileUploads;
+use Livewire\WithPagination;
 
 class Brands extends Component
 {
-    use WithFileUploads;
+    use WithFileUploads, WithPagination;
+
+    protected $paginationTheme = 'bootstrap';
+
     public $name,$description,$logo,$cover;
     public int $counter = 1;
     public $editing = null;
 
     public $selected = [];
     public $selectAll = false;
+
+    public $perPage = 5;
+    public $search = '';
+    public $sort = 'created_at';
+    public $direction = 'desc';
 
     protected $rules = [
         'name'=>'required|string',
@@ -189,7 +199,11 @@ class Brands extends Component
 
     public function render()
     {
-        return view('livewire.dashboard.products.brands', ['brands' => Brand::all()])
+        $brands = Brand::orderBy($this->sort,$this->direction)
+            ->where('name','LIKE','%'.$this->search.'%')
+            ->paginate($this->perPage);
+
+        return view('livewire.dashboard.products.brands', compact('brands'))
             ->layout('components.layouts.dashboards');
     }
 }

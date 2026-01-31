@@ -6,7 +6,7 @@
 
         <div class="col-xl-1 my-auto"><label for="title">عنوان فیلتر</label></div>
         <div class="col-xl-3 my-auto">
-            <input type="text" id="title" class="form-control" wire:model.blur="title">
+            <input type="text" id="title" class="form-control" wire:model.blur="title" autocomplete="off">
             @error('title') <small class="text-danger"> {{$message}} </small> @enderror
         </div>
 
@@ -49,7 +49,23 @@
                     @if($categories->isNotEmpty())
 
                         @foreach($categories as $category)
+
+                            @if($category->children->isNotEmpty())
+
+                                <optgroup label="{{$category->name}}">
+                                    @foreach($category->children as $child)
+
+                                    <option value="{{$child->id}}">{{$child->name}}</option>
+
+                                    @endforeach
+                                </optgroup>
+
+                            @else
                                 <option value="{{$category->id}}"> {{$category->name}} </option>
+                            @endif
+
+
+
                         @endforeach
 
                     @else
@@ -97,6 +113,36 @@
 
         @endforeach
         </div>
+            <div class="row my-2">
+                <div class="col-xl-6"><input type="text" class="form-control" placeholder="جستجو..." wire:model.live="search"></div>
+
+                <div class="col-xl-1 my-auto">
+                    <select class="form-select" wire:model.live="perPage">
+                        <option value="5">5</option>
+                        <option value="10">10</option>
+                        <option value="25">25</option>
+                        <option value="">همه</option>
+                    </select>
+                </div>
+
+                <div class="col-xl-2 my-auto">
+                    <select wire:model.live="sort" class="form-select">
+                        <option value="created_at">تاریخ</option>
+                        <option value="title">نام</option>
+                        <option value="category_id">دسته</option>
+                        <option value="type">نوع</option>
+                    </select>
+                </div>
+
+
+                <div class="col-xl-2 my-auto">
+                    <select wire:model.live="direction" class="form-select">
+                        <option value="desc">نزولی</option>
+                        <option value="asc">صعودی</option>
+                    </select>
+                </div>
+            </div>
+
         @if($filters->isNotEmpty())
 
             <div class="cs-navbar row text-center py-2 mt-4 mb-2 border rounded-4">
@@ -121,8 +167,7 @@
                 <div class="col-xl-1 my-auto">ردیف</div>
                 <div class="col-xl-2 my-auto">عنوان</div>
                 <div class="col-xl-1 my-auto">نوع نمایش</div>
-                <div class="col-xl-1 my-auto">موضوع</div>
-                <div class="col-xl-2 my-auto">دسته</div>
+                <div class="col-xl-3 my-auto">دسته</div>
                 <div class="col-xl-1 my-auto">مقادیر</div>
 
                 <div class="col-xl-1 my-auto">
@@ -143,15 +188,14 @@
             </div>
 
                 @foreach($filters as $filter)
-                <div class="row text-center py-2 mt-3 border rounded-4">
+                <div class="row text-center py-2 my-3 border rounded-4">
 
                     <div class="col-xl-1 my-auto"><input type="checkbox" wire:model.live="selected" value="{{$filter->id}}"></div>
                     <div class="col-xl-1 my-auto"><input type="checkbox" wire:change="toggleShow({{$filter->id}})" @checked($filter->show == 1)></div>
                     <div class="col-xl-1 my-auto">{{$counter++}}</div>
                     <div class="col-xl-2 my-auto">{{$filter->title}}</div>
                     <div class="col-xl-1 my-auto">{{$filter->type}}</div>
-                    <div class="col-xl-1 my-auto">{{$filter->field->name}}</div>
-                    <div class="col-xl-2 my-auto">{{$filter->category->name}}</div>
+                    <div class="col-xl-3 my-auto">{{$filter->category->name}}</div>
 
                     <div class="col-xl-1 my-auto"> <button class="btn btn-sm btn-success rounded-3" wire:click="showModal({{$filter->id}})"> مشاهده </button> </div>
 
@@ -168,7 +212,6 @@
                     @include('modals.see-filters')
                 @endforeach
 
-
         @else
             <div class="row text-center py-2 mt-4 border rounded-4"> <h3 class="text-danger my-auto"> فیلتری در این زمینه ثبت نکرده اید </h3> </div>
         @endif
@@ -177,5 +220,6 @@
         <div class="row text-center py-2 mt-4 border rounded-4"> <h3 class="text-danger"> موضوعی ثبت نکرده اید </h3> </div>
     @endif
 
+    {{$filters->links(data:['scrollTo',false])}}
 
 </div>
