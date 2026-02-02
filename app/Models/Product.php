@@ -40,9 +40,23 @@ class Product extends Model
         return $this->hasOne(Brief::class);
     }
 
+    protected $with = ['specification'];
     public function specification(): hasMany
     {
         return $this->hasMany(Specification::class);
+    }
+
+    public function getPriceRangeAttribute()
+    {
+        $prices = $this->specification
+            ->pluck('price')
+            ->filter();
+
+        return match (true) {
+            $prices->isEmpty()      => 'استعلام بگیرید',
+            $prices->count() === 1  => number_format($prices->first()),
+            default                 => number_format($prices->min()) . ' تا ' . number_format($prices->max()),
+        };
     }
 
     public function videos():MorphMany

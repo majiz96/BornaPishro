@@ -149,13 +149,13 @@ i
 {
     width: 80%;
 }
-
-.main-img
+.main-img img
 {
     width: 80%;
-    height: 80%;
 }
+
 .comment
 {
     max-height: auto !important;
 }
+
