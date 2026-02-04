@@ -121,7 +121,10 @@
             </div>
         @endif
 
+        @if($perPage !== "")
         {{$comm->links(data:['scrollTo',false])}}
+        @endif
+
 
     </div>
 

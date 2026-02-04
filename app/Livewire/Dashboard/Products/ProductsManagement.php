@@ -186,12 +186,13 @@ class ProductsManagement extends Component
     {
      $categories = Category::with('children','parent')->where('field_id',3)->where('parent_id',0)->get();
      $brands = Brand::all();
-     $products = Product::with('category','brand','brief','specification','comments')
+     $query = Product::with('category','brand','brief','specification','comments')
          ->where('name','LIKE','%'.$this->search.'%')
          ->orWhere('fullname','LIKE','%'.$this->search.'%')
          ->orWhere('brand_name','LIKE','%'.$this->search.'%')
-         ->orderBy($this->sort,$this->direction)
-         ->paginate($this->perPage);
+         ->orderBy($this->sort,$this->direction);
+
+        $products = ($this->perPage == "") ? $query->get() : $query->paginate($this->perPage);
 
         return view('livewire.dashboard.products.products-management',compact('products','categories','brands'))
             ->layout('components.layouts.dashboards');

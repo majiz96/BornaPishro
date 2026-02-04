@@ -23,6 +23,9 @@ class Products extends Component
 
     public $valueSearch;
 
+    public $priceMax;
+    public $priceMin;
+
     public function categoryReset()
     {
         $this->activeCategory = [];
@@ -71,7 +74,6 @@ class Products extends Component
                 $q->whereIn('id', $this->activeFilter);
             });
         }
-
 
         return $query->get();
     }

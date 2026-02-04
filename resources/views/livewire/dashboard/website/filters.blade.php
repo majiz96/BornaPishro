@@ -220,6 +220,8 @@
         <div class="row text-center py-2 mt-4 border rounded-4"> <h3 class="text-danger"> موضوعی ثبت نکرده اید </h3> </div>
     @endif
 
+    @if($perPage !== "")
     {{$filters->links(data:['scrollTo',false])}}
+    @endif
 
 </div>

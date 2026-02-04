@@ -146,13 +146,15 @@ class Communications extends Component
 
     public function render()
     {
-        $comm = Communication::with('user','files')
+
+        $query = Communication::with('user','files')
             ->where('name','LIKE','%'.$this->search.'%')
             ->orWhere('subject','LIKE','%'.$this->search.'%')
             ->orWhere('email','LIKE','%'.$this->search.'%')
             ->orWhere('phone','LIKE','%'.$this->search.'%')
-            ->orderBy($this->sort,$this->direction)
-            ->paginate($this->perPage);
+            ->orderBy($this->sort,$this->direction);
+
+            $comm = ($this->perPage == "") ? $query->get() : $query->paginate($this->perPage);
 
         return view('livewire.dashboard.website.communications',compact('comm'))
             ->layout('components.layouts.dashboards');

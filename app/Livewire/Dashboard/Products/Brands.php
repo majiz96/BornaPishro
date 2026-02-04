@@ -199,9 +199,9 @@ class Brands extends Component
 
     public function render()
     {
-        $brands = Brand::orderBy($this->sort,$this->direction)
-            ->where('name','LIKE','%'.$this->search.'%')
-            ->paginate($this->perPage);
+        $query = Brand::orderBy($this->sort,$this->direction)
+            ->where('name','LIKE','%'.$this->search.'%');
+            $brands = ($this->perPage == "") ? $query->get() : $query->paginate($this->perPage);
 
         return view('livewire.dashboard.products.brands', compact('brands'))
             ->layout('components.layouts.dashboards');

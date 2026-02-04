@@ -172,11 +172,12 @@ class Filters extends Component
             $categories = Category::where('parent_id',0)->get();
         }
 
-        $filters = Filter::with('category')
+        $query = Filter::with('category')
             ->where('field_id',$this->activeField)
             ->where('title','like','%'.$this->search.'%')
-            ->orderBy($this->sort,$this->direction)
-            ->paginate($this->perPage);
+            ->orderBy($this->sort,$this->direction);
+
+        $filters = ($this->perPage == "") ? $query->get() : $query->paginate($this->perPage);
 
         $this->showed = Filter::where('field_id',$this->activeField)->where('show',1)->pluck('id')->toArray();
 

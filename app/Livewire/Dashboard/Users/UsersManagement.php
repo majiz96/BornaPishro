@@ -33,6 +33,8 @@ class UsersManagement extends Component
 
     public $perPage = 5;
     public $search = '';
+    public $sort = 'created_at';
+    public $direction = 'desc';
 
     public function edit($id)
     {
@@ -139,14 +141,17 @@ class UsersManagement extends Component
         $positions = Position::with('users')->where('level', '<', $maxLevel)->get();
 
 
-        $users = User::whereHas('position', function($q) use($maxLevel) {
-            $q->where('level', '<', $maxLevel);
+        $query = User::whereHas('position', function($q) use($maxLevel) {
+            $q->where('level','<', $maxLevel);
         })
             ->with('position')
-            ->where('name', 'like', '%' . $this->search . '%')
-            ->orWhere('lastname', 'like', '%' . $this->search . '%')
-            ->orWhere('email', 'like', '%' . $this->search . '%')
-            ->paginate($this->perPage);
+            ->where(function($q){
+                $q->where('name', 'like', '%' . $this->search . '%')
+                    ->orWhere('lastname', 'like', '%' . $this->search . '%')
+                    ->orWhere('email', 'like', '%' . $this->search . '%');
+            })->orderBy($this->sort,$this->direction);
+
+        $users = ($this->perPage == "") ? $query->get() : $query->paginate($this->perPage);
 
 
         return view('livewire.dashboard.users.users-management',compact('users','positions'))

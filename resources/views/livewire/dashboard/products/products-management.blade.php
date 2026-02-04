@@ -254,6 +254,9 @@
 
     @endif
 
-    {{$products->links(data:['scrollTo',false])}}
+    @if($perPage !== "")
+        {{$products->links(data:['scrollTo',false])}}
+    @endif
+
 
 </div>

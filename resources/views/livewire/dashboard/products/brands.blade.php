@@ -164,7 +164,9 @@
         <div class="row py-3 border rounded-4 mt-5 text-danger text-center"><h3 class="my-auto"> برندی ثبت نشده است  </h3></div>
     @endif
 
-    {{$brands->links(data:['scrollTo',false])}}
+    @if($perPage !== "")
+        {{$brands->links(data:['scrollTo',false])}}
+    @endif
 
 
 

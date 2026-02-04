@@ -238,7 +238,9 @@
 
         @endif
 
+    @if($perPage !== "")
     {{$notices->links(data:['scrollTo',false])}}
+    @endif
 
 
     </div>

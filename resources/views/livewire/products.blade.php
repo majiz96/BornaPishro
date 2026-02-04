@@ -63,38 +63,41 @@
             <div class="col-lg-2 border home-blocks rounded-end-4 mt-3">
 
 
-                @if($this->filters->isNotEmpty())
-                    @foreach($this->filters as $filter)
+                <div class="row">
+                    @if($this->filters->isNotEmpty())
+                        @foreach($this->filters as $filter)
 
-                        <div class="row m-2 text-end border-bottom">
-                            <h5>{{$filter->title}}</h5>
+                            <div class="row m-2 text-end border-bottom mx-auto">
+                                <h5>{{$filter->title}}</h5>
 
-                            @if($filter->units->isNotEmpty())
-                                @foreach($filter->units as $unit)
+                                @if($filter->units->isNotEmpty())
+                                    @foreach($filter->units as $unit)
 
-                                    @foreach($unit->values as $value)
+                                        @foreach($unit->values as $value)
 
-                                        <div class="row">
-                                            <div class="col-xl-8 text-end">
-                                                {{$value->value}}
-                                                @if($value->suffix)
-                                                    {{$value->suffix}}
-                                                @endif
+                                            <div class="row">
+                                                <div class="col-xl-8 text-end">
+                                                    {{$value->value}}
+                                                    @if($value->suffix)
+                                                        {{$value->suffix}}
+                                                    @endif
+                                                </div>
+
+                                                <div class="col-xl-4 text-start">
+                                                    <input type="{{$filter->type}}" wire:model.live="activeFilter" value="{{$value->id}}">
+                                                </div>
                                             </div>
 
-                                            <div class="col-xl-4 text-start">
-                                                <input type="{{$filter->type}}" wire:model.live="activeFilter" value="{{$value->id}}">
-                                            </div>
-                                        </div>
-
-                                        <br>
+                                            <br>
+                                        @endforeach
                                     @endforeach
-                                @endforeach
-                            @endif
+                                @endif
 
-                        </div>
-                    @endforeach
-                @endif
+                            </div>
+                        @endforeach
+                    @endif
+                </div>
+
             </div>
 
             <div class="col-lg-10 border home-blocks rounded-start-4 mt-3 px-4">

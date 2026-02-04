@@ -243,6 +243,8 @@
 
     </div>
 
+    @if($perPage !== "")
         {{$articles->links(data:['scrollTo',false])}}
+    @endif
 
 </div>

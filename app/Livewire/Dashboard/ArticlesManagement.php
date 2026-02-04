@@ -226,13 +226,16 @@ class ArticlesManagement extends Component
 
         $children = Category::with('children','parent')->where('field_id',1)->where('parent_id',$this->activeParent)->get();
 
-        $articles = Article::with('writer','editor')
+        $query = Article::with('writer','editor')
             ->where('category_id',$this->activeChild)
             ->where('title','LIKE','%'.$this->search.'%')
-            ->orderBy($this->sort,$this->direction)
-            ->paginate($this->perPage);
+            ->orderBy($this->sort,$this->direction);
+
+        $articles = ($this->perPage == "") ? $query->get() : $query->paginate($this->perPage);
 
         return view('livewire.dashboard.articles-management',compact('categories','children','articles'))
             ->layout('components.layouts.dashboards');
+
+
     }
 }

@@ -212,14 +212,18 @@ class Notices extends Component
     {
         $positions =Position::OrderBy('level','DESC')->get();
 
-        $notices = Notice::with('position')
+        $query = Notice::with('position')
             ->where('title','like','%'.$this->search.'%')
             ->orWhere('expired_at','like','%'.$this->search.'%')
             ->orWhere('contact','like','%'.$this->search.'%')
             ->orWhere('display','like','%'.$this->search.'%')
             ->orWhere('style','like','%'.$this->search.'%')
-            ->orderBy($this->sort,$this->direction)
-            ->paginate($this->perPage);
+            ->orderBy($this->sort,$this->direction);
+
+        $notices =
+            ($this->perPage == "")
+            ? $query->get()
+                : $query->paginate($this->perPage);
 
         return view('livewire.dashboard.website.notices',compact('positions','notices'))
             ->layout('components.layouts.dashboards');
