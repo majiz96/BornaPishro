@@ -40,15 +40,15 @@ class Product extends Model
         return $this->hasOne(Brief::class);
     }
 
-    protected $with = ['specification'];
-    public function specification(): hasMany
+    protected $with = ['specifications'];
+    public function specifications(): hasMany
     {
         return $this->hasMany(Specification::class);
     }
 
     public function getPriceRangeAttribute()
     {
-        $prices = $this->specification
+        $prices = $this->specifications
             ->pluck('price')
             ->filter();
 

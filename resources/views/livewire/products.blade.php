@@ -62,6 +62,27 @@
 
             <div class="col-lg-2 border home-blocks rounded-end-4 mt-3">
 
+                <div class="row my-3">
+                    <div class="col-xl-11 text-end"><label for="togglePrice">فقط محصولات قیمت دار</label></div>
+                    <div class="col-xl-1 text-end"><input type="checkbox" name="togglePrice" wire:change="togglePrice"></div>
+                </div>
+
+
+                <div class="my-5 px-4">
+
+                    <div wire:ignore>
+                        <div id="priceSlider"></div>
+                    </div>
+
+                    <div class="d-flex justify-content-between mt-2">
+                        <span>{{ number_format($priceMin) }} تومان</span>
+                        <span>{{ number_format($priceMax) }} تومان</span>
+                    </div>
+
+                </div>
+
+
+
 
                 <div class="row">
                     @if($this->filters->isNotEmpty())
@@ -137,3 +158,36 @@
 
 
 </div>
+<script>
+    function initSlider() {
+        const slider = document.getElementById('priceSlider');
+        if (!slider) return;
+
+        if (slider.noUiSlider) {
+            slider.noUiSlider.destroy();
+        }
+
+        noUiSlider.create(slider, {
+            start: [@js($priceMin), @js($priceMax)],
+            connect: true,
+            direction: 'rtl',
+            range: {
+                'min': @js($this->priceLimits['min']),
+                'max': @js($this->priceLimits['max'])
+            }
+        });
+
+        slider.noUiSlider.on('update', function(values) {
+            Livewire.dispatch('updatePriceRange', {
+                min: Math.round(values[0]),
+                max: Math.round(values[1])
+            });
+        });
+    }
+
+    document.addEventListener('livewire:load', initSlider);
+    document.addEventListener('livewire:navigated', initSlider);
+</script>
+
+
+
