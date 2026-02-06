@@ -159,4 +159,36 @@ i
     max-height: auto !important;
 }
 
+/* NoUiSlider */
+/* تم روشن */
+[data-bs-theme="light"] .noUi-connect {
+    background: #84919e !important; /* آبی */
+}
 
+[data-bs-theme="light"] .noUi-target {
+    background: #f3f4f6 !important;
+    border-color: #d1d5db;
+}
+
+[data-bs-theme="light"] .noUi-handle {
+    background: #ffffff !important;
+    border-color: #84919e;
+    border-radius: 0.5rem;
+}
+
+/* تم تاریک */
+[data-bs-theme="dark"] .noUi-connect {
+    background: #84919e !important; /* آبی روشن */
+}
+
+[data-bs-theme="dark"] .noUi-target {
+    background: #374151 !important;
+    border-color: #4b5563;
+}
+
+[data-bs-theme="dark"] .noUi-handle {
+    background: #1f2937 !important;
+    border-color: #b5b5b5;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.4);
+    border-radius: 0.5rem;
+}

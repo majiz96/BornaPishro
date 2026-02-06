@@ -60,28 +60,39 @@
 
             </div>
 
-            <div class="col-lg-2 border home-blocks rounded-end-4 mt-3">
+            <div class="col-lg-2 border home-blocks rounded-end-4 mt-3 px-4">
 
-                <div class="row my-3">
-                    <div class="col-xl-11 text-end"><label for="togglePrice">فقط محصولات قیمت دار</label></div>
-                    <div class="col-xl-1 text-end"><input type="checkbox" name="togglePrice" wire:change="togglePrice"></div>
+                <div class="row my-3 px-3">
+                    <div class="col-xl-11 text-end">
+                        <label for="togglePrice" class="cursor-pointer">
+                            <span class="fw-bold">فقط محصولات دارای قیمت</span>
+                        </label>
+                    </div>
+                    <div class="col-xl-1 text-end">
+                        <input
+                            type="checkbox"
+                            id="togglePrice"
+                            wire:model.live="priceCheck"
+                            class="form-check-input cursor-pointer"
+                            style="width: 1.2rem; height: 1.2rem;"
+                        >
+                    </div>
+
                 </div>
 
-
-                <div class="my-5 px-4">
+                <div class="my-5 px-3">
+                    <h6 class="mb-3">محدوده قیمت:</h6>
 
                     <div wire:ignore>
                         <div id="priceSlider"></div>
                     </div>
 
-                    <div class="d-flex justify-content-between mt-2">
-                        <span>{{ number_format($priceMin) }} تومان</span>
-                        <span>{{ number_format($priceMax) }} تومان</span>
+                    <div class="d-flex justify-content-between mt-3">
+                        <small class="">{{ number_format($priceMin) }} تومان</small>
+                        <small class="">{{ number_format($priceMax) }} تومان</small>
                     </div>
 
                 </div>
-
-
 
 
                 <div class="row">
@@ -124,6 +135,7 @@
             <div class="col-lg-10 border home-blocks rounded-start-4 mt-3 px-4">
 
                 <div class="row">
+
                     @foreach($this->products as $product)
                         <a href="{{ route('product.show',$product->id) }}" class="col-xl-2 col-md-4 py-3 mx-auto delete-badge text-decoration-none">
 
@@ -158,36 +170,43 @@
 
 
 </div>
+
 <script>
-    function initSlider() {
+    document.addEventListener('livewire:init', function() {
         const slider = document.getElementById('priceSlider');
         if (!slider) return;
 
-        if (slider.noUiSlider) {
-            slider.noUiSlider.destroy();
-        }
-
-        noUiSlider.create(slider, {
+        const sliderInstance = noUiSlider.create(slider, {
             start: [@js($priceMin), @js($priceMax)],
             connect: true,
             direction: 'rtl',
             range: {
-                'min': @js($this->priceLimits['min']),
-                'max': @js($this->priceLimits['max'])
+                'min': @js($priceMin),
+                'max': @js($priceMax)
+            },
+            step: 100000
+        });
+
+        sliderInstance.on('update', function(values) {
+            @this.call('updatePriceRange',
+                Math.round(values[0]),
+                Math.round(values[1])
+            );
+        });
+
+        Livewire.on('updateSlider', function(data) {
+            sliderInstance.updateOptions({
+                range: { min: data.min, max: data.max }
+            });
+
+            const currentValues = sliderInstance.get();
+            let newMin = Math.max(currentValues[0], data.min);
+            let newMax = Math.min(currentValues[1], data.max);
+
+            if (newMin !== currentValues[0] || newMax !== currentValues[1]) {
+                sliderInstance.set([newMin, newMax]);
             }
         });
-
-        slider.noUiSlider.on('update', function(values) {
-            Livewire.dispatch('updatePriceRange', {
-                min: Math.round(values[0]),
-                max: Math.round(values[1])
-            });
-        });
-    }
-
-    document.addEventListener('livewire:load', initSlider);
-    document.addEventListener('livewire:navigated', initSlider);
+    });
 </script>
-
-
 
