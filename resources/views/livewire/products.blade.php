@@ -139,10 +139,10 @@
                     @foreach($this->products as $product)
                         <a href="{{ route('product.show',$product->id) }}" class="col-xl-2 col-md-4 py-3 mx-auto delete-badge text-decoration-none">
 
-                            <div class="main-img text-center overflow-hidden border bg-white pb-3 mb-0 rounded-top-4 cs-border">
-                                <img class="rounded-4 mt-1" src="{{asset('storage/products/'.$product->image) }}" height="180" alt="پیش نمایش">
+                            <div class="main-img text-center overflow-hidden border bg-white pb-3 mb-0 rounded-top-4">
+                                <img class="rounded-top-4" src="{{asset('storage/products/'.$product->image) }}" height="180" alt="پیش نمایش">
 
-                                <div class="row mt-0 mb-2"> <h3 style="color:#84919e"> {{$product->name}} </h3> </div>
+                                <div class="row mt-1"> <h3 style="color:#84919e"> {{$product->name}} </h3> </div>
 
                             </div>
 

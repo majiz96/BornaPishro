@@ -95,8 +95,6 @@ class ProductsManagement extends Component
 
                 $imagename = uniqid('product_').'.'.$this->image->getClientOriginalName();
                 $this->image->storeAs('products',$imagename,'public');
-
-
             }
             else
             {
@@ -140,7 +138,7 @@ class ProductsManagement extends Component
             ]);
 
             $product->brief()->create([]);
-            $product->specification()->create(['name'=>'جدول اصلی']);
+            $product->specifications()->create(['name'=>'جدول اصلی']);
 
             $this->reset(['name','fullname','category_id','brand_id','brand_name','intro','image']);
 
@@ -186,7 +184,7 @@ class ProductsManagement extends Component
     {
      $categories = Category::with('children','parent')->where('field_id',3)->where('parent_id',0)->get();
      $brands = Brand::all();
-     $query = Product::with('category','brand','brief','specification','comments')
+     $query = Product::with('category','brand','brief','specifications','comments')
          ->where('name','LIKE','%'.$this->search.'%')
          ->orWhere('fullname','LIKE','%'.$this->search.'%')
          ->orWhere('brand_name','LIKE','%'.$this->search.'%')

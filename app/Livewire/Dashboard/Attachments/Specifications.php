@@ -121,7 +121,7 @@ class Specifications extends Component
                 'price.numeric'=>'قیمت وارد شده باید عددی باشد',
             ]);
 
-            $this->product->specification()->create([
+            $this->product->specifications()->create([
                 'spec_id'=>$this->activeTable,
                 'name' => $this->name,
                 'price' => $this->price,
@@ -426,7 +426,6 @@ class Specifications extends Component
 
         if ($this->product->category->parent_id == null)
         {
-
         $filters = Filter::where('field_id',3)->where('category_id',$this->product->category_id)->get();
         }
         else
