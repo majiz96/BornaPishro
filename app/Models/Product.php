@@ -59,6 +59,30 @@ class Product extends Model
         };
     }
 
+    public function getHasPriceAttribute()
+    {
+        return $this->specifications->whereNotNull('price')->isNotEmpty();
+    }
+
+    public function getMinPriceAttribute()
+    {
+        return $this->specifications->pluck('price')->filter()->min();
+    }
+    public function getMaxPriceAttribute()
+    {
+        return $this->specifications->pluck('price')->filter()->max();
+    }
+
+    public function isInPriceRange($min, $max)
+    {
+        if(!$this->has_price)
+        {
+            return false;
+        }
+
+        return $this->specifications->pluck('price')->filter()->contains(fn($price) => $price >= $min && $price <= $max);
+    }
+
     public function videos():MorphMany
     {
         return $this->morphMany(Video::class, 'videoable');

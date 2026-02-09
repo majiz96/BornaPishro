@@ -20,60 +20,10 @@ class Products extends Component
     public function mount()
     {
         // مقداردهی اولیه با محدوده کل محصولات
-        $this->priceMin = Specification::min('price') ?? 0;
-        $this->priceMax = Specification::max('price') ?? 1000000000;
-    }
-
-    public function updatedActiveCategory()
-    {
-        // وقتی دسته تغییر کرد، محدوده اسلایدر رو به‌روز کن
-        $this->updateSliderRange();
-    }
-
-    public function updatedActiveFilter()
-    {
-        $this->updateSliderRange();
-    }
-
-    protected function updateSliderRange()
-    {
-        $productsId = $this->getBaseProductIds();
-
-        $min = Specification::whereIn('product_id', $productsId)->min('price') ?? 0;
-        $max = Specification::whereIn('product_id', $productsId)->max('price') ?? 1000000000;
-
-        $this->dispatch('updateSlider', [
-            'min' => $min,
-            'max' => $max,
-            'currentMin' => $this->priceMin,
-            'currentMax' => $this->priceMax
-        ]);
+        $this->priceMin = (int) Product::get()->min('min_price') ?? 0;
+        $this->priceMax = (int) Product::get()->max('max_price') ?? 1000000000;
 
     }
-
-    protected function getBaseProductIds()
-    {
-        $query = Product::query();
-
-        $allCategories = array_merge(
-            $this->activeCategory,
-        Category::whereIn('parent_id',$this->activeCategory)->pluck('id')->toArray()
-        );
-
-        if(!empty($allCategories)){
-            $query->whereIn('category_id', $allCategories);
-        }
-
-        if(!empty($this->activeFilter)){
-            $query->whereHas('specifications.group.units.values', function ($q) {
-               $q->whereIn('id', $this->activeFilter);
-            });
-        }
-
-        return $query->pluck('id');
-
-    }
-
 
     #[Computed]
     public function categories()
@@ -105,28 +55,16 @@ class Products extends Component
             });
         }
 
-        // قیمت
-        if ($this->priceCheck) {
-            // فقط محصولات با قیمت در محدوده
-            $query->whereHas('specifications', function($q) {
-                $q->whereNotNull('price')
-                    ->whereBetween('price', [$this->priceMin, $this->priceMax]);
-            });
-        } else {
-            // محصولات با قیمت در محدوده + بدون قیمت
-            $query->where(function($q) {
-                $q->whereHas('specifications', function($q2) {
-                    $q2->whereNotNull('price')
-                        ->whereBetween('price', [$this->priceMin, $this->priceMax]);
-                })->orWhereDoesntHave('specifications', function($q2) {
-                    $q2->whereNotNull('price');
-                });
-            });
+       $products = $query->get();
 
+        return $products->filter(function ($product) {
 
-        }
+            if(!$product->has_price){
+                return !$this->priceCheck;
+            }
 
-        return $query->get();
+            return $product->isInPriceRange($this->priceMin, $this->priceMax);
+        });
     }
 
     #[Computed]
@@ -165,7 +103,6 @@ class Products extends Component
     {
         $this->activeCategory = [];
         $this->activeFilter = [];
-        $this->updateSliderRange();
     }
 
     public function render()
