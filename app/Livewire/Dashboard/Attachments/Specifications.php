@@ -3,6 +3,7 @@
 namespace App\Livewire\Dashboard\Attachments;
 
 use App\Livewire\Dashboard\Website\Filters;
+use App\Models\Category;
 use App\Models\Filter;
 use App\Models\Product;
 use App\Models\Specification;
@@ -14,7 +15,7 @@ use Livewire\Component;
 
 class Specifications extends Component
 {
-    public $product,$name,$price,$group,$title,$value,$suffix;
+    public $product,$category,$name,$price,$group,$title,$value,$suffix;
 
     public int $filter_id = 0;
 
@@ -32,6 +33,8 @@ class Specifications extends Component
     public function mount(Product $product)
     {
         $this->product = $product;
+
+        $this->category = $product->category->id;
     }
 
     public function editTable($id)
@@ -424,14 +427,8 @@ class Specifications extends Component
 
         $groups = SpecGroup::with('specification','units')->where('specification_id',$this->activeTable)->get();
 
-        if ($this->product->category->parent_id == null)
-        {
-        $filters = Filter::where('field_id',3)->where('category_id',$this->product->category_id)->get();
-        }
-        else
-        {
-            $filters = Filter::where('field_id',3)->where('category_id',$this->product->category->parent_id)->get();
-        }
+
+        $filters = Filter::where('field_id',3)->where('category_id',$this->product->category->id)->get();
 
 
         return view('livewire.dashboard.attachments.specifications',

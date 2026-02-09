@@ -37,43 +37,43 @@ class Products extends Component
 
     protected function updateSliderRange()
     {
-        // محاسبه محدوده واقعی محصولات فیلترشده
-        $productIds = $this->getBaseProductIds();
+        $productsId = $this->getBaseProductIds();
 
-        $min = Specification::whereIn('product_id', $productIds)->min('price') ?? 0;
-        $max = Specification::whereIn('product_id', $productIds)->max('price') ?? 1000000000;
+        $min = Specification::whereIn('product_id', $productsId)->min('price') ?? 0;
+        $max = Specification::whereIn('product_id', $productsId)->max('price') ?? 1000000000;
 
-        // ارسال به JavaScript
         $this->dispatch('updateSlider', [
             'min' => $min,
             'max' => $max,
             'currentMin' => $this->priceMin,
             'currentMax' => $this->priceMax
         ]);
+
     }
 
     protected function getBaseProductIds()
     {
-        // محصولات بر اساس دسته و فیلتر (بدون قیمت)
         $query = Product::query();
 
         $allCategories = array_merge(
             $this->activeCategory,
-            Category::whereIn('parent_id', $this->activeCategory)->pluck('id')->toArray()
+        Category::whereIn('parent_id',$this->activeCategory)->pluck('id')->toArray()
         );
 
-        if (!empty($allCategories)) {
+        if(!empty($allCategories)){
             $query->whereIn('category_id', $allCategories);
         }
 
-        if (!empty($this->activeFilter)) {
-            $query->whereHas('specifications.group.units.values', function($q) {
-                $q->whereIn('id', $this->activeFilter);
+        if(!empty($this->activeFilter)){
+            $query->whereHas('specifications.group.units.values', function ($q) {
+               $q->whereIn('id', $this->activeFilter);
             });
         }
 
         return $query->pluck('id');
+
     }
+
 
     #[Computed]
     public function categories()
@@ -122,6 +122,8 @@ class Products extends Component
                     $q2->whereNotNull('price');
                 });
             });
+
+
         }
 
         return $query->get();
