@@ -53,7 +53,7 @@ class Product extends Model
             ->filter();
 
         return match (true) {
-            $prices->isEmpty()      => 'استعلام بگیرید',
+            $prices->isEmpty()      => 0,
             $prices->count() === 1  => number_format($prices->first()),
             default                 => number_format($prices->min()) . ' تا ' . number_format($prices->max()),
         };

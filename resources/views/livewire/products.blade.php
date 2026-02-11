@@ -60,7 +60,41 @@
 
             </div>
 
-            <div class="col-lg-2 border home-blocks rounded-end-4 mt-3 px-4">
+
+            <div class="row mt-3 mb-1 px-3">
+
+                <div class="col-xl-2">
+                    <input type="text" wire:model.live="search" class="form-control" placeholder="جستجو...">
+                </div>
+
+                <div class="col-xl-1 my-auto">
+                    <select wire:model.live="sort" class="form-select">
+                        <option value="created_at"> تاریخ </option>
+                        <option value="name">نام</option>
+                        <option value="brand_id">برند</option>
+                        <option value="price">قیمت</option>
+                    </select>
+                </div>
+
+                <div class="col-xl-1 my-auto">
+                    <select wire:model.live="direction" class="form-select">
+                        <option value="desc">نزولی</option>
+                        <option value="asc">صعودی</option>
+                    </select>
+                </div>
+
+                <div class="col-xl-1 my-auto">
+                    <select wire:model.live="perPage" class="form-select">
+                        <option value="3">3</option>
+                        <option value="6">6</option>
+                        <option value="9">9</option>
+                        <option value="">همه</option>
+                    </select>
+                </div>
+
+            </div>
+
+            <div class="col-lg-2 border home-blocks rounded-end-4 my-3 px-4">
 
                 <div class="row my-3 px-3">
                     <div class="col-xl-11 text-end">
@@ -132,7 +166,7 @@
 
             </div>
 
-            <div class="col-lg-10 border home-blocks rounded-start-4 mt-3 px-4">
+            <div class="col-lg-10 border home-blocks rounded-start-4 my-3 px-4">
 
                 <div class="row">
 
@@ -147,8 +181,8 @@
                             </div>
 
                             <div class="cs-navbar row my-auto mx-auto py-2 text-center border rounded-bottom-4 cs-border" dir="rtl">
-                                @if(($product->price_range) == 'استعلام بگیرید')
-                                <h4>{{ $product->price_range }}</h4>
+                                @if(($product->price_range) == 0)
+                                <h4>استعلام بگیرید</h4>
                                 @else
                                     <h5>{{ $product->price_range }} تومان </h5>
                                 @endif
@@ -160,6 +194,10 @@
                 </div>
 
             </div>
+
+            @if($perPage != '')
+            {{$this->products->links(data:['scrollTo',false])}}
+            @endif
 
         </div>
 
