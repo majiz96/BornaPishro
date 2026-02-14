@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
 class Product extends Model
 {
     protected $table = 'products';
-    protected $fillable = ['category_id', 'brand_id', 'name', 'fullname', 'intro', 'price', 'image',
+    protected $fillable = ['category_id', 'brand_id', 'name', 'fullname', 'intro', 'price','discount','supply','image','show',
         'brand_name'
     ];
 

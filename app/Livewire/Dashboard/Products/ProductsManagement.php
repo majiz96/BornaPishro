@@ -21,7 +21,7 @@ class ProductsManagement extends Component
     use WithFileUploads, WithPagination;
     protected $paginationTheme = 'bootstrap';
 
-    public $category_id,$name,$fullname,$brand_id,$brand_name,$intro,$image;
+    public $category_id,$name,$fullname,$brand_id,$brand_name,$price,$discount,$supply,$intro,$show,$image;
 
     public $editing = null;
 
@@ -38,11 +38,13 @@ class ProductsManagement extends Component
     protected $rules = [
         'name'=>'required',
         'category_id'=>'required',
-        'image'=>'required|image|mimes:jpeg,png,jpg|max:4096'
+        'image'=>'required|image|mimes:jpeg,png,jpg|max:4096',
+        'price'=>'nullable|numeric',
         ];
     protected $messages = [
             'name.required'=>'هر محصول به یک نام نیاز دارد!',
             'category_id.required' => 'باید دسته محصول را مشخص کنید',
+            'price.numeric'=>'قیمت باید به عدد وارد شود',
             'image.required'=>'هر محصول به یک عکس نیاز دارد',
             'image.image'=>'فایل انتخاب شده یک تصویر نیست',
             'image.mimes'=>'فقط فرمتهای jpeg, png, jpg قابل بارگذاری است',
@@ -52,6 +54,7 @@ class ProductsManagement extends Component
     protected $update_rules = [
             'name'=>'required',
             'category_id'=>'required',
+            'price'=>'nullable',
         ];
     protected $update_messages = [
             'name.required'=>'هر محصول به یک نام نیاز دارد!',
@@ -68,6 +71,7 @@ class ProductsManagement extends Component
         $this->brand_id = $product->brand_id;
         $this->brand_name = $product->brand_name;
         $this->intro = $product->intro;
+        $this->price = $product->price ?? 0;
         $this->image = $product->image;
     }
     public function cancel()
@@ -108,6 +112,7 @@ class ProductsManagement extends Component
                 'brand_id' => $this->brand_id,
                 'brand_name' => $this->brand_name,
                 'intro' => $this->intro,
+                'price' => $this->price,
                 'image' => $imagename,
             ]);
 
@@ -134,13 +139,14 @@ class ProductsManagement extends Component
                 'brand_id'=>$this->brand_id,
                 'brand_name'=>$this->brand_name,
                 'intro'=>$this->intro,
+                'price'=>$this->price,
                 'image'=>$imagename,
             ]);
 
             $product->brief()->create([]);
             $product->specifications()->create(['name'=>'جدول اصلی']);
 
-            $this->reset(['name','fullname','category_id','brand_id','brand_name','intro','image']);
+            $this->reset(['name','fullname','category_id','brand_id','brand_name','intro','price','image']);
 
         }
     }
@@ -178,6 +184,19 @@ class ProductsManagement extends Component
 
         $this->selectAll = false;
         $this->selected = [];
+    }
+
+    public function toggleShow($id)
+    {
+        $product = Product::findOrFail($id);
+        $product->show = $product->show == 1 ? 0 : 1;
+        $product->save();
+    }
+    public function toggleSupply($id)
+    {
+        $product = Product::findOrFail($id);
+        $product->supply = $product->supply == 1 ? 0 : 1;
+        $product->save();
     }
 
     public function render()

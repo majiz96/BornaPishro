@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('brand_name')->nullable();
             $table->string('name');
             $table->string('fullname')->nullable();
+            $table->integer('price')->nullable();
             $table->text('intro')->nullable();
             $table->string('image');
 

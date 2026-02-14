@@ -13,7 +13,7 @@
             @error('name') <small class="text-danger">{{ $message }}</small> @enderror
         </div>
 
-        <div class="col-xl-3 my-auto">
+        <div class="col-xl-2 my-auto">
             <label for="fullname" class="form-label">
                 نام کامل
             </label>
@@ -76,6 +76,14 @@
             </label>
             <input type="text" id="brand_name" class="form-control" wire:model.blur="brand_name">
 
+        </div>
+
+        <div class="col-xl-1 my-auto">
+            <label for="price" class="form-label">
+                قیمت
+            </label>
+            <input type="number" step="100000" id="price" class="form-control" wire:model.blur="price">
+            @error('price') <small class="text-danger">{{ $message }}</small> @enderror
         </div>
 
         <div class="col-xl-1 my-auto mt-2 bo">
@@ -145,6 +153,7 @@
                     <option value="created_at">تاریخ ایجاد</option>
                     <option value="name">نام</option>
                     <option value="fullname">نام کامل</option>
+                    <option value="price"> قیمت </option>
                     <option value="brand_id">نام برند</option>
                     <option value="brand_name">نام کامل برند</option>
                 </select>
@@ -164,8 +173,11 @@
             <div class="col-xl-1 my-auto text-center"> <input type="checkbox" wire:model.live="selectAll"> </div>
             <div class="col-xl-1 my-auto text-center"> ردیف </div>
             <div class="col-xl-1 my-auto text-center"> تصویر </div>
+            <div class="col-xl-1 my-auto text-center"> نمایش </div>
+            <div class="col-xl-1 my-auto text-center"> موجودی </div>
             <div class="col-xl-1 my-auto text-center"> نام </div>
-            <div class="col-xl-3 my-auto text-center"> نام کامل </div>
+            <div class="col-xl-1 my-auto text-center"> نام کامل </div>
+            <div class="col-xl-1 my-auto text-center"> قیمت </div>
             <div class="col-xl-1 my-auto text-center"> دسته </div>
             <div class="col-xl-1 my-auto text-center"> برند </div>
             <div class="col-xl-1 my-auto text-center"> پیوست ها </div>
@@ -176,11 +188,11 @@
                         حذف انتخابی
                     </button>
                 @else
-                    حذف
+                    عملیات
                 @endif
             </div>
 
-            <div class="col-xl-1 my-auto text-center"> ویرایش </div>
+
 
         </div>
 
@@ -190,8 +202,20 @@
                 <div class="col-xl-1 my-auto text-center"> <input type="checkbox" value="{{$product->id}}" wire:model.live="selected"> </div>
                 <div class="col-xl-1 my-auto text-center"> {{$counter++}} </div>
                 <div class="col-xl-1 my-auto text-center side-img2"> <img src="{{asset('storage/products/'.$product->image) }}"  alt="پیش نمایش" height="100" class="rounded"> </div>
+
+                <div class="col-xl-1 my-auto text-center"><input type="checkbox" wire:change="toggleShow({{$product->id}})" @checked($product->show == 1)></div>
+
+                <div class="col-xl-1 my-auto text-center"> <input type="checkbox" wire:change="toggleSupply({{$product->id}})" @checked($product->supply == 1)> </div>
+
                 <div class="col-xl-1 my-auto text-center"> {{$product->name}} </div>
-                <div class="col-xl-3 my-auto text-center"> {{$product->fullname}} </div>
+                <div class="col-xl-1 my-auto text-center"> {{$product->fullname}} </div>
+                <div class="col-xl-1 my-auto text-center">
+                @if($product->price)
+                    {{number_format($product->price)}} تومان
+                @else
+                    استعلامی
+                @endif
+                </div>
 
                 <div class="col-xl-1 my-auto text-center">
 
@@ -234,15 +258,14 @@
                 </div>
 
                 <div class="col-xl-1 my-auto text-center">
+
                     <button class="btn btn-sm btn-danger rounded-3"
                     wire:click="delete({{$product->id}})" wire:confirm="آیا از حذف برند ({{$product->name}}) مطمئن هستید؟">
                         حذف
                     </button>
+                    <button class="btn btn-sm btn-primary rounded-3" wire:click="edit({{$product->id}})">ویرایش</button> </div>
+
                 </div>
-
-                <div class="col-xl-1 my-auto text-center"> <button class="btn btn-sm btn-primary rounded-3" wire:click="edit({{$product->id}})">ویرایش</button> </div>
-
-            </div>
 
     @endforeach
 

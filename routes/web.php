@@ -20,6 +20,7 @@ use App\Livewire\Dashboard\Website\Communications;
 use App\Livewire\Dashboard\Website\Notices;
 use App\Livewire\Dashboard\Products\ProductsManagement;
 use App\Livewire\Dashboard\Products\Brands;
+use App\Livewire\Dashboard\Products\Discounts;
 use App\Livewire\Dashboard\ArticlesManagement;
 use App\Livewire\Dashboard\ServicesManagement;
 

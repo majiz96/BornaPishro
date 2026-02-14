@@ -16,11 +16,14 @@ class Products extends Component
 
     public array $activeCategory = [];
     public array $activeFilter = [];
+    public bool $supplyCheck = false;
     public bool $priceCheck = false;
     public int $priceMin = 0;
     public int $priceMax = 1000000000;
 
-    public int $perPage = 3;
+    public $priceless = 0 ?? null;
+
+    public $perPage = 5;
     public string $search = '';
     public string $sort = 'created_at';
     public string $direction = 'desc';
@@ -34,8 +37,8 @@ class Products extends Component
 
     public function mount()
     {
-        $this->priceMin = (int) Product::get()->min('min_price') ?? 0;
-        $this->priceMax = (int) Product::get()->max('max_price') ?? 1000000000;
+        $this->priceMin = (int) Product::get()->min('price') ?? 0;
+        $this->priceMax = (int) Product::get()->max('price') ?? 1000000000;
     }
 
     #[Computed]
@@ -50,6 +53,7 @@ class Products extends Component
     public function products()
     {
         $query = Product::query()->with('specifications');
+
 
         // سرچ
         if ($this->search) {
@@ -77,41 +81,30 @@ class Products extends Component
         }
 
         // فیلتر قیمت
-        if ($this->priceCheck) {
-            $query->whereHas('specifications', function($q) {
-                $q->whereNotNull('price')
-                    ->whereBetween('price', [$this->priceMin, $this->priceMax]);
-            });
-        } else {
-            $query->where(function($q) {
-                $q->whereHas('specifications', function($q2) {
-                    $q2->whereNotNull('price')
-                        ->whereBetween('price', [$this->priceMin, $this->priceMax]);
-                })->orWhereHas('specifications', function($q2) {
-                    $q2->whereNull('price');
-                });
-            });
+        if ($this->priceCheck)
+        {
+          $query->whereNotNull('price')
+              ->WhereBetween('price', [$this->priceMin, $this->priceMax])
+              ->where('price', '>', 0);
+        }
+        else
+        {
+            $query->whereBetween('price', [$this->priceMin, $this->priceMax]);
         }
 
-
-        if ($this->sort !== 'price') {
-            $query->orderBy($this->sort, $this->direction);
+        if($this->supplyCheck)
+        {
+            $query->where('products.supply',1);
         }
 
-        $paginated = $query->paginate($this->perPage);
+        $query->orderBy($this->sort, $this->direction);
 
-
-        if ($this->sort === 'price') {
-
-            $sorted = $this->direction === 'desc'
-
-                ? $paginated->getCollection()->sortByDesc('max_price')
-                : $paginated->getCollection()->sortBy('min_price');
-
-            $paginated->setCollection($sorted);
+        if ($this->perPage == 'all')
+        {
+            return $query->get();
         }
 
-        return $paginated;
+        return $query->paginate($this->perPage);
     }
 
     #[Computed]

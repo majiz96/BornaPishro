@@ -85,10 +85,10 @@
 
                 <div class="col-xl-1 my-auto">
                     <select wire:model.live="perPage" class="form-select">
-                        <option value="3">3</option>
-                        <option value="6">6</option>
-                        <option value="9">9</option>
-                        <option value="">همه</option>
+                        <option value="5">5</option>
+                        <option value="10">10</option>
+                        <option value="25">25</option>
+                        <option value="all">همه</option>
                     </select>
                 </div>
 
@@ -97,11 +97,33 @@
             <div class="col-lg-2 border home-blocks rounded-end-4 my-3 px-4">
 
                 <div class="row my-3 px-3">
+
+                    <div class="col-xl-11 text-end">
+                        <label for="toggleSupply" class="cursor-pointer">
+                            <span class="fw-bold">فقط محصولات موجود</span>
+                        </label>
+                    </div>
+
+                    <div class="col-xl-1 text-end">
+                        <input
+                            type="checkbox"
+                            id="toggleSupply"
+                            wire:model.live="supplyCheck"
+                            class="form-check-input cursor-pointer"
+                            style="width: 1.2rem; height: 1.2rem;"
+                        >
+                    </div>
+
+                </div>
+
+                <div class="row my-3 px-3">
+
                     <div class="col-xl-11 text-end">
                         <label for="togglePrice" class="cursor-pointer">
                             <span class="fw-bold">فقط محصولات دارای قیمت</span>
                         </label>
                     </div>
+
                     <div class="col-xl-1 text-end">
                         <input
                             type="checkbox"
@@ -176,26 +198,30 @@
                             <div class="main-img text-center overflow-hidden border bg-white pb-3 mb-0 rounded-top-4">
                                 <img class="rounded-top-4" src="{{asset('storage/products/'.$product->image) }}" height="180" alt="پیش نمایش">
 
-                                <div class="row mt-1"> <h3 style="color:#84919e"> {{$product->name}} </h3> </div>
+                                <div class="row mt-3"> <h3 style="color:#84919e"> {{$product->name}} </h3> </div>
 
                             </div>
 
-                            <div class="cs-navbar row my-auto mx-auto py-2 text-center border rounded-bottom-4 cs-border" dir="rtl">
-                                @if(($product->price_range) == 0)
-                                <h4>استعلام بگیرید</h4>
-                                @else
-                                    <h5>{{ $product->price_range }} تومان </h5>
-                                @endif
-
+                            @if($product->supply == 0)
+                            <div class="bg-danger text-white row my-auto mx-auto pt-2 pb-1 text-center border rounded-bottom-4 cs-border" dir="rtl">
+                                <h4> ناموجود </h4>
                             </div>
-
+                            @elseif($product->price == null)
+                                <div class="cs-navbar row my-auto mx-auto pt-2 pb-1 text-center border rounded-bottom-4 cs-border" dir="rtl">
+                                    <h4>استعلام بگیرید</h4>
+                                </div>
+                            @else
+                                <div class="cs-navbar2 row my-auto mx-auto pt-2 pb-1 text-center border rounded-bottom-4 cs-border" dir="rtl">
+                                    <h5>{{ number_format($product->price) }} تومان </h5>
+                                </div>
+                            @endif
                         </a>
                     @endforeach
                 </div>
 
             </div>
 
-            @if($perPage != '')
+            @if($perPage !== 'all')
             {{$this->products->links(data:['scrollTo',false])}}
             @endif
 
