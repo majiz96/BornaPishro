@@ -64,6 +64,7 @@ Route::middleware(['auth', 'verified'])->prefix('dashboard')->group(function () 
     //products routes
     Route::get('products-management',ProductsManagement::class)->name('products-management');
     Route::get('brands',Brands::class)->name('brands');
+    Route::get('discounts',Discounts::class)->name('discounts');
 
     Route::get('articles-management',ArticlesManagement::class)->name('articles-management');
 

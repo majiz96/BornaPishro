@@ -229,8 +229,6 @@
 
                     @endif
 
-
-
                 </div>
 
                 <div class="col-xl-1 my-auto text-center"> {{$product->brand->name ?? $product->brand_name ?? 'فاقد برند'}} </div>

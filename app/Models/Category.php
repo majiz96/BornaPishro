@@ -17,6 +17,7 @@ class Category extends Model
         return $this->hasMany(Product::class);
     }
 
+
     public function children(): HasMany
     {
         return $this->hasMany(Category::class, 'parent_id', 'id');
@@ -26,6 +27,21 @@ class Category extends Model
     {
         return $this->hasOne(Category::class, 'id', 'parent_id');
     }
+
+   public function getHasPriceAttribute(): bool
+   {
+       if($this->products()->whereNotNull('price')->where('price', '!=', 0)->exists()){
+           return true;
+       }
+
+       foreach ($this->children as $child) {
+           if($child->has_price){
+               return true;
+           }
+       }
+
+       return false;
+   }
 
     public function filters(): HasMany
     {

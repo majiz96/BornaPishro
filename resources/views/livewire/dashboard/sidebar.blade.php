@@ -37,6 +37,7 @@
 
         <li class="list-group-item list-group-item-action text-end py-1 {{request()->routeIs('products-management') ? 'active-page' : ''}}"><a class="nav-link" href="{{route('products-management')}}" wire:navigate> مدیریت محصولات </a></li>
         <li class="list-group-item list-group-item-action text-end py-1 {{request()->routeIs('brands') ? 'active-page' : ''}}"><a class="nav-link" href="{{route('brands')}}" wire:navigate> مدیریت برندها </a></li>
+        <li class="list-group-item list-group-item-action text-end py-1 {{request()->routeIs('discounts') ? 'active-page' : ''}}"><a class="nav-link" href="{{route('discounts')}}" wire:navigate> مدیریت تخفیف ها </a></li>
 
     </ul>
 
