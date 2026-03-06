@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Brief extends Model
 {
@@ -16,8 +17,8 @@ class Brief extends Model
         return $this->belongsTo(Product::class);
     }
 
-    public function unit():HasOne
+    public function units():HasMany
     {
-        return $this->hasOne(BriefUnit::class);
+        return $this->hasMany(BriefUnit::class);
     }
 }

@@ -5,6 +5,7 @@ namespace App\Livewire;
 use App\Models\Category;
 use App\Models\Filter;
 use App\Models\Product;
+use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use Livewire\Attributes\Computed;
 use Livewire\WithPagination;
@@ -52,10 +53,12 @@ class Products extends Component
     #[Computed]
     public function products()
     {
-        $query = Product::query()->with('specifications');
+        $finalPrice = DB::raw('price * (1 - IFNULL(discount,0) / 100)');
 
-
-        // سرچ
+        $query = Product::query()
+            ->select('products.*')
+            ->with('specifications')
+            ->addSelect(['final_price' => $finalPrice]);
         if ($this->search) {
             $query->where(function ($q) {
                 $q->where('name', 'like', '%' . $this->search . '%')
@@ -63,7 +66,6 @@ class Products extends Component
             });
         }
 
-        // دسته‌بندی
         $allCategories = array_merge(
             $this->activeCategory,
             Category::whereIn('parent_id', $this->activeCategory)->pluck('id')->toArray()
@@ -73,28 +75,26 @@ class Products extends Component
             $query->whereIn('category_id', $allCategories);
         }
 
-        // فیلترها
         if (!empty($this->activeFilter)) {
             $query->whereHas('specifications.group.units.values', function($q) {
                 $q->whereIn('id', $this->activeFilter);
             });
         }
 
-        // فیلتر قیمت
         if ($this->priceCheck)
         {
           $query->whereNotNull('price')
-              ->WhereBetween('price', [$this->priceMin, $this->priceMax])
-              ->where('price', '>', 0);
+              ->WhereBetween($finalPrice, [$this->priceMin, $this->priceMax])
+              ->where($finalPrice, '>', 0);
         }
         else
         {
-            $query->whereBetween('price', [$this->priceMin, $this->priceMax]);
+            $query->whereBetween($finalPrice, [$this->priceMin, $this->priceMax]);
         }
 
         if($this->supplyCheck)
         {
-            $query->where('products.supply',1);
+            $query->where('supply',1);
         }
 
         $query->orderBy($this->sort, $this->direction);

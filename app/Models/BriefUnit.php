@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class BriefUnit extends Model
@@ -15,10 +16,10 @@ class BriefUnit extends Model
 
     public function brief():BelongsTo
     {
-        return $this->belongsTo(Brief::class);
+        return $this->belongsTo(Brief::class, 'brief_id');
     }
-    public function values():HasOne
+    public function values():HasMany
     {
-        return $this->hasOne(BriefValue::class,'unit_id','id');
+        return $this->hasMany(BriefValue::class,'unit_id','id');
     }
 }

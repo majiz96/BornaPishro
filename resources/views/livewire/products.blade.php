@@ -198,21 +198,26 @@
                             <div class="main-img text-center overflow-hidden border bg-white pb-3 mb-0 rounded-top-4">
                                 <img class="rounded-top-4" src="{{asset('storage/products/'.$product->image) }}" height="180" alt="پیش نمایش">
 
-                                <div class="row mt-3"> <h3 style="color:#84919e"> {{$product->name}} </h3> </div>
+                                <div class="row mt-3"> <h4 style="color:#84919e"> {{$product->name}} </h4> </div>
 
                             </div>
 
                             @if($product->supply == 0)
-                            <div class="bg-danger text-white row my-auto mx-auto pt-2 pb-1 text-center border rounded-bottom-4 cs-border" dir="rtl">
-                                <h4> ناموجود </h4>
+                            <div class="bg-danger text-white row my-auto mx-auto pt-1 pb-1 text-center border rounded-bottom-4 cs-border" dir="rtl">
+                                <span class="fw-bolder"> ناموجود </span>
                             </div>
                             @elseif($product->price == null)
-                                <div class="cs-navbar row my-auto mx-auto pt-2 pb-1 text-center border rounded-bottom-4 cs-border" dir="rtl">
-                                    <h4>استعلام بگیرید</h4>
+                                <div class="cs-navbar row my-auto mx-auto pt-1 pb-1 text-center border rounded-bottom-4 cs-border" dir="rtl">
+                                    <span class="fw-bolder">استعلام بگیرید</span>
+                                </div>
+                            @elseif($product->discount != 0 || $product->discount != null)
+                                <div class="bg-success text-white row my-auto mx-auto pt-1 pb-1 text-center border rounded-bottom-4 cs-border" dir="rtl">
+                                    <span class="col-4 text-decoration-line-through">{{ number_format($product->price) }} </span>
+                                    <span class="col-8 text-start">{{ number_format($product->price - ($product->price * ($product->discount/100)) ) }} تومان </span>
                                 </div>
                             @else
-                                <div class="cs-navbar2 row my-auto mx-auto pt-2 pb-1 text-center border rounded-bottom-4 cs-border" dir="rtl">
-                                    <h5>{{ number_format($product->price) }} تومان </h5>
+                                <div class="cs-navbar2 row my-auto mx-auto pt-1 pb-1 text-center border rounded-bottom-4 cs-border" dir="rtl">
+                                    <span class="fw-bolder">{{ number_format($product->price) }} تومان </span>
                                 </div>
                             @endif
                         </a>

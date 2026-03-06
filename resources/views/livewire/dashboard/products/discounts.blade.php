@@ -81,25 +81,61 @@
             <label class="btn btn-outline-primary w-auto py-2" for="btn-check-integer-outlined">گروه ها</label>
         </div>
 
-        <div class="col-xl-4"></div>
+        @if($tab == 'products')
+            <div class="col-xl-3 my-auto">
+                <input type="text" class="form-control" wire:model.live="search" placeholder="جستجو" autocomplete="off">
+            </div>
 
-        <div class="col-xl-3 text-start">
+            <div class="col-xl-1 my-auto">
+                <select wire:model.live="perPage" class="form-select">
+                    <option value="5">5</option>
+                    <option value="10">10</option>
+                    <option value="25">25</option>
+                    <option value="">همه</option>
+                </select>
+            </div>
+
+            <div class="col-xl-2 my-auto">
+                <select wire:model.live="sort" class="form-select">
+                    <option value="created_at">تاریخ ایجاد</option>
+                    <option value="name">نام</option>
+                    <option value="fullname">نام کامل</option>
+                    <option value="price"> قیمت </option>
+                    <option value="discount"> تخفیف </option>
+                    <option value="brand_id">نام برند</option>
+                    <option value="brand_name">نام کامل برند</option>
+                </select>
+            </div>
+
+            <div class="col-xl-2 my-auto my-auto">
+                <select class="form-select" wire:model.live="direction">
+                    <option value="desc">نزولی</option>
+                    <option value="asc">صعودی</option>
+                </select>
+            </div>
+        @else
+            <div class="col-xl-7 my-auto"></div>
+        @endif
+
+
+
+        <div class="col-xl-1 px-0 text-end my-auto">
             @if(count($selectedProducts) > 1)
-            <button class="btn btn-sm btn-primary rounded-3" wire:click="multipleDiscount"> تخفیف به موارد منتخب </button>
+            <button class="btn btn-sm btn-primary rounded-3" wire:click="multipleDiscount"> تخفیف ها </button>
             @endif
 
             @if(count($selectedCategories) > 1)
-                <button class="btn btn-sm btn-primary rounded-3" wire:click="SelectedCategoryDiscount"> تخفیف به دسته های منتخب </button>
+                <button class="btn btn-sm btn-primary rounded-3" wire:click="SelectedCategoryDiscount"> تخفیف ها </button>
             @endif
         </div>
 
-        <div class="col-xl-3 text-start">
+        <div class="col-xl-1 px-0 text-end my-auto">
             @if(count($selectedProducts) > 1)
-                <button class="btn btn-sm btn-danger rounded-3" wire:click="multipleRemove"> رفع تخفیف موارد منتخب </button>
+                <button class="btn btn-sm btn-danger rounded-3" wire:click="multipleRemove"> بازنشانی </button>
             @endif
 
             @if(count($selectedCategories) > 1)
-                 <button class="btn btn-sm btn-danger rounded-3" wire:click="removeSelectedCategoryDiscount"> رفع تخفیف دسته های منتخب </button>
+                 <button class="btn btn-sm btn-danger rounded-3" wire:click="removeSelectedCategoryDiscount"> بازنشانی </button>
             @endif
         </div>
 
@@ -118,7 +154,7 @@
 
                         <div class="col-xl-1 my-auto text-end"> {{$counter++}} </div>
 
-                        <div class="col-xl-1 text-center my-auto">
+                        <div class="col-xl-1 px-0 text-center my-auto">
                             <img src="{{asset('storage/products/'.$product->image) }}"  alt="پیش نمایش" height="64" class="rounded">
                         </div>
 
@@ -177,6 +213,8 @@
                 <div class="row border rounded-3 mt-5 text-center py-3"> <h2 class="text-danger"> محصولی ثبت نشده است </h2> </div>
 
             @endif
+
+            {{$products->links(data:['scrollTo',false])}}
 
         @else
                                                                             {{--        Category Discount        --}}

@@ -161,6 +161,17 @@ i
     width: 80%;
 }
 
+.gallery-img img
+{
+    width: 100%;
+    height: 100%;
+}
+
+.gallery-img2 img
+{
+    height: 100%;
+}
+
 .comment
 {
     max-height: auto !important;

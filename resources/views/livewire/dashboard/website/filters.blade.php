@@ -14,7 +14,6 @@
             <select class="form-select" wire:model.blur="type">
                 <option value="">نوع فیلتر</option>
                 <option value="checkbox">انتخاب (چندتایی)</option>
-                <option value="radio"> انتخاب تکی </option>
                 <option value="range">محدوده</option>
             </select>
             @error('type') <small class="text-danger"> {{$message}} </small> @enderror

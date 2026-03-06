@@ -73,6 +73,7 @@ class ProductsManagement extends Component
         $this->intro = $product->intro;
         $this->price = $product->price ?? 0;
         $this->image = $product->image;
+        $this->discount = $product->discount;
     }
     public function cancel()
     {
@@ -105,6 +106,15 @@ class ProductsManagement extends Component
                 $imagename = $this->image;
             }
 
+            if($this->price == 0)
+            {
+                $discount = null;
+            }
+            else
+            {
+                $discount = $this->discount;
+            }
+
             $product->update([
                 'name' => $this->name,
                 'fullname' => $this->fullname,
@@ -114,6 +124,7 @@ class ProductsManagement extends Component
                 'intro' => $this->intro,
                 'price' => $this->price,
                 'image' => $imagename,
+                'discount' => $discount
             ]);
 
             $this->editing = null;

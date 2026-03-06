@@ -73,14 +73,26 @@ class Product extends Model
         return $this->specifications->pluck('price')->filter()->max();
     }
 
-    public function isInPriceRange($min, $max)
+//    public function isInPriceRange($min, $max)
+//    {
+//        if(!$this->has_price)
+//        {
+//            return false;
+//        }
+//
+//        return $this->specifications->pluck('price')->filter()->contains(fn($price) => $price >= $min && $price <= $max);
+//    }
+
+    public function getFinalPriceAttribute()
     {
-        if(!$this->has_price)
+
+        if(!$this->discount)
         {
-            return false;
+            return $this->price;
         }
 
-        return $this->specifications->pluck('price')->filter()->contains(fn($price) => $price >= $min && $price <= $max);
+        return $this->price - ($this->price * ($this->discount/100));
+
     }
 
     public function videos():MorphMany

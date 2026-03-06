@@ -7,13 +7,22 @@ use App\Models\Category;
 use App\Models\Product;
 use Livewire\Component;
 use Livewire\Attributes\Computed;
+use Livewire\WithPagination;
 
 class Discounts extends Component
 {
+    use WithPagination;
+    protected $paginationTheme = 'bootstrap';
+
     public $product,$price,$categoryPrice;
 
+    public $perPage = 5;
+    public $sort = 'created_at';
+    public $direction = 'desc';
+    public $search = '';
+
     public $discount = 0;
-    public string $tab = 'categories';
+    public string $tab = 'products';
     public $counter = 1;
 
     public $editing = null;
@@ -155,7 +164,13 @@ class Discounts extends Component
 
     public function render()
     {
-        $products = Product::with('category','brand')->where('price','>',0)->get();
+        $products = Product::with('category','brand')
+            ->where('price','>',0)
+            ->where('name','like','%'.$this->search.'%')
+            ->orWhere('fullname','like','%'.$this->search.'%')
+            ->orWhere('brand_name','like','%'.$this->search.'%')
+            ->orderBy($this->sort, $this->direction)
+            ->paginate($this->perPage);
 
         return view('livewire.dashboard.products.discounts',compact('products'))
             ->layout('components.layouts.dashboards');

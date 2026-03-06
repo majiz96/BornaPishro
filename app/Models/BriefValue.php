@@ -10,8 +10,8 @@ class BriefValue extends Model
     protected $table = 'brief_values';
     protected $fillable = ['unit_id', 'value'];
 
-    public function unit():BelongsTo
+    public function units():BelongsTo
     {
-        return $this->belongsTo(BriefUnit::class, 'unit_id');
+        return $this->belongsTo(BriefUnit::class, 'id', 'unit_id');
     }
 }
