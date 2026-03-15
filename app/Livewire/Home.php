@@ -2,9 +2,11 @@
 
 namespace App\Livewire;
 
+use App\Models\Notice;
 use Illuminate\Support\Facades\Auth;
 //use Illuminate\Validation\ValidationException;
 
+use Livewire\Attributes\Computed;
 use Livewire\Component;
 use Livewire\Attributes\Validate;
 use Livewire\WithFileUploads;
@@ -14,7 +16,8 @@ use App\Models\File;
 use App\Models\Communication;
 use Nette\Schema\ValidationException;
 
-class Home extends Component
+class
+Home extends Component
 {
 
     use WithFileUploads;
@@ -33,6 +36,15 @@ class Home extends Component
 
     public $size;
 
+    public $counter = 0;
+
+    #[Computed]
+    public function notificationSlider()
+    {
+
+        return Notice::where('display','اسلایدر')->get();
+
+    }
 
     public function saveGuestMessage()
     {

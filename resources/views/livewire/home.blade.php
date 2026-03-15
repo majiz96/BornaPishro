@@ -1,6 +1,57 @@
 <div class="container-fluid py-0">
 
-    <div class="home-tile row bg-danger text-light text-center mx-2 rounded-5"><h2 class="mx-auto my-auto"> اسلایدر اعلانات </h2></div>
+    <div class="row text-center">
+        <h2>{{$this->notificationSlider->first()->id}}</h2>
+    </div>
+
+    @if($this->notificationSlider->isNotEmpty())
+        <div id="carouselExample" class="carousel slide">
+            <center>
+                <div id="carouselExampleIndicators{{$this->notificationSlider->first()->id}}" class="carousel slide bg-secondary">
+                    <div class="carousel-indicators text-dark">
+                        @foreach($this->notificationSlider as $notice)
+                            <button type="button" data-bs-target="#carouselExampleIndicators{{$notice->id}}" data-bs-slide-to="{{$counter++}}" class="active" aria-current="true" aria-label="Slide 1">
+                            </button>
+                        @endforeach
+
+{{--                        <button type="button" data-bs-target="#carouselExampleIndicators{{$notice->id}}" data-bs-slide-to="1" aria-label="Slide 2"><h3>2</h3></button>--}}
+{{--                        <button type="button" data-bs-target="#carouselExampleIndicators{{$notice->id}}" data-bs-slide-to="2" aria-label="Slide 3"><h3>3</h3></button>--}}
+                    </div>
+                    <div class="carousel-inner" style="background: none">
+
+                        @foreach($this->notificationSlider as $notice)
+
+                            <div class="carousel-item active">
+                                <div class="home-tile row bg-{{$notice->style}} text-light text-center mx-2 rounded-5">
+                                    <h2 class="mx-auto my-auto"> {{$notice->title}} </h2>
+                                    <p>{{$notice->description}}</p>
+                                </div>
+                            </div>
+
+                        @endforeach
+
+
+                    </div>
+
+                    @foreach($this->notificationSlider as $notice)
+
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators{{$notice->id}}" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators{{$notice->id}}" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                    @endforeach
+                </div>
+            </center>
+        </div>
+    @endif
+
+
+
+    <div class="home-tile row bg-danger text-light text-center my-5 mx-2 rounded-5"><h2 class="mx-auto my-auto"> اسلایدر اعلانات </h2></div>
 
     <div class="row text-center mx-2">
 
