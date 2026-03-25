@@ -4,7 +4,7 @@
 
             <form wire:submit.prevent="login">
 
-                <div class="col-xxl-2 col-lg-6 col-md-6 border border-2 rounded-5 mx-auto my-5">
+                <div class="col-xxl-3 col-lg-8 col-md-8 border border-2 rounded-5 mx-auto my-5">
                     <div class="row my-3 px-2">
 
                         <div class="col-xl-3 col-lg-4 my-lg-2 text-xl-center text-end px-4"><label for="email">ایمیل :</label></div>

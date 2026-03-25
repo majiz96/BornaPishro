@@ -29,6 +29,10 @@
         {{ $slot }}
     </main>
 
+    <footer>
+        <livewire:parts.footer />
+    </footer>
+
     @livewireScripts
 
     <script src="https://cdn.jsdelivr.net/npm/nouislider@15.7.0/dist/nouislider.min.js"></script>

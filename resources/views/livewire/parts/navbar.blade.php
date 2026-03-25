@@ -195,4 +195,8 @@
     </div>
 </nav>
 
+@if($searchShow)
+
+@endif
+
 
