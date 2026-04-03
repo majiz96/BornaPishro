@@ -5,16 +5,20 @@
     @if($this->notificationSlider->isNotEmpty())
 
         <div class="row text-center">
-            <h2>{{$this->notificationSlider->first()->id}}</h2>
+            <h2>{{$activeNotificationSlider}}</h2>
         </div>
 
         <div id="carouselExample" class="carousel slide">
             <center>
 
-                <div id="carouselExampleIndicators{{$this->notificationSlider->first()->id}}" class="carousel slide bg-secondary">
+                <div id="carouselExampleIndicators{{$this->notificationSlider->last()->id}}" class="carousel slide">
+
                     <div class="carousel-indicators text-dark">
+
                         @foreach($this->notificationSlider as $notice)
-                            <button type="button" data-bs-target="#carouselExampleIndicators{{$notice->id}}" data-bs-slide-to="{{$counter++}}" class="active" aria-current="true" aria-label="Slide 1">
+
+                            <button type="button" data-bs-target="#carouselExampleIndicators{{$notice->id}}"
+                                    data-bs-slide-to="{{$counter++}}" class="active" aria-current="true" aria-label="Slide {{$counter++}}">
                             </button>
                         @endforeach
 
@@ -40,11 +44,13 @@
 
                     @foreach($this->notificationSlider as $notice)
 
-                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators{{$notice->id}}" data-bs-slide="prev">
+                    <button class="carousel-control-prev" type="button"
+                            data-bs-target="#carouselExampleIndicators{{$notice->id}}" data-bs-slide="prev">
                         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                         <span class="visually-hidden">Previous</span>
                     </button>
-                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators{{$notice->id}}" data-bs-slide="next">
+                    <button class="carousel-control-next" type="button"
+                            data-bs-target="#carouselExampleIndicators{{$notice->id}}" data-bs-slide="next">
                         <span class="carousel-control-next-icon" aria-hidden="true"></span>
                         <span class="visually-hidden">Next</span>
                     </button>

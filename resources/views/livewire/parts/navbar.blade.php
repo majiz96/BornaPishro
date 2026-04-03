@@ -12,15 +12,34 @@
                 <span class="navbar-toggler-icon text-light"></span>
             </button>
 
-            @auth
-                <div class="collapse navbar-collapse" id="navbarNav">
 
-                        <ul class="navbar-nav ms-auto">
-                            <li class="nav-item"><a class="nav-link text-light" href="{{ route('products') }}" wire:click="toggleMenu(1)">محصولات</a></li>
-                            <li class="nav-item"><a class="nav-link text-light" href="#">خدمات</a></li>
-                            <li class="nav-item"><a class="nav-link text-light" href="#">مقالات</a></li>
-                            <li class="nav-item"><a class="nav-link text-light" href="#">ارتباط با ما</a></li>
-                        </ul>
+            @guest
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item"><a class="nav-link text-light" href="{{route('login')}}" wire:navigate>ورود</a></li>
+                        <li class="nav-item"><a class="nav-link text-light" href="{{route('register')}}" wire:navigate>ثبت نام</a></li>
+
+                        <li class="nav-item"><a class="nav-link text-light">|</a></li>
+
+                        <li class="nav-item"><a class="nav-link text-light" href="{{ route('products') }}" wire:click="toggleMenu(1)">محصولات</a></li>
+                        <li class="nav-item"><a class="nav-link text-light" href="#">خدمات</a></li>
+                        <li class="nav-item"><a class="nav-link text-light" href="#">مقالات</a></li>
+                        <li class="nav-item"><a class="nav-link text-light" href="#">ارتباط با ما</a></li>
+                    </ul>
+                </div>
+
+            @endguest
+
+
+            @auth
+
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item"><a class="nav-link text-light" href="{{ route('products') }}" wire:click="toggleMenu(1)">محصولات</a></li>
+                        <li class="nav-item"><a class="nav-link text-light" href="#">خدمات</a></li>
+                        <li class="nav-item"><a class="nav-link text-light" href="#">مقالات</a></li>
+                        <li class="nav-item"><a class="nav-link text-light" href="#">ارتباط با ما</a></li>
+                    </ul>
                 </div>
 
                 <!-- Example single danger button -->
@@ -65,15 +84,6 @@
                 </div>
 
             @endauth
-
-            @guest
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav ms-auto">
-                        <li class="nav-item"><a class="nav-link text-light" href="{{route('login')}}" wire:navigate>ورود</a></li>
-                        <li class="nav-item"><a class="nav-link text-light" href="{{route('register')}}" wire:navigate>ثبت نام</a></li>
-                    </ul>
-                </div>
-            @endguest
 
 
 
