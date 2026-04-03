@@ -29,6 +29,7 @@ class Products extends Component
     public string $sort = 'created_at';
     public string $direction = 'desc';
 
+//    reset products page if each of these variables change
     public function updated($property)
     {
         if (in_array($property, ['search', 'activeCategory', 'activeFilter', 'priceCheck', 'priceMin', 'priceMax', 'sort', 'direction'])) {
@@ -38,10 +39,10 @@ class Products extends Component
 
     public function mount()
     {
+//        set chosen and default value of minimum and maximum price
         $this->priceMin = (int) Product::get()->min('price') ?? 0;
         $this->priceMax = (int) Product::get()->max('price') ?? 1000000000;
     }
-
     #[Computed]
     public function categories()
     {
@@ -53,6 +54,7 @@ class Products extends Component
     #[Computed]
     public function products()
     {
+//        get price after get discount
         $finalPrice = DB::raw('price * (1 - IFNULL(discount,0) / 100)');
 
         $query = Product::query()
@@ -66,39 +68,47 @@ class Products extends Component
             });
         }
 
+//         get categories id from their general category for showing related products
         $allCategories = array_merge(
             $this->activeCategory,
             Category::whereIn('parent_id', $this->activeCategory)->pluck('id')->toArray()
         );
-
+//        get categories themselves for showing related products
         if (!empty($allCategories)) {
             $query->whereIn('category_id', $allCategories);
         }
 
+//        get filters id values for showing related products
         if (!empty($this->activeFilter)) {
             $query->whereHas('specifications.group.units.values', function($q) {
                 $q->whereIn('id', $this->activeFilter);
             });
         }
 
+//        show only priced products
         if ($this->priceCheck)
         {
           $query->whereNotNull('price')
+//              the discounted price that is between max and min price slider indicators
               ->WhereBetween($finalPrice, [$this->priceMin, $this->priceMax])
               ->where($finalPrice, '>', 0);
         }
+//        show all products
         else
         {
             $query->whereBetween($finalPrice, [$this->priceMin, $this->priceMax]);
         }
 
+//        show only products which have supply
         if($this->supplyCheck)
         {
             $query->where('supply',1);
         }
 
+//        sorting the products from different ways and directions
         $query->orderBy($this->sort, $this->direction);
 
+//       set numbers of products in each page
         if ($this->perPage == 'all')
         {
             return $query->get();
@@ -110,11 +120,13 @@ class Products extends Component
     #[Computed]
     public function filters()
     {
+//         get categories id from their general category for showing related filters
         $allCategories = array_merge(
             $this->activeCategory,
             Category::whereIn('parent_id', $this->activeCategory)->pluck('id')->toArray()
         );
 
+// show all filters
         if (empty($allCategories)) {
             return Filter::with('units.values')
                 ->where('field_id', 3)
@@ -122,12 +134,14 @@ class Products extends Component
                 ->get();
         }
 
+//        show filters in selected categories
         return Filter::with('units.values')
             ->whereIn('category_id', $allCategories)
             ->where('show', 1)
             ->get();
     }
 
+//    reset products page when price indicators changed for updating the page
     public function updatePriceRange($min, $max)
     {
         $this->priceMin = (int) $min;
@@ -135,12 +149,14 @@ class Products extends Component
         $this->resetPage();
     }
 
+//    get toggle value from showing price checkbox
     public function togglePrice()
     {
         $this->priceCheck = !$this->priceCheck;
         $this->resetPage();
     }
 
+//   empty the categories
     public function categoryReset()
     {
         $this->activeCategory = [];
