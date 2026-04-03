@@ -13,14 +13,15 @@ use App\Models\Notice;
 class Navbar extends Component
 {
 
-    public string $name;
-    public string $lastname;
+    public string $name, $lastname;
 
     public $theme;
 
     public $unreadNotice = [];
     public $lastUnreadNotice = [];
     public $noticeTitle;
+
+    public int $searchShow = 0;
 
     public int $submenu = 0;
 
@@ -67,6 +68,11 @@ class Navbar extends Component
     public function toggleMenu($submenu)
     {
         $this->submenu = ($this->submenu == $submenu) ? 0 : 1;
+    }
+
+    public function toggleSearch()
+    {
+        $this->searchShow = $this->searchShow == 0 ? 1 : 0;
     }
 
     public function logout()

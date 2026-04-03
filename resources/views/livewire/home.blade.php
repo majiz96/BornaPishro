@@ -1,12 +1,16 @@
 <div class="container-fluid py-0">
 
-    <div class="row text-center">
-        <h2>{{$this->notificationSlider->first()->id}}</h2>
-    </div>
+
 
     @if($this->notificationSlider->isNotEmpty())
+
+        <div class="row text-center">
+            <h2>{{$this->notificationSlider->first()->id}}</h2>
+        </div>
+
         <div id="carouselExample" class="carousel slide">
             <center>
+
                 <div id="carouselExampleIndicators{{$this->notificationSlider->first()->id}}" class="carousel slide bg-secondary">
                     <div class="carousel-indicators text-dark">
                         @foreach($this->notificationSlider as $notice)
@@ -17,6 +21,7 @@
 {{--                        <button type="button" data-bs-target="#carouselExampleIndicators{{$notice->id}}" data-bs-slide-to="1" aria-label="Slide 2"><h3>2</h3></button>--}}
 {{--                        <button type="button" data-bs-target="#carouselExampleIndicators{{$notice->id}}" data-bs-slide-to="2" aria-label="Slide 3"><h3>3</h3></button>--}}
                     </div>
+
                     <div class="carousel-inner" style="background: none">
 
                         @foreach($this->notificationSlider as $notice)

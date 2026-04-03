@@ -88,7 +88,7 @@
             </div>
 
             <div class="me-0 px-4 my-auto">
-                <i class="bi-search"></i>
+                <i class="bi-search" wire:click="toggleSearch"></i>
             </div>
 
         </div>
@@ -195,8 +195,6 @@
     </div>
 </nav>
 
-@if($searchShow)
 
-@endif
 
 

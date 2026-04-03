@@ -38,14 +38,15 @@ Home extends Component
 
     public $counter = 0;
 
+
     #[Computed]
     public function notificationSlider()
     {
-
         return Notice::where('display','اسلایدر')->get();
-
     }
 
+
+//    validation of guest messages
     public function saveGuestMessage()
     {
         $this->validate([
@@ -75,7 +76,7 @@ Home extends Component
             'files.*.max'=>'متن پیام حداکثر ۲۰۰۰ حرف می تواند باشد'
         ]);
 
-
+//        save the message in database
         $comm = Communication::create([
             'name' => $this->name,
             'email' => $this->email,
@@ -85,8 +86,11 @@ Home extends Component
             'user_id' => 0,
         ]);
 
+
         foreach ($this->files as $file) {
+//            set semi-hashed name for file in storage
             $filestore = uniqid('guest_') . '.' . $file->getClientOriginalExtension();
+//            save the file in storage by it's semi-hashed name
             $file->storeAs('attachments', $filestore, 'public');
 
             File::create([
@@ -102,6 +106,7 @@ Home extends Component
         $this->reset(['name','email','phone','subject','text','files','uploadedFiles']);
     }
 
+    // save messages of registered users
     public function saveMessage()
     {
         $this->validate([
@@ -121,6 +126,7 @@ Home extends Component
             'files.*.max'=>'هر فایل نهایت ۱۰ مگابایت باید باشد'
         ]);
 
+//        find user by it's id
         $this->user_id = Auth::id();
 
         if (count($this->files) > 3) {
@@ -154,6 +160,7 @@ Home extends Component
         $this->reset('uploadedFiles', 'files','subject','text');
     }
 
+//    get uploaded file's names and send it's names for showing in UI for messages attachments
     public function updatedFiles()
     {
         $this->uploadedFiles = [];
