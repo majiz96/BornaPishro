@@ -37,23 +37,12 @@ Home extends Component
     public $size;
 
     public $counter = 0;
-
-    public $activeNotificationSlider;
     public int $NotificationLimit = 3;
 
 
     #[Computed]
     public function notificationSlider()
     {
-
-        if (empty($this->activeNotificationSlider))
-        {
-            $this->activeNotificationSlider = Notice::where('display','اسلایدر')
-                ->pluck('id')
-                ->first();
-        }
-
-
         return Notice::where('display','اسلایدر')
             ->limit($this->NotificationLimit)
             ->orderBy('created_at','DESC')
