@@ -3,7 +3,9 @@
 namespace App\Livewire;
 
 use App\Models\Notice;
+use App\Models\Product;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Collection;
 //use Illuminate\Validation\ValidationException;
 
 use Livewire\Attributes\Computed;
@@ -38,15 +40,47 @@ Home extends Component
 
     public $counter = 0;
     public int $NotificationLimit = 3;
+    public int $ProductLimit = 12;
 
 
     #[Computed]
     public function notificationSlider()
     {
         return Notice::where('display','اسلایدر')
+            ->where('status',1)
             ->limit($this->NotificationLimit)
             ->orderBy('created_at','DESC')
             ->get();
+    }
+    #[Computed]
+    public function notificationTile()
+    {
+        return Notice::where('display','کاشی ها')
+            ->where('status',1)
+            ->orderBy('created_at','DESC')
+            ->get();
+    }
+    #[Computed]
+    public function productSlider()
+    {
+         return Product::where('show',1)
+            ->where('supply',1)
+            ->where('price','!=',0)
+            ->limit($this->ProductLimit)
+            ->orderBy('created_at','DESC')->get();
+    }
+    #[Computed]
+    public function productSlides(): Collection
+    {
+        $products = $this->productSlider;
+        $perSlide = $this->ProductLimit / 2;
+        $slides = collect();
+
+        for ($i = 0; $i < $products->count(); $i += $perSlide) {
+            $slides->push($products->slice($i, $perSlide));
+        }
+
+        return $slides;
     }
 
 

@@ -5,11 +5,11 @@
     @if($this->notificationSlider->isNotEmpty() && count($this->notificationSlider) > 1)
 
         {{-- resources/views/livewire/slider-component.blade.php --}}
-        <div id="mySlider" class="carousel slide" data-bs-ride="carousel">
+        <div id="NoticeSlider" class="carousel slide" data-bs-ride="carousel">
             <!-- Indicators/dots -->
             <div class="carousel-indicators">
                 @foreach($this->notificationSlider as $index => $notice)
-                    <button type="button" data-bs-target="#mySlider" data-bs-slide-to="{{ $index }}"
+                    <button type="button" data-bs-target="#NoticeSlider" data-bs-slide-to="{{ $index }}"
                             class="{{ $index == 0 ? 'active' : '' }}"
                             aria-current="{{ $index == 0 ? 'true' : 'false' }}"
                             aria-label="Slide {{ $index + 1 }}"></button>
@@ -27,11 +27,11 @@
                 @endforeach
             </div>
             <!-- Left and right controls -->
-            <button class="carousel-control-prev" type="button" data-bs-target="#mySlider" data-bs-slide="prev">
+            <button class="carousel-control-prev" type="button" data-bs-target="#NoticeSlider" data-bs-slide="prev">
                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                 <span class="visually-hidden">Previous</span>
             </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#mySlider" data-bs-slide="next">
+            <button class="carousel-control-next" type="button" data-bs-target="#NoticeSlider" data-bs-slide="next">
                 <span class="carousel-control-next-icon" aria-hidden="true"></span>
                 <span class="visually-hidden">Next</span>
             </button>
@@ -49,13 +49,67 @@
 
     <div class="row text-center mx-2">
 
-        <div class="col-xl-2 home-blocks rounded-5 bg-secondary text-light mx-auto mt-5"> <h2 class="mx-auto mt-5">بلوک اول</h2> </div>
-        <div class="col-xl-4 home-blocks rounded-5 bg-secondary text-light mx-auto mt-5"> <h2 class="mx-auto mt-5">بلوک دوم</h2> </div>
-        <div class="col-xl-1 home-blocks rounded-5 bg-secondary text-light mx-auto mt-5"> <h2 class="mx-auto mt-5">بلوک سوم</h2> </div>
-        <div class="col-xl-2 home-blocks rounded-5 bg-secondary text-light mx-auto mt-5"> <h2 class="mx-auto mt-5">بلوک چهارم</h2> </div>
+    @forelse($this->notificationTile as $tile)
+            <div class="col-auto py-5 rounded-5 bg-{{$tile->style}} text-light mx-auto mt-5">
+                <h2 class="mx-auto">{{$tile->title}}</h2>
+            </div>
+    @empty
+
+    @endforelse
 
     </div>
 
+        @if($this->productSlides->isNotEmpty())
+            <div wire:ignore id="productSlider" class="carousel slide mt-5" data-bs-ride="carousel">
+                <!-- اندیکاتورها -->
+                <div class="carousel-indicators">
+                    @foreach($this->productSlides as $index => $slide)
+                        <button type="button" data-bs-target="#productSlider" data-bs-slide-to="{{ $index }}"
+                                class="{{ $index == 0 ? 'active' : '' }}"></button>
+                    @endforeach
+                </div>
+
+                <!-- اسلایدها -->
+                <div class="carousel-inner">
+                    @foreach($this->productSlides as $slideIndex => $slideProducts)
+                        <div class="carousel-item {{ $slideIndex == 0 ? 'active' : '' }}">
+                            <div class="row g-3">
+                                @foreach($slideProducts as $product)
+                                    <div class="col-md-2">
+                                        <div class="card h-100">
+                                            <img src="{{ $product->image ?? asset('images/default.jpg') }}" class="card-img-top" alt="{{ $product->name }}">
+                                            <div class="card-body">
+                                                <h5 class="card-title">{{ $product->name }}</h5>
+                                                <p class="card-text">{{ Str::limit($product->description, 80) }}</p>
+
+                                                @if($product->discount != 0 && $product->discount != null)
+                                                    <div class="bg-success text-white row my-auto mx-auto pt-1 pb-1 text-center border rounded-bottom-4 cs-border" dir="rtl">
+                                                        <span class="col-4 text-decoration-line-through">{{ number_format($product->price) }} </span>
+                                                        <span class="col-8 text-start">{{ number_format($product->price - ($product->price * ($product->discount/100)) ) }} تومان</span>
+                                                    </div>
+                                                @else
+                                                    <div class="cs-navbar2 row my-auto mx-auto pt-1 pb-1 text-center border rounded-bottom-4 cs-border" dir="rtl">
+                                                        <span class="fw-bolder">{{ number_format($product->price) }} تومان</span>
+                                                    </div>
+                                                @endif
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+
+                <!-- دکمه‌های قبلی و بعدی -->
+                <button class="carousel-control-prev" type="button" data-bs-target="#productSlider" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon"></span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#productSlider" data-bs-slide="next">
+                    <span class="carousel-control-next-icon"></span>
+                </button>
+            </div>
+        @endif
 
     <div class="home-tile row bg-success text-light text-center mx-2 rounded-5 my-5"><h2 class="mx-auto my-auto">نمادهای محصول</h2></div>
 
