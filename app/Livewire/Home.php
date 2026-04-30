@@ -69,19 +69,6 @@ Home extends Component
             ->limit($this->ProductLimit)
             ->orderBy('created_at','DESC')->get();
     }
-    #[Computed]
-    public function productSlides(): Collection
-    {
-        $products = $this->productSlider;
-        $perSlide = $this->ProductLimit / 2;
-        $slides = collect();
-
-        for ($i = 0; $i < $products->count(); $i += $perSlide) {
-            $slides->push($products->slice($i, $perSlide));
-        }
-
-        return $slides;
-    }
 
 
 //    validation of guest messages

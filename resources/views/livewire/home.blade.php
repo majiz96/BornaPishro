@@ -59,56 +59,51 @@
 
     </div>
 
-        @if($this->productSlides->isNotEmpty())
-            <div wire:ignore id="productSlider" class="carousel slide mt-5" data-bs-ride="carousel">
-                <!-- اندیکاتورها -->
-                <div class="carousel-indicators">
-                    @foreach($this->productSlides as $index => $slide)
-                        <button type="button" data-bs-target="#productSlider" data-bs-slide-to="{{ $index }}"
-                                class="{{ $index == 0 ? 'active' : '' }}"></button>
-                    @endforeach
-                </div>
+        {{-- فقط در این صفحه، فایل مخصوص سوییپر از طریق Vite لود می‌شود --}}
+        @vite(['resources/js/home-swiper.js'])
 
-                <!-- اسلایدها -->
-                <div class="carousel-inner">
-                    @foreach($this->productSlides as $slideIndex => $slideProducts)
-                        <div class="carousel-item {{ $slideIndex == 0 ? 'active' : '' }}">
-                            <div class="row g-3">
-                                @foreach($slideProducts as $product)
-                                    <div class="col-md-2">
-                                        <div class="card h-100">
-                                            <img src="{{ $product->image ?? asset('images/default.jpg') }}" class="card-img-top" alt="{{ $product->name }}">
-                                            <div class="card-body">
-                                                <h5 class="card-title">{{ $product->name }}</h5>
-                                                <p class="card-text">{{ Str::limit($product->description, 80) }}</p>
+        @if($this->productSlider->isNotEmpty())
+            <div wire:ignore class="product-swiper swiper mt-5" style="position: relative;">
+                <div class="swiper-wrapper">
+                    @foreach($this->productSlider as $product)
+                        <div class="swiper-slide">
+                            <a href="{{ route('product.show',$product->id) }}" class="col-xl-2 col-md-4 py-3 mx-auto delete-badge text-decoration-none">
 
-                                                @if($product->discount != 0 && $product->discount != null)
-                                                    <div class="bg-success text-white row my-auto mx-auto pt-1 pb-1 text-center border rounded-bottom-4 cs-border" dir="rtl">
-                                                        <span class="col-4 text-decoration-line-through">{{ number_format($product->price) }} </span>
-                                                        <span class="col-8 text-start">{{ number_format($product->price - ($product->price * ($product->discount/100)) ) }} تومان</span>
-                                                    </div>
-                                                @else
-                                                    <div class="cs-navbar2 row my-auto mx-auto pt-1 pb-1 text-center border rounded-bottom-4 cs-border" dir="rtl">
-                                                        <span class="fw-bolder">{{ number_format($product->price) }} تومان</span>
-                                                    </div>
-                                                @endif
-                                            </div>
-                                        </div>
+                                <div class="main-img text-center overflow-hidden border bg-white pb-3 mb-0 rounded-top-4">
+                                    <img class="rounded-top-4" src="{{asset('storage/products/'.$product->image) }}" height="180" alt="پیش نمایش">
+
+                                    <div class="row mt-3"> <h4 style="color:#84919e"> {{$product->name}} </h4> </div>
+
+                                </div>
+
+                                @if($product->supply == 0)
+                                    <div class="bg-danger text-white row my-auto mx-auto pt-1 pb-1 text-center border rounded-bottom-4 cs-border" dir="rtl">
+                                        <span class="fw-bolder"> ناموجود </span>
                                     </div>
-                                @endforeach
-                            </div>
+                                @elseif($product->price == null)
+                                    <div class="cs-navbar row my-auto mx-auto pt-1 pb-1 text-center border rounded-bottom-4 cs-border" dir="rtl">
+                                        <span class="fw-bolder">استعلام بگیرید</span>
+                                    </div>
+                                @elseif($product->discount != 0 || $product->discount != null)
+                                    <div class="bg-success text-white row my-auto mx-auto pt-1 pb-1 text-center border rounded-bottom-4 cs-border" dir="rtl">
+                                        <span class="col-4 text-decoration-line-through">{{ number_format($product->price) }} </span>
+                                        <span class="col-8 text-start">{{ number_format($product->price - ($product->price * ($product->discount/100)) ) }} تومان </span>
+                                    </div>
+                                @else
+                                    <div class="cs-navbar2 row my-auto mx-auto pt-1 pb-1 text-center border rounded-bottom-4 cs-border" dir="rtl">
+                                        <span class="fw-bolder">{{ number_format($product->price) }} تومان </span>
+                                    </div>
+                                @endif
+                            </a>
                         </div>
                     @endforeach
                 </div>
 
-                <!-- دکمه‌های قبلی و بعدی -->
-                <button class="carousel-control-prev" type="button" data-bs-target="#productSlider" data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon"></span>
-                </button>
-                <button class="carousel-control-next" type="button" data-bs-target="#productSlider" data-bs-slide="next">
-                    <span class="carousel-control-next-icon"></span>
-                </button>
+                <div class="swiper-button-next"></div>
+                <div class="swiper-button-prev"></div>
             </div>
+        @else
+            <p>محصولی برای نمایش وجود ندارد.</p>
         @endif
 
     <div class="home-tile row bg-success text-light text-center mx-2 rounded-5 my-5"><h2 class="mx-auto my-auto">نمادهای محصول</h2></div>

@@ -8,6 +8,7 @@
 
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nouislider@15.7.0/dist/nouislider.min.css">
 
+
         <script>
             (function() {
                 const savedTheme = localStorage.getItem('theme');

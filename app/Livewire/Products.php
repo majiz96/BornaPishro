@@ -58,6 +58,7 @@ class Products extends Component
         $finalPrice = DB::raw('price * (1 - IFNULL(discount,0) / 100)');
 
         $query = Product::query()
+            ->where('products.show',1)
             ->select('products.*')
             ->with('specifications')
             ->addSelect(['final_price' => $finalPrice]);
