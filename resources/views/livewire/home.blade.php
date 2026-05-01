@@ -2,6 +2,7 @@
 
 
 
+        {{--  Notice Slider  --}}
     @if($this->notificationSlider->isNotEmpty() && count($this->notificationSlider) > 1)
 
         {{-- resources/views/livewire/slider-component.blade.php --}}
@@ -27,11 +28,11 @@
                 @endforeach
             </div>
             <!-- Left and right controls -->
-            <button class="carousel-control-prev" type="button" data-bs-target="#NoticeSlider" data-bs-slide="prev">
+            <button class="carousel-control-prev" type="button" data-bs-target="#NoticeSlider" data-bs-slide="next">
                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                 <span class="visually-hidden">Previous</span>
             </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#NoticeSlider" data-bs-slide="next">
+            <button class="carousel-control-next" type="button" data-bs-target="#NoticeSlider" data-bs-slide="prev">
                 <span class="carousel-control-next-icon" aria-hidden="true"></span>
                 <span class="visually-hidden">Next</span>
             </button>
@@ -59,11 +60,15 @@
 
     </div>
 
+        <div class="row border text-secondary text-center mx-2 rounded-5 py-5 my-5"><h2 class="mx-auto my-auto">نمادهای محصولات</h2></div>
+
+
+        <h2 class="mt-5 mx-5">آخرین محصولات</h2>
         {{-- فقط در این صفحه، فایل مخصوص سوییپر از طریق Vite لود می‌شود --}}
         @vite(['resources/js/home-swiper.js'])
 
         @if($this->productSlider->isNotEmpty())
-            <div wire:ignore class="product-swiper swiper mt-5" style="position: relative;">
+            <div wire:ignore class="product-swiper swiper" style="position: relative;">
                 <div class="swiper-wrapper">
                     @foreach($this->productSlider as $product)
                         <div class="swiper-slide">
@@ -106,8 +111,8 @@
             <p>محصولی برای نمایش وجود ندارد.</p>
         @endif
 
-    <div class="home-tile row bg-success text-light text-center mx-2 rounded-5 my-5"><h2 class="mx-auto my-auto">نمادهای محصول</h2></div>
-
+        <h2 class="mt-5 mx-5"> خدمات </h2>
+        {{--    Service Slider    --}}
         @if($this->serviceSlider->isNotEmpty() && count($this->serviceSlider) > 1)
 
             {{-- resources/views/livewire/slider-component.blade.php --}}
@@ -133,18 +138,18 @@
                                 ">
 
                                 <h2 class="mx-auto my-auto bg-secondary opacity-75 w-auto rounded-4 p-2">{{ $service->title }}</h2>
-                                <div class="bg-secondary h-75 bg-opacity-75 d-none d-md-block">{{ $service->description }}</div>
+                                <div class="bg-secondary h-75 bg-opacity-75">{{ $service->intro }}</div>
                             </div>
 
                         </div>
                     @endforeach
                 </div>
                 <!-- Left and right controls -->
-                <button class="carousel-control-prev" type="button" data-bs-target="#ServiceSlider" data-bs-slide="prev">
+                <button class="carousel-control-prev" type="button" data-bs-target="#ServiceSlider" data-bs-slide="next">
                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                     <span class="visually-hidden">Previous</span>
                 </button>
-                <button class="carousel-control-next" type="button" data-bs-target="#ServiceSlider" data-bs-slide="next">
+                <button class="carousel-control-next" type="button" data-bs-target="#ServiceSlider" data-bs-slide="prev">
                     <span class="carousel-control-next-icon" aria-hidden="true"></span>
                     <span class="visually-hidden">Next</span>
                 </button>
@@ -160,9 +165,62 @@
             @endforeach
         @endif
 
+        <h2 class="mt-5 mx-5"> آخرین مقالات </h2>
+        {{--    Magazine Slider    --}}
+        @if($this->articleSlider->isNotEmpty() && count($this->articleSlider) > 1)
 
-    <div class="home-tile row bg-info text-dark text-center mx-2 rounded-5 my-5"><h2 class="mx-auto my-auto">اسلایدر مقالات</h2></div>
+            {{-- resources/views/livewire/slider-component.blade.php --}}
+            <div id="MagSlider" class="carousel slide" data-bs-ride="carousel">
+                <!-- Indicators/dots -->
+                <div class="carousel-indicators">
+                    @foreach($this->articleSlider as $index => $article)
+                        <button type="button" data-bs-target="#MagSlider" data-bs-slide-to="{{ $index }}"
+                                class="{{ $index == 0 ? 'active' : '' }}"
+                                aria-current="{{ $index == 0 ? 'true' : 'false' }}"
+                                aria-label="Slide {{ $index + 1 }}"></button>
+                    @endforeach
+                </div>
+                <!-- The slideshow -->
+                <div class="carousel-inner">
+                    @foreach($this->articleSlider as $index => $article)
+                        <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
 
+                            <div class="home-tile row border text-light text-center mx-2 rounded-5"
+                                 style="background-image: url({{asset('storage/article_covers/'.$article->cover) }});
+                                background-size: cover;
+                                background-position: center;
+                                ">
+
+                                <h1 class="mx-auto my-auto bg-secondary opacity-75 w-auto rounded-4 p-2">{{ $article->title }}</h1>
+                                <div class="bg-secondary h-75 bg-opacity-75">{{ $article->intro }}</div>
+                            </div>
+
+                        </div>
+                    @endforeach
+                </div>
+                <!-- Left and right controls -->
+                <button class="carousel-control-prev" type="button" data-bs-target="#MagSlider" data-bs-slide="next">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#MagSlider" data-bs-slide="prev">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+        @endif
+
+        @if(count($this->articleSlider) == 1)
+            @foreach($this->serviceSlider as $article)
+                <div class="home-tile row bg-{{ $article->style }} text-light text-center mx-2 rounded-5">
+                    <h2 class="mx-auto my-auto">{{ $article->title }}</h2>
+                    <p>{{ $article->description }}</p>
+                </div>
+            @endforeach
+        @endif
+
+
+        {{--    Message panel    --}}
     <div class="row border text-center mx-2 rounded-5 my-5 px-1 py-2">
 
 

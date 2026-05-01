@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Models\Article;
 use App\Models\Notice;
 use App\Models\Product;
 use App\Models\Service;
@@ -42,7 +43,7 @@ Home extends Component
     public $counter = 0;
     public int $NotificationLimit = 3;
     public int $ProductLimit = 12;
-    public int $ServiceLimit = 6;
+    public int $ArticleLimit = 6;
 
 
     #[Computed]
@@ -74,8 +75,13 @@ Home extends Component
     #[Computed]
     public function serviceSlider()
     {
-         return Service::where('show',1)
-             ->limit($this->ServiceLimit)
+         return Service::where('show',1)->orderBy('created_at','DESC')->get();
+    }
+    #[Computed]
+    public function articleSlider()
+    {
+         return Article::where('show',1)
+             ->limit($this->ArticleLimit)
              ->orderBy('created_at','DESC')->get();
     }
 
