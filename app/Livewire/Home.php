@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use App\Models\Notice;
 use App\Models\Product;
+use App\Models\Service;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Collection;
 //use Illuminate\Validation\ValidationException;
@@ -41,6 +42,7 @@ Home extends Component
     public $counter = 0;
     public int $NotificationLimit = 3;
     public int $ProductLimit = 12;
+    public int $ServiceLimit = 6;
 
 
     #[Computed]
@@ -68,6 +70,13 @@ Home extends Component
             ->where('price','!=',0)
             ->limit($this->ProductLimit)
             ->orderBy('created_at','DESC')->get();
+    }
+    #[Computed]
+    public function serviceSlider()
+    {
+         return Service::where('show',1)
+             ->limit($this->ServiceLimit)
+             ->orderBy('created_at','DESC')->get();
     }
 
 

@@ -108,9 +108,58 @@
 
     <div class="home-tile row bg-success text-light text-center mx-2 rounded-5 my-5"><h2 class="mx-auto my-auto">نمادهای محصول</h2></div>
 
-    <div class="home-tile row bg-primary text-light text-center mx-2 rounded-5 my-5"><h2 class="mx-auto my-auto">اسلایدر خدمات</h2></div>
+        @if($this->serviceSlider->isNotEmpty() && count($this->serviceSlider) > 1)
 
-    <div class="home-tile row bg-warning text-dark text-center mx-2 rounded-5 my-5"><h2 class="mx-auto my-auto">اسلایدر محصولات</h2></div>
+            {{-- resources/views/livewire/slider-component.blade.php --}}
+            <div id="ServiceSlider" class="carousel slide" data-bs-ride="carousel">
+                <!-- Indicators/dots -->
+                <div class="carousel-indicators">
+                    @foreach($this->serviceSlider as $index => $service)
+                        <button type="button" data-bs-target="#ServiceSlider" data-bs-slide-to="{{ $index }}"
+                                class="{{ $index == 0 ? 'active' : '' }}"
+                                aria-current="{{ $index == 0 ? 'true' : 'false' }}"
+                                aria-label="Slide {{ $index + 1 }}"></button>
+                    @endforeach
+                </div>
+                <!-- The slideshow -->
+                <div class="carousel-inner">
+                    @foreach($this->serviceSlider as $index => $service)
+                        <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
+
+                            <div class="home-tile row border text-light text-center mx-2 rounded-5"
+                                 style="background-image: url({{asset('storage/service_covers/'.$service->cover) }});
+                                background-size: cover;
+                                background-position: center;
+                                min-height: 300px;">
+
+                                <h2 class="mx-auto my-auto bg-secondary opacity-75 w-auto rounded-4 p-2">{{ $service->title }}</h2>
+                                <p class="bg-secondary opacity-75">{{ $service->description }}</p>
+                            </div>
+
+                        </div>
+                    @endforeach
+                </div>
+                <!-- Left and right controls -->
+                <button class="carousel-control-prev" type="button" data-bs-target="#ServiceSlider" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#NoticeSlider" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+        @endif
+
+        @if(count($this->serviceSlider) == 1)
+            @foreach($this->serviceSlider as $service)
+                <div class="home-tile row bg-{{ $service->style }} text-light text-center mx-2 rounded-5">
+                    <h2 class="mx-auto my-auto">{{ $service->title }}</h2>
+                    <p>{{ $service->description }}</p>
+                </div>
+            @endforeach
+        @endif
+
 
     <div class="home-tile row bg-info text-dark text-center mx-2 rounded-5 my-5"><h2 class="mx-auto my-auto">اسلایدر مقالات</h2></div>
 
