@@ -130,10 +130,10 @@
                                  style="background-image: url({{asset('storage/service_covers/'.$service->cover) }});
                                 background-size: cover;
                                 background-position: center;
-                                min-height: 300px;">
+                                ">
 
                                 <h2 class="mx-auto my-auto bg-secondary opacity-75 w-auto rounded-4 p-2">{{ $service->title }}</h2>
-                                <p class="bg-secondary opacity-75">{{ $service->description }}</p>
+                                <div class="bg-secondary h-75 bg-opacity-75 d-none d-md-block">{{ $service->description }}</div>
                             </div>
 
                         </div>
@@ -144,7 +144,7 @@
                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                     <span class="visually-hidden">Previous</span>
                 </button>
-                <button class="carousel-control-next" type="button" data-bs-target="#NoticeSlider" data-bs-slide="next">
+                <button class="carousel-control-next" type="button" data-bs-target="#ServiceSlider" data-bs-slide="next">
                     <span class="carousel-control-next-icon" aria-hidden="true"></span>
                     <span class="visually-hidden">Next</span>
                 </button>
