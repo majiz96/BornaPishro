@@ -23,8 +23,6 @@ class Navbar extends Component
 
     public int $searchShow = 0;
 
-    public int $submenu = 0;
-
     public function mount()
     {
         $this->theme = session('theme', 'dark');
@@ -73,6 +71,8 @@ class Navbar extends Component
     public function toggleSearch()
     {
         $this->searchShow = $this->searchShow == 0 ? 1 : 0;
+
+        $this->dispatch('searchChanged',show: $this->searchShow);
     }
 
     public function logout()

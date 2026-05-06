@@ -25,6 +25,7 @@
     <body>
 
     <livewire:parts.navbar />
+    <livewire:parts.search />
 
     <main class="py-4">
         {{ $slot }}
