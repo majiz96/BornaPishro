@@ -72,7 +72,7 @@ class Navbar extends Component
     {
         $this->searchShow = $this->searchShow == 0 ? 1 : 0;
 
-        $this->dispatch('searchChanged',show: $this->searchShow);
+        $this->dispatch('searchToggled',show: $this->searchShow);
     }
 
     public function logout()
