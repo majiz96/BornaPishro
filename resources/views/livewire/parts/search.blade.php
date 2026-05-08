@@ -106,6 +106,9 @@
 
     @endif
 
+    @if($modalSearch)
+        @include('modals.modal-search')
+    @endif
 
 
 </div>

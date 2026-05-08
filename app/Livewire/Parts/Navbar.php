@@ -22,6 +22,9 @@ class Navbar extends Component
     public $noticeTitle;
 
     public int $searchShow = 0;
+    public int $modalSearchShow = 0;
+
+    public int $submenu = 0;
 
     public function mount()
     {
@@ -63,16 +66,22 @@ class Navbar extends Component
         $this->dispatch('themeChanged',theme: $this->theme);
     }
 
-    public function toggleMenu($submenu)
+    public function toggleMenu()
     {
-        $this->submenu = ($this->submenu == $submenu) ? 0 : 1;
+        $this->submenu = $this->submenu == 0 ? 1 : 0;
     }
 
     public function toggleSearch()
     {
         $this->searchShow = $this->searchShow == 0 ? 1 : 0;
 
-        $this->dispatch('searchToggled',show: $this->searchShow);
+        $this->dispatch('searchToggled',show: $this->modalSearchShow);
+    }
+    public function toggleModalSearch()
+    {
+        $this->modalSearchShow = $this->modalSearchShow == 0 ? 1 : 0;
+
+        $this->dispatch('modalSearchToggled',show: $this->modalSearchShow);
     }
 
     public function logout()

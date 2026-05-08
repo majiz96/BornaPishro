@@ -15,16 +15,33 @@ class Search extends Component
     public $search;
     public $filter;
 
+    public $modalSearch = 0;
+    public $showProducts;
+    public $showArticles;
+    public $showServices;
+
     #[On('searchToggled')]
     public function showSearchPanel()
     {
         $this->panel = 1;
         $this->search = '';
     }
+    #[On('modalSearchToggled')]
+    public function showModalSearchPanel()
+    {
+        $this->modalSearch = 1;
+        $this->search = '';
+
+    }
 
     public function closeSearch()
     {
         $this->panel = 0;
+        $this->search = '';
+    }
+    public function closeModalSearch()
+    {
+        $this->modalSearch = 0;
         $this->search = '';
     }
     public function eraseSearch()

@@ -21,9 +21,11 @@
 
                         <li class="nav-item"><a class="nav-link text-light">|</a></li>
 
-                        <li class="nav-item"><a class="nav-link text-light" href="{{ route('products') }}" wire:click="toggleMenu(1)">محصولات</a></li>
+{{--                        <li class="nav-item"><a class="nav-link text-light" href="{{ route('products') }}" wire:click="toggleMenu">محصولات</a></li>--}}
+                        <li class="nav-item"><a class="nav-link text-light" href="" wire:click="toggleMenu">محصولات</a></li>
+                        <i class="bi-caret-down-fill"></i>
                         <li class="nav-item"><a class="nav-link text-light" href="#">خدمات</a></li>
-                        <li class="nav-item"><a class="nav-link text-light" href="#">مقالات</a></li>
+                        <li class="nav-item"><a class="nav-link text-light" href="#">مقالات</a></li>W
                         <li class="nav-item"><a class="nav-link text-light" href="#">ارتباط با ما</a></li>
                     </ul>
                 </div>
@@ -35,7 +37,8 @@
 
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav ms-auto">
-                        <li class="nav-item"><a class="nav-link text-light" href="{{ route('products') }}" wire:click="toggleMenu(1)">محصولات</a></li>
+{{--                        <li class="nav-item"><a class="nav-link text-light" href="{{ route('products') }}" wire:click="toggleMenu(1)">محصولات</a></li>--}}
+                        <li class="nav-item"><a class="nav-link text-light delete-badge" wire:click="toggleMenu">محصولات</a></li>
                         <li class="nav-item"><a class="nav-link text-light" href="#">خدمات</a></li>
                         <li class="nav-item"><a class="nav-link text-light" href="#">مقالات</a></li>
                         <li class="nav-item"><a class="nav-link text-light" href="#">ارتباط با ما</a></li>
@@ -101,6 +104,10 @@
                 <i class="bi-search" wire:click="toggleSearch"></i>
             </div>
 
+            @if($submenu)
+                <div class="home-blocks cs-navbar"> hello </div>
+            @endif
+
         </div>
 
         <div class="w-100 d-md-flex d-lg-none align-items-center" dir="rtl">
@@ -130,7 +137,7 @@
                 <!-- چپ: آیکن سرچ با فاصله از کنار -->
                 <div class="position-absolute top-50 translate-middle-y"
                      style="left: 1.5rem;">
-                    <i class="bi-search fs-5"></i>
+                    <i class="bi-search fs-5" wire:click="toggleModalSearch"></i>
                 </div>
             </div>
 
