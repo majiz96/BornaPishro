@@ -3,8 +3,11 @@
 namespace App\Livewire\Parts;
 
 use App\Livewire\Dashboard\Website\Notices;
+use App\Models\Category;
+use App\Models\Field;
 use Illuminate\Support\Facades\Auth;
 
+use Livewire\Attributes\Computed;
 use Livewire\Component;
 
 use App\Models\User;
@@ -24,7 +27,10 @@ class Navbar extends Component
     public int $searchShow = 0;
     public int $modalSearchShow = 0;
 
-    public int $submenu = 0;
+    public $submenu = '';
+    public string $menuTab;
+
+    public int $children = 0;
 
     public function mount()
     {
@@ -66,9 +72,60 @@ class Navbar extends Component
         $this->dispatch('themeChanged',theme: $this->theme);
     }
 
-    public function toggleMenu()
+//    public function toggleMenu($tab)
+//    {
+//        $this->submenu = $this->submenu == 0 ? 1 : 0;
+//
+//        if($this->submenu == 0)
+//        {
+//            $this->menuTab = '';
+//        }
+//        else
+//        {
+//            $this->menuTab = $tab;
+//        }
+//    }
+
+    public function showMenu($tab)
     {
-        $this->submenu = $this->submenu == 0 ? 1 : 0;
+        if(!empty($tab))
+        {
+            $this->submenu = $tab;
+            $this->menuTab = $tab;
+        }
+        else
+        {
+            $this->submenu = $this->menuTab;
+        }
+
+    }
+    public function hideMenu()
+    {
+        $this->submenu = '';
+    }
+
+    #[Computed]
+    public function getField()
+    {
+        return Field::orderBy('name')->get();
+    }
+    #[Computed]
+    public function getFieldName()
+    {
+        return Field::where('id',$this->submenu)->pluck('name')->first();
+    }
+    #[Computed]
+    public function getCategory()
+    {
+        return Category::where('field_id',$this->submenu)
+            ->where('parent_id',0)
+            ->with('children')
+            ->get();
+    }
+
+    public function showChildren($id)
+    {
+        $this->children = $id;
     }
 
     public function toggleSearch()

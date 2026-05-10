@@ -21,6 +21,7 @@
 <body>
 
 <livewire:parts.navbar />
+<livewire:parts.search />
 
 
 

@@ -1,8 +1,13 @@
-<nav class="cs-navbar navbar navbar-expand-lg text-light m-4 py-xl-0 rounded-4 sticky-top" dir="rtl">
+<nav class="cs-navbar navbar navbar-expand-lg text-light m-4 py-xl-0 sticky-top  {{ $submenu ? 'rounded-top-5' : 'rounded-4' }}" dir="rtl">
 
     <div class="container-fluid">
 
-        <div class="w-100 d-none d-lg-flex mt-0">
+        <div class="w-100 d-none d-lg-flex mt-0 pe-0">
+
+            <a class="navbar-brand text-light" href="/">
+{{--                <img class="nav-logo mt-2" src="storage/logo/logo.png" alt="">--}}
+                <img class="nav-logo mt-2" src="{{asset('storage/logo/logo.png') }}" alt="">
+            </a>
 
             <a class="navbar-brand text-light" href="/"><h1>برناپیشرو</h1></a>
 
@@ -38,9 +43,16 @@
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav ms-auto">
 {{--                        <li class="nav-item"><a class="nav-link text-light" href="{{ route('products') }}" wire:click="toggleMenu(1)">محصولات</a></li>--}}
-                        <li class="nav-item"><a class="nav-link text-light delete-badge" wire:click="toggleMenu">محصولات</a></li>
-                        <li class="nav-item"><a class="nav-link text-light" href="#">خدمات</a></li>
-                        <li class="nav-item"><a class="nav-link text-light" href="#">مقالات</a></li>
+
+                        @if($this->getField->isNotEmpty())
+                            @foreach($this->getField as $field)
+                                <li class="nav-item"><a class="nav-link text-light delete-badge" wire:mouseover="showMenu({{$field->id}})" wire:mouseout="hideMenu">{{$field->name}}</a></li>
+                            @endforeach
+                        @endif
+
+{{--                        <li class="nav-item"><a class="nav-link text-light delete-badge" wire:mouseover="showMenu(1)" wire:mouseout="hideMenu">محصولات</a></li>--}}
+{{--                        <li class="nav-item"><a class="nav-link text-light delete-badge" wire:mouseover="showMenu(2)"  wire:mouseout="hideMenu">خدمات</a></li>--}}
+{{--                        <li class="nav-item"><a class="nav-link text-light delete-badge" wire:mouseover="showMenu(3)"  wire:mouseout="hideMenu">مقالات</a></li>--}}
                         <li class="nav-item"><a class="nav-link text-light" href="#">ارتباط با ما</a></li>
                     </ul>
                 </div>
@@ -104,9 +116,48 @@
                 <i class="bi-search" wire:click="toggleSearch"></i>
             </div>
 
-            @if($submenu)
-                <div class="home-blocks cs-navbar"> hello </div>
-            @endif
+            {{--            Mega Menu           --}}
+            <div class="row megamenu bg-body rounded-bottom-5 mx-auto {{ $submenu ? 'show' : '' }}" wire:mouseover="showMenu({{$menuTab}})" wire:mouseout="hideMenu">
+
+                    @if($this->getCategory->isNotEmpty())
+
+                        <div class="col-xxl-6 col-xl-9 col-9">
+                            <div class="row">
+                                @foreach($this->getCategory as $category)
+
+                                    @if($category->children->isNotEmpty())
+                                        <div class="col-3 text-center mx-auto p-2 delete-badge" wire:mouseover="showChildren({{$category->id}})">
+
+                                            <a class="text-decoration-none nav-item text-body h5 fw-bold mb-5 py-1 megamenutitle" href="#"> {{$category->name}}</a>
+
+                                            <div class="mt-4"></div>
+
+                                            @foreach($category->children as $children)
+                                                <div class="row text-center my-2">
+                                                    <a class="text-decoration-none nav-item text-body" href="#"> {{$children->name}}</a>
+                                                </div>
+                                            @endforeach
+
+                                        </div>
+                                    @else
+                                        <div class="col-3 text-center mx-auto p-2 delete-badge">
+                                            <a class="text-decoration-none nav-item text-body h5 fw-bold" href="#"> {{$category->name}}  </a>
+                                        </div>
+                                    @endif
+
+
+                                @endforeach
+                            </div>
+                        </div>
+
+                        <div class="col-xxl-6 col-xl-3 col-3"></div>
+
+
+                    @endif
+
+
+            </div>
+
 
         </div>
 

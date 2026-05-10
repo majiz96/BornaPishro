@@ -9,6 +9,10 @@ i
 {
     cursor: pointer;
 }
+.navbar
+{
+   transition: border-radius 0.2s ease;
+}
 .cs-navbar
 {
     /*background-color:#096781;*/
@@ -21,6 +25,11 @@ i
     /*background: #5a75ff;*/
     background: #13b37b;
     color:white;
+}
+.nav-logo
+{
+    width: 2.75rem;
+    width: 2.75rem;
 }
 .cs-button
 {
@@ -209,4 +218,40 @@ i
     border-color: #b5b5b5;
     box-shadow: 0 2px 4px rgba(0,0,0,0.4);
     border-radius: 0.5rem;
+}
+
+.megamenu {
+    position: absolute;
+    /* به جای top:80%، از مقدار دقیق‌تر استفاده می‌کنیم */
+    top: calc(100% - 1px);   /* یک پیکسل بالاتر از لبه پایینی (همپوشانی جزئی) */
+    left: 0;
+    right: 0;
+    width: 100%;
+    min-height: 10vh;
+    /*background: #84919e !important;*/
+    border: 0.25rem solid #84919e;
+    color: white;
+    z-index: 1050;
+    padding: 1rem;
+
+    /* برای پوشاندن کامل rounded-4 زیر نوار */
+    /*border-radius: 0 0 0.5rem 0.5rem; !* اگر نوار rounded-4 دارد *!*/
+
+    /* ترانزیشن (حالا فعال است) */
+    transition: all 0.35s ease-in-out;
+
+    /* حالت مخفی */
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-15px);
+}
+
+.megamenu.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+.megamenutitle
+{
+    border-bottom: 0.15rem solid white;
 }
