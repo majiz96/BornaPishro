@@ -150,7 +150,11 @@
                             </div>
                         </div>
 
-                        <div class="col-xxl-6 col-xl-3 col-3"></div>
+                        <div class="col-xxl-6 col-xl-3 col-3 text-start align-content-start">
+
+                                <img src="{{asset('storage/field_logos/'.$this->getFieldImage())}}" alt="" class="megamenu-pic rounded ms-0 align-content-start">
+
+                        </div>
 
 
                     @endif

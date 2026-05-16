@@ -119,8 +119,16 @@ class Navbar extends Component
     {
         return Category::where('field_id',$this->submenu)
             ->where('parent_id',0)
-            ->with('children')
+            ->with('children','field')
             ->get();
+    }
+
+    #[Computed]
+    public function getFieldImage()
+    {
+       return Field::where('id',$this->submenu)
+            ->pluck('image')
+            ->first();
     }
 
     public function showChildren($id)

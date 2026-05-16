@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -11,6 +12,11 @@ class Category extends Model
 {
     protected $table = 'categories';
     protected $fillable = ['name', 'field_id', 'parent_id'];
+
+    public function field(): BelongsTo
+    {
+        return $this->belongsTo(Field::class);
+    }
 
     public function products(): HasMany
     {

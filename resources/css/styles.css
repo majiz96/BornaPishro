@@ -255,3 +255,8 @@ i
 {
     border-bottom: 0.15rem solid white;
 }
+.megamenu-pic
+{
+    max-height: 200px;
+    max-width: 100%;
+}

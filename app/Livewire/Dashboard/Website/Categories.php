@@ -2,10 +2,12 @@
 
 namespace App\Livewire\Dashboard\Website;
 
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 
 use Livewire\Component;
 use Livewire\Attributes\Validate;
+use Livewire\WithFileUploads;
 
 use App\Models\Field;
 use App\Models\Category;
@@ -13,12 +15,13 @@ use App\Models\Category;
 class Categories extends Component
 {
 
+    use WithFileUploads;
     public $editingField = null;
     public $editingCategory = null;
     public $editingChild = null;
 
 
-    public string $field_name;
+    public $field_name,$field_route,$field_logo,$field_show;
 
     public string $category_name;
 
@@ -35,46 +38,112 @@ class Categories extends Component
         $field = Field::findOrFail($id);
         $this->editingField = $field->id;
         $this->field_name = $field->name;
+        $this->field_route = $field->route;
+        $this->field_logo = $field->image;
+        $this->field_show = $field->show_menu;
     }
 
     public function cancelField()
     {
     $this->editingField = null;
-    $this->reset(['field_name']);
+    $this->reset(['field_name','field_route','field_logo','field_show']);
     }
+
+    protected $Field_Rules = [
+        'field_name' => 'required|string|unique:fields,name',
+        'field_route' => 'nullable|string|unique:fields,route',
+        'field_logo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:4096|unique:fields,image',
+    ];
+
+    protected $Field_Messages = [
+        'field_name.required' => 'هر زمینه به یک نام نیاز دارد',
+        'field_name.string' => 'نام هر زمینه باید متنی باشد',
+        'field_name.unique' => 'زمینه ای با این نام وجود دارد',
+        'field_route.string' => 'مسیر هر زمینه باید متنی باشد',
+        'field_route.unique' => 'زمینه ای با این مسیر وجود دارد',
+        'field_logo.image' => 'فایل انتخاب شده تصویر نیست',
+        'field_logo.mimes' => 'فایل انتخاب شده از فرمتهای مجاز(jpeg,png,jpg,gif,svg) نیست',
+        'field_logo.max' => 'فایل انتخاب شده بزرگتر از ۲ مگابایت ۴ مگابایت است',
+        'field_logo.unique' => 'این فایل قبلا انتخاب شده است',
+    ];
+
+    protected $Field_Update_Rules = [
+        'field_name' => 'required|string',
+        'field_route' => 'nullable|string',
+    ];
+
+    protected $Field_Update_Messages = [
+        'field_name.required' => 'هر زمینه به یک نام نیاز دارد',
+        'field_name.string' => 'نام هر زمینه باید متنی باشد',
+        'field_route.string' => 'مسیر هر زمینه باید متنی باشد',
+    ];
+
 
     public function saveField()
     {
         if($this->editingField)
         {
-            $this->validate([
-                'field_name' => 'required|string'
-            ],
-                [
-                    'field_name.required' => 'هر زمینه به یک نام نیاز دارد',
-                    'field_name.string' => 'نام هر زمینه باید متنی باشد',
-                ]);
-            Field::findOrFail($this->editingField)->update(['name' => $this->field_name]);
+            $field = Field::findOrFail($this->editingField);
+
+            $this->validate($this->Field_Update_Rules , $this->Field_Update_Messages);
+
+            if(!is_string($this->field_logo))
+            {
+                $this->Field_Update_Rules['image'] ='nullable|image|mimes:jpeg,png,jpg,gif,svg|max:4096';
+                $this->Field_Update_Messages['image.image'] = 'فایل انتخاب شده تصویر نیست';
+                $this->Field_Update_Messages['image.mimes'] = 'فایل انتخاب شده از فرمتهای مجاز(jpeg,png,jpg,gif,svg) نیست';
+                $this->Field_Update_Messages['image.max'] = 'فایل انتخاب شده بزرگتر از ۴ مگابایت است';
+
+                Storage::disk('public')->delete('field_logos/'.$field->image);
+
+                $logoname = uniqid('logo_').'.'.$this->field_logo->getClientOriginalExtension();
+                $this->field_logo->storeAs('field_logos', $logoname , 'public');
+            }
+            else
+            {
+                $logoname = $this->field_logo;
+            }
+
+
+            Field::findOrFail($this->editingField)->update([
+                'name' => $this->field_name,
+                'route' => $this->field_route,
+                'image' => $logoname,
+                'show_menu' => $this->field_show,
+            ]);
             $this->reset();
         }
         else
         {
-            $this->validate([
-                'field_name' => 'required|string|unique:categories,name'
-            ],
-            [
-                'field_name.required' => 'هر زمینه به یک نام نیاز دارد',
-                'field_name.string' => 'نام هر زمینه باید متنی باشد',
-                'field_name.unique' => 'نام زمینه قبلا انتخاب شده است',
+            $this->validate($this->Field_Rules , $this->Field_Messages);
+
+            if($this->field_logo && !is_string($this->field_logo))
+            {
+                $logoname = uniqid('logo_').'.'.$this->field_logo->getClientOriginalExtention();
+                $this->field_logo->storeAs('field_logos', $logoname, 'public');
+            }
+            else
+            {
+                $this->field_logo = [];
+            }
+
+
+            Field::create([
+                'name'=>$this->field_name,
+                'route'=>$this->field_route,
+                'image'=>$logoname,
+                'show_menu'=>$this->field_show,
             ]);
-            Field::create(['name'=>$this->field_name]);
+
             $this->reset();
         }
     }
 
     public function deleteField($id)
     {
-        Field::findOrFail($id)->delete();
+        $field = Field::findOrFail($id);
+        $field->delete();
+        Storage::disk('public')->delete('field_logos/'.$field->logo);
 
         Category::where('field_id', $id)->delete();
 

@@ -16,9 +16,47 @@
             <form wire:submit.prevent="saveField" class="row">
 
                 @csrf
-                    <label for="field_name" class="form-label">نام زمینه</label>
-                    <input type="text" id="field_name" class="form-control" wire:model.blur="field_name">
+                    <label for="field_name" class="form-label my-1">نام زمینه</label>
+                    <input type="text" id="field_name" class="form-control my-1" wire:model.blur="field_name">
                     @error('field_name') <small class="text-danger">{{ $message }}</small> @enderror
+
+                    <label for="field_route" class="form-label my-1">مسیر زمینه</label>
+                    <input type="text" id="field_route" class="form-control my-1" wire:model.blur="field_route">
+                    @error('field_route') <small class="text-danger">{{ $message }}</small> @enderror
+
+                    <label for="field_logo" class="form-label my-1">تصویر نماد زمینه</label>
+                    <input type="file" id="field_logo" class="form-control my-1" wire:model.live="field_logo">
+                    @error('field_logo') <small class="text-danger">{{ $message }}</small> @enderror
+
+                <div class="row">
+                    @if($field_logo)
+                        @if(is_string($field_logo) && $editingField)
+                            <img src="{{asset('storage/field_logos/'.$field_logo) }}"  alt="پیش نمایش" height="100" class="rounded">
+                        @else
+                            <img src="{{$field_logo->temporaryUrl()}}"  alt="پیش نمایش"  height="100" class="rounded">
+                        @endif
+                    @endif
+                </div>
+
+                <div class="row py-1">
+                    <label for="field_show" class="form-label col-auto my-1"> نمایش در منوی وبسایت </label>
+                    @if($editingField)
+                        @if($field_show == 0)
+                            <input type="checkbox" id="field_show" class="form-check col-auto my-1" value="1">
+                        @else
+                            <input type="checkbox" id="field_show" class="form-check col-auto my-1" value="0" checked>
+                        @endif
+                        <input type="checkbox" id="field_show" class="form-check col-auto my-1" wire:change="showField">
+
+                    @else
+                        <input type="checkbox" id="field_show" class="form-check col-auto my-1" wire:model.blur="field_show">
+                    @endif
+
+
+                </div>
+
+
+
 
                     <button type="submit" class="btn btn-secondary col-xl-3 my-3 mx-auto"> ثبت </button>
 
