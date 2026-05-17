@@ -8,6 +8,8 @@ use App\Livewire\Counter;
 
 use App\Livewire\Products;
 use App\Livewire\ProductUnit;
+use App\Livewire\Services;
+use App\Livewire\Articles;
 
 use App\Livewire\Dashboard\Users\EditProfile;
 use App\Livewire\Dashboard\Users\UsersManagement;
@@ -46,6 +48,9 @@ Route::get('login',Login::class)->name('login');
 Route::get('products',Products::class)->name('products');
 Route::get('products/{category}',Products::class)->name('products');
 Route::get('product/{product}',ProductUnit::class)->name('product.show');
+Route::get('services',Services::class)->name('services');
+Route::get('articles',Articles::class)->name('articles');
+
 
 Route::middleware(['auth', 'verified'])->prefix('dashboard')->group(function () {
 
