@@ -4,7 +4,16 @@
 
         <div class="row text-center px-xl-5 px-4">
 
-            <h2 class="my-auto"> دسته ها </h2>
+            <h2 class="my-auto">
+                دسته ها
+{{--                {{$category}}--}}
+{{--                 ==--}}
+{{--                @forelse($activeCategory as $active)--}}
+{{--                    {{$active}}--}}
+{{--                @empty--}}
+{{--                    هیچ دسته منتخبی وجود ندارد--}}
+{{--                @endforelse--}}
+            </h2>
             <div class="row text-center border rounded-4 px-xl-5 pt-3 pb-2 mx-auto">
 
                 @if($this->categories->isNotEmpty())

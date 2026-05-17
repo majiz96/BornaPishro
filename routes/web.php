@@ -44,6 +44,7 @@ Route::get('login',Login::class)->name('login');
 
 
 Route::get('products',Products::class)->name('products');
+Route::get('products/{category}',Products::class)->name('products');
 Route::get('product/{product}',ProductUnit::class)->name('product.show');
 
 Route::middleware(['auth', 'verified'])->prefix('dashboard')->group(function () {

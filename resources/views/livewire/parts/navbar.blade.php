@@ -46,7 +46,14 @@
 
                         @if($this->getField->isNotEmpty())
                             @foreach($this->getField as $field)
-                                <li class="nav-item"><a class="nav-link text-light delete-badge" wire:mouseover="showMenu({{$field->id}})" wire:mouseout="hideMenu">{{$field->name}}</a></li>
+                                <li class="nav-item">
+                                    <a
+                                        href="{{$field->route == '' ? $field->route : '../'.$field->route}}"
+                                        class="nav-link text-light delete-badge"
+                                       wire:mouseover="showMenu({{$field->id}})"
+                                       wire:mouseout="hideMenu">{{$field->name}}
+                                    </a>
+                                </li>
                             @endforeach
                         @endif
 
@@ -128,20 +135,30 @@
                                     @if($category->children->isNotEmpty())
                                         <div class="col-3 text-center mx-auto p-2 delete-badge" wire:mouseover="showChildren({{$category->id}})">
 
-                                            <a class="text-decoration-none nav-item text-body h5 fw-bold mb-5 py-1 megamenutitle" href="#"> {{$category->name}}</a>
+                                            <a class="text-decoration-none nav-item text-body h5 fw-bold mb-5 py-1 megamenutitle"
+                                               href="{{$this->getFieldRoute() == '' ? $this->getFieldRoute().'/'.$category->id : '../'.$this->getFieldRoute().'/'.$category->id}}">
+                                                {{$category->name}}
+                                            </a>
 
                                             <div class="mt-4"></div>
 
                                             @foreach($category->children as $children)
                                                 <div class="row text-center my-2">
-                                                    <a class="text-decoration-none nav-item text-body" href="#"> {{$children->name}}</a>
+                                                    <a class="text-decoration-none nav-item text-body"
+
+                                                       href="{{$this->getFieldRoute() == '' ? $this->getFieldRoute().'/'.$children->id : '../'.$this->getFieldRoute().'/'.$children->id}}">
+                                                        {{$children->name}}
+                                                    </a>
                                                 </div>
                                             @endforeach
 
                                         </div>
                                     @else
                                         <div class="col-3 text-center mx-auto p-2 delete-badge">
-                                            <a class="text-decoration-none nav-item text-body h5 fw-bold" href="#"> {{$category->name}}  </a>
+                                            <a class="text-decoration-none nav-item text-body h5 fw-bold"
+                                               href="{{$this->getFieldRoute() == '' ? $this->getFieldRoute().'/'.$category->id : '../'.$this->getFieldRoute().'/'.$category->id}}">
+                                                {{$category->name}}
+                                            </a>
                                         </div>
                                     @endif
 

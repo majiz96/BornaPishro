@@ -40,13 +40,16 @@
 
                 <div class="row py-1">
                     <label for="field_show" class="form-label col-auto my-1"> نمایش در منوی وبسایت </label>
+
                     @if($editingField)
+
                         @if($field_show == 0)
-                            <input type="checkbox" id="field_show" class="form-check col-auto my-1" value="1">
+                            {{$field_show}}
+                            <input type="checkbox" id="field_show" class="form-check col-auto my-1" value="1" wire:model.live="field_show">
                         @else
-                            <input type="checkbox" id="field_show" class="form-check col-auto my-1" value="0" checked>
+                            {{$field_show}}
+                            <input type="checkbox" id="field_show" class="form-check col-auto my-1" value="0" wire:model.live="field_show" checked>
                         @endif
-                        <input type="checkbox" id="field_show" class="form-check col-auto my-1" wire:change="showField">
 
                     @else
                         <input type="checkbox" id="field_show" class="form-check col-auto my-1" wire:model.blur="field_show">

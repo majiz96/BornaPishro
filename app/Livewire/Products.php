@@ -15,6 +15,7 @@ class Products extends Component
     use WithPagination;
     protected $paginationTheme = 'bootstrap';
 
+    public $category;
     public array $activeCategory = [];
     public array $activeFilter = [];
     public bool $supplyCheck = false;
@@ -37,8 +38,19 @@ class Products extends Component
         }
     }
 
-    public function mount()
+    public function mount(Category $category)
     {
+        $this->category = $category->id;
+
+        if($this->category)
+        {
+            $this->activeCategory = $category->where('id',$this->category)->pluck('id')->toArray();
+        }
+        else
+        {
+            $this->activeCategory = [];
+        }
+
 //        set chosen and default value of minimum and maximum price
         $this->priceMin = (int) Product::get()->min('price') ?? 0;
         $this->priceMax = (int) Product::get()->max('price') ?? 1000000000;

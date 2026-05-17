@@ -107,12 +107,19 @@ class Navbar extends Component
     #[Computed]
     public function getField()
     {
-        return Field::orderBy('name')->get();
+        return Field::where('show_menu', 1)
+        ->orderBy('name')
+        ->get();
     }
     #[Computed]
     public function getFieldName()
     {
         return Field::where('id',$this->submenu)->pluck('name')->first();
+    }
+    #[Computed]
+    public function getFieldRoute()
+    {
+        return Field::where('id',$this->submenu)->pluck('route')->first();
     }
     #[Computed]
     public function getCategory()
