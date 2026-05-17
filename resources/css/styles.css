@@ -13,6 +13,10 @@ i
 {
    transition: border-radius 0.2s ease;
 }
+.avoid-emptiness
+{
+    min-height: 60vh;
+}
 .cs-navbar
 {
     /*background-color:#096781;*/
