@@ -26,6 +26,7 @@ class Services extends Component
     {
         return Category::with('children')
             ->where('field_id', 2)
+            ->where('id', '<', 99)
             ->get();
     }
     #[Computed]

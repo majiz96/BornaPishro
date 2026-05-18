@@ -165,7 +165,10 @@ class Filters extends Component
 
         if($this->field_id)
         {
-            $categories = Category::with('children','parent')->where('parent_id',0)->where('field_id',$this->field_id)->get();
+            $categories = Category::with('children','parent')
+                ->where('parent_id',0)
+                ->where('field_id',$this->field_id)
+                ->get();
         }
         else
         {

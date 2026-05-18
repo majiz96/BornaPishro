@@ -13,6 +13,26 @@
         </div>
 
         <div class="col-xl-2 my-auto">
+            <select class="form-select" wire:model="filter_id">
+                <option value=""> فیلتر را انتخاب کنید </option>
+
+                @if($this->filters->isNotEmpty())
+
+                    @foreach($this->filters as $filter)
+
+                        <option value="{{$filter->id}}"> {{$filter->title}} </option>
+
+                    @endforeach
+
+                @else
+                    <option value=""> فیلتری برای خدمات ثبت نکرده اید! </option>
+                @endif
+
+            </select>
+
+        </div>
+
+        <div class="col-xl-2 my-auto">
             <select class="form-select" wire:model="category_id">
                 <option value=""> دسته را انتخاب کنید </option>
 

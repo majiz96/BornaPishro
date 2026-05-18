@@ -3,10 +3,12 @@
 namespace App\Livewire\Dashboard;
 
 use App\Models\Category;
+use App\Models\Filter;
 use App\Models\Service;
 
 use Illuminate\Support\Facades\Storage;
 
+use Livewire\Attributes\Computed;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Livewire\Attributes\Validate;
@@ -17,7 +19,7 @@ class ServicesManagement extends Component
 
     public string $message = '';
 
-    public $category_id,$title,$intro,$description,$cover,$thumbnail,$show;
+    public $category_id,$filter_id,$title,$intro,$description,$cover,$thumbnail,$show;
 
     public $activeParent,$activeChild;
 
@@ -29,6 +31,7 @@ class ServicesManagement extends Component
 
     public $rules = [
         'category_id' => 'required',
+        'filter_id' => 'nullable',
         'title'=>'required',
         'intro'=>'required',
         'description'=>'required',
@@ -53,6 +56,7 @@ class ServicesManagement extends Component
 
     public $editRules = [
         'category_id' => 'required',
+        'filter_id' => 'nullable',
         'title'=>'required',
         'intro'=>'required',
         'description'=>'required',
@@ -67,15 +71,16 @@ class ServicesManagement extends Component
 
     public function edit($id)
     {
-        $article = Service::findOrFail($id);
+        $service = Service::findOrFail($id);
         $this->editing = $id;
 
-        $this->category_id = $article->category_id;
-        $this->title = $article->title;
-        $this->intro = $article->intro;
-        $this->description = $article->description;
-        $this->cover = $article->cover;
-        $this->thumbnail = $article->thumbnail;
+        $this->category_id = $service->category_id;
+        $this->filter_id = $service->filter_id;
+        $this->title = $service->title;
+        $this->intro = $service->intro;
+        $this->description = $service->description;
+        $this->cover = $service->cover;
+        $this->thumbnail = $service->thumbnail;
     }
 
     public function cancel()
@@ -126,12 +131,17 @@ class ServicesManagement extends Component
 
             $this->validate($this->editRules,$this->editMessages);
 
-            $data = $this->pull(['category_id','title','intro','description']);
-            $data['cover'] = $covername;
-            $data['thumbnail'] = $thumbnailname;
-
-            $service->update($data);
-            $this->reset(['cover','thumbnail','editing']);
+            $service->update([
+                'category_id' => $this->category_id,
+                'filter_id' => $this->filter_id,
+                'title' => $this->title,
+                'intro' => $this->intro,
+                'description' => $this->description,
+                'cover' => $covername,
+                'thumbnail' => $thumbnailname,
+                'show'=>0
+            ]);
+            $this->reset(['cover','thumbnail','editing','category_id','title','intro','description','filter_id']);
         }
         else
         {
@@ -151,12 +161,20 @@ class ServicesManagement extends Component
 
             $this->validate($this->rules,$this->messages);
 
-            $data = $this->pull(['category_id','title','intro','description']);
-            $data['cover'] = $covername;
-            $data['thumbnail'] = $thumbnailname;
 
-            Service::create($data);
-            $this->reset(['cover','thumbnail']);
+            Service::create(
+                [
+                    'category_id' => $this->category_id,
+                    'filter_id' => $this->filter_id,
+                    'title' => $this->title,
+                    'intro' => $this->intro,
+                    'description' => $this->description,
+                    'cover' => $covername,
+                    'thumbnail' => $thumbnailname,
+                    'show'=> 0
+                ]
+            );
+            $this->reset(['cover','thumbnail','category_id','title','intro','description','filter_id']);
         }
     }
 
@@ -188,6 +206,17 @@ class ServicesManagement extends Component
         $service = Service::findOrFail($id);
         $this->modalTitle = $service->title;
         $this->modalDescription = $service->description;
+    }
+
+    #[Computed]
+    public function filters()
+    {
+        return Filter::where('field_id',2)
+            ->where('category_id',$this->activeChild)
+            ->orWhere('category_id',$this->activeParent)
+            ->orWhere('category_id',200)
+            ->where('show',1)
+            ->get();
     }
 
     public function render()

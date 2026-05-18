@@ -60,6 +60,7 @@ class Products extends Component
     {
         return Category::with('children')
             ->where('field_id', 3)
+            ->where('id', '<', 99)
             ->get();
     }
 

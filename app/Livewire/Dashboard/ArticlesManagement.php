@@ -4,12 +4,14 @@ namespace App\Livewire\Dashboard;
 
 use App\Models\Article;
 use App\Models\Category;
+use App\Models\Filter;
 use App\Models\User;
 
 
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
 
+use Livewire\Attributes\Computed;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Livewire\Attributes\Validate;
@@ -210,9 +212,24 @@ class ArticlesManagement extends Component
 
     }
 
+    #[Computed]
+    public function filters()
+    {
+        return Filter::where('field_id',1)
+            ->where('category_id',$this->activeChild)
+            ->orWhere('category_id',$this->activeParent)
+            ->orWhere('category_id',100)
+            ->where('show',1)
+            ->get();
+    }
+
     public function render()
     {
-        $categories = Category::with('children','parent')->where('field_id',1)->where('parent_id',0)->get();
+        $categories = Category::with('children','parent')
+            ->where('field_id',1)
+            ->where('parent_id',0)
+            ->where('id','!=',100)
+            ->get();
 
         if(!$this->activeParent)
         {

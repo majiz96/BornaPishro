@@ -13,7 +13,29 @@
             @error('title') <small class="text-danger"> {{$message}} </small> @enderror
         </div>
 
-        <div class="col-xl-4"></div>
+        <div class="col-xl-2"></div>
+
+
+        <div class="col-xl-2 my-auto">
+            <select class="form-select" wire:model="filter_id">
+                <option value=""> فیلتر را انتخاب کنید </option>
+
+                @if($this->filters->isNotEmpty())
+
+                    @foreach($this->filters as $filter)
+
+                        <option value="{{$filter->id}}"> {{$filter->title}} </option>
+
+                    @endforeach
+
+                @else
+                    <option value=""> فیلتری برای خدمات ثبت نکرده اید! </option>
+                @endif
+
+            </select>
+
+        </div>
+
 
         <div class="col-xl-2 my-auto">
             <select class="form-select" wire:model="category_id">
@@ -44,7 +66,7 @@
                     @endforeach
 
                 @else
-                    <option value=""> دسته ای برای مقالات ثبت نکرده اید! </option>
+                    <option value=""> دسته ای برای خدمات ثبت نکرده اید! </option>
                 @endif
 
             </select>

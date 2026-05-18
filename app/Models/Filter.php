@@ -25,4 +25,14 @@ class Filter extends Model
     {
         return $this->hasMany(SpecUnit::class);
     }
+
+    public function articles():HasMany
+    {
+        return $this->hasMany(Article::class);
+    }
+
+    public function services():HasMany
+    {
+        return $this->hasMany(Service::class, 'filter_id','id');
+    }
 }

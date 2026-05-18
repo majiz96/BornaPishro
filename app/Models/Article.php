@@ -25,4 +25,9 @@ class Article extends Model
     {
         return $this->belongsTo(User::class, 'editor_id','id');
     }
+
+    public function filter(): BelongsTo
+    {
+        return $this->belongsTo(Filter::class,'id','filter_id');
+    }
 }
