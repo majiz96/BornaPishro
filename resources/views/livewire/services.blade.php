@@ -56,36 +56,58 @@
 
     </div>
 
-    <div class="row mt-3 mb-1 px-3">
+    <div class="row border rounded-4 mx-1 my-4">
 
-        <div class="col-xl-2">
-            <input type="text" wire:model.live="search" class="form-control" placeholder="جستجو...">
+        <div class="col-xl-1 col-auto border rounded-end-4">
+            @if($this->filters->isNotEmpty())
+                @foreach($this->filters as $filter)
+
+                    <div class="row m-2 text-end mx-auto">
+
+                        <div class="col-auto">{{$filter->title}}</div>
+                        <div class="col-auto"><input type="{{$filter->type}}" wire:model.live="activeFilter" value="{{$filter->id}}"></div>
+
+                    </div>
+                @endforeach
+            @endif
         </div>
 
-        <div class="col-xl-1 my-auto">
-            <select wire:model.live="sort" class="form-select">
-                <option value="created_at"> تاریخ </option>
-                <option value="name">نام</option>
-                <option value="name">دسته</option>
-            </select>
-        </div>
+        <div class="col-xl-11 col-auto">
+            <div class="row mt-3 mb-1 px-3">
 
-        <div class="col-xl-1 my-auto">
-            <select wire:model.live="direction" class="form-select">
-                <option value="desc">نزولی</option>
-                <option value="asc">صعودی</option>
-            </select>
-        </div>
+                <div class="col-xl-2">
+                    <input type="text" wire:model.live="search" class="form-control" placeholder="جستجو...">
+                </div>
 
-        <div class="col-xl-1 my-auto">
-            <select wire:model.live="perPage" class="form-select">
-                <option value="5">5</option>
-                <option value="10">10</option>
-                <option value="25">25</option>
-                <option value="all">همه</option>
-            </select>
-        </div>
+                <div class="col-xl-1 my-auto">
+                    <select wire:model.live="sort" class="form-select">
+                        <option value="created_at"> تاریخ </option>
+                        <option value="name">نام</option>
+                        <option value="name">دسته</option>
+                    </select>
+                </div>
 
+                <div class="col-xl-1 my-auto">
+                    <select wire:model.live="direction" class="form-select">
+                        <option value="desc">نزولی</option>
+                        <option value="asc">صعودی</option>
+                    </select>
+                </div>
+
+                <div class="col-xl-1 my-auto">
+                    <select wire:model.live="perPage" class="form-select">
+                        <option value="5">5</option>
+                        <option value="10">10</option>
+                        <option value="25">25</option>
+                        <option value="all">همه</option>
+                    </select>
+                </div>
+
+            </div>
+        </div>
     </div>
+
+
+
 
 </div>
