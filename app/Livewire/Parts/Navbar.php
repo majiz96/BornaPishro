@@ -126,6 +126,7 @@ class Navbar extends Component
     {
         return Category::where('field_id',$this->submenu)
             ->where('parent_id',0)
+            ->where('id','<',99)
             ->with('children','field')
             ->get();
     }

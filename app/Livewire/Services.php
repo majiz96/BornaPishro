@@ -2,7 +2,7 @@
 
 namespace App\Livewire;
 
-use App\Models\Article;
+use App\Models\Service;
 use App\Models\Category;
 use App\Models\Filter;
 use Livewire\Attributes\Computed;
@@ -60,10 +60,34 @@ class Services extends Component
     #[Computed]
     public function services()
     {
-        $query = Article::query()->orderBy($this->sort,$this->direction);
-        $query->paginate($this->perPage);
+        $query = Service::where('show', 1);
 
-        return $query;
+        $allCategories = array_merge($this->activeCategory,
+            Category::whereIn('parent_id', $this->activeCategory)->pluck('id')->toArray());
+
+        if (!empty($allCategories)) {
+            $query->whereIn('category_id', $allCategories);
+        }
+
+
+//        if(!empty($activeFilter)){
+//            $query->whereIn('filter_id', $activeFilter);
+//        }
+
+        if (!empty($this->activeFilter)) {
+            $query->whereHas('filter', function($q) {
+                $q->whereIn('id', $this->activeFilter);
+            });
+        }
+
+        $query->orderBy($this->sort, $this->direction);
+
+        if($this->perPage == 'all'){
+            return $query->get();
+        }
+
+        return $query->paginate($this->perPage);
+
     }
 
     public function categoryReset()

@@ -104,10 +104,92 @@
                 </div>
 
             </div>
+            {{--      show services      --}}
+            <div class="row py-5">
+
+                @forelse($this->services as $service)
+
+                    <a href="{{ route('product.show',$service->id) }}"
+                       class="col-xxl-4 col-6 mx-auto mt-3 px-5 rounded-4 text-decoration-none
+                        d-none d-xl-block">
+
+                        <h5 class="row cs-article-heading me-1"> {{$service->title}} </h5>
+
+                        <div class="card row rounded-4">
+                            <div class="row cs-article-cover mx-auto rounded-top-4  px-0"
+                                 style="background-image: url({{asset('storage/service_covers/'.$service->cover) }});
+                                background-size: cover;
+                                background-position: center;
+                                ">
+                            </div>
+                            <div class="row text-decoration-none text-body me-1 py-1">
+                                {{$service->intro}}
+                            </div>
+                        </div>
+
+                    </a>
+
+                    <a href="{{ route('product.show',$service->id) }}"
+                       class="row mx-auto mt-3 px-3 rounded-4 text-decoration-none
+                        d-none d-sm-block d-xl-none d-xxl-none">
+
+                        <h5 class="row cs-article-heading me-1 mx-auto"> {{$service->title}} </h5>
+
+                        <div class="row border rounded-4 px-0 mx-auto">
+
+                            <div class="col-md-5 col-4 rounded-end-4 cs-article-cover"
+                                 style="background-image: url({{asset('storage/service_thumbnails/'.$service->thumbnail) }});
+                                background-size: cover;
+                                background-position: center;
+                                ">
+                            </div>
+
+                            <div class="col-md-6 col-7 text-decoration-none text-body me-1 ps-0 py-1">
+                                {{$service->intro}}
+                            </div>
+
+                        </div>
+
+                    </a>
+
+                    <a href="{{ route('product.show',$service->id) }}"
+                       class="row mx-auto mt-3 px-3 rounded-4 text-decoration-none
+                       d-sm-none d-md-non d-xl-none d-xxl-none">
+
+                        <h5 class="row cs-article-heading"> {{$service->title}} </h5>
+
+                        <div class="row border rounded-4 px-0 mx-auto">
+
+                            <div class="row rounded-top-4 cs-article-cover mx-auto"
+                                style="background-image: url({{asset('storage/service_covers/'.$service->cover) }});
+                                background-size: cover;
+                                background-position: center;
+                                ">
+                            </div>
+
+                            <div class="row text-decoration-none text-body me-1 ps-0 py-1">
+                                {{$service->intro}}
+                            </div>
+
+                        </div>
+
+                    </a>
+
+                @empty
+
+                    خدماتی در این گروه ثبت نشده است
+
+                @endforelse
+
+            </div>
+
+
         </div>
     </div>
 
-
+    @if($perPage !== 'all')
+        {{$this->services->links(data:['scrollTo',false])}}
+    @endif
 
 
 </div>

@@ -40,6 +40,20 @@ i
     background: #84919e !important;
     color:white !important;
 }
+.cs-article-heading
+{
+    color:#84919e;
+    text-decoration:none !important;
+    white-space:nowrap;
+    overflow:clip;
+}
+.cs-article-cover
+{
+    min-height: 15vh !important;
+    background-size: cover;
+    background-position: center;
+}
+
 .cs-header-user
 {
     background: #151719 !important;
