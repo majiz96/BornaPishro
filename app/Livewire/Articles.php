@@ -18,11 +18,32 @@ class Articles extends Component
     public array $activeCategory = [];
     public array $activeFilter = [];
 
+    public $category;
+
     public  $title,$intro,$cover,$date;
     public $search = '';
     public $perPage = 10;
     public $sort='created_at';
     public $direction = 'desc';
+
+    public $showCategories = false;
+    public $showFilters = false;
+    public $showOrders = false;
+
+    public $modalCategories,$modalFilters,$modalOrders;
+    public function mount(Category $category)
+    {
+        $this->category = $category->id;
+
+        if($this->category)
+        {
+            $this->activeCategory = $category->where('id', $this->category)->pluck('id')->toArray();
+        }
+        else
+        {
+            $this->activeCategory = [];
+        }
+    }
 
     #[Computed]
     public function categories()
@@ -100,6 +121,37 @@ class Articles extends Component
         $this->activeFilter = [];
         $this->resetPage();
     }
+
+    public function openCategories()
+    {
+        $this->showCategories = true;
+        $this->modalCategories = $this->categories;
+    }
+    public function closeCategories()
+    {
+        $this->showCategories = false;
+    }
+
+    public function openFilters()
+    {
+        $this->showFilters = true;
+        $this->modalFilters = $this->filters;
+    }
+    public function closeFilters()
+    {
+        $this->showFilters = false;
+    }
+
+    public function openOrders()
+    {
+        $this->showOrders = true;
+    }
+    public function closeOrders()
+    {
+        $this->showOrders = false;
+    }
+
+
     public function render()
     {
         return view('livewire.articles');

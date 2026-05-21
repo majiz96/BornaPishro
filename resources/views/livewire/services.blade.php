@@ -1,7 +1,8 @@
 <div class="container-fluid avoid-emptiness">
 
 
-    <div class="row text-center border rounded-4 px-xl-5 pt-3 pb-2 mx-auto">
+    <div class="row text-center border rounded-4 px-xl-5 pt-3 pb-2 mx-auto
+    d-none d-xl-flex">
 
         @if($this->categories->isNotEmpty())
 
@@ -23,7 +24,7 @@
 
                             <input type="checkbox" class="btn-check" id="btn-check-{{$cat->id}}-outlined" wire:model.live="activeCategory" value="{{$cat->id}}">
 
-                            <label class="col-xl-12 rounded-4 btn btn-outline-primary fw-bold" for="btn-check-{{$cat->id}}-outlined">{{$cat->name}}</label>
+                            <label class="col-12 rounded-4 btn btn-outline-primary fw-bold" for="btn-check-{{$cat->id}}-outlined">{{$cat->name}}</label>
 
                             @foreach($cat->children as $child)
 
@@ -58,43 +59,46 @@
 
     <div class="row border rounded-4 mx-1 my-4">
 
-        <div class="col-xl-1 col-auto border rounded-end-4">
-            @if($this->filters->isNotEmpty())
-                @foreach($this->filters as $filter)
+        <div class="col-xxl-1 col-xl-2 border rounded-end-4 d-none d-xl-inline-block">
 
-                    <div class="row m-2 text-end mx-auto">
+                @if($this->filters->isNotEmpty())
+                    @foreach($this->filters as $filter)
 
-                        <div class="col-auto">{{$filter->title}}</div>
-                        <div class="col-auto"><input type="{{$filter->type}}" wire:model.live="activeFilter" value="{{$filter->id}}"></div>
+                        <div class="row m-2 mx-auto">
 
-                    </div>
-                @endforeach
-            @endif
+                            <div class="col-auto">{{$filter->title}}</div>
+                            <div class="col-auto"><input type="{{$filter->type}}" wire:model.live="activeFilter" value="{{$filter->id}}"></div>
+
+                        </div>
+                    @endforeach
+                @endif
+
         </div>
 
-        <div class="col-xl-11 col-auto">
-            <div class="row mt-3 mb-1 px-3">
+        <div class="col-xxl-11 col-xl-10">
 
-                <div class="col-xl-2">
+            <div class="row mt-3 mb-1 px-3 d-none d-xl-flex">
+
+                <div class="col-xxl-2 col-xl-4">
                     <input type="text" wire:model.live="search" class="form-control" placeholder="جستجو...">
                 </div>
 
-                <div class="col-xl-1 my-auto">
+                <div class="col-xxl-1 col-xl-2 my-auto">
                     <select wire:model.live="sort" class="form-select">
                         <option value="created_at"> تاریخ </option>
-                        <option value="name">نام</option>
-                        <option value="name">دسته</option>
+                        <option value="title">نام</option>
+                        <option value="category_id">دسته</option>
                     </select>
                 </div>
 
-                <div class="col-xl-1 my-auto">
+                <div class="col-xxl-1 col-xl-2 my-auto">
                     <select wire:model.live="direction" class="form-select">
                         <option value="desc">نزولی</option>
                         <option value="asc">صعودی</option>
                     </select>
                 </div>
 
-                <div class="col-xl-1 my-auto">
+                <div class="col-xxl-1 col-xl-2 my-auto">
                     <select wire:model.live="perPage" class="form-select">
                         <option value="5">5</option>
                         <option value="10">10</option>
@@ -104,8 +108,33 @@
                 </div>
 
             </div>
+
+            <div class="row mt-3 mb-1 px-sm-3 d-xl-none d-xxl-none">
+
+                <div class="col-md-5 col-sm-12 col-12 mx-auto"><input type="text" wire:model.live="search" class="form-control" placeholder="جستجو..."></div>
+
+                <button class="col-md-2 col-sm-3 col-5 btn btn-primary mx-auto mt-md-0 mt-4"
+                wire:click="openCategories">
+                    <i class="bi-folder"></i>
+                    دسته بندی
+                </button>
+
+                <button class="col-md-2 col-sm-3 col-5 btn btn-danger mx-auto mt-md-0 mt-4"
+                wire:click="openFilters">
+                    <i class="bi-tag"></i> برچسب ها
+                </button>
+
+                <button class="col-md-2 col-sm-3 col-11 btn btn-success mx-auto mt-md-0 mt-4"
+                wire:click="openOrders">
+                    <i class="bi-filter"></i> ترتیب
+                </button>
+
+            </div>
+
+            <div class="row mt-3 mb-1 px-0">
+
             {{--      show services      --}}
-            <div class="row py-5">
+            <div class="row py-5 px-0 text-center border mx-auto">
 
                 @forelse($this->services as $service)
 
@@ -130,21 +159,21 @@
                     </a>
 
                     <a href="{{ route('product.show',$service->id) }}"
-                       class="row mx-auto mt-3 px-3 rounded-4 text-decoration-none
+                       class="row mx-auto mt-4 px-5 rounded-4 text-decoration-none
                         d-none d-sm-block d-xl-none d-xxl-none">
 
                         <h5 class="row cs-article-heading me-1 mx-auto"> {{$service->title}} </h5>
 
                         <div class="row border rounded-4 px-0 mx-auto">
 
-                            <div class="col-md-5 col-4 rounded-end-4 cs-article-cover"
-                                 style="background-image: url({{asset('storage/service_thumbnails/'.$service->thumbnail) }});
+                            <div class="row rounded-top-4 cs-article-cover mx-auto"
+                                 style="background-image: url({{asset('storage/service_covers/'.$service->cover) }});
                                 background-size: cover;
                                 background-position: center;
                                 ">
                             </div>
 
-                            <div class="col-md-6 col-7 text-decoration-none text-body me-1 ps-0 py-1">
+                            <div class="row text-decoration-none text-body me-1 py-1 mx-auto">
                                 {{$service->intro}}
                             </div>
 
@@ -153,23 +182,23 @@
                     </a>
 
                     <a href="{{ route('product.show',$service->id) }}"
-                       class="row mx-auto mt-3 px-3 rounded-4 text-decoration-none
+                       class="row mx-auto mt-3 px-1 rounded-4 text-decoration-none
                        d-sm-none d-md-non d-xl-none d-xxl-none">
 
-                        <h5 class="row cs-article-heading"> {{$service->title}} </h5>
+                        <span class="row cs-article-heading py-1 pe-4 fw-bolder"> {{$service->title}} </span>
 
-                        <div class="row border rounded-4 px-0 mx-auto">
+                        <div class="row border rounded-3 px-0 mx-auto">
 
-                            <div class="row rounded-top-4 cs-article-cover mx-auto"
+                            <div class="row rounded-top-3 cs-article-cover mx-auto"
                                 style="background-image: url({{asset('storage/service_covers/'.$service->cover) }});
                                 background-size: cover;
                                 background-position: center;
                                 ">
                             </div>
 
-                            <div class="row text-decoration-none text-body me-1 ps-0 py-1">
+                            <small class="row text-decoration-none text-body mx-auto text-end px-2 py-1">
                                 {{$service->intro}}
-                            </div>
+                            </small>
 
                         </div>
 
@@ -191,5 +220,16 @@
         {{$this->services->links(data:['scrollTo',false])}}
     @endif
 
+    @if($showCategories)
+        @include('modals.show-categories')
+    @endif
+
+    @if($showFilters)
+        @include('modals.show-filters')
+    @endif
+
+    @if($showOrders)
+        @include('modals.show-orders')
+    @endif
 
 </div>
