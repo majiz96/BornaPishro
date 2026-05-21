@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Article extends Model
 {
     protected $table = 'articles';
-    protected $fillable = ['writer_id','editor_id','category_id', 'title', 'intro', 'content', 'cover', 'show'];
+    protected $fillable = ['writer_id','editor_id','filter_id','category_id', 'title', 'intro', 'content', 'cover', 'show'];
 
     public function category(): BelongsTo
     {
@@ -28,6 +28,6 @@ class Article extends Model
 
     public function filter(): BelongsTo
     {
-        return $this->belongsTo(Filter::class,'id','filter_id');
+        return $this->belongsTo(Filter::class, 'filter_id', 'id');
     }
 }

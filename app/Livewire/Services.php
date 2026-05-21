@@ -5,6 +5,7 @@ namespace App\Livewire;
 use App\Models\Service;
 use App\Models\Category;
 use App\Models\Filter;
+
 use Livewire\Attributes\Computed;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -13,6 +14,7 @@ class Services extends Component
 
 {
     use WithPagination;
+    protected $paginationTheme = 'bootstrap';
 
     public array $activeCategory = [];
     public array $activeFilter = [];
@@ -69,15 +71,14 @@ class Services extends Component
             $query->whereIn('category_id', $allCategories);
         }
 
-
-//        if(!empty($activeFilter)){
-//            $query->whereIn('filter_id', $activeFilter);
-//        }
-
         if (!empty($this->activeFilter)) {
             $query->whereHas('filter', function($q) {
                 $q->whereIn('id', $this->activeFilter);
             });
+        }
+
+        if (!empty($this->search)) {
+            $query->where('title', 'like', '%' . $this->search . '%');
         }
 
         $query->orderBy($this->sort, $this->direction);

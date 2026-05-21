@@ -28,7 +28,7 @@ class Filter extends Model
 
     public function articles():HasMany
     {
-        return $this->hasMany(Article::class);
+        return $this->hasMany(Article::class,'filter_id','id');
     }
 
     public function services():HasMany

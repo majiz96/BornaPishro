@@ -24,7 +24,7 @@ class ArticlesManagement extends Component
 
     public string $message = '';
 
-    public $writer_id,$editor_id,$category_id,$title,$intro,$content,$cover,$show;
+    public $writer_id,$editor_id,$category_id,$filter_id,$title,$intro,$content,$cover,$show;
 
     public $editing = null;
 
@@ -42,6 +42,7 @@ class ArticlesManagement extends Component
 
     public $rules = [
         'category_id' => 'required|integer',
+        'filter_id' => 'nullable|integer',
         'title' => 'required|string',
         'intro' => 'required|string',
         'content' => 'required|string',
@@ -60,6 +61,8 @@ class ArticlesManagement extends Component
 
     public $editRules = [
         'category_id' => 'required',
+        'filter_id' => 'nullable',
+        'editor_id' => 'required',
         'title' => 'required',
         'intro' => 'required',
         'content' => 'required',
@@ -77,6 +80,7 @@ class ArticlesManagement extends Component
         $article = Article::findOrFail($id);
         $this->editor_id = Auth::id();
         $this->category_id = $article->category_id;
+        $this->filter_id = $article->filter_id;
         $this->title = $article->title;
         $this->intro = $article->intro;
         $this->content = $article->content;
@@ -116,13 +120,13 @@ class ArticlesManagement extends Component
                 $filename = $this->cover;
             }
 
-            $data = $this->pull(['title', 'intro', 'content','category_id']);
+            $data = $this->pull(['title', 'intro', 'content','category_id','filter_id']);
             $data['cover'] = $filename ?? $article->cover;
             $data['editor_id'] = Auth::id();
 
            $article->update($data);
 
-            $this->reset(['editing','title','intro','content','cover','category_id']);
+            $this->reset(['editing','title','intro','content','cover','category_id','filter_id']);
        }
        else
        {
@@ -138,7 +142,7 @@ class ArticlesManagement extends Component
 
             $this->validate($this->rules,$this->messages);
 
-           $data = $this->pull(['category_id','title','intro','content']);
+           $data = $this->pull(['category_id','filter_id','title','intro','content']);
            $data['writer_id'] = Auth::id();
            $data['cover'] = $filename ?? $this->cover;
 
