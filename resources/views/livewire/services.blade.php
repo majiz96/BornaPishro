@@ -138,7 +138,7 @@
 
                 @forelse($this->services as $service)
 
-                    <a href="{{ route('product.show',$service->id) }}"
+                    <a href="{{ route('service.show',$service->id) }}"
                        class="col-xxl-4 col-6 mx-auto mt-3 px-5 rounded-4 text-decoration-none
                         d-none d-xl-block">
 
@@ -158,7 +158,7 @@
 
                     </a>
 
-                    <a href="{{ route('product.show',$service->id) }}"
+                    <a href="{{ route('service.show',$service->id) }}"
                        class="row mx-auto mt-4 px-5 rounded-4 text-decoration-none
                         d-none d-sm-block d-xl-none d-xxl-none">
 
@@ -181,7 +181,7 @@
 
                     </a>
 
-                    <a href="{{ route('product.show',$service->id) }}"
+                    <a href="{{ route('service.show',$service->id) }}"
                        class="row mx-auto mt-3 px-1 rounded-4 text-decoration-none
                        d-sm-none d-md-non d-xl-none d-xxl-none">
 
