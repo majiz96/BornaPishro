@@ -51,9 +51,9 @@ Route::get('products',Products::class)->name('products');
 Route::get('products/{category}',Products::class)->name('products');
 Route::get('product/{product}',ProductUnit::class)->name('product.show');
 Route::get('services',Services::class)->name('services');
-Route::get('service/{category}',ServiceUnit::class)->name('service.show');
+Route::get('service/{service}',ServiceUnit::class)->name('service.show');
 Route::get('articles',Articles::class)->name('articles');
-Route::get('article/{category}',ArticleUnit::class)->name('article.show');
+Route::get('article/{article}',ArticleUnit::class)->name('article.show');
 
 
 Route::middleware(['auth', 'verified'])->prefix('dashboard')->group(function () {

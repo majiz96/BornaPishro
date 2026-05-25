@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class Article extends Model
 {
@@ -29,5 +30,10 @@ class Article extends Model
     public function filter(): BelongsTo
     {
         return $this->belongsTo(Filter::class, 'filter_id', 'id');
+    }
+
+    public function comments():MorphMany
+    {
+        return $this->morphMany(Comment::class, 'commentable');
     }
 }

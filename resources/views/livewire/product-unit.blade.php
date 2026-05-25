@@ -1,6 +1,6 @@
 <div class="container">
 
-    <div class="row mt-4"><h2>{{$product->name}}</h2></div>
+    <div class="row mt-4"><h2>{{$product->name ?? 'محصول'}}</h2></div>
 
     {{--  Pictures  and Briefs  --}}
     <div class="row">
