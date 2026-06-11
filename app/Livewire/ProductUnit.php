@@ -14,6 +14,7 @@ use App\Models\User;
 
 use App\Models\Video;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
@@ -208,6 +209,17 @@ class ProductUnit extends Component
 
         $comment->save();
     }
+
+   public function toggleLike(Comment $comment)
+{
+    // اگر کاربر لاگین نیست، اجازه لایک نده
+    if (!auth()->check()) {
+        return redirect()->route('login'); // یا نمایش یک پیام خطا
+    }
+
+    // ادامه منطق لایک...
+    $comment->users()->toggle(auth()->id());
+}
 
     public function save()
     {

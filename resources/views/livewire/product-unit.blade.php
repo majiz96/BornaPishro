@@ -294,13 +294,13 @@
                         <div class="col-xl-10"></div>
 
                         <div class="col-xl-1">
-                            <small>{{$comment->votes}}</small>
-                            @if($vote == 1)
+                            <small>{{$comment->LikedByUsers->count()}}</small>
+                            @if($comment->LikedByUsers->contains(auth()->id()))
                                 <input type="checkbox" id="vote" class="d-none">
-                                <label for="vote" wire:click="toggleVote({{$comment->id}})"><i class="bi-hand-thumbs-up-fill" ></i></label>
+                                <label for="vote" wire:click="toggleLike({{$comment->id}})"><i class="bi-hand-thumbs-up-fill" ></i></label>
                             @else
                                 <input type="checkbox" id="vote" class="d-none">
-                                <label for="vote" wire:click="toggleVote({{$comment->id}})"><i class="bi-hand-thumbs-up" ></i></label>
+                                <label for="vote" wire:click="toggleLike({{$comment->id}})"><i class="bi-hand-thumbs-up" ></i></label>
                             @endif
                         </div>
 

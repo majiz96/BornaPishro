@@ -221,36 +221,36 @@
 
 
         {{--    Message panel    --}}
-    <div class="row border text-center mx-2 rounded-5 my-5 px-1 py-2">
+    <div class="row border text-center mx-2 rounded-5 my-5 py-2">
 
 
         @auth()
-        <form wire:submit.prevent="saveMessage" class="row">
+        <form wire:submit.prevent="saveMessage" class="row mx-auto px-0">
 
 
-                <div class="row col-xl-6 mx-auto">
+                <div class="col-xl-6 mx-auto">
 
-                    <div class="row my-4">
+                    <div class="row my-4 mx-auto">
 
-                        <div class="col-xl-1 text-xl-start"><label class="form-label" for="subject"> موضوع </label></div>
+                        <div class="col-xl-1"><label class="form-label" for="subject"> موضوع </label></div>
                         <div class="col-xl-11"><input type="text" class="form-control" id="subject" wire:model.blur="subject"></div>
                         @error('subject')<div class="text-danger">{{$message}}</div>@enderror
 
                     </div>
 
-                    <div class="row">
+                    <div class="row mx-auto">
                         <div class="col-xl-12">
                             <textarea rows="5" class="form-control h-auto" wire:model.blur="text"></textarea>
                             @error('text')<div class="text-danger">{{$message}}</div>@enderror
                         </div>
                     </div>
 
-                    <div class="row my-4">
+                    <div class="row my-4 px-lg-4">
 
                         <div class="col-xl-2 text-xl-end">
 
                             <input type="file" id="files" wire:model="files" class="d-none" multiple>
-                            <label for="files" class="btn btn-primary"> <i class="bi-upload"></i> </label>
+                            <label for="files" class="btn btn-primary my-xl-0 my-4"> <i class="bi-upload"></i> </label>
 
                         </div>
 
@@ -285,45 +285,45 @@
 
             @guest()
 
-                    <form wire:submit.prevent="saveGuestMessage">
+                    <form wire:submit.prevent="saveGuestMessage" class="px-0 mx-auto">
 
                     <div class="row col-xl-6 mx-auto">
 
-                        <div class="row my-4">
+                        <div class="row mx-auto my-4">
 
-                            <div class="col-xl-2 text-xl-center"><label class="form-label" for="name"> نام و نام خانوادگی </label></div>
+                            <div class="col-xl-2 text-xl-center text-end me-2"><label class="form-label" for="name"> نام و نام خانوادگی </label></div>
                             <div class="col-xl-3"><input type="text" class="form-control" id="name" wire:model.blur="name"></div>
                             @error('name')<small class="text-danger text-nowrap text-xl-end">{{$message}}</small>@enderror
 
-                            <div class="col-xl-1 text-xl-start"><label class="form-label" for="email"> ایمیل </label></div>
+                            <div class="col-xl-1 text-xl-start text-end mt-2 me-2"><label class="form-label" for="email"> ایمیل </label></div>
                             <div class="col-xl-3"><input type="text" class="form-control" id="email" wire:model.blur="email"></div>
                             @error('email')<small class="text-danger text-nowrap text-xl-end">{{$message}}</small>@enderror
 
-                            <div class="col-xl-1 text-xl-start"><label class="form-label" for="phone"> شماره همراه </label></div>
+                            <div class="col-xl-1 text-xl-start text-end mt-2 me-2"><label class="form-label" for="phone"> شماره همراه </label></div>
                             <div class="col-xl-2"><input type="text" class="form-control" id="phone" wire:model.blur="phone"></div>
                             @error('phone')<small class="text-danger text-nowrap text-xl-end">{{$message}}</small>@enderror
 
 
-                            <div class="col-xl-1 text-xl-start mt-3"><label class="form-label" for="subject"> موضوع </label></div>
-                            <div class="col-xl-11 mt-3"><input type="text" class="form-control" id="subject" wire:model.blur="subject">
+                            <div class="col-xl-1 text-xl-start text-end me-2 mt-3"><label class="form-label" for="subject"> موضوع </label></div>
+                            <div class="col-xl-11"><input type="text" class="form-control" id="subject" wire:model.blur="subject">
                             </div>
                             @error('subject')<small class="text-danger text-nowrap text-xl-end">{{$message}}</small>@enderror
 
                         </div>
 
-                        <div class="row">
+                        <div class="row mx-auto">
                             <div class="col-xl-12">
                                 <textarea rows="5" class="form-control h-auto" wire:model.blur="text"></textarea>
                                 @error('text')<div class="text-danger">{{$message}}</div>@enderror
                             </div>
                         </div>
 
-                        <div class="row my-4">
+                        <div class="row mx-auto my-4">
 
                             <div class="col-xl-2 text-xl-end">
 
                                 <input type="file" id="files" wire:model="files" class="d-none" multiple>
-                                <label for="files" class="btn btn-primary"> <i class="bi-upload"></i> </label>
+                                <label for="files" class="btn btn-primary my-xl-0 my-4"> <i class="bi-upload"></i> </label>
 
                             </div>
 

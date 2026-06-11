@@ -92,4 +92,9 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(Article::class, 'editor_id','id');
     }
 
+    public function LikedComments(): BelongsToMany
+    {
+        return $this->belongsToMany(Article::class, 'comment_user')->withTimestamps();
+    }
+
 }
