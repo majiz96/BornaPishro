@@ -78,26 +78,13 @@ class Comments extends Component
 
     public function render()
     {
-        $comments = Comment::where('commentable_id', $this->product->id)->where('commentable_type', Product::class)->get();
+        $comments = Comment::where('commentable_id', $this->product->id)->where('commentable_type', Product::class)->with('Users')->get();
 
         $showed_comments = Comment::where('commentable_id', $this->product->id)->where('commentable_type', Product::class)->where('show', 1)->get();
         $seen_comments = Comment::where('commentable_id', $this->product->id)->where('commentable_type', Product::class)->where('see', 1)->get();
 
-        if($comments->isNotEmpty())
-        {
-            foreach ($comments as $comment)
-            {
-                $name = User::where('id', $comment->user_id)->pluck('name')->first();
-                $lastname = User::where('id', $comment->user_id)->pluck('lastname')->first();
-            }
-        }
-        else
-        {
-            $name = null;
-            $lastname = null;
-        }
-
-        return view('livewire.dashboard.attachments.comments', compact('comments', 'name', 'lastname','showed_comments','seen_comments'))
+      
+        return view('livewire.dashboard.attachments.comments', compact('comments','showed_comments','seen_comments'))
             ->layout('components.layouts.dashboards');
     }
 }

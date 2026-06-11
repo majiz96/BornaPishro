@@ -6,7 +6,7 @@
         <meta http-equiv="Content-Security-Policy" content="script-src * 'unsafe-inline' 'unsafe-eval' data:;">
         <title>{{ $title ?? 'Page Title' }}</title>
 
-{{--        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nouislider@15.7.0/dist/nouislider.min.css">--}}
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nouislider@15.7.0/dist/nouislider.min.css">
 
 
         <script>

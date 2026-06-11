@@ -38,7 +38,7 @@
           <div class="row border rounded-4 mt-3 py-2">
 
             <div class="row border-bottom mx-auto">
-                <h5 class="col-xl-2"> {{$name}} {{$lastname}}</h5>
+                <h5 class="col-xl-2"> {{ $comment->Users->name}}  {{ $comment->Users->lastname}}</h5>
                 <div class="col-xl-6"></div>
                 <h5 class="col-xl-4 text-start"> {{$comment->created_at}}</h5>
             </div>

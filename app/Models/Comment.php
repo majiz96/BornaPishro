@@ -36,8 +36,9 @@ class Comment extends Model
         return $this->belongsToMany(User::class, 'comment_user')->withTimestamps();
     }
 
-    public function users():BelongsToMany
+    public function Users():HasOne
     {
-        return $this->belongsToMany(User::class, 'comment_user')->withTimestamps();
+        return $this->hasOne(User::class,'id','user_id');
     }
+
 }

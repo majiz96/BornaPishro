@@ -210,16 +210,17 @@ class ProductUnit extends Component
         $comment->save();
     }
 
-   public function toggleLike(Comment $comment)
-{
-    // اگر کاربر لاگین نیست، اجازه لایک نده
-    if (!auth()->check()) {
-        return redirect()->route('login'); // یا نمایش یک پیام خطا
-    }
+    public function toggleLike(Comment $comment)
+    {
 
-    // ادامه منطق لایک...
-    $comment->users()->toggle(auth()->id());
-}
+        if(!auth()->check())
+            {
+                return redirect()->route('login');
+            }
+
+        $comment->LikedByUsers()->toggle(auth()->id());
+
+    }
 
     public function save()
     {
@@ -266,32 +267,19 @@ class ProductUnit extends Component
         $this->reset('replyText','reply');
     }
 
-    public function render()
+    #[Computed]
+    public function Comments()
     {
-
-        $comments = Comment::with('parent','children')
+        return Comment::with('Users','parent','children')
             ->where('commentable_id',$this->product->id)
             ->where('commentable_type',Product::class)
-            ->where('show',1)->get();
+            ->where('show',1)
+            ->with('Users','parent','children')
+            ->get();
+    }
 
-        if($comments->isNotEmpty())
-        {
-            foreach ($comments as $comment)
-            {
-
-                $name = User::where('id',$comment->user_id)->pluck('name')->first();
-                $lastname = User::where('id',$comment->user_id)->pluck('lastname')->first();
-
-            }
-        }
-        else
-        {
-            $name = null;
-            $lastname = null;
-        }
-
-
-
-        return view('livewire.product-unit',compact('comments','name','lastname'));
+    public function render()
+    {
+        return view('livewire.product-unit');
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Carbon\Traits\Creator;
+use Dom\Comment;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -94,7 +95,13 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function LikedComments(): BelongsToMany
     {
-        return $this->belongsToMany(Article::class, 'comment_user')->withTimestamps();
+        return $this->belongsToMany(Comment::class, 'comment_user')->withTimestamps();
     }
+
+    public function Comment(): BelongsTo
+    {
+        return $this->belongsTo(Comment::class,'id','user_id');
+    }
+
 
 }

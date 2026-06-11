@@ -268,106 +268,10 @@
 
     <div class="row mt-4 p-3 border rounded-4">
 
-        @if($comments->isNotEmpty())
+        @if($this->Comments->isNotEmpty())
 
-            @foreach($comments as $comment)
-
-                @if($comment->parent_id == 0)
-
-
-                <div class="comment row border rounded-4 pt-2 px-2 mx-auto mt-2 mx-auto">
-
-                    <div class="row pt-2 px-2 border-bottom mx-auto">
-                        <h5 class="col-xl-2"> {{$name}} {{$lastname}}</h5>
-                        <div class="col-xl-6"></div>
-                        <h5 class="col-xl-4 text-start"> {{$comment->created_at}}</h5>
-                    </div>
-
-                    <div class="row p-2 border-bottom mx-auto"> {{$comment->text}} </div>
-
-
-                    <div class="row p-2">
-
-                        <div class="col-xl-1">
-                            <i class="bi-reply-fill" wire:click="makeReply({{$comment->id}})"></i>
-                        </div>
-                        <div class="col-xl-10"></div>
-
-                        <div class="col-xl-1">
-                            <small>{{$comment->LikedByUsers->count()}}</small>
-                            @if($comment->LikedByUsers->contains(auth()->id()))
-                                <input type="checkbox" id="vote" class="d-none">
-                                <label for="vote" wire:click="toggleLike({{$comment->id}})"><i class="bi-hand-thumbs-up-fill" ></i></label>
-                            @else
-                                <input type="checkbox" id="vote" class="d-none">
-                                <label for="vote" wire:click="toggleLike({{$comment->id}})"><i class="bi-hand-thumbs-up" ></i></label>
-                            @endif
-                        </div>
-
-                    </div>
-
-                </div>
-
-                    @endif
-
-                    @if($reply && $reply == $comment->id)
-                        <form wire:submit.prevent="saveReply" class="row mt-3">
-
-                            <textarea id="text" class="form-control mx-auto" rows="2" wire:model.blur="replyText"></textarea>
-                            @error('text') <small class="text-danger"> {{$message}} </small> @enderror
-
-                            <button type="button" class="btn btn-danger mt-2 w-auto mx-auto" wire:click="cancel"> انصراف </button>
-                            <button type="submit" class="btn btn-primary mt-2 w-auto mx-auto"> ارسال </button>
-
-                        </form>
-                    @endif
-
-                    @if($comment->children->isNotEmpty())
-
-                        @foreach($comment->children as $child)
-
-                            @if($child->show == 1)
-                                <div class="row border rounded-4 pt-2 px-2 mt-2 mx-auto" dir="rtl">
-
-                                    <div class="row border-bottom mx-auto">
-                                        <h5 class="col-xl-2"> {{$name}} {{$lastname}} </h5>
-                                        <div class="col-xl-6"></div>
-                                        <h5 class="col-xl-4 text-start"> {{$child->created_at}}  </h5>
-                                    </div>
-
-                                    <div class="row p-2 border-bottom mx-auto"> {{$child->text}} </div>
-
-                                    <div class="row p-2 ">
-
-                                        <div class="col-xl-1">
-                                            <i class="bi-reply-fill" wire:click="makeReply({{$child->id}})"></i>
-                                        </div>
-
-                                        <div class="col-xl-10"></div>
-
-                                        <div class="col-xl-1">
-                                            <small>{{$child->votes}}</small>
-                                            @if($vote)
-                                                <input type="checkbox" id="vote" class="d-none">
-                                                <label for="vote" wire:model="vote({{$child->id}})"><i class="bi-hand-thumbs-up-fill" ></i></label>
-                                            @else
-                                                <input type="checkbox" id="vote" class="d-none">
-                                                <label for="vote" wire:model="vote({{$child->id}})"><i class="bi-hand-thumbs-up" ></i></label>
-                                            @endif
-                                        </div>
-
-                                    </div>
-                                </div>
-                            @else
-
-                            @endif
-
-
-                        @endforeach
-
-                    @endif
-
-
+            @foreach($this->Comments as $comment)
+                @include('livewire.comment-item',['comment'=>$comment,'depth'=>0])
             @endforeach
 
         @else
