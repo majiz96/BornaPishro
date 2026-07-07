@@ -51,8 +51,10 @@ Route::get('products',Products::class)->name('products');
 Route::get('products/{category}',Products::class)->name('products');
 Route::get('product/{product}',ProductUnit::class)->name('product.show');
 Route::get('services',Services::class)->name('services');
+Route::get('services/{category}',Services::class)->name('services');
 Route::get('service/{service}',ServiceUnit::class)->name('service.show');
 Route::get('articles',Articles::class)->name('articles');
+Route::get('articles/{category}',Articles::class)->name('articles');
 Route::get('article/{article}',ArticleUnit::class)->name('article.show');
 
 

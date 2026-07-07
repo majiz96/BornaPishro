@@ -13,6 +13,7 @@ use App\Models\Specification;
 use App\Models\User;
 
 use App\Models\Video;
+use Illuminate\Auth\Access\Gate;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
@@ -35,6 +36,9 @@ class ProductUnit extends Component
     public $showed = [];
 
     public $reply = null;
+
+    public $showed_reply = [];
+    public $reply_text = 'نمایش پاسخ ها';
 
     public function mount(Product $product)
     {
@@ -199,17 +203,6 @@ class ProductUnit extends Component
         $this->reset('replyText');
     }
 
-    public function toggleVote($id)
-    {
-        $comment = Comment::findOrFail($id);
-
-        $this->vote = $this->vote == 1 ? -1 : 1;
-
-        $comment->votes = $this->vote + $comment->votes;
-
-        $comment->save();
-    }
-
     public function toggleLike(Comment $comment)
     {
 
@@ -220,6 +213,20 @@ class ProductUnit extends Component
 
         $comment->LikedByUsers()->toggle(auth()->id());
 
+    }
+
+    public function toggleReplies($id)
+    {
+        if (in_array($id, $this->showed_reply))
+        {
+            $this->showed_reply = array_values(array_diff($this->showed_reply, [$id]));
+        }
+        else
+        {
+            $this->showed_reply[] = $id;
+        }
+
+        return $this->showed_reply;
     }
 
     public function save()
@@ -238,9 +245,8 @@ class ProductUnit extends Component
             'user_id'=>Auth::id(),
             'text'=>$this->text,
             'commentable_id'=>$this->product->id,
-            'commentable_type'=>Product::class
+            'commentable_type'=>Product::class,
         ]);
-
         $this->reset('text');
     }
 
@@ -274,7 +280,7 @@ class ProductUnit extends Component
             ->where('commentable_id',$this->product->id)
             ->where('commentable_type',Product::class)
             ->where('show',1)
-            ->with('Users','parent','children')
+            ->where('parent_id',0)
             ->get();
     }
 

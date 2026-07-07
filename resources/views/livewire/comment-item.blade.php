@@ -10,7 +10,7 @@
     @endif
 
     <div class="col-{{$colWidth}}  pt-2 px-2 mt-2 mx-auto
-    {{$comment->Users->position_id !== 4 ? 'cs-navbar rounded-4 text-white' : 'rounded-start-0 rounded-bottom-4 border-end border-bottom border-3'}}">
+    {{$comment->Users->position_id !== 4 ? 'cs-navbar rounded-4 text-white' : 'rounded-4 border border-3'}}">
 
         <div class="row pt-2 px-2 mx-auto">
             <h5 class="col-xl-2"> {{ $comment->Users->name}}  {{ $comment->Users->lastname}}</h5>
@@ -32,17 +32,17 @@
                 <small>{{$comment->LikedByUsers->count()}}</small>
                 @if($comment->LikedByUsers->contains(auth()->id()))
                     <input type="checkbox" id="vote" class="d-none">
-                    <label for="vote" wire:click="toggleLike({{$comment->id}})"><i class="bi-hand-thumbs-up-fill" ></i></label>
+                    <label for="vote" wire:click="toggleLike({{$comment->id}})"><i class="bi-hand-thumbs-up-fill"></i></label>
                 @else
                     <input type="checkbox" id="vote" class="d-none">
-                    <label for="vote" wire:click="toggleLike({{$comment->id}})"><i class="bi-hand-thumbs-up" ></i></label>
+                    <label for="vote" wire:click="toggleLike({{$comment->id}})"><i class="bi-hand-thumbs-up"></i></label>
                 @endif
             </div>
 
         </div>
 
         @if($reply && $reply == $comment->id)
-            <form wire:submit.prevent="saveReply" class="row mt-3">
+            <form wire:submit.prevent="saveReply" class="row mt-3 p-3">
 
                 <textarea id="text" class="form-control mx-auto" rows="2" wire:model.blur="replyText"></textarea>
                 @error('text') <small class="text-danger"> {{$message}} </small> @enderror
@@ -58,8 +58,29 @@
 
 </div>
 
-    @foreach($comment->children as $child)
-        @include('livewire.comment-item',['comment'=>$child , 'depth'=> $depth+1])
-    @endforeach
+
+
+    @if($comment->children->isNotEmpty())
+
+        <div class="row px-4">
+            <small wire:click="toggleReplies({{$comment->id}})" class="delete-badge">
+                {{in_array($comment->id,$showed_reply) ? 'بستن پاسخها' : 'نمایش پاسخها'.' ('.$comment->children->count().')' }}
+            </small>
+        </div>
+
+
+        @if(in_array($comment->id,$showed_reply))
+            @foreach($comment->children as $child)
+                <div class="border-end border-3">
+                    @include('livewire.comment-item',['comment'=>$child , 'depth'=> $depth+1])
+                </div>
+            @endforeach
+        @endif
+
+    @endif
+
+
+
+
 
 
