@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
 class Comment extends Model
 {
     protected $table = 'comments';
-    protected $fillable = ['user_id', 'parent_id', 'text', 'votes',
+    protected $fillable = ['user_id', 'parent_id', 'text', 'votes','show','see',
         'commentable_id',
         'commentable_type'
     ];

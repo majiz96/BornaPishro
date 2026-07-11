@@ -73,6 +73,11 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->belongsTo(Position::class);
     }
 
+    public function autoApprove()
+    {
+        return $this->position_id != 4;
+    }
+
     public function communication(): HasOne
     {
         return $this->hasOne(Communication::class);

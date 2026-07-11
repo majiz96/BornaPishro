@@ -23,7 +23,7 @@ use Livewire\Component;
 class ProductUnit extends Component
 {
 
-    public $product,$text,$replyText,$parent_id,$vote,$activeTable,$activePrice;
+    public $product,$text,$replyText,$showComment,$parent_id,$vote,$activeTable,$activePrice;
 
     public $modalTitle,$modalImage;
 
@@ -246,6 +246,7 @@ class ProductUnit extends Component
             'text'=>$this->text,
             'commentable_id'=>$this->product->id,
             'commentable_type'=>Product::class,
+            'show'=> Auth::user()->autoApprove() ? 1 : 0
         ]);
         $this->reset('text');
     }
@@ -253,7 +254,8 @@ class ProductUnit extends Component
     public function saveReply()
     {
         $this->validate([
-           'replyText'=>'required|string|max:1000'
+           'replyText'=>'required|string|max:1000',
+
         ]
         ,
         [
@@ -262,15 +264,18 @@ class ProductUnit extends Component
             'replyText.max'=>'نظر نوشته شده طولانی تر از ۱۰۰۰ حرف است'
         ]);
 
-        Comment::create([
-            'user_id'=>Auth::id(),
-            'parent_id'=>$this->reply,
-            'text'=>$this->replyText,
-            'commentable_id'=>$this->product->id,
-            'commentable_type'=>Product::class
+        \DB::enableQueryLog();
+
+        Comment::forceCreate([
+            'user_id'          => Auth::id(),
+            'parent_id'        => $this->reply,
+            'text'             => $this->replyText,
+            'commentable_id'   => $this->product->id,
+            'commentable_type' => Product::class,
+            'show' => Auth::user()->autoApprove() ? 1 : 0
         ]);
 
-        $this->reset('replyText','reply');
+    $this->reset('replyText','reply');
     }
 
     #[Computed]
