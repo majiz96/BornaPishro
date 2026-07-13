@@ -40,6 +40,11 @@ class ProductUnit extends Component
     public $showed_reply = [];
     public $reply_text = 'نمایش پاسخ ها';
 
+    public $comment_editing = null;
+    public $timeLimit = 1800;
+
+    public string $deleteConfirm = "آیا از حذف این نظر مطمئن هستید؟";
+
     public function mount(Product $product)
     {
         $this->product = $product;
@@ -229,26 +234,83 @@ class ProductUnit extends Component
         return $this->showed_reply;
     }
 
+    public function editTimeLimit($comment): bool
+    {
+        $now = time();
+        $created = strtotime($comment->created_at);
+
+        if ($created === false)
+        {
+            return false;
+        }
+
+        return ($now - $created) <= $this->timeLimit;
+    }
+
+    public function editComment($id)
+    {
+        $this->comment_editing = $id;
+        $comment = Comment::findOrFail($id);
+        $this->text = $comment->text;
+    }
+
+    public function cancelEdit()
+    {
+        $this->comment_editing = null;
+        $this->reset('text');
+    }
+
     public function save()
     {
-        $this->validate([
-            'text' => 'required|string|max:1000'
-        ]
-        ,
-        [
-            'text.required'=>'متنی برای نظر خود ننوشته اید',
-            'text.string'=>'متن نظر معتبر نمی باشد',
-            'text.max'=>'نظر نوشته شده طولانی تر از ۱۰۰۰ حرف است',
-        ]);
 
-        Comment::create([
-            'user_id'=>Auth::id(),
-            'text'=>$this->text,
-            'commentable_id'=>$this->product->id,
-            'commentable_type'=>Product::class,
-            'show'=> Auth::user()->autoApprove() ? 1 : 0
-        ]);
-        $this->reset('text');
+        if ($this->comment_editing)
+        {
+            $this->validate([
+                    'text' => 'required|string|max:1000'
+                ]
+                ,
+                [
+                    'text.required'=>'متنی برای نظر خود ننوشته اید',
+                    'text.string'=>'متن نظر معتبر نمی باشد',
+                    'text.max'=>'نظر نوشته شده طولانی تر از ۱۰۰۰ حرف است',
+                ]);
+
+            $comment = Comment::findOrFail($this->comment_editing) ;
+
+            $comment->update([
+                'text'=>$this->text,
+            ]);
+            $this->reset('text');
+        }
+        else
+        {
+            $this->validate([
+                    'text' => 'required|string|max:1000'
+                ]
+                ,
+                [
+                    'text.required'=>'متنی برای نظر خود ننوشته اید',
+                    'text.string'=>'متن نظر معتبر نمی باشد',
+                    'text.max'=>'نظر نوشته شده طولانی تر از ۱۰۰۰ حرف است',
+                ]);
+
+            Comment::create([
+                'user_id'=>Auth::id(),
+                'text'=>$this->text,
+                'commentable_id'=>$this->product->id,
+                'commentable_type'=>Product::class,
+                'show'=> Auth::user()->autoApprove() ? 1 : 0
+            ]);
+            $this->reset('text');
+        }
+
+    }
+
+    public function deleteComment($id)
+    {
+       $comment = Comment::findOrFail($id);
+
+       $comment->deleteWithChildren();
     }
 
     public function saveReply()
@@ -264,16 +326,15 @@ class ProductUnit extends Component
             'replyText.max'=>'نظر نوشته شده طولانی تر از ۱۰۰۰ حرف است'
         ]);
 
-        \DB::enableQueryLog();
-
-        Comment::forceCreate([
-            'user_id'          => Auth::id(),
-            'parent_id'        => $this->reply,
-            'text'             => $this->replyText,
-            'commentable_id'   => $this->product->id,
-            'commentable_type' => Product::class,
-            'show' => Auth::user()->autoApprove() ? 1 : 0
+        Comment::create([
+            'user_id'=>Auth::id(),
+            'parent_id' => $this->reply,
+            'text'=>$this->replyText,
+            'commentable_id'=>$this->product->id,
+            'commentable_type'=>Product::class,
+            'show'=> Auth::user()->autoApprove() ? 1 : 0
         ]);
+        $this->reset('text');
 
     $this->reset('replyText','reply');
     }
@@ -284,7 +345,11 @@ class ProductUnit extends Component
         return Comment::with('Users','parent','children')
             ->where('commentable_id',$this->product->id)
             ->where('commentable_type',Product::class)
+            ->where('parent_id',0)
             ->where('show',1)
+            ->orWhere('user_id',Auth::id())
+            ->where('commentable_id',$this->product->id)
+            ->where('commentable_type',Product::class)
             ->where('parent_id',0)
             ->get();
     }

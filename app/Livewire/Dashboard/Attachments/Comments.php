@@ -75,6 +75,12 @@ class Comments extends Component
             ->where('commentable_type', Product::class)
             ->where('see', 1)->update(['see' => 0]);
     }
+    public function delete($id)
+    {
+        $comment = Comment::findOrFail($id);
+
+        $comment->deleteWithChildren();
+    }
 
     public function render()
     {
@@ -83,7 +89,7 @@ class Comments extends Component
         $showed_comments = Comment::where('commentable_id', $this->product->id)->where('commentable_type', Product::class)->where('show', 1)->get();
         $seen_comments = Comment::where('commentable_id', $this->product->id)->where('commentable_type', Product::class)->where('see', 1)->get();
 
-      
+
         return view('livewire.dashboard.attachments.comments', compact('comments','showed_comments','seen_comments'))
             ->layout('components.layouts.dashboards');
     }

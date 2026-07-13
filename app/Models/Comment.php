@@ -31,6 +31,16 @@ class Comment extends Model
         return $this->hasMany(Comment::class, 'parent_id', 'id')->where('show',1);
     }
 
+    public function deleteWithChildren()
+    {
+        foreach ($this->children as $child)
+        {
+            $child->deleteWithChildren();
+        }
+
+        $this->delete();
+    }
+
     public function LikedByUsers():BelongsToMany
     {
         return $this->belongsToMany(User::class, 'comment_user')->withTimestamps();

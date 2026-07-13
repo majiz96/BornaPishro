@@ -54,6 +54,9 @@
 
                 <div class="col-xl-1 mt-2 text-start"><label for="see"> خوانده شد </label></div>
                 <div class="col-xl-1 mt-2"><input type="checkbox" id="see" wire:change="toggleSee({{$comment->id}})" @checked($comment->see == 1)></div>
+
+                  <button class="col-xl-auto btn btn-sm btn-danger mt-1" wire:click="delete({{$comment->id}})" wire:confirm="آیا از حذف این کامنت ( و پاسخهایش ) مطمئن هستید؟"> حذف </button>
+
               </div>
 
             </div>

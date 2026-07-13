@@ -262,7 +262,15 @@
         <textarea id="text" class="form-control" rows="4" wire:model.blur="text"></textarea>
         @error('text') <small class="text-danger"> {{$message}} </small> @enderror
 
-        <button type="submit" class="btn btn-primary mt-2 w-auto mx-auto"> ارسال </button>
+        <button type="submit" class="col-auto btn btn-primary mt-2 w-auto mx-auto">
+            {{$comment_editing ? 'ویرایش' : 'ارسال'}}
+        </button>
+
+        @if($comment_editing)
+            <button type="button" class="col-auto btn btn-danger mt-2 w-auto mx-auto" wire:click="cancelEdit">
+                لغو ویرایش
+            </button>
+        @endif
 
     </form>
 

@@ -12,11 +12,21 @@
     <div class="col-{{$colWidth}}  pt-2 px-2 mt-2 mx-auto
     {{$comment->Users->position_id !== 4 ? 'cs-navbar rounded-4 text-white' : 'rounded-4 border border-3'}}">
 
-        <div class="row pt-2 px-2 mx-auto">
-            <h5 class="col-xl-2"> {{ $comment->Users->name}}  {{ $comment->Users->lastname}}</h5>
-            <div class="col-xl-6"></div>
-            <small class="col-xl-4 text-start"> {{$comment->created_at->diffForHumans()}}</small>
-        </div>
+        @if($comment->user_id == Auth::id() && $comment->show != 1)
+            <div class="row pt-2 px-2 mx-auto">
+                <h5 class="col-xl-auto"> {{ $comment->Users->name}}  {{ $comment->Users->lastname}}</h5>
+                <small class="col-xl-auto text-danger"> در انتظار تایید </small>
+                <div class="col-xl-6"></div>
+                <small class="col-xl-4 text-start"> {{$comment->created_at->diffForHumans()}}</small>
+            </div>
+        @else
+            <div class="row pt-2 px-2 mx-auto">
+                <h5 class="col-xl-2"> {{ $comment->Users->name}}  {{ $comment->Users->lastname}}</h5>
+                <div class="col-xl-6"></div>
+                <small class="col-xl-4 text-start"> {{$comment->created_at->diffForHumans()}}</small>
+            </div>
+        @endif
+
 
         <div class="row p-2 mx-auto"> {{$comment->text}} </div>
 
@@ -26,7 +36,30 @@
             <div class="col-xl-1">
                 <i class="bi-reply-fill" wire:click="makeReply({{$comment->id}})"></i>
             </div>
-            <div class="col-xl-10"></div>
+
+            @if($comment->user_id == Auth::id() && $this->editTimeLimit($comment))
+                <div class="col-xl-1">
+
+                    <button class="btn btn-primary btn-sm rounded-3" wire:click="editComment({{$comment->id}})">
+                        ویرایش
+                    </button>
+
+                </div>
+                <div class="col-xl-1">
+
+                    <small class="btn btn-danger btn-sm rounded-3" wire:click="deleteComment({{$comment->id}})" wire:confirm="{{$deleteConfirm}}">
+                        حذف
+                    </small>
+
+                </div>
+
+                <div class="col-xl-8"></div>
+            @else
+                <div class="col-xl-10"></div>
+            @endif
+
+
+
 
             <div class="col-xl-1">
                 <small>{{$comment->LikedByUsers->count()}}</small>
