@@ -15,6 +15,8 @@ use App\Models\User;
 use App\Models\Video;
 use Illuminate\Auth\Access\Gate;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Attributes\Computed;
@@ -42,6 +44,9 @@ class ProductUnit extends Component
 
     public $comment_editing = null;
     public $timeLimit = 1800;
+
+    public $commentCountDown = 0;
+    public string $countDownMessage = '';
 
     public string $deleteConfirm = "آیا از حذف این نظر مطمئن هستید؟";
 
@@ -262,46 +267,84 @@ class ProductUnit extends Component
 
     public function save()
     {
-
-        if ($this->comment_editing)
+        if(auth()->check())
         {
-            $this->validate([
-                    'text' => 'required|string|max:1000'
-                ]
-                ,
-                [
-                    'text.required'=>'متنی برای نظر خود ننوشته اید',
-                    'text.string'=>'متن نظر معتبر نمی باشد',
-                    'text.max'=>'نظر نوشته شده طولانی تر از ۱۰۰۰ حرف است',
+
+            if ($this->comment_editing)
+            {
+                $this->validate([
+                        'text' => 'required|string|max:1000'
+                    ]
+                    ,
+                    [
+                        'text.required'=>'متنی برای نظر خود ننوشته اید',
+                        'text.string'=>'متن نظر معتبر نمی باشد',
+                        'text.max'=>'نظر نوشته شده طولانی تر از ۱۰۰۰ حرف است',
+                    ]);
+
+                $comment = Comment::findOrFail($this->comment_editing) ;
+
+                $comment->update([
+                    'text'=>$this->text,
                 ]);
+                $this->reset('text');
+            }
+            else
+            {
+                $this->validate([
+                        'text' => 'required|string|max:1000'
+                    ]
+                    ,
+                    [
+                        'text.required'=>'متنی برای نظر خود ننوشته اید',
+                        'text.string'=>'متن نظر معتبر نمی باشد',
+                        'text.max'=>'نظر نوشته شده طولانی تر از ۱۰۰۰ حرف است',
+                    ]);
 
-            $comment = Comment::findOrFail($this->comment_editing) ;
+                $cooldownKey = 'comment-cooldown:'. (auth()->id() ?? request()->ip());
+                $delayKey    =    'comment-delay:'. (auth()->id() ?? request()->ip());
 
-            $comment->update([
-                'text'=>$this->text,
-            ]);
-            $this->reset('text');
+                $expireAt = Cache::get($cooldownKey);
+
+                if ($expireAt && now()->timestamp < $expireAt) {
+
+                    $this->commentCountDown = $expireAt - now()->timestamp;
+                    $this->countDownMessage = "لطفاً {$this->commentCountDown} ثانیه دیگر تلاش کنید.";
+
+                    return;
+                }
+                else
+                {
+                    Comment::create([
+                        'user_id'=>Auth::id(),
+                        'text'=>$this->text,
+                        'commentable_id'=>$this->product->id,
+                        'commentable_type'=>Product::class,
+                        'show'=> Auth::user()->autoApprove() ? 1 : 0
+                    ]);
+
+                    $delay = Cache::get($delayKey, 20);
+
+                    Cache::put(
+                        $cooldownKey,
+                        now()->timestamp + $delay,
+                        now()->addSeconds($delay)
+                    );
+
+                    Cache::put(
+                        $delayKey,
+                        min($delay + 10, 60),
+                        now()->addMinutes(10)
+                    );
+
+                    $this->reset('text','countDownMessage');
+                }
+
+            }
         }
         else
         {
-            $this->validate([
-                    'text' => 'required|string|max:1000'
-                ]
-                ,
-                [
-                    'text.required'=>'متنی برای نظر خود ننوشته اید',
-                    'text.string'=>'متن نظر معتبر نمی باشد',
-                    'text.max'=>'نظر نوشته شده طولانی تر از ۱۰۰۰ حرف است',
-                ]);
-
-            Comment::create([
-                'user_id'=>Auth::id(),
-                'text'=>$this->text,
-                'commentable_id'=>$this->product->id,
-                'commentable_type'=>Product::class,
-                'show'=> Auth::user()->autoApprove() ? 1 : 0
-            ]);
-            $this->reset('text');
+            // Here we should show an error
         }
 
     }
@@ -334,7 +377,7 @@ class ProductUnit extends Component
             'commentable_type'=>Product::class,
             'show'=> Auth::user()->autoApprove() ? 1 : 0
         ]);
-        $this->reset('text');
+        $this->reset('text',);
 
     $this->reset('replyText','reply');
     }

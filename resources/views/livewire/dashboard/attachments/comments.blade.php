@@ -29,7 +29,6 @@
                 <div class="col-xl-1 mt-2 text-end"><input type="checkbox" id="see" wire:change="seeAll"></div>
             @endif
 
-
         </div>
 
         <div class="row mt-3 px-0">
