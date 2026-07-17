@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
+use Illuminate\Support\Facades\Auth;
 
 class Comment extends Model
 {
@@ -25,10 +26,25 @@ class Comment extends Model
     {
         return $this->hasOne(Comment::class, 'id', 'parent_id')->where('show', 1);
     }
-
-    public function children():HasMany
+    public function children(): HasMany
     {
-        return $this->hasMany(Comment::class, 'parent_id', 'id')->where('show',1);
+        return $this->hasMany(Comment::class, 'parent_id', 'id');
+    }
+
+    public function scopeVisible($query)
+    {
+        return $query->where(function ($q) {
+
+            $q->where('show',1);
+
+            if (Auth::check()) {
+                $q->orWhere(function ($q) {
+                    $q->where('show',0)
+                        ->where('user_id',Auth::id());
+                });
+            }
+
+        });
     }
 
     public function deleteWithChildren()
@@ -50,5 +66,7 @@ class Comment extends Model
     {
         return $this->hasOne(User::class,'id','user_id');
     }
+
+
 
 }
