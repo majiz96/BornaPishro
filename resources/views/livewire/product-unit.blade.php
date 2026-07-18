@@ -1,9 +1,9 @@
-<div class="container">
+<div class="container overflow-x-hidden">
 
-    <div class="row mt-4"><h2>{{$product->name ?? 'محصول'}}</h2></div>
+    <div class="row mt-4 mx-sm-0 mx-3"><h2>{{$product->name ?? 'محصول'}}</h2></div>
 
     {{--  Pictures  and Briefs  --}}
-    <div class="row">
+    <div class="row px-sm-0 px-3">
         <div class="col-xl-4 side-img2">
             <div class="row">
 
@@ -24,7 +24,7 @@
 
             {{-- Gallery Pics  --}}
             @if($this->gallery->isNotEmpty())
-                <div class="row text-center py-2" style="min-height: 7vh">
+                <div class="row text-center py-2 px-sm-0 px-3" style="min-height: 7vh">
 
                     @if($gallery_id)
                         <div class="col-xl-3 col-3 border text-center my-auto gallery-img py-3 delete-badge">
@@ -53,7 +53,7 @@
 
                         @foreach($brief->units as $unit)
 
-                            <li class="my-2">
+                            <li class="my-2 px-sm-0 px-2">
 
                                 {{$unit->title}} :
 
@@ -83,9 +83,9 @@
 
 
     {{-- Price & Options --}}
-    <div class="row text-center my-3">
+    <div class="row text-center my-xl-3 my-5">
 
-        @if(count($this->specifications)<= 1)
+        @if(count($this->specifications) <= 1)
 
             @if($product->price !== 0 || $product->price !== null)
                 <h3 class="text-success"> {{ number_format($product->price) }} تومان</h3>
@@ -99,17 +99,17 @@
         @else
             @foreach($this->specifications as $spec)
 
-                <a class="col-auto text-decoration-none text-body py-1 px-4 my-auto">
+                <a class="col-auto text-decoration-none text-body py-1 px-xl-4 mx-lg-0 mx-auto my-auto">
 
-                    <div class="row border rounded-4 pt-1 pb-2 px-2 {{$activeTable == $spec->id ? 'cs-navbar' : ''}}">
+                    <div class="row border rounded-4 pt-1 pb-2 px-xl-2 px-1 {{$activeTable == $spec->id ? 'cs-navbar' : ''}}">
                         <div class="col-12 delete-badge my-auto text-center h5" wire:click="selectTable({{$spec->id}})">{{$spec->name}}</div>
                     </div>
                 </a>
 
             @endforeach
 
-            <div class="col"></div>
-            <div class="col-3 h3 text-success my-auto"> {{ number_format($activePrice) }} تومان </div>
+            <div class="col-xl col-0"></div>
+            <div class="col-auto h3 text-success my-auto mx-lg-0 mx-auto my-auto mt-xl-0 mt-5"> {{ number_format($activePrice) }} تومان </div>
 
         @endif
 
@@ -118,7 +118,7 @@
     {{-- Tabs --}}
     <div class="row border rounded-top-4" style="min-height: 5vh">
 
-        <div class="col-xl-1 col-3 my-auto text-center">
+        <div class="col-xl-1 col-3 my-md-auto my-2 text-center">
             <input type="radio" class="btn-check" id="btn-check-spec-outlined" autocomplete="off" wire:model.live="tab" value="specifications">
             <label class="btn btn-outline-primary w-auto py-1 rounded-3" for="btn-check-spec-outlined">مشخصات</label>
         </div>
@@ -144,9 +144,9 @@
     <div class="row border rounded-bottom-4 p-2">
 
         @if($tab == 'specifications')
-
+            {{-- Specification Table --}}
             @forelse($this->selectedSpecification as $specification)
-
+                {{-- Group Of Spec's --}}
                 @foreach($specification->group as $group)
 
                     <div class="row text-end text-primary h5 my-3 fw-bolder me-1"> - {{$group->title}} </div>
@@ -154,7 +154,7 @@
                     @forelse($group->units as $units)
                         <div class="row text-end border rounded mx-auto my-1 py-1" dir="rtl">
 
-                            <div class="col-1 fw-bold border-start">{{$units->title}} </div>
+                            <div class="col-xl-1 col-md-2 col-3 fw-bold border-start">{{$units->title}} </div>
 
 
                             @forelse($units->values as $value)

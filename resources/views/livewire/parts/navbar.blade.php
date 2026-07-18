@@ -26,12 +26,23 @@
 
                         <li class="nav-item"><a class="nav-link text-light">|</a></li>
 
-{{--                        <li class="nav-item"><a class="nav-link text-light" href="{{ route('products') }}" wire:click="toggleMenu">محصولات</a></li>--}}
-                        <li class="nav-item"><a class="nav-link text-light" href="" wire:click="toggleMenu">محصولات</a></li>
-                        <i class="bi-caret-down-fill"></i>
-                        <li class="nav-item"><a class="nav-link text-light" href="#">خدمات</a></li>
-                        <li class="nav-item"><a class="nav-link text-light" href="#">مقالات</a></li>W
-                        <li class="nav-item"><a class="nav-link text-light" href="#">ارتباط با ما</a></li>
+                        <ul class="navbar-nav ms-auto">
+
+                            @if($this->getField->isNotEmpty())
+                                @foreach($this->getField as $field)
+                                    <li class="nav-item">
+                                        <a
+                                            href="{{$field->route == '' ? $field->route : '../'.$field->route}}"
+                                            class="nav-link text-light delete-badge"
+                                            wire:mouseover="showMenu({{$field->id}})"
+                                            wire:mouseout="hideMenu">{{$field->name}}
+                                        </a>
+                                    </li>
+                                @endforeach
+                            @endif
+
+                            <li class="nav-item"><a class="nav-link text-light" href="#">ارتباط با ما</a></li>
+                        </ul>
                     </ul>
                 </div>
 
@@ -42,7 +53,6 @@
 
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav ms-auto">
-{{--                        <li class="nav-item"><a class="nav-link text-light" href="{{ route('products') }}" wire:click="toggleMenu(1)">محصولات</a></li>--}}
 
                         @if($this->getField->isNotEmpty())
                             @foreach($this->getField as $field)
@@ -57,9 +67,6 @@
                             @endforeach
                         @endif
 
-{{--                        <li class="nav-item"><a class="nav-link text-light delete-badge" wire:mouseover="showMenu(1)" wire:mouseout="hideMenu">محصولات</a></li>--}}
-{{--                        <li class="nav-item"><a class="nav-link text-light delete-badge" wire:mouseover="showMenu(2)"  wire:mouseout="hideMenu">خدمات</a></li>--}}
-{{--                        <li class="nav-item"><a class="nav-link text-light delete-badge" wire:mouseover="showMenu(3)"  wire:mouseout="hideMenu">مقالات</a></li>--}}
                         <li class="nav-item"><a class="nav-link text-light" href="#">ارتباط با ما</a></li>
                     </ul>
                 </div>
