@@ -57,6 +57,11 @@ class Comment extends Model
         $this->delete();
     }
 
+    public function type(): HasMany
+    {
+        return $this->hasMany(Comment::class,'commentable_type');
+    }
+
     public function LikedByUsers():BelongsToMany
     {
         return $this->belongsToMany(User::class, 'comment_user')->withTimestamps();

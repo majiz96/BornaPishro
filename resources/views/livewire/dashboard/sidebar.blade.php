@@ -35,7 +35,17 @@
 
         <li class="cs-header-product t list-group-item text-center border py-1"> <h5>محصولات</h5> </li>
 
-        <li class="list-group-item list-group-item-action text-end py-1 {{request()->routeIs('products-management') ? 'active-page' : ''}}"><a class="nav-link" href="{{route('products-management')}}" wire:navigate> مدیریت محصولات </a></li>
+        <li class="list-group-item list-group-item-action d-flex text-end py-1 {{request()->routeIs('products-management') ? 'active-page' : ''}}">
+            <a class="nav-link" href="{{route('products-management')}}" wire:navigate> مدیریت محصولات </a>
+
+            @if($this->commentAlert(\App\Models\Product::class))
+                <span class="mx-auto text-bg-danger px-1 rounded-5">
+                {{ $this->commentAlert(\App\Models\Product::class) }}
+                </span>
+            @endif
+
+        </li>
+
         <li class="list-group-item list-group-item-action text-end py-1 {{request()->routeIs('brands') ? 'active-page' : ''}}"><a class="nav-link" href="{{route('brands')}}" wire:navigate> مدیریت برندها </a></li>
         <li class="list-group-item list-group-item-action text-end py-1 {{request()->routeIs('discounts') ? 'active-page' : ''}}"><a class="nav-link" href="{{route('discounts')}}" wire:navigate> مدیریت تخفیف ها </a></li>
 
@@ -45,7 +55,15 @@
 
         <li class="cs-header-mag t list-group-item text-center border py-1"> <h5>مقالات</h5> </li>
 
-        <li class="list-group-item list-group-item-action text-end py-1 {{request()->routeIs('articles-management') ? 'active-page' : ''}}"><a class="nav-link" href="{{route('articles-management')}}" wire:navigate> مدیریت مقالات </a></li>
+        <li class="list-group-item list-group-item-action d-flex text-end py-1 {{request()->routeIs('articles-management') ? 'active-page' : ''}}">
+            <a class="nav-link" href="{{route('articles-management')}}" wire:navigate> مدیریت مقالات </a>
+
+            @if($this->commentAlert(Article::class))
+                <span class="mx-auto text-bg-danger px-1 rounded-5">
+                {{ $this->commentAlert(Article::class) }}
+                </span>
+            @endif
+        </li>
 
     </ul>
 
@@ -53,7 +71,15 @@
 
         <li class="cs-header-service t list-group-item text-center border py-1"> <h5>خدمات</h5> </li>
 
-        <li class="list-group-item list-group-item-action text-end py-1 {{request()->routeIs('services-management') ? 'active-page' : ''}}"><a class="nav-link" href="{{route('services-management')}}" wire:navigate> مدیریت خدمات </a></li>
+        <li class="list-group-item list-group-item-action d-flex text-end py-1 {{request()->routeIs('services-management') ? 'active-page' : ''}}">
+            <a class="nav-link" href="{{route('services-management')}}" wire:navigate> مدیریت خدمات </a>
+            @if($this->commentAlert(Service::class))
+                <span class="mx-auto text-bg-danger px-1 rounded-5">
+                    {{ $this->commentAlert(Service::class) }}
+                </span>
+            @endif
+
+        </li>
 
     </ul>
     @endcan {{-- just manager & assistants have access to these categories --}}

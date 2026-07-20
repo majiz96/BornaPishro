@@ -3,7 +3,9 @@
 namespace App\Livewire\Dashboard\Products;
 
 
+use App\Models\Comment;
 use Illuminate\Support\Facades\Storage;
+use Livewire\Attributes\Computed;
 use Livewire\Component;
 use Livewire\Attributes\Validate;
 use Livewire\WithFileUploads;
@@ -33,7 +35,7 @@ class ProductsManagement extends Component
     public $perPage = 5;
     public $search = '';
     public $sort = 'created_at';
-    public $direction = 'desc';
+    public $direction = 'asc';
 
     protected $rules = [
         'name'=>'required',
@@ -208,6 +210,14 @@ class ProductsManagement extends Component
         $product = Product::findOrFail($id);
         $product->supply = $product->supply == 1 ? 0 : 1;
         $product->save();
+    }
+
+    #[Computed]
+    public function commentAlert($id)
+    {
+        return Comment::where('see','0')
+            ->where('commentable_id',$id)
+            ->count();
     }
 
     public function render()

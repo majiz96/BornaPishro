@@ -4,7 +4,9 @@ namespace App\Livewire\Parts;
 
 use App\Livewire\Dashboard\Website\Notices;
 use App\Models\Category;
+use App\Models\Comment;
 use App\Models\Field;
+use App\Models\Product;
 use Illuminate\Support\Facades\Auth;
 
 use Livewire\Attributes\Computed;
@@ -162,6 +164,13 @@ class Navbar extends Component
         Auth::logout();
         return redirect('/');
     }
+
+    #[Computed]
+    public function commentAlert()
+    {
+        return Comment::where('see',0)->count();
+    }
+
     public function render()
     {
         return view('livewire.parts.navbar');

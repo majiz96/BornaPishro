@@ -239,6 +239,11 @@
 
                         <button type="button" class="btn btn-secondary dropdown-toggle text-light" id="dropdownOptions" data-bs-toggle="dropdown" aria-expanded="false">
                             پیوست ها
+
+                            @if($this->commentAlert($product->id))
+                                <sub class="bi-dot text-danger h4"></sub>
+                            @endif
+
                         </button>
 
                         <ul class="dropdown-menu text-end" aria-labelledby="dropdownOptions">
@@ -248,7 +253,17 @@
                             <li><a href="{{route('sources.show',$product->id)}}" class="dropdown-item" wire:navigate> منابع </a></li>
                             <li><a href="{{route('briefs.show',$product->id)}}" class="dropdown-item" wire:navigate> خلاصه ها </a></li>
                             <li><a href="{{route('specifications.show',$product->id)}}" class="dropdown-item" wire:navigate> مشخصات </a></li>
-                            <li><a href="{{route('comments.show',$product->id)}}" class="dropdown-item" wire:navigate> کامنت ها </a></li>
+
+                            <li class="d-flex">
+                                <a href="{{route('comments.show',$product->id)}}" class="dropdown-item" wire:navigate> کامنت ها </a>
+
+                                @if($this->commentAlert($product->id))
+                                    <span class="mx-auto text-bg-danger px-1 py-0 rounded-5 ms-2">
+                                        {{ $this->commentAlert($product->id) }}
+                                    </span>
+                                @endif
+
+                            </li>
 
                         </ul>
 

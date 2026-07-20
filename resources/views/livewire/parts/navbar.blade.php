@@ -1,14 +1,14 @@
 <nav class="cs-navbar navbar navbar-expand-lg text-light m-4 py-xl-0 sticky-top  {{ $submenu ? 'rounded-top-5' : 'rounded-4' }}" dir="rtl">
 
     <div class="container-fluid">
-
+        {{--    DESKTOP    --}}
         <div class="w-100 d-none d-lg-flex mt-0 pe-0">
 
+            {{-- Logo --}}
             <a class="navbar-brand text-light" href="/">
-{{--                <img class="nav-logo mt-2" src="storage/logo/logo.png" alt="">--}}
                 <img class="nav-logo mt-2" src="{{asset('storage/logo/logo.png') }}" alt="">
             </a>
-
+            {{-- Webname --}}
             <a class="navbar-brand text-light" href="/"><h1>برناپیشرو</h1></a>
 
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
@@ -72,20 +72,38 @@
                 </div>
 
                 <!-- Example single danger button -->
-                <div class="btn-group me-0 px-5">
+                <div class="btn-group me-0 px-5 d-flex">
+
+
 
                     <button type="button" class="btn dropdown-toggle text-light borderless" id="dropdownUser" data-bs-toggle="dropdown" aria-expanded="false">
+
                         @if($name && $lastname)
                             {{$name}}  {{$lastname}}
+                            @if($this->commentAlert())
+                                <i class="bi bi-dot h4 text-danger">  </i>
+                            @endif
                         @endif
+
                     </button>
 
                     <ul class="dropdown-menu text-end" aria-labelledby="dropdownUser">
-                        <li><a href="{{route('profile')}}" class="dropdown-item" wire:navigate> پروفایل </a></li>
+                        <li class="d-flex">
+                            <a href="{{route('profile')}}" class="dropdown-item" wire:navigate>
+                                پروفایل
+                                @if($this->commentAlert())
+                                    <i class="bi bi-chat-left-fill text-danger"> {{$this->commentAlert()}} </i>
+                                @endif
+                            </a>
+                        </li>
+
+
                         <li><a href="" class="dropdown-item" wire:click="logout" wire:confirm="آیابرای خروج از وبسایت مطمئن هستید؟" wire:navigate> خروج </a></li>
                     </ul>
-
                 </div>
+
+
+
 
                 <!-- Example single bell button -->
                 <div class="btn-group me-0 px-4">
@@ -189,6 +207,7 @@
 
         </div>
 
+        {{-- MOBILE --}}
         <div class="w-100 d-md-flex d-lg-none align-items-center" dir="rtl">
 
             <div class="d-flex align-items-center w-100 position-relative">
@@ -263,10 +282,29 @@
 
 
                     <!-- وسط: لینک‌ها (کاملاً وسط چین) -->
+{{--                    <ul class="navbar-nav flex-column my-auto align-items-center px-0">--}}
+{{--                        <li class="nav-item"><a class="nav-link text-body fs-3 mt-3 mx-auto" href="#">محصولات</a></li>--}}
+{{--                        <li class="nav-item"><a class="nav-link text-body fs-3 mt-3 mx-auto" href="#">خدمات</a></li>--}}
+{{--                        <li class="nav-item"><a class="nav-link text-body fs-3 mt-3 mx-auto" href="#">مقالات</a></li>--}}
+{{--                        <li class="nav-item"><a class="nav-link text-body fs-3 mt-3 mx-auto" href="#">ارتباط با ما</a></li>--}}
+{{--                        --}}
+{{--                    </ul>--}}
+
                     <ul class="navbar-nav flex-column my-auto align-items-center px-0">
-                        <li class="nav-item"><a class="nav-link text-body fs-3 mt-3 mx-auto" href="#">محصولات</a></li>
-                        <li class="nav-item"><a class="nav-link text-body fs-3 mt-3 mx-auto" href="#">خدمات</a></li>
-                        <li class="nav-item"><a class="nav-link text-body fs-3 mt-3 mx-auto" href="#">مقالات</a></li>
+
+                        @if($this->getField->isNotEmpty())
+                            @foreach($this->getField as $field)
+                                <li class="nav-item">
+                                    <a
+                                        href="{{$field->route == '' ? $field->route : '../'.$field->route}}"
+                                        class="nav-link text-body fs-3 mt-3 mx-auto"
+                                        wire:mouseover="showMenu({{$field->id}})"
+                                        wire:mouseout="hideMenu">{{$field->name}}
+                                    </a>
+                                </li>
+                            @endforeach
+                        @endif
+
                         <li class="nav-item"><a class="nav-link text-body fs-3 mt-3 mx-auto" href="#">ارتباط با ما</a></li>
                     </ul>
 
