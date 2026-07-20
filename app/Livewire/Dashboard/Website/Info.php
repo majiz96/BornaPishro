@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Dashboard\Website;
 
+use Illuminate\Support\Facades\Cache;
 use Livewire\Component;
 
 use App\Models\Information;
@@ -13,7 +14,11 @@ class Info extends Component
 
     public function mount()
     {
-        $data = Information::first();
+        $data = Cache::remember(
+          'website-information',
+          now()->addDays(3),
+          fn () => Information::first()
+        );
 
         $this->fill($data->only([
             'phone', 'mobile', 'email', 'address', 'activity', 'response', 'location', 'start_date', 'about_us'
@@ -64,8 +69,8 @@ class Info extends Component
             'about_us' => $this->about_us
         ]);
 
+        Cache::forget('website-information');
         session()->flash('success', 'اطلاعات بروز شدند.');
-
     }
 
     public function render()

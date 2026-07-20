@@ -5,6 +5,7 @@ namespace App\Livewire\Parts;
 use App\Models\Information;
 use App\Models\License;
 use App\Models\Social;
+use Illuminate\Support\Facades\Cache;
 use Livewire\Component;
 
 class Footer extends Component
@@ -15,7 +16,11 @@ class Footer extends Component
 
     public function mount()
     {
-        $info = Information::first();
+        $info = Cache::remember(
+            'website-information',
+            now()->addDays(3),
+            fn () => Information::first()
+        );
 
         $this->fill($info->only([
             'phone', 'mobile', 'email', 'address', 'activity', 'response', 'location', 'start_date', 'about_us'
