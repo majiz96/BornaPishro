@@ -2,7 +2,9 @@
 
 namespace App\Livewire\Dashboard\Website;
 
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
+use Livewire\Attributes\Computed;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
@@ -79,13 +81,13 @@ class Socials extends Component
 
             $social = Social::findOrFail($this->editing)->update($data);
 
+            Cache::forget('website-socials');
+
             $this->editing = null;
 
             $this->reset(['name', 'link', 'icon']);
 
             session('success','شبکه مجازی مورد نظر ویرایش شد');
-
-            $this->socials = Social::all();
 
         }
         else
@@ -119,6 +121,8 @@ class Socials extends Component
                 'icon'=>$filename
             ]);
 
+            Cache::forget('website-socials');
+
             $this->reset(['name', 'link', 'icon']);
 
             session()->flash('success','شبکه مجازی اضافه شد');
@@ -143,6 +147,8 @@ class Socials extends Component
         $social=Social::findOrFail($id);
         $social->delete();
         Storage::disk('public')->delete('social_icons/'.$social->icon);
+
+        Cache::forget('website-socials');
     }
 
     public function deleteSelected()
@@ -157,12 +163,23 @@ class Socials extends Component
         foreach ($icon as $icons)
         {
             Storage::disk('public')->delete('social_icons/'.$icons);
+
         }
+
+        Cache::forget('all-socials');
+    }
+
+    #[Computed]
+    public function Socials()
+    {
+        $social = Social::Cached();
+
+        return $social;
     }
 
     public function render()
     {
-        return view('livewire.dashboard.website.socials',['socials' => Social::all()])
+        return view('livewire.dashboard.website.socials')
             ->layout('components.layouts.dashboards');
     }
 }

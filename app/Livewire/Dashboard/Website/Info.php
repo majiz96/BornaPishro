@@ -14,11 +14,7 @@ class Info extends Component
 
     public function mount()
     {
-        $data = Cache::remember(
-          'website-information',
-          now()->addDays(3),
-          fn () => Information::first()
-        );
+        $data = Information::Cached();
 
         $this->fill($data->only([
             'phone', 'mobile', 'email', 'address', 'activity', 'response', 'location', 'start_date', 'about_us'

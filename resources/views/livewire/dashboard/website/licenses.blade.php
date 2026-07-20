@@ -66,11 +66,11 @@
 
     </form>
 
-    @if($licenses->isNotEmpty())
+    @if($this->Licenses->isNotEmpty())
 
             <div class="row mx-auto py-2 px-0 mx-3">
 
-                @foreach($licenses as $license)
+                @foreach($this->Licenses as $license)
 
                     {{-- کارت مجوز --}}
                     <div class="col-xl-5 card my-2 rounded-4 mx-auto">

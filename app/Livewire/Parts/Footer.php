@@ -16,11 +16,7 @@ class Footer extends Component
 
     public function mount()
     {
-        $info = Cache::remember(
-            'website-information',
-            now()->addDays(3),
-            fn () => Information::first()
-        );
+        $info = Information::Cached();
 
         $this->fill($info->only([
             'phone', 'mobile', 'email', 'address', 'activity', 'response', 'location', 'start_date', 'about_us'
@@ -30,9 +26,9 @@ class Footer extends Component
 
     public function render()
     {
-        $socials = Social::all();
+        $socials = Social::Cached();
 
-        $licenses = License::all();
+        $licenses = License::Cached();
 
         return view('livewire.parts.footer', compact('socials', 'licenses'));
     }

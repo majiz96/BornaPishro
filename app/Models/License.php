@@ -3,9 +3,20 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Cache;
 
 class License extends Model
 {
 //    protected $table = 'licenses';
     protected $fillable = ['name','link','icon','description','expire','active','show'];
+
+    public static function Cached()
+    {
+        return Cache::remember(
+            'website-licenses',
+            now()->addDays(3)
+            ,fn()=>License::all()
+        );
+    }
+
 }

@@ -2,7 +2,9 @@
 
 namespace App\Livewire\Dashboard\Website;
 
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
+use Livewire\Attributes\Computed;
 use Morilog\Jalali\Jalalian;
 
 use Livewire\Component;
@@ -117,6 +119,9 @@ class Licenses extends Component
         $data['show'] = $this->show;
 
         $license->update($data);
+
+        Cache::forget('website-licenses');
+
         $this->reset(['name', 'link', 'icon']);
         $this->editing = null;
 
@@ -142,6 +147,8 @@ class Licenses extends Component
 
         if(License::create($data))
         {
+
+            Cache::forget('website-licenses');
             session()->flash('success','مجوز ثبت شد');
 
             $this->reset(['expire','icon']);
@@ -156,6 +163,9 @@ class Licenses extends Component
    {
     $licence = License::findOrFail($id);
     $licence->delete();
+
+    Cache::forget('website-licenses');
+
     Storage::disk('public')->delete('license_icons/' . $licence->icon);
    }
 
@@ -164,17 +174,26 @@ class Licenses extends Component
     $license = License::find($id);
     $license->active = $license->active == 1 ? 0 : 1;
     $license->save();
+
+    Cache::forget('website-licenses');
    }
    public function toggleShow($id)
    {
        $license = License::find($id);
        $license->show = $license->show == 1 ? 0 : 1;
        $license->save();
+
+       Cache::forget('website-licenses');
+   }
+   #[Computed]
+   public function Licenses()
+   {
+       return License::Cached();
    }
 
     public function render()
     {
-        return view('livewire.dashboard.website.licenses',['licenses'=>License::all()])
+        return view('livewire.dashboard.website.licenses')
             ->layout('components.layouts.dashboards');
     }
 }

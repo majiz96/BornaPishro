@@ -55,7 +55,7 @@
 
     </form>
 
-        @if($socials->isNotEmpty())
+        @if($this->Socials->isNotEmpty())
 
 
     <div class="row border rounded-4">
@@ -77,7 +77,7 @@
     </div>
 
 
-          @foreach($socials as $social)
+          @foreach($this->Socials as $social)
             <div class="row mt-4 border-bottom">
                 <div class="col-xl-1 mx-auto text-center"><input type="checkbox" class="mt-3" wire:model.live="selected" value="{{$social->id}}"></div>
                 <div class="col-xl-1 mx-auto text-center"><div class="mt-2 text-center"> {{$counter++}} </div></div>
