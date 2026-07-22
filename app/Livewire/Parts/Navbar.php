@@ -6,14 +6,13 @@ use App\Livewire\Dashboard\Website\Notices;
 use App\Models\Category;
 use App\Models\Comment;
 use App\Models\Field;
-use App\Models\Product;
-use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
 
-use App\Models\User;
-use App\Models\Notice;
 
 class Navbar extends Component
 {
@@ -42,8 +41,10 @@ class Navbar extends Component
         {
             $user_id = Auth::user()->id;
 
-            $this->name = User::where('id', $user_id)->pluck('name')->first();
-            $this->lastname = User::where('id', $user_id)->pluck('lastname')->first();
+            $user = auth()->user();
+
+            $this->name = $user->name;
+            $this->lastname = $user->lastname;
 
             $this->unreadNotice = collect();
 
@@ -74,20 +75,6 @@ class Navbar extends Component
         $this->dispatch('themeChanged',theme: $this->theme);
     }
 
-//    public function toggleMenu($tab)
-//    {
-//        $this->submenu = $this->submenu == 0 ? 1 : 0;
-//
-//        if($this->submenu == 0)
-//        {
-//            $this->menuTab = '';
-//        }
-//        else
-//        {
-//            $this->menuTab = $tab;
-//        }
-//    }
-
     public function showMenu($tab)
     {
         if(!empty($tab))
@@ -109,36 +96,31 @@ class Navbar extends Component
     #[Computed]
     public function getField()
     {
-        return Field::where('show_menu', 1)
-        ->orderBy('name')
-        ->get();
-    }
-    #[Computed]
-    public function getFieldName()
-    {
-        return Field::where('id',$this->submenu)->pluck('name')->first();
-    }
-    #[Computed]
-    public function getFieldRoute()
-    {
-        return Field::where('id',$this->submenu)->pluck('route')->first();
+        return Field::Menu();
     }
     #[Computed]
     public function getCategory()
     {
-        return Category::where('field_id',$this->submenu)
+        return Cache::remember(
+            "menu-categories-{$this->submenu}",
+            now()->addMonth(),
+            fn()=>Category::where('field_id',$this->submenu)
             ->where('parent_id',0)
             ->where('id','<',99)
             ->with('children','field')
-            ->get();
+            ->get()
+        );
+
     }
 
     #[Computed]
-    public function getFieldImage()
+    public function currentField()
     {
-       return Field::where('id',$this->submenu)
-            ->pluck('image')
-            ->first();
+        return Cache::remember(
+            "current-field-{$this->submenu}",
+            now()->addMonth(),
+            fn()=>Field::find($this->submenu)
+        );
     }
 
     public function showChildren($id)

@@ -354,7 +354,7 @@ class Categories extends Component
 
 
         return view('livewire.dashboard.website.categories',
-            ['fields'=>Field::all(),
+            ['fields'=>Field::Cached(),
                 'categories'=>Category::where('field_id', $this->fieldActive)->where('parent_id',0)->get(),
                 'childs'=>Category::where('parent_id', $this->categoryActive)->get(),
             ])->layout('components.layouts.dashboards');

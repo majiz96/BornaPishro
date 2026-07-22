@@ -161,7 +161,7 @@
                                         <div class="col-3 text-center mx-auto p-2 delete-badge" wire:mouseover="showChildren({{$category->id}})">
 
                                             <a class="text-decoration-none nav-item text-body h5 fw-bold mb-5 py-1 megamenutitle"
-                                               href="{{$this->getFieldRoute() == '' ? $this->getFieldRoute().'/'.$category->id : '../'.$this->getFieldRoute().'/'.$category->id}}">
+                                               href="{{$this->currentField->route == '' ? $this->currentField->route.'/'.$category->id : '../'.$this->currentField->route.'/'.$category->id}}">
                                                 {{$category->name}}
                                             </a>
 
@@ -171,7 +171,7 @@
                                                 <div class="row text-center my-2">
                                                     <a class="text-decoration-none nav-item text-body"
 
-                                                       href="{{$this->getFieldRoute() == '' ? $this->getFieldRoute().'/'.$children->id : '../'.$this->getFieldRoute().'/'.$children->id}}">
+                                                       href="{{$this->currentField->route == '' ? $this->currentField->route.'/'.$children->id : '../'.$this->currentField->route.'/'.$children->id}}">
                                                         {{$children->name}}
                                                     </a>
                                                 </div>
@@ -181,7 +181,7 @@
                                     @else
                                         <div class="col-3 text-center mx-auto p-2 delete-badge">
                                             <a class="text-decoration-none nav-item text-body h5 fw-bold"
-                                               href="{{$this->getFieldRoute() == '' ? $this->getFieldRoute().'/'.$category->id : '../'.$this->getFieldRoute().'/'.$category->id}}">
+                                               href="{{$this->currentField->route == '' ? $this->currentField->route.'/'.$category->id : '../'.$this->currentField->route.'/'.$category->id}}">
                                                 {{$category->name}}
                                             </a>
                                         </div>
@@ -194,7 +194,7 @@
 
                         <div class="col-xxl-6 col-xl-3 col-3 text-start align-content-start">
 
-                                <img src="{{asset('storage/field_logos/'.$this->getFieldImage())}}" alt="" class="megamenu-pic rounded ms-0 align-content-start">
+                                <img src="{{asset('storage/field_logos/'.$this->currentField->image)}}" alt="" class="megamenu-pic rounded ms-0 align-content-start">
 
                         </div>
 

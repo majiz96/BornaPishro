@@ -70,7 +70,7 @@
 
     {{--    showing brands     --}}
 
-    @if($brands->isNotEmpty())
+    @if($this->Brands->isNotEmpty())
 
         <div class="row mt-4">
 
@@ -123,7 +123,7 @@
             <div class="col-xl-1 text-center">ویرایش</div>
         </div>
 
-        @foreach($brands as $brand)
+        @foreach($this->Brands as $brand)
 
         <div class="row py-1 border rounded-4 my-3">
             <div class="col-xl-1 text-center my-auto"><input type="checkbox" value="{{$brand->id}}" wire:model.live="selected" ></div>
@@ -165,7 +165,7 @@
     @endif
 
     @if($perPage !== "")
-        {{$brands->links(data:['scrollTo',false])}}
+        {{$this->Brands->links(data:['scrollTo',false])}}
     @endif
 
 
