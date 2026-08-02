@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Dashboard\Website;
 
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 
@@ -119,7 +120,7 @@ class Categories extends Component
 
             if($this->field_logo && !is_string($this->field_logo))
             {
-                $logoname = uniqid('logo_').'.'.$this->field_logo->getClientOriginalExtention();
+                $logoname = uniqid('logo_').'.'.$this->field_logo->getClientOriginalExtension();
                 $this->field_logo->storeAs('field_logos', $logoname, 'public');
             }
             else
@@ -145,7 +146,10 @@ class Categories extends Component
         $field->delete();
         Storage::disk('public')->delete('field_logos/'.$field->logo);
 
-        Category::where('field_id', $id)->delete();
+        $category->Category::where('field_id', $id);
+        $category->delete();
+
+        Cache::forget("menu-categories-{$category->field_id}");
 
         if(Field::all())
         {
@@ -164,6 +168,10 @@ class Categories extends Component
         if(Category::where('field_id', $id)->exists())
         {
             $this->categoryActive = Category::where('field_id', $id)->first()->id;
+        }
+        else
+        {
+            $this->categoryActive = null;
         }
     }
 
@@ -202,7 +210,11 @@ class Categories extends Component
 
 
 
-            Category::findOrFail($this->editingCategory)->update(['name' => $this->category_name]);
+            $category = Category::findOrFail($this->editingCategory);
+            $category->update(['name' => $this->category_name]);
+
+            Cache::forget("menu-categories-{$category->field_id}");
+
             $this->reset(['category_name']);
             $this->editingCategory = null;
         }
@@ -223,7 +235,9 @@ class Categories extends Component
                 ]
             );
 
-            Category::create(['name'=>$this->category_name,'field_id'=>$this->fieldActive]);
+            $category = Category::create(['name'=>$this->category_name,'field_id'=>$this->fieldActive]);
+
+            Cache::forget("menu-categories-{$category->field_id}");
             $this->reset(['category_name']);
 
 
@@ -241,7 +255,11 @@ class Categories extends Component
 
     public function deleteCategory($id)
     {
-        $delete = Category::findOrFail($id)->delete();
+        $delete = Category::findOrFail($id);
+
+        $delete->delete();
+
+        Cache::forget("menu-categories-{$delete->field_id}");
 
         if(Category::where('field_id',$this->fieldActive)->exists())
         {
@@ -296,7 +314,9 @@ class Categories extends Component
 
 //        $data = $this->pull(['child_name'=>$this->child_name,'field_id'=>$this->fieldActive,'parent_id'=>$this->parent_id]);
 
-            Category::findOrFail($this->editingChild)->update(['name'=>$this->child_name]);
+            $child = Category::findOrFail($this->editingChild);
+            $child->update(['name'=>$this->child_name]);
+            Cache::forget("menu-categories-{$child->field_id}");
             $this->reset(['child_name']);
             $this->editingChild = null;
 
@@ -317,10 +337,12 @@ class Categories extends Component
                 'child_name.unique'=>'این نام قبلا در این دسته بندی انتخاب شده است',
             ]);
 
-            Category::where('parent_id',$this->categoryActive)->create([
+            $child = Category::where('parent_id',$this->categoryActive)->create([
                 'name' => $this->child_name,
                 'field_id'=>$this->fieldActive,
                 'parent_id'=>$this->categoryActive]);
+
+            Cache::forget("menu-categories-{$child->field_id}");
 
             $this->reset(['child_name']);
 
@@ -329,7 +351,9 @@ class Categories extends Component
 
     public function deleteChild($id)
     {
-        Category::findOrFail($id)->delete();
+        $delete = Category::findOrFail($id);
+        $delete->delete();
+        Cache::forget("menu-categories-{$delete->field_id}");
     }
 
 
@@ -351,12 +375,18 @@ class Categories extends Component
                 $this->categoryActive = Category::where('field_id',$this->fieldActive)->first()->id;
             }
         }
+        else
+        {
+            $this->categoryActive = null;
+            $childs = null;
+        }
 
 
         return view('livewire.dashboard.website.categories',
             ['fields'=>Field::Cached(),
-                'categories'=>Category::where('field_id', $this->fieldActive)->where('parent_id',0)->get(),
-                'childs'=>Category::where('parent_id', $this->categoryActive)->get(),
+                'categories'=>Category::where('field_id', $this->fieldActive)->where('parent_id',null)->get(),
+                'childs'=>Category::where('parent_id', $this->categoryActive)
+                    ->whereNot('parent_id',null)->get(),
             ])->layout('components.layouts.dashboards');
     }
 }

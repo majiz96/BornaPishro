@@ -100,7 +100,9 @@
     </div>
 
     <div class="card col-xl-9 rounded-end-0 px-0">
-        <div class="card-header text-center px-0"><h3> دسته بندی ها </h3></div>
+        <div class="card-header text-center px-0">
+            <h3> دسته بندی ها </h3>
+        </div>
 
         <div class="card-body">
             <form wire:submit.prevent="saveCategory" class="row">
@@ -175,7 +177,9 @@
     </div>
 
     <div class="row card mt-5">
-        <div class="card-header">  <h4>شاخه ها</h4> </div>
+        <div class="card-header">
+            <h4>شاخه ها</h4>
+        </div>
 
         <div class="card-body">
 
@@ -241,7 +245,7 @@
                                     </div>
 
                                     <div class="col-xl-1 text-end mx-auto">
-                                        <i class="bi-pen-fill" wire:click="editChild({{$child->id}})"></i>
+                                        <i class="bi-pen-fill" wire:click="editChild({{$child->id}})" wire:confirm="اصلاح این زیردسته در تمام وبسایت دیده خواهد شد آیا از اصلاح مطمئن هستید؟"></i>
                                     </div>
                                 </div>
 

@@ -13,11 +13,11 @@ return new class extends Migration
     {
         Schema::create('user_notice', function (Blueprint $table) {
 
-            $table->id();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->foreignId('notice_id')->constrained()->cascadeOnDelete();
             $table->timestamp('read_at')->nullable();
 
+            $table->unique(['user_id', 'notice_id']);
 
             $table->timestamps();
         });
@@ -29,5 +29,7 @@ return new class extends Migration
     public function down(): void
     {
         //
+
+        Schema::dropIfExists('user_notice');
     }
 };

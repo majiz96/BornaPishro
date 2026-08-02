@@ -101,15 +101,15 @@ class Navbar extends Component
     #[Computed]
     public function getCategory()
     {
-        return Cache::remember(
-            "menu-categories-{$this->submenu}",
-            now()->addMonth(),
-            fn()=>Category::where('field_id',$this->submenu)
-            ->where('parent_id',0)
-            ->where('id','<',99)
-            ->with('children','field')
-            ->get()
-        );
+         return Cache::remember(
+                "menu-categories-{$this->submenu}",
+                now()->addMonth(),
+                fn()=>Category::where('field_id',$this->submenu)
+                    ->where('parent_id',null)
+                    ->with('children','field')
+                    ->get()
+            );
+
 
     }
 

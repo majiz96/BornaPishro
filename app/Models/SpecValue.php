@@ -12,6 +12,6 @@ class SpecValue extends Model
 
     public function specUnit():BelongsTo
     {
-        return $this->belongsTo(SpecUnit::class,'unit_id','id');
+        return $this->belongsTo(SpecUnit::class);
     }
 }

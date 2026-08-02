@@ -22,16 +22,19 @@ class Category extends Model
     {
         return $this->hasMany(Product::class);
     }
-
+    public function Independent(): HasMany
+    {
+        return $this->hasMany(Product::class)->whereNull('parent_id');
+    }
 
     public function children(): HasMany
     {
-        return $this->hasMany(Category::class, 'parent_id', 'id');
+        return $this->hasMany(Category::class,'parent_id','id');
     }
 
     public function parent(): HasOne
     {
-        return $this->hasOne(Category::class, 'id', 'parent_id');
+        return $this->hasOne(Category::class,'id','parent_id');
     }
 
    public function getHasPriceAttribute(): bool
@@ -63,4 +66,5 @@ class Category extends Model
     {
         return $this->hasMany(Service::class, 'category_id', 'id');
     }
+
 }

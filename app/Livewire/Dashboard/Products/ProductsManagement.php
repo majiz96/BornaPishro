@@ -222,8 +222,14 @@ class ProductsManagement extends Component
 
     public function render()
     {
-     $categories = Category::with('children','parent')->where('field_id',3)->where('parent_id',0)->get();
+     $categories = Category::with('children','parent')
+         ->where('field_id',3)
+         ->whereNull('parent_id')
+         ->get();
+
+
      $brands = Brand::all();
+
      $query = Product::with('category','brand','brief','specifications','comments')
          ->where('name','LIKE','%'.$this->search.'%')
          ->orWhere('fullname','LIKE','%'.$this->search.'%')

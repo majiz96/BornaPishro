@@ -34,10 +34,12 @@ class Field extends Model
         return Cache::remember(
             'menu-fields',
             now()->addMonth(),
-            fn()=>Field::where('show_menu', 1)
-                ->orderBy('name')
+            fn()=>Field::where('show_menu', true)
+                ->orderBy('id','asc')
                 ->get()
         );
+
+//        return Field::where('show_menu',true)->orderBy('name','desc')->get();
     }
 
     public static function booted():void

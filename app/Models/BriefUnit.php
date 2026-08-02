@@ -10,9 +10,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 class BriefUnit extends Model
 {
     protected $table = 'brief_units';
-    protected $fillable = ['brief_id', 'title',
-        'product_id'
-    ];
+    protected $fillable = ['brief_id', 'title'];
 
     public function brief():BelongsTo
     {

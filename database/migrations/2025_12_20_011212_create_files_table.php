@@ -15,9 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('filename');
             $table->string('file');
-            $table->integer('size');
-            $table->unsignedBigInteger('fileable_id');
-            $table->string('fileable_type');
+            $table->unsignedInteger('size');
+            $table->morphs('fileable');
 
             $table->timestamps();
         });

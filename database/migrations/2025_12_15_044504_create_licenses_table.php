@@ -14,12 +14,12 @@ return new class extends Migration
         Schema::create('licenses', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('link');
+            $table->text('link');
             $table->string('icon');
             $table->string('description')->nullable();
             $table->date('expire');
-            $table->integer('active');
-            $table->integer('show');
+            $table->boolean('active');
+            $table->boolean('show');
 
             $table->timestamps();
         });

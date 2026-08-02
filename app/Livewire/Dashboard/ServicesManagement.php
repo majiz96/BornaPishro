@@ -181,7 +181,18 @@ class ServicesManagement extends Component
     public function selectParent($id)
     {
         $this->activeParent = $id;
-        $this->activeChild = Category::where('field_id',2)->where('parent_id',$this->activeParent)->first()->id;
+
+        $count = Category::where('field_id',2)->where('parent_id',$id)->count();
+
+        if ($count > 0)
+        {
+            $this->activeChild = Category::where('field_id',2)->where('parent_id',$this->activeParent)->first()->id;
+        }
+        else
+        {
+            $this->activeChild = Category::where('field_id',2)->where('parent_id',null)->first()->id;
+        }
+
     }
 
     public function toggleShow($id)
@@ -221,16 +232,24 @@ class ServicesManagement extends Component
 
     public function render()
     {
-        $categories = Category::with('children','parent')->where('field_id',2)->where('parent_id',0)->get();
+        $categories = Category::with('children','parent')->where('field_id',2)->where('parent_id',null)->get();
 
         if(!$this->activeParent)
         {
-            $this->activeParent = Category::where('field_id',2)->where('parent_id',0)->first()->id;
+            $this->activeParent = Category::where('field_id',2)->where('parent_id',null)->first()->id;
         }
 
         if(!$this->activeChild)
         {
-            $this->activeChild = Category::where('field_id',2)->where('parent_id',$this->activeParent)->first()->id;
+            if (!$this->activeParent)
+            {
+                $this->activeChild = Category::where('field_id',1)->where('parent_id',$this->activeParent)->first()->id;
+            }
+            else
+            {
+                $this->activeChild = Category::where('field_id',1)->where('parent_id',null)->first()->id;
+            }
+
         }
 
         $children = Category::with('children','parent')->where('field_id',2)->where('parent_id',$this->activeParent)->get();

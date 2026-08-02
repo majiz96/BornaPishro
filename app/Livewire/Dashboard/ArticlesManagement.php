@@ -169,7 +169,18 @@ class ArticlesManagement extends Component
     public function selectParent($id)
     {
         $this->activeParent = $id;
-        $this->activeChild = Category::where('field_id',1)->where('parent_id',$this->activeParent)->first()->id;
+
+        $count = Category::where('field_id',1)->where('parent_id',$this->activeParent)->count();
+
+        if($count > 0)
+        {
+            $this->activeChild = Category::where('field_id',1)->where('parent_id',$this->activeParent)->first()->id;
+        }
+        else
+        {
+            $this->activeChild = Category::where('field_id',1)->where('parent_id',null)->first()->id;
+        }
+
     }
 
     public function selectChildren($id)
@@ -231,18 +242,26 @@ class ArticlesManagement extends Component
     {
         $categories = Category::with('children','parent')
             ->where('field_id',1)
-            ->where('parent_id',0)
+            ->where('parent_id',null)
             ->where('id','!=',100)
             ->get();
 
         if(!$this->activeParent)
         {
-            $this->activeParent = Category::where('field_id', 1)->where('parent_id', 0)->first()->id;
+            $this->activeParent = Category::where('field_id', 1)->where('parent_id', null)->first()->id;
         }
 
         if(!$this->activeChild)
         {
-            $this->activeChild = Category::where('field_id',1)->where('parent_id',$this->activeParent)->first()->id;
+            if ($this->activeParent)
+            {
+                $this->activeChild = Category::where('field_id',1)->where('parent_id',$this->activeParent)->first()->id;
+            }
+            else
+            {
+                $this->activeChild = Category::where('field_id',1)->where('parent_id',null)->first()->id;
+            }
+
         }
 
         $children = Category::with('children','parent')->where('field_id',1)->where('parent_id',$this->activeParent)->get();

@@ -17,10 +17,10 @@ class Notice extends Model
         return $this->belongsTo(Position::class);
     }
 
-    public function notices():BelongsToMany
-    {
-        return $this->belongsToMany(Notice::class,'user_notices');
-    }
+//    public function notices():BelongsToMany
+//    {
+//        return $this->belongsToMany(Notice::class,'user_notices');
+//    }
 
     public function users():BelongsToMany
     {

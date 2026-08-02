@@ -153,12 +153,12 @@
 
                     @if($this->getCategory->isNotEmpty())
 
-                        <div class="col-xxl-6 col-xl-9 col-9">
+                        <div class="col-xxl-9 col-xl-9 col-9">
                             <div class="row">
                                 @foreach($this->getCategory as $category)
 
                                     @if($category->children->isNotEmpty())
-                                        <div class="col-3 text-center mx-auto p-2 delete-badge" wire:mouseover="showChildren({{$category->id}})">
+                                        <div class="col text-center mx-auto p-2 delete-badge" wire:mouseover="showChildren({{$category->id}})">
 
                                             <a class="text-decoration-none nav-item text-body h5 fw-bold mb-5 py-1 megamenutitle"
                                                href="{{$this->currentField->route == '' ? $this->currentField->route.'/'.$category->id : '../'.$this->currentField->route.'/'.$category->id}}">
@@ -179,7 +179,7 @@
 
                                         </div>
                                     @else
-                                        <div class="col-3 text-center mx-auto p-2 delete-badge">
+                                        <div class="col text-center mx-auto p-2 delete-badge">
                                             <a class="text-decoration-none nav-item text-body h5 fw-bold"
                                                href="{{$this->currentField->route == '' ? $this->currentField->route.'/'.$category->id : '../'.$this->currentField->route.'/'.$category->id}}">
                                                 {{$category->name}}
@@ -192,7 +192,7 @@
                             </div>
                         </div>
 
-                        <div class="col-xxl-6 col-xl-3 col-3 text-start align-content-start">
+                        <div class="col-xxl-3 col-xl-3 col-3 text-start align-content-start">
 
                                 <img src="{{asset('storage/field_logos/'.$this->currentField->image)}}" alt="" class="megamenu-pic rounded ms-0 align-content-start">
 

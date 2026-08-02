@@ -14,16 +14,16 @@ class SpecUnit extends Model
 
     public function specGroup(): BelongsTo
     {
-        return $this->belongsTo(SpecGroup::class, 'group_id');
+        return $this->belongsTo(SpecGroup::class);
     }
 
     public function filter(): BelongsTo
     {
-        return $this->belongsTo(Filter::class, 'filter_id');
+        return $this->belongsTo(Filter::class);
     }
 
     public function values(): HasMany
     {
-        return $this->hasMany(SpecValue::class,'unit_id','id');
+        return $this->hasMany(SpecValue::class);
     }
 }

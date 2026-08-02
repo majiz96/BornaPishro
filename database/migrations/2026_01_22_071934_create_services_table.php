@@ -13,13 +13,14 @@ return new class extends Migration
     {
         Schema::create('services', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('category_id')->constrained('categories')->cascadeOnDelete();
+            $table->foreignId('category_id')->constrained('categories');
+            $table->foreignId('filter_id')->nullable()->constrained('filters');
             $table->string('title');
-            $table->string('intro');
-            $table->text('description');
+            $table->text('intro');
+            $table->longText('description');
             $table->string('cover');
             $table->string('thumbnail');
-            $table->integer('show')->default(0);
+            $table->boolean('show')->default(false);
             $table->timestamps();
         });
     }

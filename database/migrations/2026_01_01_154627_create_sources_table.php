@@ -15,8 +15,8 @@ return new class extends Migration
 
             $table->id();
             $table->string('title');
-            $table->string('webname');
-            $table->string('url');
+            $table->text('webname');
+            $table->text('url');
             $table->morphs('sourceable');
 
             $table->timestamps();

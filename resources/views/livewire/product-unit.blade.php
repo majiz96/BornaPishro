@@ -147,7 +147,7 @@
             {{-- Specification Table --}}
             @forelse($this->selectedSpecification as $specification)
                 {{-- Group Of Spec's --}}
-                @foreach($specification->group as $group)
+                @foreach($specification->groups as $group)
 
                     <div class="row text-end text-primary h5 my-3 fw-bolder me-1"> - {{$group->title}} </div>
 

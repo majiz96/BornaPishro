@@ -24,6 +24,15 @@ class Login extends Component
 
     public function login()
     {
+
+//        if (! Auth::attempt([
+//            'email' => $this->email,
+//            'password' => $this->password,
+//        ], $this->remember)) {
+//
+//            // نمایش خطا
+//        }
+
         Auth::attempt(['email' => $this->email, 'password' => $this->password],$this->remember);
 
         $user = Auth::user();

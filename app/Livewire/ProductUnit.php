@@ -134,7 +134,7 @@ class ProductUnit extends Component
     #[Computed]
     public function specifications()
     {
-        return Specification::with('group.units.values')
+        return Specification::with('groups.units.values')
             ->where('product_id',$this->product->id)
             ->get();
     }
@@ -142,7 +142,7 @@ class ProductUnit extends Component
     #[Computed]
     public function selectedSpecification()
     {
-        return Specification::with('group.units.values')
+        return Specification::with('groups.units.values')
             ->where('product_id',$this->product->id)
             ->where('id',$this->activeTable)
             ->get();

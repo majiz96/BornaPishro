@@ -166,13 +166,13 @@ class Filters extends Component
         if($this->field_id)
         {
             $categories = Category::with('children','parent')
-                ->where('parent_id',0)
+                ->where('parent_id',null)
                 ->where('field_id',$this->field_id)
                 ->get();
         }
         else
         {
-            $categories = Category::where('parent_id',0)->get();
+            $categories = Category::where('parent_id',null)->get();
         }
 
         $query = Filter::with('category')

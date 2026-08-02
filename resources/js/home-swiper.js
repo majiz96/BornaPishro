@@ -7,8 +7,11 @@ function initSwiper() {
     const container = document.querySelector('.product-swiper');
     if (container && !container.swiper) {
         new Swiper('.product-swiper', {
-            slidesPerView: 1,
-            spaceBetween: 10,
+            slidesPerView: "auto",
+            spaceBetween: 15,
+            centeredSlides: true,
+            centeredSlidesBounds: true,
+            centerInsufficientSlides: true,
             loop: true,
             navigation: {
                 nextEl: '.swiper-button-next',
@@ -28,3 +31,4 @@ function initSwiper() {
 document.addEventListener('DOMContentLoaded', initSwiper);
 // برای لایووایر و navigation
 document.addEventListener('livewire:navigated', initSwiper);
+

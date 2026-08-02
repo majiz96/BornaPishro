@@ -90,6 +90,7 @@
 
     </div>
 
+    {{--  Mobile Footer  --}}
     <div class="row cs-navbar d-xl-none d-xxl-none sticky-bottom">
 
         <div class="col-sm-8 col-12 col-12 pt-3 px-4 mx-auto">

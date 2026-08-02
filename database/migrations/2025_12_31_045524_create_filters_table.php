@@ -13,11 +13,11 @@ return new class extends Migration
     {
         Schema::create('filters', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('field_id')->constrained('fields')->cascadeOnDelete();
-            $table->foreignId('category_id')->constrained('categories')->cascadeOnDelete();
+            $table->foreignId('field_id')->constrained('fields');
+            $table->foreignId('category_id')->constrained('categories');
             $table->string('title');
             $table->string('type')->nullable();
-            $table->integer('show')->default(0);
+            $table->boolean('show')->default(false);
             $table->timestamps();
         });
     }

@@ -15,9 +15,9 @@ class Specification extends Model
     {
         return $this->belongsTo(Product::class);
     }
-    public function group():HasMany
+    public function groups():HasMany
     {
-        return $this->hasMany(SpecGroup::class, 'specification_id', 'id');
+        return $this->hasMany(SpecGroup::class);
 
     }
 

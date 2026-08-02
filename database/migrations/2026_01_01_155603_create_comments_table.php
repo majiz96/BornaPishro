@@ -18,7 +18,7 @@ return new class extends Migration
             $table->text('text');
             $table->integer('votes')->default(0);
             $table->integer('see')->default(0);
-            $table->integer('show')->default(0);
+            $table->integer('show')->nullable();
             $table->morphs('commentable');
             $table->timestamps();
         });

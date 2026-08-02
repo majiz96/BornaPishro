@@ -12,6 +12,6 @@ class BriefValue extends Model
 
     public function units():BelongsTo
     {
-        return $this->belongsTo(BriefUnit::class, 'id', 'unit_id');
+        return $this->belongsTo(BriefUnit::class);
     }
 }

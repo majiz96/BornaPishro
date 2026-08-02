@@ -16,10 +16,10 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->text('description')->nullable();
-            $table->string('aparat')->nullable();
-            $table->string('youtube')->nullable();
+            $table->text('aparat')->nullable();
+            $table->text('youtube')->nullable();
             $table->string('priority')->default('آپارات');
-            $table->integer('show')->default(0);
+            $table->boolean('show')->default(false);
             $table->morphs('videoable');
 
             $table->timestamps();

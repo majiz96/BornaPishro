@@ -14,22 +14,22 @@ class Article extends Model
 
     public function category(): BelongsTo
     {
-        return $this->belongsTo(Category::class, 'category_id', 'id');
+        return $this->belongsTo(Category::class);
     }
 
     public function writer(): BelongsTo
     {
-        return $this->belongsTo(User::class,'writer_id','id');
+        return $this->belongsTo(User::class, 'writer_id');
     }
 
     public function editor(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'editor_id','id');
+        return $this->belongsTo(User::class, 'editor_id');
     }
 
     public function filter(): BelongsTo
     {
-        return $this->belongsTo(Filter::class, 'filter_id', 'id');
+        return $this->belongsTo(Filter::class);
     }
 
     public function comments():MorphMany

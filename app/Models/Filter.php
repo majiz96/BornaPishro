@@ -28,11 +28,11 @@ class Filter extends Model
 
     public function articles():HasMany
     {
-        return $this->hasMany(Article::class,'filter_id','id');
+        return $this->hasMany(Article::class);
     }
 
     public function services():HasMany
     {
-        return $this->hasMany(Service::class, 'filter_id','id');
+        return $this->hasMany(Service::class);
     }
 }

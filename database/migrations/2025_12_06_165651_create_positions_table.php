@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('positions', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
-            $table->string('description');
-            $table->integer('level');
+            $table->string('title', 50)->unique();
+            $table->string('description', 100);
+            $table->unsignedTinyInteger('level');
             $table->timestamps();
         });
     }
