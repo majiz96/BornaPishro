@@ -81,6 +81,11 @@ class Table extends Component
         Specification::findOrFail($id)->delete();
     }
 
+    public function select($id)
+    {
+        $this->active = $id;
+    }
+
 
     #[Computed]
     public function specifications()
