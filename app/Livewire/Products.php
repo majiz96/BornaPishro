@@ -51,7 +51,7 @@ class Products extends Component
             $this->activeCategory = [];
         }
 
-//        set chosen and default value of minimum and maximum price
+//      set chosen and default value of minimum and maximum price
         $this->priceMin = (int) Product::get()->min('price') ?? 0;
         $this->priceMax = (int) Product::get()->max('price') ?? 1000000000;
     }

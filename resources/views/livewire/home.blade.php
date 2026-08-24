@@ -124,7 +124,7 @@
                 <div class="swiper-wrapper">
                     @foreach($this->productSlider as $product)
                         <div class="swiper-slide">
-                            <a href="{{ route('product.show',$product->id) }}" class="col-xl-2 col-md-4 py-3 mx-auto delete-badge text-decoration-none">
+                            <a href="{{ route('product.show',$product->fullname) }}" class="col-xl-2 col-md-4 py-3 mx-auto delete-badge text-decoration-none">
 
                                 <div class="main-img text-center overflow-hidden border bg-white pb-3 mb-0 rounded-top-4">
                                     <img class="rounded-top-4" src="{{asset('storage/products/'.$product->image) }}" height="180" alt="پیش نمایش">
