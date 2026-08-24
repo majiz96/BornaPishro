@@ -46,7 +46,9 @@ class Record extends Component
     #[Computed]
     public function Filters()
     {
-        return Filter::where('category_id', $this->product->category->id)->get();
+        return Filter::where('category_id', $this->product->category->id)
+            ->where('show',1)
+            ->get();
     }
 
     public function render()
