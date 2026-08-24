@@ -16,10 +16,16 @@ class Table extends Component
 
     public $name,$price;
 
-    public function mount($active, $product)
+    public function mount($product)
     {
-        $this->active = $active;
         $this->product = $product;
+
+        $first = Specification::first()->id;
+        $this->active = $this->active ?? $first;
+
+        if($this->active){
+            $this->dispatch('table-changed',table:$this->active);
+        }
     }
 
     public function edit($id)
@@ -84,6 +90,8 @@ class Table extends Component
     public function select($id)
     {
         $this->active = $id;
+
+        $this->dispatch('table-changed',table:$id);
     }
 
 

@@ -10,7 +10,7 @@
         </div>
     </div>
 
-    <livewire:dashboard.attachments.details.table :active="$activeTable" :product="$product"/>
-    <livewire:dashboard.attachments.details.group :active="$activeGroup" :table="$activeTable"/>
+    <livewire:dashboard.attachments.details.table :product="$product"/>
+    <livewire:dashboard.attachments.details.group/>
 
 </div>

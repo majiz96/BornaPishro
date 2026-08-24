@@ -425,14 +425,14 @@ class Specifications extends Component
 
         $table = Specification::where('id',$this->activeTable)->pluck('name')->first();
 
-        $groups = SpecGroup::with('specification','units')->where('specification_id',$this->activeTable)->get();
+//        $groups = SpecGroup::with('specification','units')->where('specification_id',$this->activeTable)->get();
 
 
         $filters = Filter::where('field_id',3)->where('category_id',$this->product->category->id)->get();
 
 
         return view('livewire.dashboard.attachments.specifications',
-            compact('products', 'specifications', 'groups', 'table','filters'))
+            compact('products', 'specifications', 'table','filters'))
             ->layout('components.layouts.dashboards');
     }
 }
