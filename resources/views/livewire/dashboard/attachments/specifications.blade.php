@@ -11,5 +11,6 @@
     </div>
 
     <livewire:dashboard.attachments.details.table :active="$activeTable" :product="$product"/>
+    <livewire:dashboard.attachments.details.group :active="$activeGroup" :table="$activeTable"/>
 
 </div>
