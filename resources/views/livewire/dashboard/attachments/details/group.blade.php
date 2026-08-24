@@ -9,7 +9,7 @@
             @error('name') <small> {{$message}} </small> @enderror
         </div>
 
-        <div class="col-xl-4">{{$table}}</div>
+        <div class="col-xl-4"></div>
 
 
         <div class="col-xl-3 my-auto text-start">

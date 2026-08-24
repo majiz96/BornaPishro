@@ -20,6 +20,10 @@ class Group extends Component
     {
         $first = SpecGroup::first()->id;
         $this->active = $this->active ?? $first;
+
+        if ($this->active) {
+            $this->dispatch('group-changed',group:$this->active);
+        }
     }
 
     public function edit($id)
@@ -76,6 +80,8 @@ class Group extends Component
     public function select($id)
     {
         $this->active = $id;
+
+        $this->dispatch('group-changed',group:$id);
     }
 
     #[On('table-changed')]
