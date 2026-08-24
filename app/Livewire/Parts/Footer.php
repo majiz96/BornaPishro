@@ -18,10 +18,11 @@ class Footer extends Component
     {
         $info = Information::Cached();
 
-        $this->fill($info->only([
-            'phone', 'mobile', 'email', 'address', 'activity', 'response', 'location', 'start_date', 'about_us'
-        ]));
-
+        if(!empty($info)){
+            $this->fill($info->only([
+                'phone', 'mobile', 'email', 'address', 'activity', 'response', 'location', 'start_date', 'about_us'
+            ]));
+        }
     }
 
     public function render()
