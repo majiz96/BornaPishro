@@ -12,5 +12,6 @@
 
     <livewire:dashboard.attachments.details.table :product="$product"/>
     <livewire:dashboard.attachments.details.group/>
+    <livewire:dashboard.attachments.details.record :product="$product"/>
 
 </div>
