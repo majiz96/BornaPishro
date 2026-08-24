@@ -4,46 +4,48 @@
         <div class="row my-3">
             @if($this->Filters->isNotEmpty())
 
-                <select wire:model.live="filter_id" class="form-select col-xl-6">
+                <div class="col-xl-6">
+                    <label for="title" class="me-3"> فیلتر </label>
+                    <select wire:model.live="filter_id" class="form-select">
+                        <option value="">انتخاب برای فیلتر</option>
+                        @foreach($this->Filters as $filter)
+                            <option value="{{$filter->id}}">{{$filter->title}}</option>
+                        @endforeach
 
-                    <option value="">انتخاب برای فیلتر</option>
-                    @foreach($this->Filters as $filter)
-                        <option value="{{$filter->id}}">{{$filter->title}}</option>
-                    @endforeach
-
-                </select>
+                    </select>
+                </div>
 
                 <div class="col-xl-6 my-auto">
-                    <label for="title"> عنوان </label>
+                    <label for="title" class="me-3"> عنوان </label>
                     <input type="text" id="title" class="form-control" wire:model.blur="title">
                     @error('title') <small> {{$message}} </small> @enderror
                 </div>
 
             @else
                 <div class="col-xl-12 my-auto">
-                    <label for="title"> عنوان </label>
+                    <label for="title" class="me-3"> عنوان </label>
                     <input type="text" id="title" class="form-control" wire:model.blur="title">
                     @error('title') <small> {{$message}} </small> @enderror
                 </div>
             @endif
         </div>
 
-        <div class="row my-3">
+        <div class="row my-3 d-flex">
 
-            <div class="col-xl-3 my-auto">
+            <div class="col-xl-2 my-auto">
                 <label for="value"> مقدار </label>
                 <input type="text" id="value" class="form-control" wire:model.blur="value">
                 @error('value') <small> {{$message}} </small> @enderror
             </div>
 
-            <div class="col-xl-1 my-auto text-center">
+            <div class="col-xl-1 mt-4 text-center">
                 <input type="radio" class="btn-check mx-3" id="btn-check-string-outlined" autocomplete="off" wire:model.live="type" value="string">
-                <label class="btn btn-outline-success w-auto rounded-5 py-2" for="btn-check-string-outlined">متنی</label>
+                <label class="btn btn-outline-success w-auto rounded-3 py-2" for="btn-check-string-outlined">متنی</label>
             </div>
 
-            <div class="col-xl-1 my-auto text-center">
+            <div class="col-xl-1 mt-4 text-center">
                 <input type="radio" class="btn-check mx-3" id="btn-check-integer-outlined" autocomplete="off" wire:model.live="type" value="integer">
-                <label class="btn btn-outline-primary w-auto rounded-5 py-2" for="btn-check-integer-outlined">عددی</label>
+                <label class="btn btn-outline-primary w-auto rounded-3 py-2" for="btn-check-integer-outlined">عددی</label>
             </div>
 
 
@@ -58,10 +60,6 @@
 
                 <div class="col-xl-4"></div>
             @endif
-
-
-
-
 
             <div class="col-xl-3 my-auto text-start">
 
