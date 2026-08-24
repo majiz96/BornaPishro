@@ -55,18 +55,10 @@ class Navbar extends Component
             $this->lastUnreadNotice = auth()->user()
                 ->notices()->whereNull('user_notice.read_at')
                 ->where('notices.status', 1)->latest()->limit(1)->get();
-
-
         }
-
 
     }
 
-
-//    public function getUnreadMessagesTitle()
-//    {
-//        return auth()->user()->notices()->whereNull('user_notice.read_at')->pluck('user_notice.title')->get();
-//    }
 
     public function toggleTheme()
     {

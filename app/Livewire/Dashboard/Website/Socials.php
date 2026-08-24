@@ -54,10 +54,7 @@ class Socials extends Component
         {
 
             $social = Social::findOrFail($this->editing);
-
-
-
-
+            
             if (!is_string($this->icon)) {
 
                 $rules['icon'] = 'nullable|image|mimes:jpg,jpeg,png|max:2048';
@@ -148,7 +145,9 @@ class Socials extends Component
         $social->delete();
         Storage::disk('public')->delete('social_icons/'.$social->icon);
 
-        Cache::forget('website-socials');
+        Cache::forget('website-socials',function (){
+
+        });
     }
 
     public function deleteSelected()

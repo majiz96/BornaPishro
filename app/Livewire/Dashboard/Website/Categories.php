@@ -144,16 +144,11 @@ class Categories extends Component
     {
         $field = Field::findOrFail($id);
         $field->delete();
-        Storage::disk('public')->delete('field_logos/'.$field->logo);
-
-        $category->Category::where('field_id', $id);
-        $category->delete();
-
-        Cache::forget("menu-categories-{$category->field_id}");
+        Storage::disk('public')->delete('field_logos/'.$field->image);
 
         if(Field::all())
         {
-        $this->fieldActive = Field::first()->id;
+        $this->fieldActive = Field::first()->id ?? null;
         }
 
     }

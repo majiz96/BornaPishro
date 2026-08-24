@@ -48,13 +48,13 @@ Route::get('login',Login::class)->name('login');
 
 
 Route::get('products',Products::class)->name('products');
-Route::get('products/{category}',Products::class)->name('products');
+Route::get('products/{category}',Products::class)->name('products.category');
 Route::get('product/{product}',ProductUnit::class)->name('product.show');
 Route::get('services',Services::class)->name('services');
-Route::get('services/{category}',Services::class)->name('services');
+Route::get('services/{category}',Services::class)->name('services.category');
 Route::get('service/{service}',ServiceUnit::class)->name('service.show');
 Route::get('articles',Articles::class)->name('articles');
-Route::get('articles/{category}',Articles::class)->name('articles');
+Route::get('articles/{category}',Articles::class)->name('articles.category');
 Route::get('article/{article}',ArticleUnit::class)->name('article.show');
 
 
@@ -78,10 +78,6 @@ Route::middleware(['auth', 'verified'])->prefix('dashboard')->group(function () 
     Route::get('brands',Brands::class)->name('brands');
     Route::get('discounts',Discounts::class)->name('discounts');
 
-    Route::get('articles-management',ArticlesManagement::class)->name('articles-management');
-
-    Route::get('services-management',ServicesManagement::class)->name('services-management');
-
     Route::get('/messages/{notice?}',Messages::class)->name('messages.show');
 
     Route::get('files/{product}',Files::class)->name('files.show');
@@ -92,5 +88,7 @@ Route::middleware(['auth', 'verified'])->prefix('dashboard')->group(function () 
     Route::get('specifications/{product}',Specifications::class)->name('specifications.show');
     Route::get('comments/{product}',Comments::class)->name('comments.show');
 
+    Route::get('articles-management',ArticlesManagement::class)->name('articles-management');
 
+    Route::get('services-management',ServicesManagement::class)->name('services-management');
 });
