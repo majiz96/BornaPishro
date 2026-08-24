@@ -3,9 +3,16 @@
 
         @if($this->Filters->isNotEmpty())
 
-            {{-- Filter Dropdown --}}
+            <select wire:model.live="filter_id" class="form-select col-xl-6">
 
-            <div class="col-xl-4 my-auto">
+                <option value="">انتخاب برای فیلتر</option>
+                @foreach($this->Filters as $filter)
+                    <option value="{{$filter->id}}">{{$filter->title}}</option>
+                @endforeach
+
+            </select>
+
+            <div class="col-xl-6 my-auto">
                 <label for="title"> عنوان </label>
                 <input type="text" id="title" class="form-control" wire:model.blur="title">
                 @error('title') <small> {{$message}} </small> @enderror
