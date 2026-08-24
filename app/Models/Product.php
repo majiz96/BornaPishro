@@ -24,10 +24,10 @@ class Product extends Model
 //
 
 
-    public function getRouteKeyName()
-    {
-        return 'fullname';
-    }
+//    public function getRouteKeyName()
+//    {
+//        return 'fullname';
+//    }
 
 
     public function brand(): BelongsTo
