@@ -16,10 +16,23 @@ class Table extends Component
 
     public $name,$price;
 
-    public function mount($activeTable, $product)
+    public function mount($active, $product)
     {
-        $this->active = $activeTable;
+        $this->active = $active;
         $this->product = $product;
+    }
+
+    public function edit($id)
+    {
+        $table = Specification::findOrFail($id);
+        $this->editing = $id;
+        $this->name = $table->name;
+        $this->price = $table->price;
+    }
+
+    public function cancel()
+    {
+        $this->reset('name', 'price', 'editing');
     }
 
     public function save()
@@ -36,7 +49,7 @@ class Table extends Component
                     'price.numeric'=>'قیمت وارد شده باید عددی باشد',
                 ]);
 
-            $table = Specification::findOrFail($this->editingTable);
+            $table = Specification::findOrFail($this->editing);
 
             $table->update(['name' => $this->name, 'price' => $this->price]);
             $this->reset(['name', 'price','editing']);
@@ -61,6 +74,11 @@ class Table extends Component
 
             $this->reset(['name','price']);
         }
+    }
+
+    public function delete($id)
+    {
+        Specification::findOrFail($id)->delete();
     }
 
 
