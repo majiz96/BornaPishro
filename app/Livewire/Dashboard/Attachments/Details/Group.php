@@ -4,7 +4,9 @@ namespace App\Livewire\Dashboard\Attachments\Details;
 
 use App\Models\SpecGroup;
 use App\Models\Specification;
+
 use Livewire\Attributes\On;
+use Livewire\Attributes\Computed;
 use Livewire\Component;
 
 class Group extends Component
