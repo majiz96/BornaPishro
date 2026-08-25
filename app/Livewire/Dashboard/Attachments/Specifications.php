@@ -98,14 +98,14 @@ class Specifications extends Component
         if ($this->editingTable)
         {
             $this->validate([
-                'name' => 'required|string',
-                'price' => 'nullable|numeric',
-            ]
-            ,
-            [
-                'name.required'=>'هر جدول باید یک نام داشته باشد',
-                'price.numeric'=>'قیمت وارد شده باید عددی باشد',
-            ]);
+                    'name' => 'required|string',
+                    'price' => 'nullable|numeric',
+                ]
+                ,
+                [
+                    'name.required'=>'هر جدول باید یک نام داشته باشد',
+                    'price.numeric'=>'قیمت وارد شده باید عددی باشد',
+                ]);
 
             $table = Specification::findOrFail($this->editingTable);
 
@@ -115,14 +115,14 @@ class Specifications extends Component
         else
         {
             $this->validate([
-                'name' => 'required|string',
-                'price' => 'nullable|numeric',
-            ]
-            ,
-            [
-                'name.required'=>'هر گروه باید یک نام داشته باشد',
-                'price.numeric'=>'قیمت وارد شده باید عددی باشد',
-            ]);
+                    'name' => 'required|string',
+                    'price' => 'nullable|numeric',
+                ]
+                ,
+                [
+                    'name.required'=>'هر گروه باید یک نام داشته باشد',
+                    'price.numeric'=>'قیمت وارد شده باید عددی باشد',
+                ]);
 
             $this->product->specifications()->create([
                 'spec_id'=>$this->activeTable,
@@ -139,12 +139,12 @@ class Specifications extends Component
         if ($this->editingGroup)
         {
             $this->validate([
-                'group' => 'required|string',
-            ]
-            ,
-            [
-                'group.required'=>'هر گروه باید یک نام داشته باشد',
-            ]);
+                    'group' => 'required|string',
+                ]
+                ,
+                [
+                    'group.required'=>'هر گروه باید یک نام داشته باشد',
+                ]);
 
             $group = SpecGroup::findOrFail($this->editingGroup);
             $group->update(['title' => $this->group]);
@@ -153,12 +153,12 @@ class Specifications extends Component
         else
         {
             $this->validate([
-                'group' => 'required|string',
-            ]
-            ,
-            [
-                'group.required'=>'هر گروه باید یک نام داشته باشد',
-            ]);
+                    'group' => 'required|string',
+                ]
+                ,
+                [
+                    'group.required'=>'هر گروه باید یک نام داشته باشد',
+                ]);
 
 
             SpecGroup::create(['specification_id'=>$this->activeTable,'title'=>$this->group]);
@@ -199,9 +199,9 @@ class Specifications extends Component
             if(SpecGroup::where('specification_id',$this->activeTable)->exists())
             {
                 $activate = SpecUnit::where('group_id',$this->activeGroup)->create([
-                'group_id'=>$this->activeGroup,
-                'title'=>$this->title,
-                'filter_id'=>$this->filter_id
+                    'group_id'=>$this->activeGroup,
+                    'title'=>$this->title,
+                    'filter_id'=>$this->filter_id
                 ]);
 
                 $this->activeUnit = $activate->id;
@@ -253,15 +253,15 @@ class Specifications extends Component
         {
 
             $this->validate([
-            'type' => 'required|string',
-            'value'=>'required|string',
-            'suffix'=>'nullable|string',
+                'type' => 'required|string',
+                'value'=>'required|string',
+                'suffix'=>'nullable|string',
             ],
-            [
-                'type.required'=>'وارد کردن نوع مقدار ضروری است',
-                'value.required'=>'وارد کردن مقدار ضروری است',
-                'suffix.required'=>'پسوند مقادیر باید متنی باشد'
-            ]);
+                [
+                    'type.required'=>'وارد کردن نوع مقدار ضروری است',
+                    'value.required'=>'وارد کردن مقدار ضروری است',
+                    'suffix.required'=>'پسوند مقادیر باید متنی باشد'
+                ]);
 
             if(SpecUnit::where('group_id',$this->activeGroup)->exists())
             {
@@ -309,7 +309,7 @@ class Specifications extends Component
         }
         else
         {
-           SpecGroup::where('specification_id',$id)->create(['specification_id'=>$id,'title'=>'مشخصات']);
+            SpecGroup::where('specification_id',$id)->create(['specification_id'=>$id,'title'=>'مشخصات']);
 
             $this->activeGroup = SpecGroup::where('specification_id',$id)->first()->id;
         }
@@ -324,7 +324,7 @@ class Specifications extends Component
 
         if(SpecUnit::where('group_id',$id)->exists())
         {
-        $this->activeUnit = SpecUnit::where('group_id',$id)->first()->id;
+            $this->activeUnit = SpecUnit::where('group_id',$id)->first()->id;
         }
         else
         {
@@ -347,7 +347,7 @@ class Specifications extends Component
 
         if($this->activeTable == $id)
         {
-        $this->reset(['activeTable','activeGroup','activeUnit']);
+            $this->reset(['activeTable','activeGroup','activeUnit']);
         }
 
     }
@@ -391,7 +391,7 @@ class Specifications extends Component
     {
         $products = $this->product;
 
-        $specifications = Specification::with('groups')->where('product_id',$this->product->id)->get();
+        $specifications = Specification::with('group')->where('product_id',$this->product->id)->get();
 
         if($specifications->isNotEmpty())
         {
@@ -405,7 +405,7 @@ class Specifications extends Component
 
                 if(SpecGroup::where('specification_id',$this->activeTable)->exists())
                 {
-                $this->activeGroup = SpecGroup::where('specification_id',$this->activeTable)->first()->id;
+                    $this->activeGroup = SpecGroup::where('specification_id',$this->activeTable)->first()->id;
                 }
                 else
                 {
@@ -425,14 +425,14 @@ class Specifications extends Component
 
         $table = Specification::where('id',$this->activeTable)->pluck('name')->first();
 
-//        $groups = SpecGroup::with('specification','units')->where('specification_id',$this->activeTable)->get();
+        $groups = SpecGroup::with('specification','units')->where('specification_id',$this->activeTable)->get();
 
 
         $filters = Filter::where('field_id',3)->where('category_id',$this->product->category->id)->get();
 
 
         return view('livewire.dashboard.attachments.specifications',
-            compact('products', 'specifications', 'table','filters'))
+            compact('products', 'specifications', 'groups', 'table','filters'))
             ->layout('components.layouts.dashboards');
     }
 }
