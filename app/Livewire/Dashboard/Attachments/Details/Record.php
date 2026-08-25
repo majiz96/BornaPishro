@@ -13,7 +13,7 @@ class Record extends Component
 {
     public $editing = false;
 
-    public $group,$active,$product;
+    public $group,$table,$active,$product;
 
     public $title,$value,$type,$suffix,$filter_id;
 
@@ -25,6 +25,11 @@ class Record extends Component
         $this->active = $this->active ? $first : null;
     }
 
+    #[On('table-changed')]
+    public function table($table)
+    {
+        $this->table = $table;
+    }
     #[On('group-changed')]
     public function group($group)
     {
