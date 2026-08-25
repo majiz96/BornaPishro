@@ -391,7 +391,7 @@ class Specifications extends Component
     {
         $products = $this->product;
 
-        $specifications = Specification::with('group')->where('product_id',$this->product->id)->get();
+        $specifications = Specification::with('groups')->where('product_id',$this->product->id)->get();
 
         if($specifications->isNotEmpty())
         {
