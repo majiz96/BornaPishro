@@ -28,7 +28,7 @@
 
         @forelse($this->groups as $group)
 
-            <div class="col-auto border rounded py-2 delete-badge text-center {{$active == $group->id ? 'bg-secondary' : ''}}"
+            <div class="col-auto mx-auto border rounded py-2 delete-badge text-center {{$active == $group->id ? 'bg-secondary' : ''}}"
                  wire:click="select({{$group->id}})">
 
                 <div class="col-12 mx-auto text-center pb-1">{{$group->title}}</div>

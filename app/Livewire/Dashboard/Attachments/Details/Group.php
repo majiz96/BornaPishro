@@ -30,15 +30,14 @@ class Group extends Component
 
     public function edit($id)
     {
-        $table = SpecGroup::findOrFail($id);
+        $group = SpecGroup::findOrFail($id);
         $this->editing = $id;
-        $this->name = $table->name;
-        $this->price = $table->price;
+        $this->name = $group->title;
     }
 
     public function cancel()
     {
-        $this->reset('name', 'price', 'editing');
+        $this->reset('name', 'editing');
     }
 
     public function save()
@@ -90,6 +89,7 @@ class Group extends Component
     public function table($table)
     {
         $this->table = $table;
+        $this->active = SpecGroup::where('specification_id',$this->table)->first()->id;
     }
 
     #[Computed]
