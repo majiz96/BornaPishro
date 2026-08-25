@@ -25,15 +25,11 @@ class Record extends Component
         $this->active = $this->active ? $first : null;
     }
 
-    #[On('table-changed')]
-    public function table($table)
-    {
-        $this->table = $table;
-    }
     #[On('group-changed')]
     public function group($group)
     {
         $this->group = $group;
+        $this->active = SpecUnit::first()->id ?? null;
     }
 
     #[Computed]
