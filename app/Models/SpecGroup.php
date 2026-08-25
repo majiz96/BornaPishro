@@ -20,7 +20,7 @@ class SpecGroup extends Model
 
     public function units():HasMany
     {
-        return $this->hasMany(SpecUnit::class);
+        return $this->hasMany(SpecUnit::class, 'group_id','id');
 
     }
 }
