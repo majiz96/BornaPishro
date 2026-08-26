@@ -17,18 +17,38 @@ $.fn.modal = function (action) {
 
     return this.each(function () {
 
-        const modal = bootstrap.Modal.getOrCreateInstance(this);
+        const element = this;
 
         if (action === 'show') {
+
+            // relate model to Summernote
+            // Transfered to body directly
+            if (element.parentElement !== document.body) {
+                document.body.appendChild(element);
+            }
+
+            const modal = bootstrap.Modal.getOrCreateInstance(element);
+
             modal.show();
+
         }
 
-        if (action === 'hide') {
-            modal.hide();
+        else if (action === 'hide') {
+
+            const modal = bootstrap.Modal.getInstance(element);
+
+            if (modal) {
+                modal.hide();
+            }
+
         }
 
-        if (action === 'toggle') {
+        else if (action === 'toggle') {
+
+            const modal = bootstrap.Modal.getOrCreateInstance(element);
+
             modal.toggle();
+
         }
 
     });
