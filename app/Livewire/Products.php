@@ -94,7 +94,7 @@ class Products extends Component
 
 //        get filters id values for showing related products
         if (!empty($this->activeFilter)) {
-            $query->whereHas('specifications.group.units.values', function($q) {
+            $query->whereHas('specifications.groups.units.values', function($q) {
                 $q->whereIn('id', $this->activeFilter);
             });
         }
