@@ -17,7 +17,7 @@
                     </div>
                 </div>
 
-                <div class="modal-body px-5 text-center"> {{$modalContent}} </div>
+                <div class="modal-body px-5 text-center"> {!! $article->content !!} </div>
 
 
                 <div class="modal-footer row" dir="rtl">

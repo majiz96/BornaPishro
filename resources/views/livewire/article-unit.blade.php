@@ -60,7 +60,7 @@
     <div class="row mt-3 text-center"> <h3>{{$article->title ?? $default}}</h3>  </div>
 
     {{--    Content    --}}
-    <div class="row mx-2 mt-3 px-3 py-2"> {{$article->content}} </div>
+    <div class="row mx-2 mt-3 px-3 py-2"> {!! $article->content !!} </div>
 
 
     {{-- Comments --}}
