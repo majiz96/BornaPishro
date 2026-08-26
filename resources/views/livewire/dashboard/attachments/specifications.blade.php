@@ -4,7 +4,7 @@
 
         <div class="col-xl-2 text-center side-img2 border">
             <img class="mx-auto social-icon rounded p-2" src="{{asset('storage/products/'.$product->image) }}"  alt="پیش نمایش">
-            <h2>{{$products->name}}</h2>
+            <h2>{{$product->name}}</h2>
 
         </div>
 
@@ -40,10 +40,10 @@
 
     </div>
 
-    @if($specifications->isNotEmpty())
+    @if($this->Tables->isNotEmpty())
 
         <div class="row border text-center p-2">
-            @foreach($specifications as $spec)
+            @foreach($this->Tables as $spec)
 
                 <a class="col-xl-3 text-decoration-none text-body px-4 my-auto">
                     <div class="row border rounded-4 py-1 px-1 {{$activeTable == $spec->id ? 'cs-navbar' : ''}}">
@@ -66,6 +66,11 @@
                 </a>
             @endforeach
         </div>
+    @else
+        <div class="row border text-center py-2">
+            <h2 class="text-danger"> جدولی برای این محصول ثبت نشده است </h2>
+        </div>
+    @endif
 
 
 
@@ -102,9 +107,9 @@
             <div class="col-xl-2 my-auto">
 
                 <select wire:model.live="filter_id" class="form-select">
-                    @if($filters->isNotEmpty())
+                    @if($this->Filters->isNotEmpty())
                         <option value="">انتخاب برای فیلتر</option>
-                        @foreach($filters as $filter)
+                        @foreach($this->Filters as $filter)
                             <option value="{{$filter->id}}">{{$filter->title}}</option>
                         @endforeach
                     @else
@@ -186,9 +191,9 @@
 
 
 
-        @if($groups->isNotEmpty())
+        @if($this->Groups->isNotEmpty())
 
-            @foreach($groups as $group)
+            @foreach($this->Groups as $group)
 
                 <div class="card row mt-5">
 
@@ -312,14 +317,9 @@
 
         @else
 
-            <div class="row text-center mt-5"><h2> هیچ گروه و مشخصاتی برای جدول ({{$table}}) ثبت نشده است </h2></div>
+            <div class="row text-center mt-5"><h2> هیچ گروهی برای جدول انتخاب شده ساخته نشده است </h2></div>
 
         @endif
 
-    @else
-        <div class="row border text-center py-2">
-            <h2 class="text-danger"> جدولی برای این محصول ثبت نشده است </h2>
-        </div>
-    @endif
 
 </div>

@@ -11,13 +11,12 @@ use App\Models\SpecGroup;
 use App\Models\SpecUnit;
 use App\Models\SpecValue;
 
+use Livewire\Attributes\Computed;
 use Livewire\Component;
 
 class Specifications extends Component
 {
-    public $product,$category,$name,$price,$group,$title,$value,$suffix;
-
-    public int $filter_id = 0;
+    public $product,$category,$name,$price,$group,$title,$value,$suffix,$filter_id;
 
     public $type = 'string';
 
@@ -35,6 +34,25 @@ class Specifications extends Component
         $this->product = $product;
 
         $this->category = $product->category->id;
+
+        $firstTable = Specification::where('product_id',$this->product->id)->first()->id;
+
+        if($firstTable && !$this->activeTable)
+        {
+            $this->activeTable = $firstTable;
+            $firstGroup = SpecGroup::where('specification_id',$this->activeTable)->first()->id;
+        }
+
+        if($firstGroup && !$this->activeGroup)
+        {
+            $this->activeGroup = $firstGroup;
+            $firstUnit = SpecUnit::where('group_id',$this->activeGroup)->first()->id;
+        }
+
+        if($firstUnit && !$this->activeUnit)
+        {
+            $this->activeUnit = $firstUnit;
+        }
     }
 
     public function editTable($id)
@@ -182,7 +200,7 @@ class Specifications extends Component
                     'title.required'=>'هر گروه باید یک نام داشته باشد',
                 ]);
             $unit = SpecUnit::findOrFail($this->editingUnit);
-            $unit->update(['title' => $this->title,'filter_id'=>$this->filter_id]);
+            $unit->update(['title' => $this->title,'filter_id' => $this->filter_id]);
             $this->reset(['title','filter_id','editingUnit']);
         }
         else
@@ -201,7 +219,7 @@ class Specifications extends Component
                 $activate = SpecUnit::where('group_id',$this->activeGroup)->create([
                     'group_id'=>$this->activeGroup,
                     'title'=>$this->title,
-                    'filter_id'=>$this->filter_id
+                    'filter_id'=>$this->filter_id,
                 ]);
 
                 $this->activeUnit = $activate->id;
@@ -387,52 +405,29 @@ class Specifications extends Component
 
     }
 
+    #[Computed]
+    public function Tables()
+    {
+        return Specification::where('product_id',$this->product->id)->get();
+    }
+
+    #[Computed]
+    public function Groups()
+    {
+        return SpecGroup::where('specification_id',$this->activeTable)->get();
+    }
+
+    #[Computed]
+    public function Filters()
+    {
+        return Filter::where('category_id',$this->product->category->id)
+            ->where('show',true)
+            ->get();
+    }
+
     public function render()
     {
-        $products = $this->product;
-
-        $specifications = Specification::with('groups')->where('product_id',$this->product->id)->get();
-
-        if($specifications->isNotEmpty())
-        {
-            if (!$this->activeTable)
-            {
-                $this->activeTable = Specification::where('product_id',$this->product->id)->first()->id;
-            }
-
-            if (!$this->activeGroup)
-            {
-
-                if(SpecGroup::where('specification_id',$this->activeTable)->exists())
-                {
-                    $this->activeGroup = SpecGroup::where('specification_id',$this->activeTable)->first()->id;
-                }
-                else
-                {
-                    $this->activeGroup = null;
-                }
-
-            }
-        }
-
-        if(SpecUnit::where('group_id',$this->activeGroup)->exists())
-        {
-            if(!$this->activeUnit)
-            {
-                $this->activeUnit = SpecUnit::where('group_id',$this->activeGroup)->first()->id;
-            }
-        }
-
-        $table = Specification::where('id',$this->activeTable)->pluck('name')->first();
-
-        $groups = SpecGroup::with('specification','units')->where('specification_id',$this->activeTable)->get();
-
-
-        $filters = Filter::where('field_id',3)->where('category_id',$this->product->category->id)->get();
-
-
-        return view('livewire.dashboard.attachments.specifications',
-            compact('products', 'specifications', 'groups', 'table','filters'))
+        return view('livewire.dashboard.attachments.specifications')
             ->layout('components.layouts.dashboards');
     }
 }
