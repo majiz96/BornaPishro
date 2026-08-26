@@ -156,7 +156,7 @@ class Filters extends Component
     public function remove($id)
     {
         $unit = SpecUnit::findOrFail($id);
-        $unit->update(['filter_id' => 0]);
+        $unit->update(['filter_id' => null]);
         $this->reset();
     }
 
