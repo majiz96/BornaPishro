@@ -287,3 +287,15 @@ i
     backdrop-filter: blur(15px) saturate(180%);
     -webkit-backdrop-filter: blur(15px);
 }
+
+/* Summernote Modals */
+.note-modal .modal-header {
+    display: flex;
+    align-items: center;
+}
+
+.note-modal .modal-header .btn-close {
+    order: -1;
+    margin-right: 0;
+    margin-left: auto;
+}
