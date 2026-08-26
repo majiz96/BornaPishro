@@ -95,7 +95,7 @@
 
         </div>
 
-        <div class="row mx-auto mt-3">
+        <div class="mx-auto mt-3" wire:ignore>
             <textarea id="summernote"></textarea>
         </div>
 

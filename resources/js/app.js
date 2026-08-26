@@ -11,9 +11,25 @@ $.now = Date.now;
 import 'summernote/dist/summernote-bs5.js';
 import 'summernote/dist/summernote-bs5.css';
 
-$(document).ready(function () {
+$(document).ready(function ()
+{
     $('#summernote').summernote({
         height: 300,
-        tooltip: false
+        tooltip: false,
+
+        callbacks:
+        {
+            onChange: function (contents)
+            {
+                Livewire.dispatch('summernote-updated',
+                    {
+                    content: contents
+                    });
+            }
+        }
+    });
+
+    Livewire.on('summernote-fill', ({ content }) => {
+        $('#summernote').summernote('code', content);
     });
 });

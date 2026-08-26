@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
 
 use Livewire\Attributes\Computed;
+use Livewire\Attributes\On;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Livewire\Attributes\Validate;
@@ -74,6 +75,12 @@ class ArticlesManagement extends Component
         'content.required'=>'ثبت مقاله بدون داشتن متن ممکن نیست',
     ];
 
+    #[On('summernote-updated')]
+    public function updateContent($content)
+    {
+        $this->content = $content;
+    }
+
     public function edit($id)
     {
         $this->editing = $id;
@@ -86,6 +93,8 @@ class ArticlesManagement extends Component
         $this->content = $article->content;
         $this->cover = $article->cover;
         $this->show = $article->show;
+
+        $this->dispatch('summernote-fill',content: $this->content);
     }
 
     public function cancel()
@@ -127,6 +136,7 @@ class ArticlesManagement extends Component
            $article->update($data);
 
             $this->reset(['editing','title','intro','content','cover','category_id','filter_id']);
+           $this->dispatch('summernote-fill',content: $this->content);
        }
        else
        {
@@ -151,6 +161,8 @@ class ArticlesManagement extends Component
                $this->message = 'مقاله اضافه شد';
 
                $this->reset(['title', 'intro', 'content', 'cover']);
+
+               $this->dispatch('summernote-fill',content: $this->content);
            }
            else
            {
