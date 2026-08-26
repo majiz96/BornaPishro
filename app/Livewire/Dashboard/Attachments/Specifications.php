@@ -26,6 +26,7 @@ class Specifications extends Component
     public $editingGroup = null;
     public $editingUnit = null;
     public $editingValue = null;
+    public $canActive = true;
 
 
 
@@ -35,24 +36,37 @@ class Specifications extends Component
 
         $this->category = $product->category->id;
 
-        $firstTable = Specification::where('product_id',$this->product->id)->first()->id;
 
-        if($firstTable && !$this->activeTable)
+        $firstTable = Specification::where('product_id',$this->product->id)->first()?->id;
+
+        if(!$firstTable)
         {
-            $this->activeTable = $firstTable;
-            $firstGroup = SpecGroup::where('specification_id',$this->activeTable)->first()->id;
+            $this->canActive = false;
         }
 
-        if($firstGroup && !$this->activeGroup)
+
+        if($this->canActive)
         {
-            $this->activeGroup = $firstGroup;
-            $firstUnit = SpecUnit::where('group_id',$this->activeGroup)->first()->id;
+
+            if(!$this->activeTable)
+            {
+                $this->activeTable = $firstTable;
+                $firstGroup = SpecGroup::where('specification_id',$this->activeTable)->first()->id;
+            }
+
+            if($firstGroup && !$this->activeGroup)
+            {
+                $this->activeGroup = $firstGroup;
+                $firstUnit = SpecUnit::where('group_id',$this->activeGroup)->first()->id;
+            }
+
+            if($firstUnit && !$this->activeUnit)
+            {
+                $this->activeUnit = $firstUnit;
+            }
         }
 
-        if($firstUnit && !$this->activeUnit)
-        {
-            $this->activeUnit = $firstUnit;
-        }
+
     }
 
     public function editTable($id)
