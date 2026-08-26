@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Dashboard\Website;
 
+use App\Models\Product;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -25,7 +26,7 @@ class Filters extends Component
     public $showed = [];
     public $filterModal = false;
 
-    public $filterUnit,$filterTitle;
+    public $filterUnit,$filterTitle,$filterCat;
 
     public $perPage = 5;
     public $search = '';
@@ -141,10 +142,15 @@ class Filters extends Component
     {
         $this->filterModal = true;
         $filter = Filter::findOrFail($id);
-        $this->filterTitle = $filter->title;
-        $this->filterCat = $filter->category_id;
-        $this->filterUnit = $filter->units;
 
+        $this->filterTitle = $filter->title;
+
+        $this->filterUnit = $filter->units()
+            ->with(['values','specGroup.specification.product'])
+            ->get();
+
+        $category = Category::findOrFail($filter->category_id);
+        $this->filterCat = $category->name;
     }
 
     public function remove($id)
