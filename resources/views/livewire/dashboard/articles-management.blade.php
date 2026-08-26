@@ -96,9 +96,7 @@
         </div>
 
         <div class="row mx-auto mt-3">
-            <label for="content">متن</label>
-            <textarea id="content" class="form-control" rows="3" wire:model.blur="content"></textarea>
-            @error('content') <small class="text-danger"> {{$message}} </small> @enderror
+            <textarea id="summernote"></textarea>
         </div>
 
         <div class="row mx-auto py-4">
