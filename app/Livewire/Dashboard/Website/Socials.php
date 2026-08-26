@@ -54,7 +54,7 @@ class Socials extends Component
         {
 
             $social = Social::findOrFail($this->editing);
-            
+
             if (!is_string($this->icon)) {
 
                 $rules['icon'] = 'nullable|image|mimes:jpg,jpeg,png|max:2048';
@@ -91,7 +91,7 @@ class Socials extends Component
         {
             $this->validate([
                     'name' => 'required|unique:socials|string',
-                    'link' => 'required|string',
+                    'link' => 'required|string|unique:socials',
                     'icon' => 'required|mimes:png,jpg,jpeg|image|max:2048',
                 ]
                 ,
@@ -101,6 +101,7 @@ class Socials extends Component
                     'name.string'=>'نام شبکه مجازی باید متنی باشد',
                     'link.required'=>'شبکه مجازی به یک لینک نیاز دارد',
                     'link.string'=>'لینک شبکه مجازی باید به صورت متنی باشد',
+                    'link.unique'=>'هر شبکه مجازی باید آدرس منحصر به فرد داشته باشد',
                     'icon.required'=>'بارگذاری نماد لازم است',
                     'icon.mimes'=>'نماد شبکه مجازی باید از فرمت jpg, jpeg, png باشد',
                     'icon.image'=>'فایل شبکه مجازی باید از نوع تصویر باشد',
