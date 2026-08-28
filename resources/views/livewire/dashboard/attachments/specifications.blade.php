@@ -8,7 +8,12 @@
 
         </div>
 
-        <div class="col-xl-10 my-auto">
+        <div class="col-xl-10">
+
+            <div class="row m-3">
+                <button class="btn btn-success" wire:click="openCloneList"> استفاده از جدول محصول دیگر </button>
+            </div>
+
 
             <form wire:submit.prevent="saveTable" class="row py-2">
                 <div class="col-xl-1 my-auto"> <label for="name"> نام جدول </label> </div>
@@ -321,6 +326,11 @@
             <div class="row text-center mt-5"><h2> هیچ گروهی برای جدول انتخاب شده ساخته نشده است </h2></div>
 
         @endif
+
+    @if($cloneList)
+        @include('modals.clone-list')
+    @endif
+
 
 
 </div>

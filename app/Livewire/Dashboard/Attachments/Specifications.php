@@ -28,7 +28,17 @@ class Specifications extends Component
     public $editingValue = null;
     public $canActive = true;
 
+    public $cloneList = false;
 
+    public $cloneCategory,$cloneProduct,$cloneTable;
+    public $cloneCategoryName,$cloneProductName,$cloneTableName;
+
+    public string $cloneCategorySearch = '';
+    public string $cloneProductSearch = '';
+
+    public $showCategoryList = false;
+    public $showProductList = false;
+    public $showTableList = false;
 
     public function mount(Product $product)
     {
@@ -461,21 +471,123 @@ class Specifications extends Component
 
     }
 
+    public function openCloneList()
+    {
+        $this->cloneList = true;
+    }
+    public function closeCloneList()
+    {
+        $this->cloneList = false;
+    }
+
+    public function chooseCategory(Category $category)
+    {
+        $this->cloneCategoryName = $category->name;
+        $this->cloneCategory = $category->id;
+        $this->showCategoryList = false;
+    }
+    public function chooseProduct(Product $product)
+    {
+        $this->cloneProductName = $product->name;
+        $this->cloneProduct = $product->id;
+        $this->showProductList = false;
+    }
+
     public function cloneProductTable(Specification $table)
     {
+        $cloneTable = Specification::create([
+            'product_id' => $this->product->id,
+            'name' => $table->name.' (جدید) ',
+            'price' => $table->price,
+        ]);
+
+        foreach ($table->groups as $group)
+        {
+            $cloneGroup = SpecGroup::create([
+                'specification_id' => $cloneTable->id,
+                'title' => $group->title,
+            ]);
+
+            foreach($group->units as $unit)
+            {
+                $cloneUnit = SpecUnit::create([
+                    'group_id' => $cloneGroup->id,
+                    'filter_id' => $unit->filter_id,
+                    'title' => $unit->title,
+                ]);
+
+                foreach($unit->values as $value)
+                {
+                    SpecValue::create([
+                        'unit_id' => $cloneUnit->id,
+                        'value' => $value->value,
+                        'suffix' => $value->suffix,
+                    ]);
+                }
+            }
+        }
+
+        $this->first_table = Specification::where('product_id',$this->product->id)->first()?->id;
+
+        if(!$this->first_table)
+        {
+            $this->canActive = false;
+        }
+
+        $this->activeTable = $this->first_table;
+
+        $this->reset([
+            'cloneTable','cloneProduct','cloneTable',
+            'cloneCategoryName','cloneProductName',
+            'showCategoryList','showProductList',
+            'cloneList']);
+
+    }
+
+
+    #[Computed]
+    public function Categories()
+    {
+        $query = Category::query()->where('field_id',3);
+
+        if($this->cloneCategorySearch)
+        {
+            $query->where('name','like','%'.$this->cloneCategorySearch.'%');
+        }
+
+        return $query->get();
+    }
+    #[Computed]
+    public function Products()
+    {
+        $query = Product::query();
+
+        if ($this->cloneProductSearch)
+        {
+            $query->where('name','like','%'.$this->cloneProductSearch.'%');
+        }
+
+        if($this->cloneCategoryName)
+        {
+            $query->where('category_id',$this->cloneCategory);
+        }
+
+        return $query->get();
 
     }
 
     #[Computed]
-    public function Products()
+    public function CloneTable()
     {
-        return Product::all();
+        return Specification::where('product_id',$this->cloneProduct)->get();
     }
 
     #[Computed]
     public function Tables()
     {
+
         return Specification::where('product_id',$this->product->id)->get();
+
     }
 
     #[Computed]
