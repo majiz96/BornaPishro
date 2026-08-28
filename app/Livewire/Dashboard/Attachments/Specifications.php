@@ -20,7 +20,7 @@ class Specifications extends Component
 
     public $type = 'string';
 
-    public $activeTable,$activeGroup,$first_group,$activeUnit;
+    public $activeTable,$activeGroup,$activeUnit,$first_table,$first_group,$first_unit;
 
     public $editingTable = null;
     public $editingGroup = null;
@@ -37,9 +37,9 @@ class Specifications extends Component
         $this->category = $product->category->id;
 
 
-        $firstTable = Specification::where('product_id',$this->product->id)->first()?->id;
+        $this->first_table = Specification::where('product_id',$this->product->id)->first()?->id;
 
-        if(!$firstTable)
+        if(!$this->first_table)
         {
             $this->canActive = false;
         }
@@ -50,19 +50,19 @@ class Specifications extends Component
 
             if(!$this->activeTable)
             {
-                $this->activeTable = $firstTable;
+                $this->activeTable = $this->first_table;
                 $firstGroup = SpecGroup::where('specification_id',$this->activeTable)->first()->id;
             }
 
             if($firstGroup && !$this->activeGroup)
             {
                 $this->activeGroup = $firstGroup;
-                $firstUnit = SpecUnit::where('group_id',$this->activeGroup)->first()->id;
+                $this->first_unit = SpecUnit::where('group_id',$this->activeGroup)->first()?->id;
             }
 
-            if($firstUnit && !$this->activeUnit)
+            if($this->first_unit && !$this->activeUnit)
             {
-                $this->activeUnit = $firstUnit;
+                $this->activeUnit = $this->first_unit;
             }
         }
 
@@ -382,6 +382,9 @@ class Specifications extends Component
             $this->reset(['activeTable','activeGroup','activeUnit']);
         }
 
+        $this->activeTable = $this->first_table;
+
+
     }
     public function deleteGroup($id)
     {
@@ -391,6 +394,8 @@ class Specifications extends Component
         {
             $this->reset(['activeGroup','activeUnit']);
         }
+
+        $this->activeGroup = $this->first_group;
     }
     public function empty($id)
     {
@@ -412,11 +417,59 @@ class Specifications extends Component
         {
             $this->reset(['activeUnit']);
         }
+        $this->activeUnit = $this->first_unit;
     }
     public function deleteValue($id)
     {
-        SpecValue::findOrFail($id)->delete();
+       SpecValue::findOrFail($id)->delete();
+    }
 
+    public function duplicate(Specification $table)
+    {
+        $newTable = Specification::create([
+            'product_id' => $table->product_id,
+            'name' => $table->name . '(جدید)',
+            'price' => $table->price,
+        ]);
+
+        foreach ($table->groups as $group)
+        {
+            $newGroup = SpecGroup::create([
+                'specification_id' => $newTable->id,
+                'title' => $group->title,
+            ]);
+
+            foreach($group->units as $unit)
+            {
+                $newUnit = SpecUnit::create([
+                    'group_id' => $newGroup->id,
+                    'filter_id' => $unit->filter_id,
+                    'title' => $unit->title,
+                ]);
+
+                foreach($unit->values as $value)
+                {
+                    SpecValue::create([
+                        'unit_id' => $newUnit->id,
+                        'value' => $value->value,
+                        'suffix' => $value->suffix,
+                    ]);
+                }
+            }
+        }
+
+
+    }
+
+    public function cloneProductTable(Specification $table)
+    {
+
+    }
+
+    #[Computed]
+    public function Products()
+    {
+        return Product::all();
     }
 
     #[Computed]

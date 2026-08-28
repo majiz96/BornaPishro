@@ -13,7 +13,7 @@ class SpecGroup extends Model
 
     public function specification():BelongsTo
     {
-        return $this->belongsTo(Specification::class);
+        return $this->belongsTo(Specification::class, 'specification_id', 'id');
 
     }
 

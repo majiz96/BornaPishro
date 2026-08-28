@@ -45,7 +45,8 @@
         <div class="row border text-center p-2">
             @foreach($this->Tables as $spec)
 
-                <a class="col-xl-3 text-decoration-none text-body px-4 my-auto">
+                <a class="col-xl-4 text-decoration-none text-body px-3 my-auto">
+
                     <div class="row border rounded-4 py-1 px-1 {{$activeTable == $spec->id ? 'cs-navbar' : ''}}">
                         <div class="col-8 delete-badge my-auto text-end" wire:click="selectTable({{$spec->id}})">{{$spec->name}}</div>
 
@@ -53,12 +54,12 @@
                         <div class="col-1 pt-1"><i class="bi-trash-fill text-danger" wire:click="deleteTable({{$spec->id}})"
                                                    wire:confirm="آیا از حذف جدول ({{$spec->name}}) مطمئن هستید؟"></i></div>
 
-                        <div class="col-1"></div>
                         <div class="col-1 pt-1"><i class="bi-pen-fill text-primary" wire:click="editTable( {{$spec->id}} )"></i></div>
 
+                        <div class="col-1 pt-1"><i class="bi-copy bg-body px-2 pt-1 rounded text-warning" wire:click="duplicate( {{$spec->id}} )"></i></div>
 
                         @if($spec->price)
-                            <div class="col-12 bg-dark rounded-bottom-4 rounded-top-2 py-1 delete-badge" wire:click="selectTable({{$spec->id}})"> {{number_format($spec->price)}} تومان </div>
+                            <div class="col-12 bg-dark rounded-bottom-4 rounded-top-2 mt-2 py-1 delete-badge" wire:click="selectTable({{$spec->id}})"> {{number_format($spec->price)}} تومان </div>
 
                         @endif
 
