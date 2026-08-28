@@ -41,6 +41,8 @@ class ArticlesManagement extends Component
 
     public $modalContent,$modalTitle,$modalWriter,$modalEditor;
 
+    public $summernoteImage;
+
     public $rules = [
         'category_id' => 'required|integer',
         'filter_id' => 'nullable|integer',
@@ -100,7 +102,8 @@ class ArticlesManagement extends Component
     public function cancel()
     {
         $this->editing = null;
-        $this->reset();
+        $this->reset(['editing','category_id','filter_id','title','intro','content','cover','show']);
+        $this->dispatch('summernote-fill',content: $this->content);
     }
 
     public function save()
@@ -237,6 +240,30 @@ class ArticlesManagement extends Component
         }
 
 
+    }
+
+//    public function updatedSummernoteImage()
+//    {
+//        $filename = uniqid('SIMG_') . '.' . $this->summernoteImage->getClientOriginalExtension();
+//        $this->summernoteImage->storeAs('summernote_images', $filename, 'public');
+//
+//        $url = Storage::disk('public')->url("summernote_images/{$filename}");
+//
+//        $this->dispatch('summernote-image-uploaded', url: $url);
+//
+//        $this->reset('summernoteImage');
+//    }
+
+    public function uploadSummernoteImage()
+    {
+        $filename = uniqid('SIMG_') . '.' . $this->summernoteImage->getClientOriginalExtension();
+        $this->summernoteImage->storeAs('summernote_images', $filename, 'public');
+
+        $url = Storage::disk('public')->url("summernote_images/{$filename}");
+
+        $this->dispatch('summernote-image-uploaded', url: $url);
+
+        $this->reset('summernoteImage');
     }
 
     #[Computed]

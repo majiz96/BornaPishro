@@ -76,6 +76,42 @@ $(document).ready(function () {
         ],
 
         callbacks: {
+            onImageUpload: function (files) {
+
+                const file = files[0];
+
+                console.log('🔥 Summernote file:', file);
+
+                const component = window.Livewire
+                    .all()
+                    .find(component =>
+                        component.name === 'dashboard.articles-management'
+                    );
+
+                console.log('🔥 Articles component:', component);
+
+                component.$wire.upload(
+                    'summernoteImage',
+                    file,
+
+                    () => {
+                        console.log('🔥 Upload finished');
+
+                        component.$wire.call('uploadSummernoteImage');
+                    },
+
+                    (error) => {
+                        console.error('🔥 Upload error:', error);
+                    },
+
+                    (event) => {
+                        console.log(
+                            '🔥 Upload progress:',
+                            event.detail.progress
+                        );
+                    }
+                );
+            },
 
             onChange: function (contents) {
 
@@ -84,8 +120,9 @@ $(document).ready(function () {
                 });
 
             }
-
         }
+
+
 
     });
 
@@ -93,6 +130,12 @@ $(document).ready(function () {
     Livewire.on('summernote-fill', ({ content }) => {
 
         $('#summernote').summernote('code', content);
+
+    });
+
+    Livewire.on('summernote-image-uploaded', ({ url }) => {
+
+        $('#summernote').summernote('insertImage', url);
 
     });
 
