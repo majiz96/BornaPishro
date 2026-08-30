@@ -219,6 +219,18 @@ class ServicesManagement extends Component
         $this->modalDescription = $service->description;
     }
 
+    public function uploadSummernoteImage()
+    {
+        $filename = uniqid('SIMG_') . '.' . $this->summernoteImage->getClientOriginalExtension();
+        $this->summernoteImage->storeAs('summernote_images', $filename, 'public');
+
+        $url = Storage::disk('public')->url("summernote_service_images/{$filename}");
+
+        $this->dispatch('summernote-image-uploaded', url: $url);
+
+        $this->reset('summernoteImage');
+    }
+
     #[Computed]
     public function filters()
     {

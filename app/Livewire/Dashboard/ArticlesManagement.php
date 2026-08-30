@@ -242,24 +242,12 @@ class ArticlesManagement extends Component
 
     }
 
-//    public function updatedSummernoteImage()
-//    {
-//        $filename = uniqid('SIMG_') . '.' . $this->summernoteImage->getClientOriginalExtension();
-//        $this->summernoteImage->storeAs('summernote_images', $filename, 'public');
-//
-//        $url = Storage::disk('public')->url("summernote_images/{$filename}");
-//
-//        $this->dispatch('summernote-image-uploaded', url: $url);
-//
-//        $this->reset('summernoteImage');
-//    }
-
     public function uploadSummernoteImage()
     {
         $filename = uniqid('SIMG_') . '.' . $this->summernoteImage->getClientOriginalExtension();
         $this->summernoteImage->storeAs('summernote_images', $filename, 'public');
 
-        $url = Storage::disk('public')->url("summernote_images/{$filename}");
+        $url = Storage::disk('public')->url("summernote_article_images/{$filename}");
 
         $this->dispatch('summernote-image-uploaded', url: $url);
 

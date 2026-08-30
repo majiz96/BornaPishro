@@ -118,14 +118,13 @@
             <label for="intro">مقدمه</label>
             <textarea id="intro" class="form-control" rows="1" wire:model.blur="intro"></textarea>
             @error('intro') <small class="text-danger"> {{$message}} </small> @enderror
-
         </div>
 
-        <div class="row mx-auto mt-3">
-            <label for="description">متن</label>
-            <textarea id="description" class="form-control" rows="3" wire:model.blur="description"></textarea>
-            @error('description') <small class="text-danger"> {{$message}} </small> @enderror
+        <div class="row mx-auto mt-3" wire:ignore>
+            <textarea id="summernote"></textarea>
         </div>
+
+
 
         <div class="row mx-auto py-4">
 
