@@ -98,6 +98,7 @@
         <div class="mx-auto mt-3" wire:ignore>
             <textarea id="summernote"></textarea>
         </div>
+        @error('content')<div class="text-danger mt-2">{{ $message }}</div>@enderror
 
         <div class="row mx-auto py-4">
 
