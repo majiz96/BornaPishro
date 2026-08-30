@@ -56,9 +56,26 @@ $.fn.modal = function (action) {
 };
 
 
-$(document).ready(function () {
+document.addEventListener('livewire:navigated', () => {
 
-    $('#summernote').summernote({
+    console.log('🔥 LIVEWIRE NAVIGATED');
+
+    const editor = $('#summernote');
+
+    if (!editor.length) {
+        console.log('🔥 Summernote element not found');
+        return;
+    }
+
+    // جلوگیری از initialize شدن دوباره
+    if ($('.note-editor').length) {
+        console.log('🔥 Summernote already initialized');
+        return;
+    }
+
+    console.log('🔥 BEFORE SUMMERNOTE:', editor.length);
+
+    editor.summernote({
 
         height: 300,
 
@@ -76,6 +93,8 @@ $(document).ready(function () {
         ],
 
         callbacks: {
+
+            // 🖼️ Upload تصویر
             onImageUpload: function (files) {
 
                 const file = files[0];
@@ -88,55 +107,74 @@ $(document).ready(function () {
                         component.name === 'dashboard.articles-management'
                     );
 
-                console.log('🔥 Articles component:', component);
+                console.log(
+                    '🔥 Articles component:',
+                    component
+                );
+
+                if (!component) {
+                    console.error(
+                        '🔥 Articles component not found!'
+                    );
+
+                    return;
+                }
 
                 component.$wire.upload(
                     'summernoteImage',
                     file,
 
+                    // ✅ Upload finished
                     () => {
-                        console.log('🔥 Upload finished');
 
-                        component.$wire.call('uploadSummernoteImage');
+                        console.log(
+                            '🔥 Upload finished'
+                        );
+
+                        component.$wire.call(
+                            'uploadSummernoteImage'
+                        );
+
                     },
 
+                    // ❌ Upload error
                     (error) => {
-                        console.error('🔥 Upload error:', error);
+
+                        console.error(
+                            '🔥 Upload error:',
+                            error
+                        );
+
                     },
 
+                    // 📊 Progress
                     (event) => {
+
                         console.log(
                             '🔥 Upload progress:',
                             event.detail.progress
                         );
+
                     }
                 );
             },
 
+            // ✏️ تغییر محتوا
             onChange: function (contents) {
 
-                Livewire.dispatch('summernote-updated', {
-                    content: contents
-                });
+                Livewire.dispatch(
+                    'summernote-updated',
+                    {
+                        content: contents
+                    }
+                );
 
             }
         }
-
-
-
     });
 
-
-    Livewire.on('summernote-fill', ({ content }) => {
-
-        $('#summernote').summernote('code', content);
-
-    });
-
-    Livewire.on('summernote-image-uploaded', ({ url }) => {
-
-        $('#summernote').summernote('insertImage', url);
-
-    });
-
+    console.log(
+        '🔥 AFTER SUMMERNOTE:',
+        $('.note-editor').length
+    );
 });

@@ -249,7 +249,7 @@
                 </div>
 
                 @if($modal)
-                @include('modals.see-article')
+                     @include('modals.see-article')
                 @endif
 
 
