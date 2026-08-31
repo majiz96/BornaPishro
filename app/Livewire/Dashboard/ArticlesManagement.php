@@ -90,7 +90,7 @@ class ArticlesManagement extends Component
 
         if ($this->canActive)
         {
-            $this->firstParent = Category::first()?->id;
+            $this->firstParent = Category::where('field_id',1)->first()?->id;
             $this->activeParent = $this->firstParent;
 
             if($this->activeParent)
@@ -289,7 +289,6 @@ class ArticlesManagement extends Component
         return Category::with('children','parent')
             ->where('field_id',1)
             ->where('parent_id',null)
-            ->where('id','!=',100)
             ->get();
     }
 

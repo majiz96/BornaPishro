@@ -17,15 +17,23 @@ class ServicesManagement extends Component
 {
     use WithFileUploads;
 
-    public string $message = '';
+    public string $err = '';
 
     public $category_id,$filter_id,$title,$intro,$description,$cover,$thumbnail,$show;
 
-    public $activeParent,$activeChild;
+    public $activeParent,$activeChild,$firstParent,$firstChild,$canActive;
 
     public $editing = null;
 
     public $modal = false;
+
+    public $search = '';
+
+    public $direction = 'DESC';
+
+    public $sort = 'created_at';
+
+    public $perPage = 10;
 
     public $modalTitle,$modalDescription;
 
@@ -68,6 +76,27 @@ class ServicesManagement extends Component
         'intro.required'=>'هر مورد به یک مقدمه نیاز دارد',
         'description.required'=>'متن را وارد نکرده اید',
     ];
+
+    public function mount()
+    {
+        $this->canActive = Category::exists();
+
+        if ($this->canActive)
+        {
+            $this->firstParent = Category::where('field_id',2)->first()?->id;
+            $this->activeParent = $this->firstParent;
+
+            if($this->activeParent)
+            {
+                $this->firstChild = Category::where('parent_id', $this->activeParent)->first()?->id;
+                $this->activeChild = $this->firstChild;
+            }
+        }
+        else
+        {
+            $this->err = 'Ahhhhoooooy';
+        }
+    }
 
     public function edit($id)
     {
@@ -232,6 +261,34 @@ class ServicesManagement extends Component
     }
 
     #[Computed]
+    public function Categories()
+    {
+        return Category::with('children','parent')
+            ->where('field_id',2)
+            ->where('parent_id',null)
+            ->get();
+    }
+
+    #[Computed]
+    public function Children()
+    {
+        return Category::with('children','parent')
+            ->where('field_id',2)
+            ->where('parent_id',$this->activeParent)
+            ->get();
+    }
+
+    #[Computed]
+    public function Services()
+    {
+        $query = Service::where('category_id',$this->activeChild)
+            ->where('title','LIKE','%'.$this->search.'%')
+            ->orderBy($this->sort,$this->direction);
+
+        return ($this->perPage == "") ? $query->get() : $query->paginate($this->perPage);
+    }
+
+    #[Computed]
     public function filters()
     {
         return Filter::where('field_id',2)
@@ -244,31 +301,7 @@ class ServicesManagement extends Component
 
     public function render()
     {
-        $categories = Category::with('children','parent')->where('field_id',2)->where('parent_id',null)->get();
-
-        if(!$this->activeParent)
-        {
-            $this->activeParent = Category::where('field_id',2)->where('parent_id',null)->first()->id;
-        }
-
-        if(!$this->activeChild)
-        {
-            if (!$this->activeParent)
-            {
-                $this->activeChild = Category::where('field_id',1)->where('parent_id',$this->activeParent)->first()->id;
-            }
-            else
-            {
-                $this->activeChild = Category::where('field_id',1)->where('parent_id',null)->first()->id;
-            }
-
-        }
-
-        $children = Category::with('children','parent')->where('field_id',2)->where('parent_id',$this->activeParent)->get();
-
-        $services = Service::where('category_id',$this->activeChild)->get();
-
-        return view('livewire.dashboard.services-management',compact('categories','children','services'))
+        return view('livewire.dashboard.services-management')
             ->layout('components.layouts.dashboards');
     }
 }

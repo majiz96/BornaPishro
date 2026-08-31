@@ -1,6 +1,6 @@
 <div class="container-fluid">
 
-    <div class="row text-center"><h2 wire:text="message"></h2></div>
+    <div class="row text-center"><h2 wire:text="err"></h2></div>
 
     <form wire:submit.prevent="save" enctype="multipart/form-data" class="row border rounded-4 pt-4 px-2" >
 
@@ -15,7 +15,7 @@
 
         <div class="col-xl-2"></div>
 
-
+        {{--    Filters Dropdown    --}}
         <div class="col-xl-2 my-auto">
             <select class="form-select" wire:model="filter_id">
                 <option value=""> فیلتر را انتخاب کنید </option>
@@ -36,14 +36,14 @@
 
         </div>
 
-
+        {{--   Category Dropdown    --}}
         <div class="col-xl-2 my-auto">
             <select class="form-select" wire:model="category_id">
                 <option value=""> دسته را انتخاب کنید </option>
 
-                @if($categories->isNotEmpty())
+                @if($this->Categories->isNotEmpty())
 
-                    @foreach($categories as $category)
+                    @foreach($this->Categories as $category)
 
                         @if($category->children->isNotEmpty())
 
@@ -146,8 +146,8 @@
     <div class="row mt-3">
 
         <div class="col-xl-1 border rounded-4 pb-2">
-            @if($categories->isNotEmpty())
-                @foreach($categories as $category)
+            @if($this->Categories->isNotEmpty())
+                @foreach($this->Categories as $category)
 
                     <div class="row border mt-2 mx-1 rounded-4 py-2 text-center delete-badge {{ $activeParent == $category->id ? 'cs-button text-light' : '' }}"
                          wire:click="selectParent({{$category->id}})">
@@ -163,13 +163,14 @@
         <div class="col-xl-11 my-auto py-5 border rounded-start-4">
             <div class="row">
 
-                @if($children->isNotEmpty() && $activeParent)
-                    @foreach($children as $child)
-                        <div class="col-xl mt-3 mx-auto text-center delete-badge"
-                             wire:click="$set('activeChild',{{$child->id}})">
+                @if($this->Children->isNotEmpty() && $activeParent)
+                    @foreach($this->Children as $child)
+                        <div class="col mt-3 mx-auto text-center delete-badge"
+                             wire:click="selectChildren({{$child->id}})">
                             <h5 class=" border rounded-4 py-2 {{ $activeChild == $child->id ? 'cs-button text-light' : '' }}">{{$child->name}}</h5>
                         </div>
                     @endforeach
+
                 @else
                     <div class="row text-center"> <h2 class="text-danger mt-5"> دسته ای ثبت نکرده اید </h2> </div>
                 @endif
@@ -181,9 +182,9 @@
     {{--  showing services  --}}
     <div class="row mt-4 py-2 px-0 border rounded-4">
 
-        @if($services->isNotEmpty())
+        @if($this->Services->isNotEmpty())
 
-            @foreach($services as $service)
+            @foreach($this->Services as $service)
 
                 <div class="col-xl-4 card rounded-4 my-2 mx-auto">
 
@@ -231,7 +232,7 @@
 
             @endforeach
         @else
-            <div class="row text-center my-auto"><h3 class="text-danger"> در این دسته مقاله ای ثبت نکرده اید </h3></div>
+            <div class="row text-center my-auto"><h3 class="text-danger"> در این دسته خدماتی ثبت نکرده اید </h3></div>
         @endif
 
 
