@@ -36,9 +36,9 @@
             <select class="form-select" wire:model="category_id">
                 <option value=""> دسته را انتخاب کنید </option>
 
-                @if($categories->isNotEmpty())
+                @if($this->Categories->isNotEmpty())
 
-                    @foreach($categories as $category)
+                    @foreach($this->Categories as $category)
 
                         @if($category->children->isNotEmpty())
 
@@ -119,8 +119,8 @@
     <div class="row mt-3">
 
         <div class="col-xl-1 border rounded-end-4">
-            @if($categories->isNotEmpty())
-                @foreach($categories as $category)
+            @if($this->Categories->isNotEmpty())
+                @foreach($this->Categories as $category)
 
                     <div class="row border mt-2 mx-1 rounded-4 py-2 text-center delete-badge {{ $activeParent == $category->id ? 'cs-button text-light' : '' }}"
                     wire:click="selectParent({{$category->id}})">
@@ -136,8 +136,8 @@
         <div class="col-xl-11 my-auto py-5 border rounded-start-4">
             <div class="row">
 
-            @if($children->isNotEmpty() && $activeParent)
-                @foreach($children as $child)
+            @if($this->Children->isNotEmpty() && $activeParent)
+                @foreach($this->Children as $child)
                     <div class="col mt-3 mx-auto text-center delete-badge"
                          wire:click="selectChildren({{$child->id}})">
                         <h5 class=" border rounded-4 py-2 {{ $activeChild == $child->id ? 'cs-button text-light' : '' }}">{{$child->name}}</h5>
@@ -155,7 +155,7 @@
         {{--  showing articles  --}}
     <div class="row my-4 py-2 px-0 border rounded-4">
 
-        @if($articles->isNotEmpty())
+        @if($this->Articles->isNotEmpty())
 
             <div class="row mt-4">
 
@@ -191,7 +191,7 @@
 
             </div>
 
-            @foreach($articles as $article)
+            @foreach($this->Articles as $article)
 
                 <div class="col-xl-4">
 
@@ -263,7 +263,7 @@
     </div>
 
     @if($perPage !== "")
-        {{$articles->links(data:['scrollTo',false])}}
+        {{$this->Articles->links(data:['scrollTo',false])}}
     @endif
 
 </div>

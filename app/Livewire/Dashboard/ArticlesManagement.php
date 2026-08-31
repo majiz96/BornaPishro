@@ -29,8 +29,7 @@ class ArticlesManagement extends Component
 
     public $editing = null;
 
-    public $activeParent;
-    public $activeChild;
+    public $activeParent,$activeChild;
 
     public $modal = false;
 
@@ -40,6 +39,8 @@ class ArticlesManagement extends Component
     public $direction = 'desc';
 
     public $modalContent,$modalTitle,$modalWriter,$modalEditor;
+
+    public $firstParent,$firstChild,$canActive;
 
     public $summernoteImage;
 
@@ -81,6 +82,23 @@ class ArticlesManagement extends Component
     public function updateContent($content)
     {
         $this->content = $content;
+    }
+
+    public function mount()
+    {
+        $this->canActive = Category::exists();
+
+        if ($this->canActive)
+        {
+            $this->firstParent = Category::first()?->id;
+            $this->activeParent = $this->firstParent;
+
+            if($this->activeParent)
+            {
+            $this->firstChild = Category::where('parent_id', $this->activeParent)->first()?->id;
+            $this->activeChild = $this->firstChild;
+            }
+        }
     }
 
     public function edit($id)
@@ -265,44 +283,38 @@ class ArticlesManagement extends Component
             ->get();
     }
 
-    public function render()
+    #[Computed]
+    public function Categories()
     {
-        $categories = Category::with('children','parent')
+        return Category::with('children','parent')
             ->where('field_id',1)
             ->where('parent_id',null)
             ->where('id','!=',100)
             ->get();
+    }
 
-        if(!$this->activeParent)
-        {
-            $this->activeParent = Category::where('field_id', 1)->where('parent_id', null)->first()->id;
-        }
+    #[Computed]
+    public function Children()
+    {
+        return Category::with('children','parent')
+            ->where('field_id',1)
+            ->where('parent_id',$this->activeParent)
+            ->get();
+    }
 
-        if(!$this->activeChild)
-        {
-            if ($this->activeParent)
-            {
-                $this->activeChild = Category::where('field_id',1)->where('parent_id',$this->activeParent)->first()->id;
-            }
-            else
-            {
-                $this->activeChild = Category::where('field_id',1)->where('parent_id',null)->first()->id;
-            }
-
-        }
-
-        $children = Category::with('children','parent')->where('field_id',1)->where('parent_id',$this->activeParent)->get();
-
+    #[Computed]
+    public function Articles()
+    {
         $query = Article::with('writer','editor')
             ->where('category_id',$this->activeChild)
             ->where('title','LIKE','%'.$this->search.'%')
             ->orderBy($this->sort,$this->direction);
 
-        $articles = ($this->perPage == "") ? $query->get() : $query->paginate($this->perPage);
+        return ($this->perPage == "") ? $query->get() : $query->paginate($this->perPage);
+    }
 
-        return view('livewire.dashboard.articles-management',compact('categories','children','articles'))
-            ->layout('components.layouts.dashboards');
-
-
+    public function render()
+    {
+        return view('livewire.dashboard.articles-management')->layout('components.layouts.dashboards');
     }
 }
