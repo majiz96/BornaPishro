@@ -163,7 +163,7 @@ document.addEventListener('livewire:navigated', () => {
             onChange: function (contents) {
 
                 Livewire.dispatch(
-                    'summernote-updated',
+                    'summernote-fill',
                     {
                         content: contents
                     }
@@ -177,4 +177,16 @@ document.addEventListener('livewire:navigated', () => {
         '🔥 AFTER SUMMERNOTE:',
         $('.note-editor').length
     );
+});
+
+Livewire.on('summernote-fill', ({ content }) => {
+
+    $('#summernote').summernote('code', content);
+
+});
+
+Livewire.on('summernote-image-uploaded', ({ url }) => {
+
+    $('#summernote').summernote('insertImage', url);
+
 });
