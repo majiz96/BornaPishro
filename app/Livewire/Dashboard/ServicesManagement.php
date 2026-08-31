@@ -9,6 +9,7 @@ use App\Models\Service;
 use Illuminate\Support\Facades\Storage;
 
 use Livewire\Attributes\Computed;
+use Livewire\Attributes\On;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Livewire\Attributes\Validate;
@@ -19,7 +20,7 @@ class ServicesManagement extends Component
 
     public string $err = '';
 
-    public $category_id,$filter_id,$title,$intro,$description,$cover,$thumbnail,$show;
+    public $category_id,$filter_id,$title,$intro,$content,$cover,$thumbnail,$show;
 
     public $activeParent,$activeChild,$firstParent,$firstChild,$canActive;
 
@@ -42,7 +43,7 @@ class ServicesManagement extends Component
         'filter_id' => 'nullable',
         'title'=>'required',
         'intro'=>'required',
-        'description'=>'required',
+        'content'=>'required',
         'cover'=>'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         'thumbnail'=>'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
     ];
@@ -51,7 +52,7 @@ class ServicesManagement extends Component
         'category_id.required'=>'هر مورد باید دسته مشخصی داشته باشد',
         'title.required'=>'هر مورد باید عنوانی داشته باشد',
         'intro.required'=>'هر مورد به یک مقدمه نیاز دارد',
-        'description.required'=>'متن را وارد نکرده اید',
+        'content.required'=>'متن را وارد نکرده اید',
         'cover.required'=>'تصویر را انتخاب نکرده اید',
         'cover.image'=>'فایل انتخاب شده یک تصویر نیست',
         'cover.mimes'=>'تصویر انتخاب شده از فرمتهای رایج (jpeg,jpg,png,gif,svg) نیست',
@@ -67,14 +68,14 @@ class ServicesManagement extends Component
         'filter_id' => 'nullable',
         'title'=>'required',
         'intro'=>'required',
-        'description'=>'required',
+        'content'=>'required',
     ];
 
     public $editMessages = [
         'category_id.required'=>'هر مورد باید دسته مشخصی داشته باشد',
         'title.required'=>'هر مورد باید عنوانی داشته باشد',
         'intro.required'=>'هر مورد به یک مقدمه نیاز دارد',
-        'description.required'=>'متن را وارد نکرده اید',
+        'content.required'=>'متن را وارد نکرده اید',
     ];
 
     public function mount()
@@ -98,6 +99,12 @@ class ServicesManagement extends Component
         }
     }
 
+    #[On('summernote-updated')]
+    public function updateContent($content)
+    {
+        $this->content = $content;
+    }
+
     public function edit($id)
     {
         $service = Service::findOrFail($id);
@@ -107,15 +114,20 @@ class ServicesManagement extends Component
         $this->filter_id = $service->filter_id;
         $this->title = $service->title;
         $this->intro = $service->intro;
-        $this->description = $service->description;
+        $this->content = $service->description;
         $this->cover = $service->cover;
         $this->thumbnail = $service->thumbnail;
+        $this->show = $service->show;
+
+        $this->dispatch('summernote-fill',content: $this->content);
     }
 
     public function cancel()
     {
-        $this->reset();
+        $this->reset(['cover','thumbnail','category_id','title','intro','content','filter_id']);
         $this->editing = null;
+
+        $this->dispatch('summernote-fill',content: $this->content);
     }
 
     public function save()
@@ -165,12 +177,13 @@ class ServicesManagement extends Component
                 'filter_id' => $this->filter_id,
                 'title' => $this->title,
                 'intro' => $this->intro,
-                'description' => $this->description,
+                'description' => $this->content,
                 'cover' => $covername,
                 'thumbnail' => $thumbnailname,
-                'show'=>0
             ]);
-            $this->reset(['cover','thumbnail','editing','category_id','title','intro','description','filter_id']);
+            $this->reset(['cover','thumbnail','editing','category_id','title','intro','content','filter_id']);
+
+            $this->dispatch('summernote-fill',content: $this->content);
         }
         else
         {
@@ -197,13 +210,15 @@ class ServicesManagement extends Component
                     'filter_id' => $this->filter_id,
                     'title' => $this->title,
                     'intro' => $this->intro,
-                    'description' => $this->description,
+                    'description' => $this->content,
                     'cover' => $covername,
                     'thumbnail' => $thumbnailname,
                     'show'=> 0
                 ]
             );
-            $this->reset(['cover','thumbnail','category_id','title','intro','description','filter_id']);
+            $this->reset(['cover','thumbnail','category_id','title','intro','content','filter_id']);
+
+            $this->dispatch('summernote-fill',content: $this->description);
         }
     }
 
@@ -222,6 +237,11 @@ class ServicesManagement extends Component
             $this->activeChild = Category::where('field_id',2)->where('parent_id',null)->first()->id;
         }
 
+    }
+
+    public function selectChildren($id)
+    {
+        $this->activeChild = $id;
     }
 
     public function toggleShow($id)

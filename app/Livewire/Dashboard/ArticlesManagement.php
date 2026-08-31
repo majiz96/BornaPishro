@@ -157,7 +157,8 @@ class ArticlesManagement extends Component
            $article->update($data);
 
             $this->reset(['editing','title','intro','content','cover','category_id','filter_id']);
-           $this->dispatch('summernote-fill',content: $this->content);
+
+            $this->dispatch('summernote-fill',content: $this->content);
        }
        else
        {

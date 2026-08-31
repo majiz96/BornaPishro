@@ -163,7 +163,7 @@ document.addEventListener('livewire:navigated', () => {
             onChange: function (contents) {
 
                 Livewire.dispatch(
-                    'summernote-fill',
+                    'summernote-updated',
                     {
                         content: contents
                     }
@@ -181,7 +181,11 @@ document.addEventListener('livewire:navigated', () => {
 
 Livewire.on('summernote-fill', ({ content }) => {
 
-    $('#summernote').summernote('code', content);
+    const editor = $('#summernote');
+
+    if (editor.length) {
+        editor.summernote('code', content ?? '');
+    }
 
 });
 

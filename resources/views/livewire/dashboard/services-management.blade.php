@@ -123,7 +123,7 @@
         <div class="row mx-auto mt-3" wire:ignore>
             <textarea id="summernote"></textarea>
         </div>
-            @error('description') <small class="text-danger"> {{$message}} </small> @enderror
+            @error('content') <small class="text-danger"> {{$message}} </small> @enderror
 
 
 
