@@ -78,20 +78,26 @@
             </div>
             <!-- The slideshow -->
             <div class="carousel-inner">
-                @foreach($this->serviceSlider as $index => $service)
-                    <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
 
-                        <div class="home-tile row border text-light text-center mx-2 rounded-5"
-                             style="background-image: url({{asset('storage/service_covers/'.$service->cover) }});
+                @foreach($this->serviceSlider as $index => $service)
+
+                    <a href="{{ route('service.show',$service->id) }}" class="text-decoration-none">
+
+                        <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
+
+                            <div class="home-tile row border text-light text-center mx-2 rounded-5"
+                                 style="background-image: url({{asset('storage/service_covers/'.$service->cover) }});
                                 background-size: cover;
                                 background-position: center;
                                 ">
 
-                            <h2 class="mx-auto my-auto bg-secondary opacity-75 w-auto rounded-4 p-2">{{ $service->title }}</h2>
-                            <div class="bg-secondary h-75 bg-opacity-75">{{ $service->intro }}</div>
-                        </div>
+                                <h2 class="mx-auto my-auto bg-secondary opacity-75 w-auto rounded-4 p-2">{{ $service->title }}</h2>
+                                <div class="bg-secondary h-75 bg-opacity-75">{{ $service->intro }}</div>
+                            </div>
 
-                    </div>
+                        </div>
+                    </a>
+
                 @endforeach
             </div>
             <!-- Left and right controls -->
@@ -108,10 +114,17 @@
 
     @if(count($this->serviceSlider) == 1)
         @foreach($this->serviceSlider as $service)
-            <div class="home-tile row bg-{{ $service->style }} text-light text-center mx-2 rounded-5">
-                <h2 class="mx-auto my-auto">{{ $service->title }}</h2>
-                <p>{{ $service->description }}</p>
-            </div>
+
+            <a href="{{ route('service.show',$service->id) }}" class="text-decoration-none">
+                <div class="home-tile row bg-{{ $service->style }} text-light text-center mx-2 rounded-5 my-auto" style="background-image: url({{asset('storage/service_covers/'.$service->cover) }});
+                                background-size: cover;
+                                background-position: center;
+                                ">
+                    <h2 class="mx-auto my-auto bg-secondary opacity-75 w-auto rounded-4 p-2">{{ $service->title }}</h2>
+                    <div class="bg-secondary h-75 bg-opacity-75">{{ $service->intro }}</div>
+                </div>
+            </a>
+
         @endforeach
     @endif
 
@@ -183,19 +196,23 @@
                 <!-- The slideshow -->
                 <div class="carousel-inner">
                     @foreach($this->articleSlider as $index => $article)
-                        <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
 
-                            <div class="home-tile row border text-light text-center mx-2 rounded-5"
-                                 style="background-image: url({{asset('storage/article_covers/'.$article->cover) }});
+                        <a href="{{ route('article.show',$article->id) }}" class="text-decoration-none">
+                            <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
+
+                                <div class="home-tile row border text-light text-center mx-2 rounded-5"
+                                     style="background-image: url({{asset('storage/article_covers/'.$article->cover) }});
                                 background-size: cover;
                                 background-position: center;
                                 ">
 
-                                <h1 class="mx-auto my-auto bg-secondary opacity-75 w-auto rounded-4 p-2">{{ $article->title }}</h1>
-                                <div class="bg-secondary h-75 bg-opacity-75">{{ $article->intro }}</div>
-                            </div>
+                                    <h1 class="mx-auto my-auto bg-secondary opacity-75 w-auto rounded-4 p-2">{{ $article->title }}</h1>
+                                    <div class="bg-secondary h-75 bg-opacity-75">{{ $article->intro }}</div>
+                                </div>
 
-                        </div>
+                            </div>
+                        </a>
+
                     @endforeach
                 </div>
                 <!-- Left and right controls -->
@@ -211,11 +228,18 @@
         @endif
 
         @if(count($this->articleSlider) == 1)
-            @foreach($this->serviceSlider as $article)
-                <div class="home-tile row bg-{{ $article->style }} text-light text-center mx-2 rounded-5">
-                    <h2 class="mx-auto my-auto">{{ $article->title }}</h2>
-                    <p>{{ $article->description }}</p>
+            @foreach($this->articleSlider as $article)
+            <a href="{{ route('article.show',$article->id) }}" class="text-decoration-none">
+                <div class="home-tile row bg-{{ $article->style }} text-light text-center mx-2 rounded-5 my-auto"
+                     style="background-image: url({{asset('storage/article_covers/'.$article->cover) }});
+                                background-size: cover;
+                                background-position: center;
+                                ">
+                    <h2 class="mx-auto my-auto bg-secondary opacity-75 w-auto rounded-4 p-2">{{ $article->title }}</h2>
+                    <div class="bg-secondary h-75 bg-opacity-75">{{ $article->intro }}</div>
                 </div>
+            </a>
+
             @endforeach
         @endif
 
