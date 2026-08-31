@@ -38,12 +38,14 @@ class ServicesManagement extends Component
 
     public $modalTitle,$modalDescription;
 
+    public $summernoteImage;
+
     public $rules = [
         'category_id' => 'required',
         'filter_id' => 'nullable',
         'title'=>'required',
         'intro'=>'required',
-        'content'=>'required',
+        'content'=>'required|string',
         'cover'=>'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         'thumbnail'=>'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
     ];
@@ -124,9 +126,8 @@ class ServicesManagement extends Component
 
     public function cancel()
     {
-        $this->reset(['cover','thumbnail','category_id','title','intro','content','filter_id']);
         $this->editing = null;
-
+        $this->reset(['cover','thumbnail','category_id','title','intro','content','filter_id']);
         $this->dispatch('summernote-fill',content: $this->content);
     }
 
@@ -218,7 +219,7 @@ class ServicesManagement extends Component
             );
             $this->reset(['cover','thumbnail','category_id','title','intro','content','filter_id']);
 
-            $this->dispatch('summernote-fill',content: $this->description);
+            $this->dispatch('summernote-fill',content: $this->content);
         }
     }
 
@@ -271,7 +272,7 @@ class ServicesManagement extends Component
     public function uploadSummernoteImage()
     {
         $filename = uniqid('SIMG_') . '.' . $this->summernoteImage->getClientOriginalExtension();
-        $this->summernoteImage->storeAs('summernote_images', $filename, 'public');
+        $this->summernoteImage->storeAs('summernote_service_images', $filename, 'public');
 
         $url = Storage::disk('public')->url("summernote_service_images/{$filename}");
 

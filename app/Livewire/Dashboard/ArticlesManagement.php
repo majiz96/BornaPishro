@@ -120,7 +120,7 @@ class ArticlesManagement extends Component
     public function cancel()
     {
         $this->editing = null;
-        $this->reset(['editing','category_id','filter_id','title','intro','content','cover','show']);
+        $this->reset(['category_id','filter_id','title','intro','content','cover','show']);
         $this->dispatch('summernote-fill',content: $this->content);
     }
 
@@ -264,7 +264,7 @@ class ArticlesManagement extends Component
     public function uploadSummernoteImage()
     {
         $filename = uniqid('SIMG_') . '.' . $this->summernoteImage->getClientOriginalExtension();
-        $this->summernoteImage->storeAs('summernote_images', $filename, 'public');
+        $this->summernoteImage->storeAs('summernote_article_images', $filename, 'public');
 
         $url = Storage::disk('public')->url("summernote_article_images/{$filename}");
 

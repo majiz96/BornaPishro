@@ -120,9 +120,10 @@
             @error('intro') <small class="text-danger"> {{$message}} </small> @enderror
         </div>
 
-        <div class="row mx-auto mt-3" wire:ignore>
+        <div class="mx-auto mt-3" wire:ignore>
             <textarea id="summernote"></textarea>
         </div>
+
             @error('content') <small class="text-danger"> {{$message}} </small> @enderror
 
 

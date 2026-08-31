@@ -55,7 +55,7 @@
         <div class="row mt-3 text-center"> <h3>{{$service->title ?? $default}}</h3>  </div>
 
         {{--    Content    --}}
-        <div class="row mx-2 mt-3 px-3 py-2"> {{$service->description}} </div>
+        <div class="row mx-2 mt-3 px-3 py-2"> {!! $service->description !!} </div>
 
 
     {{-- Comments --}}

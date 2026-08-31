@@ -21,8 +21,6 @@ $.fn.modal = function (action) {
 
         if (action === 'show') {
 
-            // relate model to Summernote
-            // Transfered to body directly
             if (element.parentElement !== document.body) {
                 document.body.appendChild(element);
             }
@@ -56,24 +54,24 @@ $.fn.modal = function (action) {
 };
 
 
-document.addEventListener('livewire:navigated', () => {
+// ======================================================
+// Summernote
+// ======================================================
 
-    console.log('🔥 LIVEWIRE NAVIGATED');
+function initSummernote() {
 
     const editor = $('#summernote');
 
     if (!editor.length) {
-        console.log('🔥 Summernote element not found');
         return;
     }
 
-    // جلوگیری از initialize شدن دوباره
-    if ($('.note-editor').length) {
-        console.log('🔥 Summernote already initialized');
+    // اگر قبلاً ساخته شده، دوباره نساز
+    if (editor.next('.note-editor').length) {
         return;
     }
 
-    console.log('🔥 BEFORE SUMMERNOTE:', editor.length);
+    console.log('🔥 INIT SUMMERNOTE');
 
     editor.summernote({
 
@@ -94,50 +92,76 @@ document.addEventListener('livewire:navigated', () => {
 
         callbacks: {
 
-            // 🖼️ Upload تصویر
+            // ==================================================
+            // Image Upload
+            // ==================================================
+
             onImageUpload: function (files) {
 
                 const file = files[0];
 
-                console.log('🔥 Summernote file:', file);
+                if (!file) {
+                    return;
+                }
 
-                const component = window.Livewire
-                    .all()
-                    .find(component =>
-                        component.name === 'dashboard.articles-management'
-                    );
+                console.log('🔥 SUMMERNOTE IMAGE:', file);
 
-                console.log(
-                    '🔥 Articles component:',
-                    component
-                );
+                // خود textarea داخل wire:ignore است
+                // پس والد Livewire را از DOM پیدا می‌کنیم
+                const componentElement =
+                    document.querySelector(
+                        '#summernote'
+                    )?.closest('[wire\\:id]')
+                    ??
+                    document.querySelector(
+                        '#summernote'
+                    )?.closest('[wire\\:id]')
+                    ??
+                    null;
 
-                if (!component) {
+                if (!componentElement) {
+
                     console.error(
-                        '🔥 Articles component not found!'
+                        '🔥 Livewire component not found'
                     );
 
                     return;
                 }
 
-                component.$wire.upload(
+                const component = Livewire.find(
+                    componentElement.getAttribute('wire:id')
+                );
+
+                if (!component) {
+
+                    console.error(
+                        '🔥 Livewire component instance not found'
+                    );
+
+                    return;
+                }
+
+                console.log(
+                    '🔥 COMPONENT:',
+                    component.name
+                );
+
+                component.upload(
                     'summernoteImage',
                     file,
 
-                    // ✅ Upload finished
                     () => {
 
                         console.log(
                             '🔥 Upload finished'
                         );
 
-                        component.$wire.call(
+                        component.call(
                             'uploadSummernoteImage'
                         );
 
                     },
 
-                    // ❌ Upload error
                     (error) => {
 
                         console.error(
@@ -147,7 +171,6 @@ document.addEventListener('livewire:navigated', () => {
 
                     },
 
-                    // 📊 Progress
                     (event) => {
 
                         console.log(
@@ -159,38 +182,119 @@ document.addEventListener('livewire:navigated', () => {
                 );
             },
 
-            // ✏️ تغییر محتوا
+
+            // ==================================================
+            // Content Changed
+            // ==================================================
+
             onChange: function (contents) {
 
-                Livewire.dispatch(
-                    'summernote-updated',
-                    {
-                        content: contents
-                    }
+                const componentElement =
+                    document
+                        .querySelector('#summernote')
+                        ?.closest('[wire\\:id]');
+
+                if (!componentElement) {
+                    return;
+                }
+
+                const component = Livewire.find(
+                    componentElement.getAttribute('wire:id')
+                );
+
+                if (!component) {
+                    return;
+                }
+
+                component.set(
+                    'content',
+                    contents
                 );
 
             }
+
         }
+
     });
 
     console.log(
-        '🔥 AFTER SUMMERNOTE:',
-        $('.note-editor').length
+        '🔥 SUMMERNOTE CREATED'
     );
-});
+}
 
-Livewire.on('summernote-fill', ({ content }) => {
 
-    const editor = $('#summernote');
+// ======================================================
+// Livewire navigation
+// ======================================================
 
-    if (editor.length) {
-        editor.summernote('code', content ?? '');
+document.addEventListener(
+    'livewire:navigated',
+    () => {
+
+        console.log(
+            '🔥 LIVEWIRE NAVIGATED'
+        );
+
+        // کمی صبر می‌کنیم تا DOM نهایی شود
+        setTimeout(() => {
+
+            initSummernote();
+
+        }, 0);
+
     }
+);
 
-});
 
-Livewire.on('summernote-image-uploaded', ({ url }) => {
+// ======================================================
+// Fill editor
+// ======================================================
 
-    $('#summernote').summernote('insertImage', url);
+Livewire.on(
+    'summernote-fill',
+    ({ content }) => {
 
-});
+        const editor = $('#summernote');
+
+        if (!editor.length) {
+            return;
+        }
+
+        if (!editor.next('.note-editor').length) {
+            initSummernote();
+        }
+
+        editor.summernote(
+            'code',
+            content ?? ''
+        );
+
+    }
+);
+
+
+// ======================================================
+// Insert uploaded image
+// ======================================================
+
+Livewire.on(
+    'summernote-image-uploaded',
+    ({ url }) => {
+
+        const editor = $('#summernote');
+
+        if (!editor.length) {
+            return;
+        }
+
+        if (!editor.next('.note-editor').length) {
+            initSummernote();
+        }
+
+        editor.summernote(
+            'insertImage',
+            url
+        );
+
+    }
+);
