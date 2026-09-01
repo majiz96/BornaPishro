@@ -33,33 +33,6 @@ class ArticleUnit extends Component
 
     }
 
-    #[Computed]
-    public function Comments()
-    {
-        $comments = Comment::with('parent','children')
-            ->where('commentable_id',$this->article->id)
-            ->where('commentable_type',Article::class)
-            ->where('show',1)->get();
-
-        if($comments->isNotEmpty())
-        {
-            foreach ($comments as $comment)
-            {
-
-                $name = User::where('id',$comment->user_id)->pluck('name')->first();
-                $lastname = User::where('id',$comment->user_id)->pluck('lastname')->first();
-
-            }
-        }
-        else
-        {
-            $name = null;
-            $lastname = null;
-        }
-
-        return $comments;
-    }
-
     public function render()
     {
         return view('livewire.article-unit');
