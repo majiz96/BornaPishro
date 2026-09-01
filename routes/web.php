@@ -86,7 +86,7 @@ Route::middleware(['auth', 'verified'])->prefix('dashboard')->group(function () 
     Route::get('sources/{product}',Sources::class)->name('sources.show');
     Route::get('briefs/{product}',Briefs::class)->name('briefs.show');
     Route::get('specifications/{product}',Specifications::class)->name('specifications.show');
-    Route::get('comments/{product}',Comments::class)->name('comments.show');
+    Route::get('comments/{type}/{id}',Comments::class)->name('comments');
 
     Route::get('articles-management',ArticlesManagement::class)->name('articles-management');
 
