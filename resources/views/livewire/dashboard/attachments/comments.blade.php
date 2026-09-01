@@ -2,11 +2,11 @@
 
     <div class="row text-center mx-auto">
         <div class="col-xl-5 my-auto"></div>
-        <img class="col-xl-2 mx-auto" src="{{asset('storage/products/'.$product->image) }}"  alt="پیش نمایش">
+        <img class="col-xl-2 mx-auto" src="{{asset('storage/products/'.$model->image ?? $model->cover) }}"  alt="پیش نمایش">
         <div class="col-xl-5"></div>
     </div>
 
-    <div class="row text-center my-2"><h1>{{$product->name}}</h1></div>
+    <div class="row text-center my-2"><h1>{{$model->name}}</h1></div>
 
     @if($comments->isNotEmpty())
 
