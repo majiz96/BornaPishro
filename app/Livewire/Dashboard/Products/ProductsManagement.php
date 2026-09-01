@@ -216,6 +216,7 @@ class ProductsManagement extends Component
     public function commentAlert($id)
     {
         return Comment::where('see','0')
+            ->where('commentable_type',Product::class)
             ->where('commentable_id',$id)
             ->count();
     }

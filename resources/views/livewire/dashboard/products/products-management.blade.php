@@ -255,7 +255,12 @@
                             <li><a href="{{route('specifications.show',$product->id)}}" class="dropdown-item" wire:navigate> مشخصات </a></li>
 
                             <li class="d-flex">
-                                <a href="{{route('comments.show',$product->id)}}" class="dropdown-item" wire:navigate> کامنت ها </a>
+                                <a href="{{ route('comments', [
+                                        'type' => Product::Class,
+                                        'id'   => $product->id,
+                                    ]) }}" class="dropdown-item" wire:navigate>
+                                    کامنت ها
+                                </a>
 
                                 @if($this->commentAlert($product->id))
                                     <span class="mx-auto text-bg-danger px-1 py-0 rounded-5 ms-2">
