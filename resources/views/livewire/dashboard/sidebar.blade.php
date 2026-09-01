@@ -58,11 +58,11 @@
         <li class="list-group-item list-group-item-action d-flex text-end py-1 {{request()->routeIs('articles-management') ? 'active-page' : ''}}">
             <a class="nav-link" href="{{route('articles-management')}}" wire:navigate> مدیریت مقالات </a>
 
-            @if($this->commentAlert(Article::class))
+            @if($this->commentAlert(\App\Models\Article::class))
                 <span class="mx-auto text-bg-danger px-1 rounded-5">
-                {{ $this->commentAlert(Article::class) }}
+                {{ $this->commentAlert(\App\Models\Article::class) }}
                 </span>
-            @endif
+             @endif
         </li>
 
     </ul>
@@ -73,9 +73,9 @@
 
         <li class="list-group-item list-group-item-action d-flex text-end py-1 {{request()->routeIs('services-management') ? 'active-page' : ''}}">
             <a class="nav-link" href="{{route('services-management')}}" wire:navigate> مدیریت خدمات </a>
-            @if($this->commentAlert(Service::class))
+            @if($this->commentAlert(\App\Models\Service::class))
                 <span class="mx-auto text-bg-danger px-1 rounded-5">
-                    {{ $this->commentAlert(Service::class) }}
+                    {{ $this->commentAlert(\App\Models\Service::class) }}
                 </span>
             @endif
 
