@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Dashboard\Website;
 
+use App\Jobs\NoticeMailJob;
 use App\Mail\NoticeMail;
 use App\Models\User;
 use App\Models\Notice;
@@ -144,11 +145,11 @@ class Notices extends Component
     {
         $recipients = match ($notice->contact)
         {
-          'همه'   =>  User::pluck('email'),
-          default =>  User::where('position_id',$notice->position_id)->pluck('email')
+            'همه'   =>  User::pluck('email'),
+            default =>  User::where('position_id',$notice->position_id)->pluck('email')
         };
 
-        $recipients->each(fn($email) => Mail::to($email)->send(new NoticeMail($notice)));
+        $recipients->each(fn($email) => NoticeMailJob::dispatch($notice, $email));
     }
 
     protected function sendNotice(Notice $notice)
