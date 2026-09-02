@@ -4,6 +4,7 @@ namespace App\Livewire\Dashboard;
 
 use App\Models\Article;
 use App\Models\Category;
+use App\Models\Comment;
 use App\Models\Filter;
 use App\Models\User;
 
@@ -287,7 +288,7 @@ class ArticlesManagement extends Component
     #[Computed]
     public function Categories()
     {
-        return Category::with('children','parent')
+        return Category::with('children','parent','articles')
             ->where('field_id',1)
             ->where('parent_id',null)
             ->get();
@@ -311,6 +312,68 @@ class ArticlesManagement extends Component
             ->orderBy($this->sort,$this->direction);
 
         return ($this->perPage == "") ? $query->get() : $query->paginate($this->perPage);
+    }
+
+    #[Computed]
+    public function commentAlert($id)
+    {
+        return Comment::where('see','0')
+            ->where('commentable_type',Article::class)
+            ->where('commentable_id',$id)
+            ->count();
+    }
+    #[Computed]
+    public function commentCount($id)
+    {
+        return Comment::where('commentable_type',Article::class)
+            ->where('commentable_id',$id)
+            ->count();
+    }
+    #[Computed]
+    public function commentCategoryAlert($id)
+    {
+        $category = Category::findOrFail($id);
+
+        if ($category->children->isNotEmpty()) {
+
+            $contained = Category::where('parent_id',$category->id)->pluck('id')->toArray();
+
+            foreach ($category->children as $child) {
+
+                if ($child->articles->isNotEmpty())
+                {
+                    foreach ($child->articles as $article)
+                    {
+                        $commented = Article::whereIn('category_id',$contained)
+                            ->pluck('id')
+                            ->toArray();
+
+                        return Comment::where('commentable_type',Article::class)
+                            ->whereIn('commentable_id',$commented)
+                            ->where('see','0')
+                            ->count();
+                    }
+                }
+            }
+        }
+    }
+    #[Computed]
+    public function commentChildAlert($id)
+    {
+        $category = Category::findOrFail($id);
+
+        if ($category->articles->isNotEmpty())
+        {
+            foreach ($category->articles as $article)
+            {
+                $commented = Article::where('category_id',$article->category_id)->pluck('id')->toArray();
+
+                return Comment::where('commentable_type',Article::class)
+                    ->whereIn('commentable_id',$commented)
+                    ->where('see','0')
+                    ->count();
+            }
+        }
     }
 
     public function render()

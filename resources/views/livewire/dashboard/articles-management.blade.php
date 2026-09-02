@@ -118,13 +118,25 @@
 
     <div class="row mt-3">
 
-        <div class="col-xl-1 border rounded-end-4">
+        <div class="col-xl-2 border rounded-end-4">
             @if($this->Categories->isNotEmpty())
                 @foreach($this->Categories as $category)
 
                     <div class="row border mt-2 mx-1 rounded-4 py-2 text-center delete-badge {{ $activeParent == $category->id ? 'cs-button text-light' : '' }}"
                     wire:click="selectParent({{$category->id}})">
-                        <h5 class="my-auto">{{$category->name}}</h5>
+
+                        <h5 class="my-auto">
+                            {{$category->name}}
+
+                            @if($this->commentCategoryAlert($category->id))
+                                <span class="mx-auto text-bg-danger px-1 py-0 rounded-5 me-2">
+                                {{$this->commentCategoryAlert($category->id)}}
+                                </span>
+                            @endif
+
+
+                        </h5>
+
                     </div>
 
                 @endforeach
@@ -133,14 +145,29 @@
             @endif
         </div>
 
-        <div class="col-xl-11 my-auto py-5 border rounded-start-4">
+        <div class="col-xl-10 my-auto py-5 border rounded-start-4">
             <div class="row">
 
             @if($this->Children->isNotEmpty() && $activeParent)
                 @foreach($this->Children as $child)
-                    <div class="col mt-3 mx-auto text-center delete-badge"
+                    <div class="col-auto mt-3 mx-auto text-center delete-badge"
                          wire:click="selectChildren({{$child->id}})">
-                        <h5 class=" border rounded-4 py-2 {{ $activeChild == $child->id ? 'cs-button text-light' : '' }}">{{$child->name}}</h5>
+
+                        <h5 class=" border row rounded-4 p-3 {{ $activeChild == $child->id ? 'cs-button text-light' : '' }}">
+
+                            <div class="col-auto">
+                            {{$child->name}}
+                            </div>
+
+
+                            @if($this->commentChildAlert($child->id))
+                                <div class="col-auto mx-auto text-bg-danger px-1 py-0 rounded-5 me-2">
+                                    {{ $this->commentChildAlert($child->id) }}
+                                </div>
+                            @endif
+
+                        </h5>
+
                     </div>
                 @endforeach
 
@@ -217,7 +244,7 @@
                         <div class="card-footer">
 
                             <div class="row">
-                                <div class="col-xl-4">
+                                <div class="col-xl-auto">
 
                                     {{$article->writer->name}}
 
@@ -232,7 +259,41 @@
                                     <button class="btn btn-sm btn-success rounded-3" wire:click="see({{$article->id}})"> مشاهده </button>
                                 </div>
 
-                                <div class="col-xl-2 my-auto text-center">
+                                <div class="col-xl-auto my-auto text-center">
+                                    @if($this->commentAlert($article->id))
+                                        <a href="{{ route('comments', [
+                                        'type' => Article::Class,
+                                        'id'   => $article->id,
+                                    ]) }}" class="dropdown-item" wire:navigate>
+
+                                            <button class="btn btn-sm btn-secondary rounded-3" wire:click="edit({{$article->id}})">
+                                                کامنتها
+                                                <span class="mx-auto text-bg-danger px-1 py-0 rounded-5 me-2">
+                                                    {{ $this->commentAlert($article->id) }}
+                                                </span>
+                                            </button>
+
+                                        </a>
+                                    @elseif($this->commentCount($article->id))
+                                        <a href="{{ route('comments', [
+                                        'type' => Article::Class,
+                                        'id'   => $article->id,
+                                    ]) }}" class="dropdown-item" wire:navigate>
+
+                                            <button class="btn btn-sm btn-secondary rounded-3" wire:click="edit({{$article->id}})">
+                                                کامنتها
+                                                <span class="mx-auto text-bg-secondary px-1 py-0 rounded-5 me-2">
+                                                    {{ $this->commentCount($article->id) }}
+                                                </span>
+                                            </button>
+
+                                        </a>
+                                    @endif
+
+
+                                </div>
+
+                                <div class="col-xl-1 my-auto text-center">
                                     <button class="btn btn-sm btn-danger rounded-3" wire:click="delete({{$article->id}})"
                                             wire:confirm="آیا از حذف مقاله ({{$article->title}}) مطمئن هستید؟"> حذف </button>
                                 </div>
@@ -240,6 +301,7 @@
                                 <div class="col-xl-2 my-auto text-center">
                                     <button class="btn btn-sm btn-primary rounded-3" wire:click="edit({{$article->id}})"> ویرایش </button>
                                 </div>
+
                             </div>
 
                         </div>

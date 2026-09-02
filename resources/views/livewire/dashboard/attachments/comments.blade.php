@@ -2,18 +2,18 @@
 
     <div class="row text-center mx-auto">
         <div class="col-xl-5 my-auto"></div>
-        <img class="col-xl-2 mx-auto" src="{{asset('storage/products/'.$model->image ?? $model->cover) }}"  alt="پیش نمایش">
+        <img class="col-xl-2 mx-auto" src="{{asset('storage/products/'.$model->image) }}"  alt="پیش نمایش">
         <div class="col-xl-5"></div>
     </div>
 
-    <div class="row text-center my-2"><h1>{{$model->name}}</h1></div>
+    <div class="row text-center my-2"><h1>{{$model->name ?? $model->title}}</h1></div>
 
     @if($comments->isNotEmpty())
 
         <div class="row mt-3 px-0">
 
             @if(count($showed_comments) == count($comments))
-                <div class="col-xl-1 mt-2 text-start"><label for="show"> نمایش همه </label></div>
+                <div class="col-xl-1 mt-2 text-start"><label for="show"> دیدن همه </label></div>
                 <div class="col-xl-1 mt-2"><input type="checkbox" id="show" wire:change="showNone" checked></div>
             @else
                 <div class="col-xl-2 mt-2 text-end"><label for="show"> نمایش {{count($showed_comments)}} از {{count($comments)}} </label></div>
