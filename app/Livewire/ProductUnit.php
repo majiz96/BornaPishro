@@ -38,10 +38,10 @@ class ProductUnit extends Component
 
         if (!$this->activeTable)
         {
-            $this->activeTable = Specification::where('product_id',$this->product->id)->first()->id;
+            $this->activeTable = Specification::where('product_id',$this->product->id)->first()?->id;
         }
 
-        $this->activePrice = Specification::where('id',$this->activeTable)->pluck('price')->first();
+        $this->activePrice = Specification::where('id',$this->activeTable)->pluck('price')?->first();
     }
 
     public function showGallery($id)
