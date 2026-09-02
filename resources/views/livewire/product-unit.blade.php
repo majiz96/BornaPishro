@@ -91,7 +91,7 @@
                 <h3 class="text-success"> {{ number_format($product->price) }} تومان</h3>
             @elseif($product->supply == 0)
                 <h3 class="text-danger"> ناموجود </h3>
-            @else
+            @elseif(!$activePrice || $activePrice == 0)
                 <h3 style="color: #84919e"> برای استعلام تماس بگیرید </h3>
             @endif
 
@@ -109,7 +109,18 @@
             @endforeach
 
             <div class="col-xl col-0"></div>
-            <div class="col-auto h3 text-success my-auto mx-lg-0 mx-auto my-auto mt-xl-0 mt-5"> {{ number_format($activePrice) }} تومان </div>
+            <div class="col-auto h3 text-success my-auto mx-lg-0 mx-auto my-auto mt-xl-0 mt-5">
+                @if($activePrice == 0)
+                    <h3 class="text-success"> {{ number_format($product->price) }} تومان</h3>
+                @elseif($product->price)
+                    {{ number_format($activePrice) }}
+                    تومان
+                @else
+                    <h3 style="color: #84919e"> برای استعلام تماس بگیرید </h3>
+                @endif
+            </div>
+
+
 
         @endif
 

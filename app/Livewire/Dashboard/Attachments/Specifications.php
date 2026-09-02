@@ -13,6 +13,7 @@ use App\Models\SpecValue;
 
 use Livewire\Attributes\Computed;
 use Livewire\Component;
+use phpDocumentor\Reflection\Types\Integer;
 
 class Specifications extends Component
 {
@@ -151,7 +152,10 @@ class Specifications extends Component
 
             $table = Specification::findOrFail($this->editingTable);
 
-            $table->update(['name' => $this->name, 'price' => $this->price]);
+            $table->update([
+                'name' => $this->name,
+                'price' => $this->price ? $this->price : null,
+            ]);
             $this->reset(['name', 'price','editingTable']);
         }
         else

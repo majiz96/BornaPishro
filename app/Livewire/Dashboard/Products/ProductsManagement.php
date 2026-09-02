@@ -124,7 +124,7 @@ class ProductsManagement extends Component
                 'brand_id' => $this->brand_id,
                 'brand_name' => $this->brand_name,
                 'intro' => $this->intro,
-                'price' => $this->price,
+                'price' => $this->price ? $this->price : null,
                 'image' => $imagename,
                 'discount' => $discount
             ]);

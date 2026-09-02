@@ -64,8 +64,9 @@
                         <div class="col-1 pt-1"><i class="bi-copy bg-body px-2 pt-1 rounded text-warning" wire:click="duplicate( {{$spec->id}} )"></i></div>
 
                         @if($spec->price)
-                            <div class="col-12 bg-dark rounded-bottom-4 rounded-top-2 mt-2 py-1 delete-badge" wire:click="selectTable({{$spec->id}})"> {{number_format($spec->price)}} تومان </div>
-
+                            <div class="col-12 bg-dark rounded-bottom-4 rounded-top-2 mt-2 py-1 delete-badge" wire:click="selectTable({{$spec->id}})">
+                                {{number_format($spec->price)}} تومان
+                            </div>
                         @endif
 
                     </div>
