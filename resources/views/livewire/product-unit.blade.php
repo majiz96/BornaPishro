@@ -1,4 +1,4 @@
-<div class="container overflow-x-hidden">
+<div class="container overflow-x-hidden avoid-emptiness">
 
     <div class="row mt-4 mx-sm-0 mx-3"><h2>{{$product->name ?? 'محصول'}}</h2></div>
 
@@ -48,7 +48,7 @@
         <div class="col-xl-8">
 
             <div class="row">
-                @if($product->UserProducts()->contains(auth()->id()))
+                @if($product->UserProducts->contains(auth()->id()))
 
                     <input type="checkbox" id="mark-{{$product->id}}" class="d-none">
 
@@ -57,7 +57,6 @@
                             ذخیره شده
                             <i class="bi-bookmark-check-fill me-3"></i>
                         </button>
-
                     </label>
 
                 @else
@@ -69,7 +68,6 @@
                             ذخیره
                             <i class="bi-bookmark me-3"></i>
                         </button>
-
                     </label>
 
                 @endif
