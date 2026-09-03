@@ -159,7 +159,7 @@
 
                 </div>
 
-
+                {{--       Filters        --}}
                 <div class="row">
                     @if($this->filters->isNotEmpty())
                         @foreach($this->filters as $filter)
