@@ -165,7 +165,7 @@
                     @forelse($group->units as $units)
                         <div class="row text-end border rounded mx-auto my-1 py-1" dir="rtl">
 
-                            <div class="col-xl-1 col-md-2 col-3 fw-bold border-start">{{$units->title}} </div>
+                            <div class="col-xl-2 col-md-2 col-3 fw-bold border-start">{{$units->title}} </div>
 
 
                             @forelse($units->values as $value)
