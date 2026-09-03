@@ -73,7 +73,7 @@ class ProductsManagement extends Component
         $this->brand_id = $product->brand_id;
         $this->brand_name = $product->brand_name;
         $this->intro = $product->intro;
-        $this->price = $product->price ?? 0;
+        $this->price = $product->price;
         $this->image = $product->image;
         $this->discount = $product->discount;
     }

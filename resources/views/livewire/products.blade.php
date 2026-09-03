@@ -1,4 +1,4 @@
-<div class="container-fluid">
+<div class="container-fluid avoid-emptiness">
 
     {{--  Showing & selecting categories  --}}
 
@@ -160,40 +160,40 @@
                 </div>
 
                 {{--       Filters        --}}
-                <div class="row">
-                    @if($this->filters->isNotEmpty())
-                        @foreach($this->filters as $filter)
+{{--                <div class="row">--}}
+{{--                    @if($this->filters->isNotEmpty())--}}
+{{--                        @foreach($this->filters as $filter)--}}
 
-                            <div class="row m-2 text-end border-bottom mx-auto">
-                                <h5>{{$filter->title}}</h5>
+{{--                            <div class="row m-2 text-end border-bottom mx-auto">--}}
+{{--                                <h5>{{$filter->title}}</h5>--}}
 
-                                @if($filter->units->isNotEmpty())
-                                    @foreach($filter->units as $unit)
+{{--                                @if($filter->units->isNotEmpty())--}}
+{{--                                    @foreach($filter->units as $unit)--}}
 
-                                        @foreach($unit->values as $value)
+{{--                                        @foreach($unit->values as $value)--}}
 
-                                            <div class="row">
-                                                <div class="col-xl-8 text-end">
-                                                    {{$value->value}}
-                                                    @if($value->suffix)
-                                                        {{$value->suffix}}
-                                                    @endif
-                                                </div>
+{{--                                            <div class="row">--}}
+{{--                                                <div class="col-xl-8 text-end">--}}
+{{--                                                    {{$value->value}}--}}
+{{--                                                    @if($value->suffix)--}}
+{{--                                                        {{$value->suffix}}--}}
+{{--                                                    @endif--}}
+{{--                                                </div>--}}
 
-                                                <div class="col-xl-4 text-start">
-                                                    <input type="{{$filter->type}}" wire:model.live="activeFilter" value="{{$value->id}}">
-                                                </div>
-                                            </div>
+{{--                                                <div class="col-xl-4 text-start">--}}
+{{--                                                    <input type="{{$filter->type}}" wire:model.live="activeFilter" value="{{$value->id}}">--}}
+{{--                                                </div>--}}
+{{--                                            </div>--}}
 
-                                            <br>
-                                        @endforeach
-                                    @endforeach
-                                @endif
+{{--                                            <br>--}}
+{{--                                        @endforeach--}}
+{{--                                    @endforeach--}}
+{{--                                @endif--}}
 
-                            </div>
-                        @endforeach
-                    @endif
-                </div>
+{{--                            </div>--}}
+{{--                        @endforeach--}}
+{{--                    @endif--}}
+{{--                </div>--}}
 
             </div>
 
@@ -204,10 +204,10 @@
                     @foreach($this->products as $product)
                         <a href="{{ route('product.show',$product->id) }}" class="col-xl-2 col-md-4 py-3 mx-auto delete-badge text-decoration-none">
 
-                            <div class="main-img text-center overflow-hidden border bg-white pb-3 mb-0 rounded-top-4">
+                            <div class="main-img text-center overflow-hidden border bg-white py-3 mb-0 rounded-top-4">
                                 <img class="rounded-top-4" src="{{asset('storage/products/'.$product->image) }}" height="180" alt="پیش نمایش">
 
-                                <div class="row mt-3"> <h4 style="color:#84919e"> {{$product->name}} </h4> </div>
+                                <div class="row mt-3 px-4"> <h4 style="color:#84919e"> {{$product->name}} </h4> </div>
 
                             </div>
 

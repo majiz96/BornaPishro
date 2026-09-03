@@ -52,8 +52,8 @@ class Products extends Component
         }
 
 //      set chosen and default value of minimum and maximum price
-        $this->priceMin = (int) Product::get()->min('price') ?? 0;
-        $this->priceMax = (int) Product::get()->max('price') ?? 1000000000;
+        $this->priceMin = (int) Product::get()->min('final_price') ?? 0;
+        $this->priceMax = (int) Product::get()->max('final_price') ?? 1000000000;
     }
     #[Computed]
     public function categories()
@@ -111,6 +111,7 @@ class Products extends Component
         else
         {
             $query->whereBetween($finalPrice, [$this->priceMin, $this->priceMax]);
+            $query->orWhereNull('price');
         }
 
 //        show only products which have supply
