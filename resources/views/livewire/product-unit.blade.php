@@ -47,6 +47,13 @@
         {{--  Briefs --}}
         <div class="col-xl-8">
 
+            <div class="row">
+                <button class="btn btn-outline-info w-auto px-3 py-1">
+                    ذخیره
+                    <i class="bi-bookmark me-3"></i>
+                </button>
+            </div>
+
             <div class="row px-1">
                 <ul class="mt-4">
                     @foreach($this->briefs as $brief)

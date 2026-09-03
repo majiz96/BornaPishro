@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
@@ -98,6 +99,11 @@ class Product extends Model
 
         return $this->price - ($this->price * ($this->discount/100));
 
+    }
+
+    public function UserProducts(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'user_product')->withTimestamps();
     }
 
     public function videos():MorphMany

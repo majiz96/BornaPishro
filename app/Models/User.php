@@ -103,9 +103,14 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->belongsToMany(Comment::class, 'comment_user')->withTimestamps();
     }
 
-    public function Comment(): BelongsTo
+    public function SavedProducts(): BelongsToMany
     {
-        return $this->belongsTo(Comment::class,'id','user_id');
+        return $this->belongsToMany(Product::class, 'user_product')->withTimestamps();
+    }
+
+    public function Comment(): MorphMany
+    {
+        return $this->morphMany(Comment::class,'commentable');
     }
 
 
