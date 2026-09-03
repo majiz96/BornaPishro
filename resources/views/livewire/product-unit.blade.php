@@ -48,10 +48,33 @@
         <div class="col-xl-8">
 
             <div class="row">
-                <button class="btn btn-outline-info w-auto px-3 py-1">
-                    ذخیره
-                    <i class="bi-bookmark me-3"></i>
-                </button>
+                @if($product->UserProducts()->contains(auth()->id()))
+
+                    <input type="checkbox" id="mark-{{$product->id}}" class="d-none">
+
+                    <label for="mark" wire:click="toggleMark({{$product->id}})">
+                        <button class="btn btn-success w-auto px-3 py-1">
+                            ذخیره شده
+                            <i class="bi-bookmark-check-fill me-3"></i>
+                        </button>
+
+                    </label>
+
+                @else
+
+                    <input type="checkbox" id="mark-{{$product->id}}" class="d-none">
+
+                    <label for="mark" wire:click="toggleMark({{$product->id}})">
+                        <button class="btn btn-outline-info w-auto px-3 py-1">
+                            ذخیره
+                            <i class="bi-bookmark me-3"></i>
+                        </button>
+
+                    </label>
+
+                @endif
+
+
             </div>
 
             <div class="row px-1">

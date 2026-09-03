@@ -116,6 +116,16 @@ class ProductUnit extends Component
 
     }
 
+    public function toggleMark(Product $product)
+    {
+        if (!auth()->check())
+        {
+            return redirect()->route('login');
+        }
+
+        $product->UserProducts()->toggle(auth()->id());
+    }
+
     #[Computed]
     public function chosenPic()
     {
