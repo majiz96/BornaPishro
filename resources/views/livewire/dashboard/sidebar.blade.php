@@ -6,7 +6,12 @@
         <li class="cs-header-user list-group-item text-center border h-auto py-1"> <h5>کاربری</h5> </li>
 
         <li class="list-group-item list-group-item-action text-end py-1 {{request()->routeIs('profile') ? 'active-page' : ''}}">
-            <a class="nav-link" href="{{route('profile')}}" wire:navigate> ویرایش پروفایل </a></li>
+            <a class="nav-link" href="{{route('profile')}}" wire:navigate> ویرایش پروفایل </a>
+        </li>
+
+        <li class="list-group-item list-group-item-action text-end py-1 {{request()->routeIs('my-products') ? 'active-page' : ''}}">
+            <a class="nav-link" href="{{route('my-products')}}" wire:navigate> محصولات من </a>
+        </li>
 
         @can('isManager')
             <li class="list-group-item list-group-item-action text-end py-1 {{request()->routeIs('users') ? 'active-page' : ''}}"><a class="nav-link" href="{{route('users')}}" wire:navigate> مدیریت کاربران </a></li>

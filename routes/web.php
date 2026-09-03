@@ -15,6 +15,7 @@ use App\Livewire\ArticleUnit;
 
 use App\Livewire\Dashboard\Users\EditProfile;
 use App\Livewire\Dashboard\Users\UsersManagement;
+use App\Livewire\Dashboard\Users\MyProducts;
 use App\Livewire\Dashboard\Website\Info;
 use App\Livewire\Dashboard\Website\Socials;
 use App\Livewire\Dashboard\Website\Licenses;
@@ -63,6 +64,7 @@ Route::middleware(['auth', 'verified'])->prefix('dashboard')->group(function () 
     //users routes
     Route::get('profile',EditProfile::class)->name('profile');
     Route::get('users',UsersManagement::class)->name('users');
+    Route::get('my-products',MyProducts::class)->name('my-products');
 
     //website routes
     Route::get('info',Info::class)->name('info');
