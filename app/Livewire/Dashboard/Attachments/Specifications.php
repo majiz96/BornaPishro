@@ -2,9 +2,7 @@
 
 namespace App\Livewire\Dashboard\Attachments;
 
-use App\Livewire\Dashboard\Website\Filters;
 use App\Models\Category;
-use App\Models\Filter;
 use App\Models\Product;
 use App\Models\Specification;
 use App\Models\SpecGroup;
@@ -17,7 +15,7 @@ use phpDocumentor\Reflection\Types\Integer;
 
 class Specifications extends Component
 {
-    public $product,$category,$name,$price,$group,$title,$value,$suffix,$filter_id;
+    public $product,$category,$name,$price,$group,$title,$value,$suffix;
 
     public $type = 'string';
 
@@ -100,7 +98,6 @@ class Specifications extends Component
         $unit = SpecUnit::findOrFail($id);
         $this->editingUnit = $id;
         $this->title = $unit->title;
-        $this->filter_id = $unit->filter_id;
     }
 
     public function editValue($id)
@@ -127,7 +124,7 @@ class Specifications extends Component
     public function cancelUnit()
     {
         $this->editingUnit = null;
-        $this->reset(['filter_id', 'title']);
+        $this->reset(['title']);
     }
 
     public function cancelValue()
@@ -221,21 +218,19 @@ class Specifications extends Component
         {
             $this->validate([
                     'title' => 'required|string',
-                    'filter_id' => 'nullable|integer',
                 ]
                 ,
                 [
                     'title.required'=>'هر گروه باید یک نام داشته باشد',
                 ]);
             $unit = SpecUnit::findOrFail($this->editingUnit);
-            $unit->update(['title' => $this->title,'filter_id' => $this->filter_id ? $this->filter_id : null]);
-            $this->reset(['title','filter_id','editingUnit']);
+            $unit->update(['title' => $this->title]);
+            $this->reset(['title','editingUnit']);
         }
         else
         {
             $this->validate([
                     'title' => 'required|string',
-                    'filter_id' => 'nullable|integer',
                 ]
                 ,
                 [
@@ -247,7 +242,6 @@ class Specifications extends Component
                 $activate = SpecUnit::where('group_id',$this->activeGroup)->create([
                     'group_id'=>$this->activeGroup,
                     'title'=>$this->title,
-                    'filter_id'=>$this->filter_id,
                 ]);
 
                 $this->activeUnit = $activate->id;
@@ -257,13 +251,13 @@ class Specifications extends Component
             {
                 $new = SpecGroup::create(['specification_id'=>$this->activeTable,'title'=>'مشخصات']);
 
-                $activate = $new->units()->create(['title'=>$this->title,'filter_id'=>$this->filter_id]);
+                $activate = $new->units()->create(['title'=>$this->title]);
 
                 $this->activeGroup = $new->id;
                 $this->activeUnit = $activate->id;
 
             }
-            $this->reset(['title','filter_id','group']);
+            $this->reset(['title','group']);
 
 
         }
@@ -276,46 +270,34 @@ class Specifications extends Component
             $value = SpecValue::findOrFail($this->editingValue);
 
             $this->validate([
-                'type' => 'required|string',
                 'value'=>'required|string',
-                'suffix'=>'nullable|string',
             ],
                 [
-                    'type.required'=>'وارد کردن نوع مقدار ضروری است',
                     'value.required'=>'وارد کردن مقدار ضروری است',
-                    'suffix.required'=>'پسوند مقادیر باید متنی باشد'
                 ]);
 
             $value->update([
-                'type'=>$this->type,
                 'value'=>$this->value,
-                'suffix'=>$this->suffix
             ]);
 
-            $this->reset(['type','value','suffix','editingValue']);
+            $this->reset(['value','editingValue']);
 
         }
         else
         {
 
             $this->validate([
-                'type' => 'required|string',
                 'value'=>'required|string',
-                'suffix'=>'nullable|string',
             ],
                 [
-                    'type.required'=>'وارد کردن نوع مقدار ضروری است',
                     'value.required'=>'وارد کردن مقدار ضروری است',
-                    'suffix.required'=>'پسوند مقادیر باید متنی باشد'
                 ]);
 
             if(SpecUnit::where('group_id',$this->activeGroup)->exists())
             {
                 SpecValue::where('unit_id',$this->activeUnit)->create([
                     'unit_id'=>$this->activeUnit,
-                    'type'=>$this->type,
                     'value'=>$this->value,
-                    'suffix'=>$this->suffix
                 ]);
             }
             else
@@ -323,14 +305,12 @@ class Specifications extends Component
                 $unit = SpecUnit::where('group_id',$this->activeGroup)->create(['group_id'=>$this->activeGroup,'title'=>'عنوان مشخصه']);
                 $unit->values()->create([
                     'unit_id'=>$this->activeUnit,
-                    'type'=>$this->type,
                     'value'=>$this->value,
-                    'suffix'=>$this->suffix
                 ]);
             }
 
 
-            $this->reset(['type','value','suffix','value']);
+            $this->reset(['value']);
         }
     }
 
@@ -457,7 +437,6 @@ class Specifications extends Component
             {
                 $newUnit = SpecUnit::create([
                     'group_id' => $newGroup->id,
-                    'filter_id' => $unit->filter_id,
                     'title' => $unit->title,
                 ]);
 
@@ -466,7 +445,6 @@ class Specifications extends Component
                     SpecValue::create([
                         'unit_id' => $newUnit->id,
                         'value' => $value->value,
-                        'suffix' => $value->suffix,
                     ]);
                 }
             }
@@ -516,7 +494,6 @@ class Specifications extends Component
             {
                 $cloneUnit = SpecUnit::create([
                     'group_id' => $cloneGroup->id,
-                    'filter_id' => $unit->filter_id,
                     'title' => $unit->title,
                 ]);
 
@@ -598,14 +575,6 @@ class Specifications extends Component
     public function Groups()
     {
         return SpecGroup::where('specification_id',$this->activeTable)->get();
-    }
-
-    #[Computed]
-    public function Filters()
-    {
-        return Filter::where('category_id',$this->product->category->id)
-            ->where('show',true)
-            ->get();
     }
 
     public function render()

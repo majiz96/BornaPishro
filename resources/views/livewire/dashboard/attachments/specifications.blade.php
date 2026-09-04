@@ -1,19 +1,16 @@
 <div class="container">
 
-    <div class="row border">
-
-        <div class="col-xl-2 text-center side-img2 border">
-            <img class="mx-auto social-icon rounded p-2" src="{{asset('storage/products/'.$product->image) }}"  alt="پیش نمایش">
-            <h2>{{$product->name}}</h2>
-
+    <div class="row my-3 main-img text-center">
+        <div class="col-xl-3 mx-auto gallery-img">
+            <img class="mx-auto social-icon rounded p-2" src="{{asset('storage/products/'.$product->image) }}" alt="پیش نمایش">
         </div>
 
-        <div class="col-xl-10">
+            <h2 class="my-3">{{$product->name}}</h2>
+    </div>
 
-            <div class="row m-3">
-                <button class="btn btn-success" wire:click="openCloneList"> استفاده از جدول محصول دیگر </button>
-            </div>
+    <div class="row border">
 
+            <button class="btn btn-success rounded-0 mx-auto" wire:click="openCloneList"> استفاده از جدول محصول دیگر </button>
 
             <form wire:submit.prevent="saveTable" class="row py-2">
                 <div class="col-xl-1 my-auto"> <label for="name"> نام جدول </label> </div>
@@ -40,8 +37,6 @@
                 </div>
 
             </form>
-
-        </div>
 
     </div>
 
@@ -87,7 +82,7 @@
         {{--  Specification Groups  --}}
         <form wire:submit.prevent="saveGroup" class="row border py-2">
 
-            <div class="col-xl-1 my-auto"> <label for="group"> عنوان گروه </label> </div>
+            <div class="col-xl-1 my-auto"> <label for="group"> نام گروه </label> </div>
 
             <div class="col-xl-4 my-auto">
                 <input type="text" id="group" class="form-control" wire:model.blur="group">
@@ -111,24 +106,8 @@
         {{--  Specification Unit --}}
         <form wire:submit.prevent="saveUnit" class="row py-2 border">
 
-            <div class="col-xl-2 my-auto">
-
-                <select wire:model.live="filter_id" class="form-select">
-                    @if($this->Filters->isNotEmpty())
-                        <option value="">انتخاب برای فیلتر</option>
-                        @foreach($this->Filters as $filter)
-                            <option value="{{$filter->id}}">{{$filter->title}}</option>
-                        @endforeach
-                    @else
-                        <option value="">فیلتری ثبت نشده است</option>
-                    @endif
-
-                </select>
-
-            </div>
-
-            <div class="col-xl-1 my-auto text-start"> <label for="title"> عنوان </label> </div>
-            <div class="col-xl-2 my-auto">
+            <div class="col-xl-1 my-auto"> <label for="title"> عنوان سطر </label> </div>
+            <div class="col-xl-4 my-auto">
                 <input type="text" id="title" class="form-control" wire:model.live="title">
                 @error('title') <small> {{$message}} </small> @enderror
             </div>
@@ -150,36 +129,13 @@
         {{--  Specification Value --}}
         <form wire:submit.prevent="saveValue" class="row py-2 border">
 
-            <div class="col-xl-1 my-auto text-center">
-                <input type="radio" class="btn-check mx-3" id="btn-check-string-outlined" autocomplete="off" wire:model.live="type" value="string">
-                <label class="btn btn-outline-success w-auto rounded-5 py-2" for="btn-check-string-outlined">متنی</label>
-            </div>
-
-            <div class="col-xl-1 my-auto text-center">
-                <input type="radio" class="btn-check mx-3" id="btn-check-integer-outlined" autocomplete="off" wire:model.live="type" value="integer">
-                <label class="btn btn-outline-primary w-auto rounded-5 py-2" for="btn-check-integer-outlined">عددی</label>
-            </div>
-
-            <div class="col-xl-1 my-auto text-start"> <label for="value"> مقدار </label> </div>
-            <div class="col-xl-2 my-auto">
+            <div class="col-xl-1 my-auto"> <label for="value"> مقدار </label> </div>
+            <div class="col-xl-4 my-auto">
                 <input type="text" id="value" class="form-control" wire:model.live="value">
                 @error('value') <small> {{$message}} </small> @enderror
             </div>
 
-
-            @if($type == 'integer')
-                <div class="col-xl-1 my-auto text-start"> <label for="suffix"> پسوند </label> </div>
-                <div class="col-xl-1 my-auto">
-                    <input type="text" id="suffix" class="form-control" wire:model.live="suffix">
-                    @error('suffix') <small> {{$message}} </small> @enderror
-                </div>
-                <div class="col-xl-2"></div>
-            @else
-
-                <div class="col-xl-4"></div>
-            @endif
-
-
+            <div class="col-xl-4"></div>
 
             <div class="col-xl-3 my-auto text-start">
 
@@ -274,18 +230,7 @@
 
                                                 <div class="row text-end pe-3 border rounded-5 py-1 my-2 mx-auto">
 
-                                                    @if($value->type == 'integer')
-                                                        <div class="col-4">
-                                                            <span class="mx-1">{{$value->value}}</span>
-                                                            <span>{{$value->suffix}}</span>
-                                                        </div>
-
-                                                        <div class="col-6"></div>
-                                                    @else
                                                         <div class="col-10">{{$value->value}}</div>
-                                                    @endif
-
-
 
                                                     <div class="col-1 text-start"><i class="bi-trash-fill text-danger" wire:click="deleteValue({{$value->id}})"
                                                                                      wire:confirm="آیا از حذف مقدار ({{$value->value}}) مطمئن هستید؟"></i></div>
