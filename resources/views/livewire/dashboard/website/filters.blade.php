@@ -11,22 +11,13 @@
         </div>
 
         <div class="col-xl-2 my-auto">
-            <select class="form-select" wire:model.blur="type">
-                <option value="">نوع فیلتر</option>
-                <option value="checkbox">انتخاب (چندتایی)</option>
-                <option value="range">محدوده</option>
-            </select>
-            @error('type') <small class="text-danger"> {{$message}} </small> @enderror
-        </div>
-
-        <div class="col-xl-2 my-auto">
             <select class="form-select" wire:model.live="field_id">
 
                 <option value="">انتخاب موضوع</option>
 
-                @if($fields->isNotEmpty())
+                @if($this->Fields->isNotEmpty())
 
-                    @foreach($fields as $field)
+                    @foreach($this->Fields as $field)
                     <option value="{{$field->id}}"> {{$field->name}} </option>
                     @endforeach
 
@@ -43,11 +34,11 @@
             @if($field_id)
                 <select class="form-select" wire:model.live="category_id">
 
-                    <option value="">انتخاب دسته</option>
+                    <option value="">همه دسته ها</option>
 
-                    @if($categories->isNotEmpty())
+                    @if($this->Categories->isNotEmpty())
 
-                        @foreach($categories as $category)
+                        @foreach($this->Categories as $category)
 
                             @if($category->children->isNotEmpty())
 
@@ -87,7 +78,7 @@
 
 
 
-        <div class="col-xl-2 text-start my-auto">
+        <div class="col-xl-4 text-start my-auto">
 
             @if($editing)
                 <button type="button" class="btn btn-danger rounded-3 mx-2" wire:click="cancel">انصراف</button>
@@ -100,10 +91,10 @@
 
     </form>
 
-    @if($fields->isNotEmpty())
+    @if($this->Fields->isNotEmpty())
 
        <div class="row text-center py-2 mt-4">
-        @foreach($fields as $field)
+        @foreach($this->Fields as $field)
 
              <input type="radio" class="btn-check mx-3" id="btn-check-{{$field->id}}-outlined" wire:model.live="activeField" value="{{$field->id}}">
              <label class="btn btn-outline-secondary w-auto rounded-4 mx-auto" for="btn-check-{{$field->id}}-outlined" wire:click="selectField({{$field->id}})">
@@ -142,7 +133,7 @@
                 </div>
             </div>
 
-        @if($filters->isNotEmpty())
+        @if($this->Filters->isNotEmpty())
 
             <div class="cs-navbar row text-center py-2 mt-4 mb-2 border rounded-4">
 
@@ -150,22 +141,21 @@
 
 
 
-                    @if(count($showed) == count($filters))
+                    @if(count($showed) == count($this->Filters))
                         <div class="col-xl-1 my-auto">
                             <label for="show"> نمایش همه </label>
                             <input type="checkbox" id="show" wire:change="showNone" checked>
                         </div>
                     @else
                         <div class="col-xl-1 my-auto">
-                            <label for="show"> نمایش ({{count($showed) .'/'. count($filters)}}) </label>
+                            <label for="show"> نمایش ({{count($showed) .'/'. count($this->Filters)}}) </label>
                             <input type="checkbox" id="show" wire:change="showAll">
                         </div>
                     @endif
 
 
                 <div class="col-xl-1 my-auto">ردیف</div>
-                <div class="col-xl-2 my-auto">عنوان</div>
-                <div class="col-xl-1 my-auto">نوع نمایش</div>
+                <div class="col-xl-3 my-auto">عنوان</div>
                 <div class="col-xl-3 my-auto">دسته</div>
                 <div class="col-xl-1 my-auto">مقادیر</div>
 
@@ -186,17 +176,16 @@
 
             </div>
 
-                @foreach($filters as $filter)
+                @foreach($this->Filters as $filter)
                 <div class="row text-center py-2 my-3 border rounded-4">
 
                     <div class="col-xl-1 my-auto"><input type="checkbox" wire:model.live="selected" value="{{$filter->id}}"></div>
-                    <div class="col-xl-1 my-auto"><input type="checkbox" wire:change="toggleShow({{$filter->id}})" @checked($filter->show == 1)></div>
+                    <div class="col-xl-1 my-auto"><input type="checkbox" wire:change="toggleShow({{$filter->id}})" @checked($filter->show == true)></div>
                     <div class="col-xl-1 my-auto">{{$counter++}}</div>
-                    <div class="col-xl-2 my-auto">{{$filter->title}}</div>
-                    <div class="col-xl-1 my-auto">{{$filter->type}}</div>
-                    <div class="col-xl-3 my-auto">{{$filter->category->name}}</div>
+                    <div class="col-xl-3 my-auto">{{$filter->title}}</div>
+                    <div class="col-xl-3 my-auto">{{$filter->category->name ?? 'عمومی'}}</div>
 
-                    <div class="col-xl-1 my-auto"> <button class="btn btn-sm btn-success rounded-3" wire:click="showModal({{$filter->id}})"> مشاهده </button> </div>
+                    <div class="col-xl-1 my-auto"> <button class="btn btn-sm btn-link text-success fw-bolder rounded-3" wire:click="showModal({{$filter->id}})"> مشاهده </button> </div>
 
                     <div class="col-xl-1 my-auto">
                         <button class="btn btn-sm btn-danger rounded-3" wire:click="delete({{$filter->id}})" wire:confirm="آیا از حذف فیلتر ({{$filter->title}}) مطمئن هستید؟">
@@ -220,7 +209,7 @@
     @endif
 
     @if($perPage !== "")
-    {{$filters->links(data:['scrollTo',false])}}
+    {{$this->Filters->links(data:['scrollTo',false])}}
     @endif
 
 </div>

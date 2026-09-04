@@ -3,6 +3,7 @@
 namespace App\Livewire\Dashboard\Website;
 
 use App\Models\Product;
+use Livewire\Attributes\Computed;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -16,7 +17,7 @@ class Filters extends Component
     use WithPagination;
     protected $paginationTheme = 'bootstrap';
 
-    public $field_id,$category_id,$title,$type,$show,$activeField;
+    public $field_id,$category_id,$title,$show,$activeField;
 
     public $counter = 1;
     public $counterModal = 1;
@@ -36,16 +37,24 @@ class Filters extends Component
 
     public $rules = [
         'field_id' => 'required',
-        'category_id' => 'required',
+        'category_id' => 'nullable',
         'title' => 'required',
-        'type' => 'required',
     ];
     public $messages = [
         'field_id.required' => 'انتخاب موضوع لازم است',
-        'category_id.required'=>'انتخاب دسته لازم است',
         'title.required'=>'عنوانی برای فیلتر ننوشتید',
-        'type.required'=>'انتخاب نوع نمایش فیلتر لازم است',
     ];
+
+    public function mount()
+    {
+
+        if(!$this->activeField)
+        {
+            $this->activeField = Field::all()->last()?->id;
+        }
+
+        $this->showed = Filter::where('field_id',$this->activeField)->where('show',1)->pluck('id')->toArray();
+    }
 
     public function edit($id)
     {
@@ -54,11 +63,10 @@ class Filters extends Component
         $this->field_id = $filter->field_id;
         $this->category_id = $filter->category_id;
         $this->title = $filter->title;
-        $this->type = $filter->type;
     }
     public function cancel()
     {
-        $this->reset(['field_id','category_id','title','type','editing']);
+        $this->reset(['field_id','category_id','title','editing']);
     }
 
     public function save()
@@ -73,10 +81,9 @@ class Filters extends Component
                'field_id' => $this->field_id,
                'category_id' => $this->category_id,
                'title' => $this->title,
-               'type' => $this->type,
            ]);
 
-           $this->reset(['field_id','category_id','title','type','editing']);
+           $this->reset(['field_id','category_id','title','editing']);
         }
         else
         {
@@ -84,10 +91,9 @@ class Filters extends Component
                 'field_id' => $this->field_id,
                 'category_id' => $this->category_id,
                 'title' => $this->title,
-                'type' => $this->type,
             ]);
 
-            $this->reset(['field_id','category_id','title','type']);
+            $this->reset(['field_id','category_id','title']);
         }
     }
 
@@ -99,7 +105,7 @@ class Filters extends Component
     public function toggleShow($id)
     {
         $filter = Filter::findOrFail($id);
-        $filter->show = $filter->show == 1 ? 0 : 1;
+        $filter->show = $filter->show == true ? false : true;
         $filter->save();
     }
 
@@ -111,6 +117,21 @@ class Filters extends Component
     public function showNone()
     {
         Filter::where('field_id', $this->activeField)->where('show', 1)->update(['show' => 0]);
+        $this->showed = [];
+    }
+
+    public function toggleDisplay()
+    {
+        if($this->showed)
+        {
+            Filter::where('field_id', $this->activeField)->where('show', 1)->update(['show' => 0]);
+            $this->showed = [];
+        }
+        else
+        {
+            Filter::where('field_id', $this->activeField)->where('show', 0)->update(['show' => 1]);
+        }
+
     }
 
     public function updatedSelectAll($value)
@@ -160,37 +181,44 @@ class Filters extends Component
         $this->reset();
     }
 
-    public function render()
+    #[Computed]
+    public function Fields()
     {
-        $fields = Field::all();
+        return Field::all();
+    }
 
-        if(!$this->activeField)
+    #[Computed]
+    public function Categories()
+    {
+        if ($this->Fields())
         {
-            $this->activeField = Field::all()->last()->id;
-        }
-
-        if($this->field_id)
-        {
-            $categories = Category::with('children','parent')
+            return Category::with('children','parent')
                 ->where('parent_id',null)
                 ->where('field_id',$this->field_id)
                 ->get();
         }
         else
         {
-            $categories = Category::where('parent_id',null)->get();
+            return Category::where('parent_id',null)->get();
         }
+    }
+
+    #[Computed]
+    public function Filters()
+    {
 
         $query = Filter::with('category')
             ->where('field_id',$this->activeField)
             ->where('title','like','%'.$this->search.'%')
+            ->WhereNull('category_id')
             ->orderBy($this->sort,$this->direction);
 
-        $filters = ($this->perPage == "") ? $query->get() : $query->paginate($this->perPage);
+        return ($this->perPage == "") ? $query->get() : $query->paginate($this->perPage);
+    }
 
-        $this->showed = Filter::where('field_id',$this->activeField)->where('show',1)->pluck('id')->toArray();
-
-        return view('livewire.dashboard.website.filters',compact('fields','categories','filters'))
+    public function render()
+    {
+        return view('livewire.dashboard.website.filters')
             ->layout('components.layouts.dashboards');
     }
 }
