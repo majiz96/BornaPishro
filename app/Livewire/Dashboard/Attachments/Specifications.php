@@ -62,7 +62,7 @@ class Specifications extends Component
             if(!$this->activeTable)
             {
                 $this->activeTable = $this->first_table;
-                $firstGroup = SpecGroup::where('specification_id',$this->activeTable)->first()->id;
+                $firstGroup = SpecGroup::where('specification_id',$this->activeTable)->first()?->id;
             }
 
             if($firstGroup && !$this->activeGroup)
@@ -228,7 +228,7 @@ class Specifications extends Component
                     'title.required'=>'هر گروه باید یک نام داشته باشد',
                 ]);
             $unit = SpecUnit::findOrFail($this->editingUnit);
-            $unit->update(['title' => $this->title,'filter_id' => $this->filter_id]);
+            $unit->update(['title' => $this->title,'filter_id' => $this->filter_id ? $this->filter_id : null]);
             $this->reset(['title','filter_id','editingUnit']);
         }
         else

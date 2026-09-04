@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Filter extends Model
 {
     protected $table = 'filters';
-    protected $fillable = ['field_id','category_id','title','type','show'];
+    protected $fillable = ['field_id','category_id','title','show'];
 
     public function field(): BelongsTo
     {
@@ -21,9 +21,9 @@ class Filter extends Model
         return $this->belongsTo(Category::class);
     }
 
-    public function units():HasMany
+    public function options(): HasMany
     {
-        return $this->hasMany(SpecUnit::class);
+        return $this->hasMany(Option::class,'filter_id','id');
     }
 
     public function articles():HasMany

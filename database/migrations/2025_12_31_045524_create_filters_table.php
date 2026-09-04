@@ -14,9 +14,8 @@ return new class extends Migration
         Schema::create('filters', function (Blueprint $table) {
             $table->id();
             $table->foreignId('field_id')->constrained('fields');
-            $table->foreignId('category_id')->constrained('categories');
+            $table->foreignId('category_id')->nullable()->constrained('categories');
             $table->string('title');
-            $table->string('type')->nullable();
             $table->boolean('show')->default(false);
             $table->timestamps();
         });

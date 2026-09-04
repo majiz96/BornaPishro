@@ -11,10 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('spec_values', function (Blueprint $table) {
+        Schema::create('options', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('unit_id')->constrained('spec_units')->cascadeOnDelete();
-            $table->string('value');
+            $table->foreignId('filter_id')->constrained('filters')->cascadeOnDelete();
+            $table->string('name');
+            $table->boolean('show')->default(false);
             $table->timestamps();
         });
     }
@@ -24,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('spec_values');
+        Schema::dropIfExists('options');
     }
 };

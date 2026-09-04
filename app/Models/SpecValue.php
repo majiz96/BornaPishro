@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class SpecValue extends Model
 {
     protected $table = 'spec_values';
-    protected $fillable = ['unit_id', 'value','type','suffix'];
+    protected $fillable = ['unit_id', 'value'];
 
     public function specUnit():BelongsTo
     {
