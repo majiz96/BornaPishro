@@ -14,8 +14,10 @@ return new class extends Migration
         Schema::create('fields', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('model')->nullable();
             $table->string('route')->nullable();
             $table->integer('show_menu')->nullable();
+            $table->unsignedTinyInteger('order')->nullable();
             $table->string('image')->nullable();
             $table->timestamps();
         });

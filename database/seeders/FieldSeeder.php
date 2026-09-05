@@ -14,21 +14,28 @@ class FieldSeeder extends Seeder
      */
     public function run(): void
     {
+
         Field::create([
             'name'=>'مقالات',
+            'model'=>'App\Models\Article',
             'route' => 'articles',
+            'order' => 3,
             'show_menu' => true
         ]);
 
         Field::create([
             'name'=>'خدمات',
+            'model'=>'App\Models\Service',
             'route' => 'services',
+            'order' => 2,
             'show_menu' => true
         ]);
 
         Field::create([
             'name'=>'محصولات',
+            'model'=>'App\Models\Product',
             'route' => 'products',
+            'order' => 1,
             'show_menu' => true
         ]);
     }
