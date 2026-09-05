@@ -21,6 +21,7 @@ use App\Livewire\Dashboard\Website\Socials;
 use App\Livewire\Dashboard\Website\Licenses;
 use App\Livewire\Dashboard\Website\Categories;
 use App\Livewire\Dashboard\Website\Filters;
+use App\Livewire\Dashboard\Website\Options;
 use App\Livewire\Dashboard\Website\Communications;
 use App\Livewire\Dashboard\Website\Notices;
 use App\Livewire\Dashboard\Products\ProductsManagement;
@@ -72,6 +73,7 @@ Route::middleware(['auth', 'verified'])->prefix('dashboard')->group(function () 
     Route::get('licences',Licenses::class)->name('licenses');
     Route::get('categories',Categories::class)->name('categories');
     Route::get('filters',Filters::class)->name('filters');
+    Route::get('options/{filter}',Options::class)->name('options');
     Route::get('notices',Notices::class)->name('notices');
     Route::get('comms',Communications::class)->name('comms');
 

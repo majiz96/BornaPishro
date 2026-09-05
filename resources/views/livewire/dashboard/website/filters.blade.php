@@ -185,7 +185,11 @@
                     <div class="col-xl-3 my-auto">{{$filter->title}}</div>
                     <div class="col-xl-3 my-auto">{{$filter->category->name ?? 'عمومی'}}</div>
 
-                    <div class="col-xl-1 my-auto"> <button class="btn btn-sm btn-link text-success fw-bolder rounded-3" wire:click="showModal({{$filter->id}})"> مشاهده </button> </div>
+                    <div class="col-xl-1 my-auto">
+                        <a href="{{route('options',$filter->id)}}" class="text-decoration-none">
+                        <button class="btn btn-sm btn-link text-success fw-bolder rounded-3" wire:click="showModal({{$filter->id}})"> مشاهده </button>
+                        </a>
+                    </div>
 
                     <div class="col-xl-1 my-auto">
                         <button class="btn btn-sm btn-danger rounded-3" wire:click="delete({{$filter->id}})" wire:confirm="آیا از حذف فیلتر ({{$filter->title}}) مطمئن هستید؟">
