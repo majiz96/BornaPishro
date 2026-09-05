@@ -15,6 +15,8 @@ class Articles extends Component
     use WithPagination;
     protected $paginationTheme = 'bootstrap';
 
+    public $field_id;
+
     public array $activeCategory = [];
     public array $activeFilter = [];
 
@@ -33,6 +35,8 @@ class Articles extends Component
     public $modalCategories,$modalFilters,$modalOrders;
     public function mount(Category $category)
     {
+        $this->field_id = Field::where('model',Article::class)->first()?->id;
+
         $this->category = $category->id;
 
         if($this->category)
@@ -49,8 +53,7 @@ class Articles extends Component
     public function categories()
     {
         return Category::with('children')
-            ->where('field_id', 1)
-            ->where('id', '<', 99)
+            ->where('field_id', $this->field_id)
             ->get();
     }
 
@@ -65,16 +68,14 @@ class Articles extends Component
 
 // show all filters
         if (empty($allCategories)) {
-            return Filter::where('field_id', 1)
-                ->orWhere('category_id', 100)
+            return Filter::where('field_id', $this->field_id)
                 ->where('show', 1)
                 ->get();
         }
 
 //        show filters in selected categories
-        return Filter::where('field_id', 1)
+        return Filter::where('field_id', $this->field_id)
             ->whereIn('category_id', $allCategories)
-            ->orWhere('category_id', 100)
             ->where('show', 1)
             ->get();
     }

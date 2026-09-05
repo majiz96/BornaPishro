@@ -143,7 +143,7 @@ class Discounts extends Component
     public function categories()
     {
         return Category::with('children','products')
-            ->where('field_id',3)
+            ->where('model',Product::class)
             ->get()
             ->filter->has_price
             ->values();

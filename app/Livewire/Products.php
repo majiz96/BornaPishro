@@ -15,6 +15,8 @@ class Products extends Component
     use WithPagination;
     protected $paginationTheme = 'bootstrap';
 
+    public $field_id;
+
     public $category;
     public array $activeCategory = [];
     public array $activeFilter = [];
@@ -40,6 +42,8 @@ class Products extends Component
 
     public function mount(Category $category)
     {
+        $this->field_id = Field::where('model',Product::class)->first()?->id;
+
         $this->category = $category->id;
 
         if($this->category)
@@ -59,7 +63,7 @@ class Products extends Component
     public function categories()
     {
         return Category::with('children')
-            ->where('field_id', 3)
+            ->where('field_id', $this->field_id)
             ->where('id', '<', 99)
             ->get();
     }
@@ -144,7 +148,7 @@ class Products extends Component
 // show all filters
         if (empty($allCategories)) {
             return Filter::with('units.values')
-                ->where('field_id', 3)
+                ->where('field_id', $this->field_id)
                 ->where('show', 1)
                 ->get();
         }

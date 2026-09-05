@@ -3,6 +3,7 @@
 namespace App\Livewire\Dashboard\Attachments;
 
 use App\Models\Category;
+use App\Models\Field;
 use App\Models\Product;
 use App\Models\Specification;
 use App\Models\SpecGroup;
@@ -17,7 +18,7 @@ class Specifications extends Component
 {
     public $product,$category,$name,$price,$group,$title,$value,$suffix;
 
-    public $type = 'string';
+    public  $field_id;
 
     public $activeTable,$activeGroup,$activeUnit,$first_table,$first_group,$first_unit;
 
@@ -41,6 +42,8 @@ class Specifications extends Component
 
     public function mount(Product $product)
     {
+        $this->field_id = Field::where('model',Product::class)->first()?->id;
+
         $this->product = $product;
 
         $this->category = $product->category->id;
@@ -529,7 +532,7 @@ class Specifications extends Component
     #[Computed]
     public function Categories()
     {
-        $query = Category::query()->where('field_id',3);
+        $query = Category::query()->where('field_id',$this->field_id);
 
         if($this->cloneCategorySearch)
         {

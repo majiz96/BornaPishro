@@ -5,6 +5,7 @@ namespace App\Livewire\Dashboard;
 use App\Models\Article;
 use App\Models\Category;
 use App\Models\Comment;
+use App\Models\Field;
 use App\Models\Filter;
 use App\Models\User;
 
@@ -23,6 +24,8 @@ class ArticlesManagement extends Component
 {
     use WithFileUploads, WithPagination;
     protected $paginationTheme = 'bootstrap';
+
+    public $field_id;
 
     public string $message = '';
 
@@ -87,11 +90,13 @@ class ArticlesManagement extends Component
 
     public function mount()
     {
+        $this->field_id = Field::where('model','App\Model\Article')->first()?->id;
+
         $this->canActive = Category::exists();
 
         if ($this->canActive)
         {
-            $this->firstParent = Category::where('field_id',1)->first()?->id;
+            $this->firstParent = Category::where('field_id',$this->field_id)->first()?->id;
             $this->activeParent = $this->firstParent;
 
             if($this->activeParent)
@@ -205,15 +210,15 @@ class ArticlesManagement extends Component
     {
         $this->activeParent = $id;
 
-        $count = Category::where('field_id',1)->where('parent_id',$this->activeParent)->count();
+        $count = Category::where('field_id',$this->field_id)->where('parent_id',$this->activeParent)->count();
 
         if($count > 0)
         {
-            $this->activeChild = Category::where('field_id',1)->where('parent_id',$this->activeParent)->first()->id;
+            $this->activeChild = Category::where('field_id',$this->field_id)->where('parent_id',$this->activeParent)->first()->id;
         }
         else
         {
-            $this->activeChild = Category::where('field_id',1)->where('parent_id',null)->first()->id;
+            $this->activeChild = Category::where('field_id',$this->field_id)->where('parent_id',null)->first()->id;
         }
 
     }
@@ -277,7 +282,7 @@ class ArticlesManagement extends Component
     #[Computed]
     public function filters()
     {
-        return Filter::where('field_id',1)
+        return Filter::where('field_id',$this->field_id)
             ->where('category_id',$this->activeChild)
             ->orWhere('category_id',$this->activeParent)
             ->orWhere('category_id',100)
@@ -289,7 +294,7 @@ class ArticlesManagement extends Component
     public function Categories()
     {
         return Category::with('children','parent','articles')
-            ->where('field_id',1)
+            ->where('field_id',$this->field_id)
             ->where('parent_id',null)
             ->get();
     }
@@ -298,7 +303,7 @@ class ArticlesManagement extends Component
     public function Children()
     {
         return Category::with('children','parent')
-            ->where('field_id',1)
+            ->where('field_id',$this->field_id)
             ->where('parent_id',$this->activeParent)
             ->get();
     }

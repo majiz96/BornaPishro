@@ -16,6 +16,7 @@ class Services extends Component
     use WithPagination;
     protected $paginationTheme = 'bootstrap';
 
+    public $field_id;
     public array $activeCategory = [];
     public array $activeFilter = [];
 
@@ -36,6 +37,8 @@ class Services extends Component
 
     public function mount(Category $category)
     {
+        $this->field_id = where('model',Service::class)->first()?->id;
+
         $this->category = $category->id;
 
         if ($this->category)
@@ -51,8 +54,7 @@ class Services extends Component
     public function categories()
     {
         return Category::with('children')
-            ->where('field_id', 2)
-            ->where('id', '<', 99)
+            ->where('field_id', $this->field_id)
             ->get();
     }
 
@@ -67,16 +69,14 @@ class Services extends Component
 
 // show all filters
         if (empty($allCategories)) {
-            return Filter::where('field_id', 2)
-                ->orWhere('category_id', 200)
+            return Filter::where('field_id', $this->field_id)
                 ->where('show', 1)
                 ->get();
         }
 
 //        show filters in selected categories
-        return Filter::where('field_id', 2)
+        return Filter::where('field_id', $this->field_id)
             ->whereIn('category_id', $allCategories)
-            ->orWhere('category_id', 200)
             ->where('show', 1)
             ->get();
     }

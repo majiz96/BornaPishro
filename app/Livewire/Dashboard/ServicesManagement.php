@@ -3,6 +3,7 @@
 namespace App\Livewire\Dashboard;
 
 use App\Models\Category;
+use App\Models\Field;
 use App\Models\Filter;
 use App\Models\Service;
 
@@ -18,6 +19,7 @@ class ServicesManagement extends Component
 {
     use WithFileUploads;
 
+    public $field_id;
     public string $err = '';
 
     public $category_id,$filter_id,$title,$intro,$content,$cover,$thumbnail,$show;
@@ -82,11 +84,13 @@ class ServicesManagement extends Component
 
     public function mount()
     {
+        $this->field_id = Field::where('model',Service::class)->first()?->id;
+
         $this->canActive = Category::exists();
 
         if ($this->canActive)
         {
-            $this->firstParent = Category::where('field_id',2)->first()?->id;
+            $this->firstParent = Category::where('field_id',$this->field_id)->first()?->id;
             $this->activeParent = $this->firstParent;
 
             if($this->activeParent)
@@ -227,15 +231,15 @@ class ServicesManagement extends Component
     {
         $this->activeParent = $id;
 
-        $count = Category::where('field_id',2)->where('parent_id',$id)->count();
+        $count = Category::where('field_id',$this->field_id)->where('parent_id',$id)->count();
 
         if ($count > 0)
         {
-            $this->activeChild = Category::where('field_id',2)->where('parent_id',$this->activeParent)->first()->id;
+            $this->activeChild = Category::where('field_id',$this->field_id)->where('parent_id',$this->activeParent)->first()->id;
         }
         else
         {
-            $this->activeChild = Category::where('field_id',2)->where('parent_id',null)->first()->id;
+            $this->activeChild = Category::where('field_id',$this->field_id)->where('parent_id',null)->first()->id;
         }
 
     }
@@ -285,7 +289,7 @@ class ServicesManagement extends Component
     public function Categories()
     {
         return Category::with('children','parent')
-            ->where('field_id',2)
+            ->where('field_id',$this->field_id)
             ->where('parent_id',null)
             ->get();
     }
@@ -294,7 +298,7 @@ class ServicesManagement extends Component
     public function Children()
     {
         return Category::with('children','parent')
-            ->where('field_id',2)
+            ->where('field_id',$this->field_id)
             ->where('parent_id',$this->activeParent)
             ->get();
     }
@@ -312,7 +316,7 @@ class ServicesManagement extends Component
     #[Computed]
     public function filters()
     {
-        return Filter::where('field_id',2)
+        return Filter::where('field_id',$this->field_id)
             ->where('category_id',$this->activeChild)
             ->orWhere('category_id',$this->activeParent)
             ->orWhere('category_id',200)
