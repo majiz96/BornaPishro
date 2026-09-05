@@ -21,8 +21,9 @@ class Categories extends Component
     public $editingCategory = null;
     public $editingChild = null;
 
+    public $permission = true;
 
-    public $field_name,$field_route,$field_logo,$field_show;
+    public $field_name,$field_route,$field_logo,$field_show,$field_order;
 
     public string $category_name;
 
@@ -34,25 +35,36 @@ class Categories extends Component
     public $fieldActive;
     public $categoryActive;
 
-    public function editField($id)
+    public function editField(Field $field)
     {
-        $field = Field::findOrFail($id);
-        $this->editingField = $field->id;
+
+        if($field->system)
+        {
+            $this->permission = false;
+        }
         $this->field_name = $field->name;
         $this->field_route = $field->route;
+        $this->editingField = $field->id;
         $this->field_logo = $field->image;
         $this->field_show = $field->show_menu;
+        $this->field_order = $field->order;
     }
 
     public function cancelField()
     {
     $this->editingField = null;
-    $this->reset(['field_name','field_route','field_logo','field_show']);
+    $this->reset(['field_name','field_route','field_logo','field_show','field_order','permission']);
     }
 
     protected $Field_Rules = [
         'field_name' => 'required|string|unique:fields,name',
         'field_route' => 'nullable|string|unique:fields,route',
+        'field_logo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:4096|unique:fields,image',
+    ];
+
+    protected $System_field_Rules = [
+        'field_name' => 'nullable|string',
+        'field_route' => 'nullable|string',
         'field_logo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:4096|unique:fields,image',
     ];
 
@@ -86,7 +98,15 @@ class Categories extends Component
         {
             $field = Field::findOrFail($this->editingField);
 
-            $this->validate($this->Field_Update_Rules , $this->Field_Update_Messages);
+            if($this->permission)
+            {
+                $this->validate($this->Field_Update_Rules , $this->Field_Update_Messages);
+            }
+            else
+            {
+                $this->validate($this->System_field_Rules);
+            }
+
 
             if(!is_string($this->field_logo))
             {
@@ -107,8 +127,10 @@ class Categories extends Component
 
 
             Field::findOrFail($this->editingField)->update([
+
                 'name' => $this->field_name,
                 'route' => $this->field_route,
+                'order' =>  $this->field_order,
                 'image' => $logoname,
                 'show_menu' => $this->field_show,
             ]);
@@ -132,7 +154,8 @@ class Categories extends Component
             Field::create([
                 'name'=>$this->field_name,
                 'route'=>$this->field_route,
-                'image'=>$logoname,
+                'image'=>$logoname ?? '',
+                'order'=>$this->field_order,
                 'show_menu'=>$this->field_show,
             ]);
 
@@ -143,12 +166,16 @@ class Categories extends Component
     public function deleteField($id)
     {
         $field = Field::findOrFail($id);
-        $field->delete();
-        Storage::disk('public')->delete('field_logos/'.$field->image);
 
-        if(Field::all())
+        if(!$field->system)
         {
-        $this->fieldActive = Field::first()->id ?? null;
+            $field->delete();
+            Storage::disk('public')->delete('field_logos/'.$field->image);
+
+            if(Field::all())
+            {
+                $this->fieldActive = Field::first()->id ?? null;
+            }
         }
 
     }

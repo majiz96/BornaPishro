@@ -20,6 +20,7 @@ class FieldSeeder extends Seeder
             'model'=>'App\Models\Article',
             'route' => 'articles',
             'order' => 3,
+            'system' => true,
             'show_menu' => true
         ]);
 
@@ -28,6 +29,7 @@ class FieldSeeder extends Seeder
             'model'=>'App\Models\Service',
             'route' => 'services',
             'order' => 2,
+            'system' => true,
             'show_menu' => true
         ]);
 
@@ -36,6 +38,7 @@ class FieldSeeder extends Seeder
             'model'=>'App\Models\Product',
             'route' => 'products',
             'order' => 1,
+            'system' => true,
             'show_menu' => true
         ]);
     }

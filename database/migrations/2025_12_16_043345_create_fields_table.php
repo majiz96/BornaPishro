@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('route')->nullable();
             $table->integer('show_menu')->nullable();
             $table->unsignedTinyInteger('order')->nullable();
+            $table->boolean('system')->default(false);
             $table->string('image')->nullable();
             $table->timestamps();
         });

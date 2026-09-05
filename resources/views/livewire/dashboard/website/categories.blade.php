@@ -16,6 +16,9 @@
             <form wire:submit.prevent="saveField" class="row">
 
                 @csrf
+
+                @if($permission)
+
                     <label for="field_name" class="form-label my-1">نام زمینه</label>
                     <input type="text" id="field_name" class="form-control my-1" wire:model.blur="field_name">
                     @error('field_name') <small class="text-danger">{{ $message }}</small> @enderror
@@ -24,9 +27,24 @@
                     <input type="text" id="field_route" class="form-control my-1" wire:model.blur="field_route">
                     @error('field_route') <small class="text-danger">{{ $message }}</small> @enderror
 
+                @else
+                    <label for="field_name" class="form-label my-1">نام زمینه</label>
+                    <input type="text" id="field_name" class="form-control my-1" wire:model.blur="field_name" disabled>
+                    @error('field_name') <small class="text-danger">{{ $message }}</small> @enderror
+
+                    <label for="field_route" class="form-label my-1">مسیر زمینه</label>
+                    <input type="text" id="field_route" class="form-control my-1" wire:model.blur="field_route" disabled>
+                    @error('field_route') <small class="text-danger">{{ $message }}</small> @enderror
+                @endif
+
                     <label for="field_logo" class="form-label my-1">تصویر نماد زمینه</label>
                     <input type="file" id="field_logo" class="form-control my-1" wire:model.live="field_logo">
                     @error('field_logo') <small class="text-danger">{{ $message }}</small> @enderror
+
+                    <label for="field_order" class="form-label my-1">ترتیب نمایش</label>
+                <input type="number" id="field_order" class="form-control my-1" wire:model.blur="field_order">
+                    @error('field_order') <small class="text-danger">{{ $message }}</small> @enderror
+
 
                 <div class="row">
                     @if($field_logo)
@@ -80,8 +98,11 @@
 
                             <div class="field col-xl-8 h5 my-auto" wire:click="selectField({{$field->id}})"> {{$field->name}} </div>
 
+                        @if(!$field->system)
                             <div class="col-xl-1 mt-2"><i class="bi-trash-fill"
-                            wire:confirm="آیا از حذف زمینه ی ({{$field->name}}) و تمام دسته هایش مطمئن هستید؟" wire:click="deleteField({{$field->id}})"></i></div>
+                             wire:confirm="آیا از حذف زمینه ی ({{$field->name}}) و تمام دسته هایش مطمئن هستید؟" wire:click="deleteField({{$field->id}})"></i></div>
+                        @endif
+
 
                             <div class="col-xl-1"></div>
                             <div class="col-xl-1 mt-2"><i class="bi-pen-fill" wire:click="editField({{$field->id}})"></i></div>
