@@ -12,7 +12,7 @@ class MyProducts extends Component
 
     public function deMark($id)
     {
-        auth()->user()->SavedProducts()->where('product_id', $id)->delete();
+        auth()->user()->SavedProducts()->detach($id);
     }
 
     #[Computed]
