@@ -62,12 +62,6 @@ class Categories extends Component
         'field_logo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:4096|unique:fields,image',
     ];
 
-    protected $System_field_Rules = [
-        'field_name' => 'nullable|string',
-        'field_route' => 'nullable|string',
-        'field_logo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:4096|unique:fields,image',
-    ];
-
     protected $Field_Messages = [
         'field_name.required' => 'هر زمینه به یک نام نیاز دارد',
         'field_name.string' => 'نام هر زمینه باید متنی باشد',
@@ -98,14 +92,7 @@ class Categories extends Component
         {
             $field = Field::findOrFail($this->editingField);
 
-            if($this->permission)
-            {
-                $this->validate($this->Field_Update_Rules , $this->Field_Update_Messages);
-            }
-            else
-            {
-                $this->validate($this->System_field_Rules);
-            }
+            $this->validate($this->Field_Update_Rules , $this->Field_Update_Messages);
 
 
             if(!is_string($this->field_logo))
