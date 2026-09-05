@@ -2,14 +2,18 @@
 
 namespace App\Models;
 
+use App\Observers\FieldObserver;
+
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\Cache;
 
+#[ObservedBy([FieldObserver::class])]
 class Field extends Model
 {
     protected $table = 'fields';
-    protected $fillable = ['name','route','image','show_menu'];
+    protected $fillable = ['name','model','route','image','show_menu','order','system'];
 
     public function filters(): HasMany
     {
@@ -26,7 +30,7 @@ class Field extends Model
         return Cache::remember(
             'website-fields',
             now()->addMonth(),
-            fn () => Field::all(),
+            fn () => Field::orderBy('order','ASC')->get(),
         );
     }
     public static function Menu()
@@ -44,14 +48,14 @@ class Field extends Model
 
     public static function booted():void
     {
-        $flush =function ()
-        {
-            Cache::forget('website-fields');
-            Cache::forget('menu-fields');
-        };
-
-        static::saved($flush);
-        static::deleted($flush);
+//        $flush =function ()
+//        {
+//            Cache::forget('website-fields');
+//            Cache::forget('menu-fields');
+//        };
+//
+//        static::saved($flush);
+//        static::deleted($flush);
 
     }
 
