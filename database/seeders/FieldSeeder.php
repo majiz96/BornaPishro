@@ -14,12 +14,11 @@ class FieldSeeder extends Seeder
      */
     public function run(): void
     {
-
         Field::create([
-            'name'=>'مقالات',
-            'model'=>'App\Models\Article',
-            'route' => 'articles',
-            'order' => 3,
+            'name'=>'محصولات',
+            'model'=>'App\Models\Product',
+            'route' => 'products',
+            'order' => 1,
             'system' => true,
             'show_menu' => true
         ]);
@@ -34,12 +33,13 @@ class FieldSeeder extends Seeder
         ]);
 
         Field::create([
-            'name'=>'محصولات',
-            'model'=>'App\Models\Product',
-            'route' => 'products',
-            'order' => 1,
+            'name'=>'مقالات',
+            'model'=>'App\Models\Article',
+            'route' => 'articles',
+            'order' => 3,
             'system' => true,
             'show_menu' => true
         ]);
+
     }
 }
