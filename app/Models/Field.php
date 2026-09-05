@@ -39,7 +39,7 @@ class Field extends Model
             'menu-fields',
             now()->addMonth(),
             fn()=>Field::where('show_menu', true)
-                ->orderBy('id','asc')
+                ->orderBy('order','asc')
                 ->get()
         );
 
