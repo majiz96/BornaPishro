@@ -90,7 +90,7 @@ class ArticlesManagement extends Component
 
     public function mount()
     {
-        $this->field_id = Field::where('model','App\Model\Article')->first()?->id;
+        $this->field_id = Field::where('model',Article::class)->first()?->id;
 
         $this->canActive = Category::exists();
 

@@ -50,7 +50,7 @@ class Filters extends Component
 
         if(!$this->activeField)
         {
-            $this->activeField = Field::all()->last()?->id;
+            $this->activeField = Field::all()->first()?->id;
         }
 
         $this->showed = Filter::where('field_id',$this->activeField)->where('show',1)->pluck('id')->toArray();
@@ -210,7 +210,8 @@ class Filters extends Component
         $query = Filter::with('category')
             ->where('field_id',$this->activeField)
             ->where('title','like','%'.$this->search.'%')
-            ->WhereNull('category_id')
+            ->orWhereNull('category_id')
+            ->where('field_id',$this->activeField)
             ->orderBy($this->sort,$this->direction);
 
         return ($this->perPage == "") ? $query->get() : $query->paginate($this->perPage);

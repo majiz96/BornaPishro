@@ -39,6 +39,7 @@ use App\Livewire\Dashboard\Attachments\Sources;
 use App\Livewire\Dashboard\Attachments\Briefs;
 use App\Livewire\Dashboard\Attachments\Specifications;
 use App\Livewire\Dashboard\Attachments\Comments;
+use App\Livewire\Dashboard\Attachments\SelectFilter;
 
 Route::get('/', function () {
     return view('welcome');
@@ -91,6 +92,7 @@ Route::middleware(['auth', 'verified'])->prefix('dashboard')->group(function () 
     Route::get('briefs/{product}',Briefs::class)->name('briefs.show');
     Route::get('specifications/{product}',Specifications::class)->name('specifications.show');
     Route::get('comments/{type}/{id}',Comments::class)->name('comments');
+    Route::get('select-filter/{type}/{id}',SelectFilter::class)->name('select-filter');
 
     Route::get('articles-management',ArticlesManagement::class)->name('articles-management');
 

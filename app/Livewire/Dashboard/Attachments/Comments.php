@@ -3,6 +3,7 @@
 namespace App\Livewire\Dashboard\Attachments;
 
 use App\Models\Comment;
+use App\Models\Field;
 use App\Models\Product;
 use App\Models\User;
 use Livewire\Component;
@@ -20,14 +21,14 @@ class Comments extends Component
     {
         $modelClass = "App\\Models\\{$type}";
 
-        abort_unless(
-            class_exists($modelClass) &&
-            is_subclass_of($modelClass, \Illuminate\Database\Eloquent\Model::class),
-            404
-        );
+       $allFields = Field::all();
+
+       if(!in_array($modelClass,$allFields->pluck('model')->toArray()))
+           abort(404);
 
         $this->type = $modelClass;
         $this->id = $id;
+
         $this->model = $modelClass::findOrFail($id);
     }
 

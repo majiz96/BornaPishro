@@ -256,7 +256,7 @@
 
                             <li class="d-flex">
                                 <a href="{{ route('comments', [
-                                        'type' => Product::Class,
+                                        'type' => "product",
                                         'id'   => $product->id,
                                     ]) }}" class="dropdown-item" wire:navigate>
                                     کامنت ها
@@ -267,8 +267,24 @@
                                         {{ $this->commentAlert($product->id) }}
                                     </span>
                                 @endif
-
                             </li>
+
+                            <li class="d-flex">
+                                <a href="{{ route('select-filter', [
+                                        'type' => "product",
+                                        'id'   => $product->id,
+                                    ]) }}" class="dropdown-item" wire:navigate>
+                                    فیلتر ها
+                                </a>
+
+                                @if($this->commentAlert($product->id))
+                                    <span class="mx-auto text-bg-danger px-1 py-0 rounded-5 ms-2">
+                                        {{ $this->commentAlert($product->id) }}
+                                    </span>
+                                @endif
+                            </li>
+
+
 
                         </ul>
 

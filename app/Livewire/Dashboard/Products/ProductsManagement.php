@@ -4,6 +4,7 @@ namespace App\Livewire\Dashboard\Products;
 
 
 use App\Models\Comment;
+use App\Models\Field;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
@@ -22,6 +23,8 @@ class ProductsManagement extends Component
 {
     use WithFileUploads, WithPagination;
     protected $paginationTheme = 'bootstrap';
+
+    public $field_id;
 
     public $category_id,$name,$fullname,$brand_id,$brand_name,$price,$discount,$supply,$intro,$show,$image;
 
@@ -62,6 +65,13 @@ class ProductsManagement extends Component
             'name.required'=>'هر محصول به یک نام نیاز دارد!',
             'category_id.required' => 'باید دسته محصول را مشخص کنید',
         ];
+
+    public function mount()
+    {
+        $model = Product::class;
+
+        $this->field_id = Field::where('model',$model)->first()->id;
+    }
 
     public function edit($id)
     {
@@ -224,7 +234,7 @@ class ProductsManagement extends Component
     public function render()
     {
      $categories = Category::with('children','parent')
-         ->where('field_id',3)
+         ->where('field_id',$this->field_id)
          ->whereNull('parent_id')
          ->get();
 
