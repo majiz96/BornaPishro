@@ -313,17 +313,6 @@ class ServicesManagement extends Component
         return ($this->perPage == "") ? $query->get() : $query->paginate($this->perPage);
     }
 
-    #[Computed]
-    public function filters()
-    {
-        return Filter::where('field_id',$this->field_id)
-            ->where('category_id',$this->activeChild)
-            ->orWhere('category_id',$this->activeParent)
-            ->orWhere('category_id',200)
-            ->where('show',1)
-            ->get();
-    }
-
     public function render()
     {
         return view('livewire.dashboard.services-management')

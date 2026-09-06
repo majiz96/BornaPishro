@@ -280,17 +280,6 @@ class ArticlesManagement extends Component
     }
 
     #[Computed]
-    public function filters()
-    {
-        return Filter::where('field_id',$this->field_id)
-            ->where('category_id',$this->activeChild)
-            ->orWhere('category_id',$this->activeParent)
-            ->orWhere('category_id',100)
-            ->where('show',1)
-            ->get();
-    }
-
-    #[Computed]
     public function Categories()
     {
         return Category::with('children','parent','articles')

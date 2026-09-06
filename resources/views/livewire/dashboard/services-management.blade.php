@@ -2,7 +2,7 @@
 
     <div class="row text-center"><h2 wire:text="err"></h2></div>
 
-    <form wire:submit.prevent="save" enctype="multipart/form-data" class="row border rounded-4 pt-4 px-2" >
+    <form wire:submit.prevent="save" enctype="multipart/form-data" class="row border rounded-4 pt-4 px-2 d-flex">
 
         @csrf
 
@@ -13,28 +13,7 @@
             @error('title') <small class="text-danger"> {{$message}} </small> @enderror
         </div>
 
-        <div class="col-xl-2"></div>
-
-        {{--    Filters Dropdown    --}}
-        <div class="col-xl-2 my-auto">
-            <select class="form-select" wire:model="filter_id">
-                <option value=""> فیلتر را انتخاب کنید </option>
-
-                @if($this->filters->isNotEmpty())
-
-                    @foreach($this->filters as $filter)
-
-                        <option value="{{$filter->id}}"> {{$filter->title}} </option>
-
-                    @endforeach
-
-                @else
-                    <option value=""> فیلتری برای خدمات ثبت نکرده اید! </option>
-                @endif
-
-            </select>
-
-        </div>
+        <div class="col-xl-auto flex-fill"></div>
 
         {{--   Category Dropdown    --}}
         <div class="col-xl-2 my-auto">
