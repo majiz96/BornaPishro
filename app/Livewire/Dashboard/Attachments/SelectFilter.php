@@ -32,9 +32,9 @@ class SelectFilter extends Component
 
     }
 
-    public function toggleOption(Option $option)
+    public function toggleOption($id)
     {
-
+        $this->model->relatedOptions()->toggle($id);
     }
 
 

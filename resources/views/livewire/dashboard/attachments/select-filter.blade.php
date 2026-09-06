@@ -21,7 +21,7 @@
                         <input type="checkbox" class="btn-check" id="btn-check-{{$option->id}}-outlined" wire:model.live="activeCategory" value="{{$option->id}}">
                         <label class="col-auto mx-auto rounded-3 btn btn-outline-success border border-2 border-success fw-bolder"
                                for="btn-check-{{$option->id}}-outlined"
-                        wire:click="toggleOption({{$option->id}})">
+                                wire:click="toggleOption({{$option->id}})">
 
                             {{$option->name}}
 
