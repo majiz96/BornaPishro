@@ -26,12 +26,14 @@ class SelectFilter extends Component
 
         $this->model = $modelClass::findOrFail($id);
 
-        if(!in_array($id,$this->model->pluck('id')->toArray()))
-            abort(404);
-
         $this->field = Field::where('model',$modelClass)->first();
 
         $this->category = $this->model->category;
+
+    }
+
+    public function toggleOption(Option $option)
+    {
 
     }
 

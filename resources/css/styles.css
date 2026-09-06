@@ -40,6 +40,18 @@ i
     background: #84919e !important;
     color:white !important;
 }
+.cs-button2
+{
+    /*background-color:#096781;*/
+    background: rgb(119 255 0 / 0.45) !important;
+    font-weight: bold;
+    border: 0.25em solid #77ff00 !important;
+}
+.cs-button2:hover
+{
+    background: rgb(119 255 0 / 1) !important;
+    color: #3f3f3f !important;
+}
 .cs-article-heading
 {
     color:#84919e;
@@ -79,6 +91,11 @@ i
     background: #8533ff !important;
     color:white !important;
 }
+.cs-cover-image
+{
+    aspect-ratio:21/7;
+}
+
 .submit-button
 {
     /*background-color: #096781 !important;*/

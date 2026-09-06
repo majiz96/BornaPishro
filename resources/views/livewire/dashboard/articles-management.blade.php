@@ -200,7 +200,7 @@
 
             @foreach($this->Articles as $article)
 
-                <div class="col-xl-4">
+                <div class="col-xl-4 my-3">
 
                     <div class="card rounded-4 my-2 mx-auto">
 
@@ -211,10 +211,10 @@
                             </div>
                         </div>
 
-                        <div class="card-body">
+                        <div class="card-body delete-badge"  wire:click="see({{$article->id}})">
 
                             <div class="row">
-                                <img src="{{asset('storage/article_covers/'.$article->cover) }}"  alt="پیش نمایش" class="mt-3 mx-auto">
+                                <img src="{{asset('storage/article_covers/'.$article->cover) }}"  alt="پیش نمایش" class="mt-3 mx-auto cs-cover-image">
                             </div>
 
                             <div class="row my-2">{{$article->intro}}</div>
@@ -223,7 +223,7 @@
 
                         <div class="card-footer">
 
-                            <div class="row">
+                            <div class="row d-flex">
                                 <div class="col-xl-auto">
 
                                     {{$article->writer->name}}
@@ -232,12 +232,10 @@
 
                                 </div>
 
-                                <div class="col-xl-1 text-xl-start my-auto"><label for="show"> نمایش </label></div>
-                                <div class="col-xl-1 my-auto"><input type="checkbox" id="show" wire:change="toggleShow({{$article->id}})" @checked($article->show == 1)></div>
+                                <div class="col-xl-auto text-xl-start my-auto"><label for="show"> نمایش </label></div>
+                                <div class="col-xl-auto my-auto"><input type="checkbox" id="show" wire:change="toggleShow({{$article->id}})" @checked($article->show == 1)></div>
 
-                                <div class="col-xl-2 my-auto text-center">
-                                    <button class="btn btn-sm btn-success rounded-3" wire:click="see({{$article->id}})"> مشاهده </button>
-                                </div>
+                                <div class="col-auto flex-fill"></div>
 
                                 <div class="col-xl-auto my-auto text-center">
                                     @if($this->commentAlert($article->id))
@@ -271,6 +269,15 @@
                                     @endif
 
 
+                                </div>
+
+                                <div class="col-xl-auto my-auto text-center">
+                                    <a href="{{ route('select-filter', [
+                                        'type' => "article",
+                                        'id'   => $article->id,
+                                    ]) }}" class="btn btn-sm btn-success rounded-3 text-decoration-none" wire:navigate>
+                                        فیلتر ها
+                                    </a>
                                 </div>
 
                                 <div class="col-xl-1 my-auto text-center">

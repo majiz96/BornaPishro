@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Models\Field;
 use App\Models\Service;
 use App\Models\Category;
 use App\Models\Filter;
@@ -37,7 +38,7 @@ class Services extends Component
 
     public function mount(Category $category)
     {
-        $this->field_id = where('model',Service::class)->first()?->id;
+        $this->field_id = Field::where('model',Service::class)->first()?->id;
 
         $this->category = $category->id;
 

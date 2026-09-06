@@ -172,34 +172,78 @@
                         <div class="col-xl-8"><h5>{{$service->title}}</h5></div>
                         <div class="col-xl-4 text-xl-start">{{$service->created_at}}</div>
                     </div>
-                    <div class="card-body">
+                    <div class="card-body delete-badge" wire:click="see({{$service->id}})">
 
                         <div class="row">
-                            <img src="{{asset('storage/service_covers/'.$service->cover) }}"  alt="پیش نمایش" class="mt-3 mx-auto">
+                            <img src="{{asset('storage/service_covers/'.$service->cover) }}"  alt="پیش نمایش" class="mt-3 mx-auto cs-cover-image">
                         </div>
 
                         <div class="row my-2">{{$service->intro}}</div>
 
                     </div>
 
-                    <div class="card-footer row">
+                    <div class="card-footer">
 
-                        <div class="col-xl-1 text-xl-start my-auto"><label for="show"> نمایش </label></div>
-                        <div class="col-xl-1 my-auto"><input type="checkbox" id="show" wire:change="toggleShow({{$service->id}})" @checked($service->show == 1)></div>
+                        <div class="row d-flex">
 
-                        <div class="col-xl-2 my-auto text-center">
-                            <button class="btn btn-sm btn-success rounded-3" wire:click="see({{$service->id}})"> مشاهده </button>
+                            <div class="col-xl-auto text-xl-start my-auto"><label for="show"> نمایش </label></div>
+                            <div class="col-xl-auto my-auto"><input type="checkbox" id="show" wire:change="toggleShow({{$service->id}})" @checked($service->show == 1)></div>
+
+                            <div class="col-auto flex-fill"></div>
+
+{{--                            <div class="col-xl-auto my-auto text-center">--}}
+{{--                                @if($this->commentAlert($service->id))--}}
+{{--                                    <a href="{{ route('comments', [--}}
+{{--                                        'type' => Article::Class,--}}
+{{--                                        'id'   => $service->id,--}}
+{{--                                    ]) }}" class="dropdown-item" wire:navigate>--}}
+
+{{--                                        <button class="btn btn-sm btn-secondary rounded-3" wire:click="edit({{$service->id}})">--}}
+{{--                                            کامنتها--}}
+{{--                                            <span class="mx-auto text-bg-danger px-1 py-0 rounded-5 me-2">--}}
+{{--                                                    {{ $this->commentAlert($service->id) }}--}}
+{{--                                                </span>--}}
+{{--                                        </button>--}}
+
+{{--                                    </a>--}}
+{{--                                @elseif($this->commentCount($service->id))--}}
+{{--                                    <a href="{{ route('comments', [--}}
+{{--                                        'type' => Article::Class,--}}
+{{--                                        'id'   => $service->id,--}}
+{{--                                    ]) }}" class="dropdown-item" wire:navigate>--}}
+
+{{--                                        <button class="btn btn-sm btn-secondary rounded-3" wire:click="edit({{$service->id}})">--}}
+{{--                                            کامنتها--}}
+{{--                                            <span class="mx-auto text-bg-secondary px-1 py-0 rounded-5 me-2">--}}
+{{--                                                    {{ $this->commentCount($service->id) }}--}}
+{{--                                                </span>--}}
+{{--                                        </button>--}}
+
+{{--                                    </a>--}}
+{{--                                @endif--}}
+
+
+{{--                            </div>--}}
+
+                            <div class="col-xl-auto my-auto text-center">
+                                <a href="{{ route('select-filter', [
+                                        'type' => "service",
+                                        'id'   => $service->id,
+                                    ]) }}" class="btn btn-sm btn-success rounded-3 text-decoration-none" wire:navigate>
+                                    فیلتر ها
+                                </a>
+                            </div>
+
+                            <div class="col-xl-1 my-auto text-center">
+                                <button class="btn btn-sm btn-danger rounded-3" wire:click="delete({{$service->id}})"
+                                        wire:confirm="آیا از حذف مقاله ({{$service->title}}) مطمئن هستید؟"> حذف </button>
+                            </div>
+
+                            <div class="col-xl-2 my-auto text-center">
+                                <button class="btn btn-sm btn-primary rounded-3" wire:click="edit({{$service->id}})"> ویرایش </button>
+                            </div>
+
                         </div>
-
-                        <div class="col-xl-2 my-auto text-center">
-                            <button class="btn btn-sm btn-danger rounded-3" wire:click="delete({{$service->id}})"
-                                    wire:confirm="آیا از حذف مقاله ({{$service->title}}) مطمئن هستید؟"> حذف </button>
-                        </div>
-
-                        <div class="col-xl-2 my-auto text-center">
-                            <button class="btn btn-sm btn-primary rounded-3" wire:click="edit({{$service->id}})"> ویرایش </button>
-                        </div>
-
 
                     </div>
 

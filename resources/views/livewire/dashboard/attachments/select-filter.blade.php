@@ -17,7 +17,16 @@
 
                 <div class="row">
                     @forelse($filter->options as $option)
-                        <div class="col-auto mx-auto border rounded-4"> {{$option->name}} </div>
+
+                        <input type="checkbox" class="btn-check" id="btn-check-{{$option->id}}-outlined" wire:model.live="activeCategory" value="{{$option->id}}">
+                        <label class="col-auto mx-auto rounded-3 btn btn-outline-success border border-2 border-success fw-bolder"
+                               for="btn-check-{{$option->id}}-outlined"
+                        wire:click="toggleOption({{$option->id}})">
+
+                            {{$option->name}}
+
+                        </label>
+
                     @empty
                         <h5 class="text-danger"> هیچ گزینه ای برای این فیلتر تعریف نکرده اید </h5>
                     @endforelse

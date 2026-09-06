@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use App\Models\Article;
 use App\Models\Category;
+use App\Models\Field;
 use App\Models\Filter;
 
 use Livewire\Component;
