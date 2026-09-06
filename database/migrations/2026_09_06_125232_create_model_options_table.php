@@ -11,12 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('product_options', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('product_id')->constrained('products')->cascadeOnDelete();
-            $table->foreignId('option_id')->constrained('options')->cascadeOnDelete();
+        Schema::create('model_options', function (Blueprint $table) {
 
-            $table->unique(['product_id', 'option_id']);
+            $table->id();
+            $table->foreignId('option_id')->constrained('options')->cascadeOnDelete();
+            $table->morphs('optionable');
+
+            $table->unique(['option_id','optionable_id', 'optionable_type']);
 
             $table->timestamps();
         });
@@ -27,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('product_options');
+        Schema::dropIfExists('model_options');
     }
 };

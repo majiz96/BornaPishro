@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 
 class Service extends Model
 {
@@ -23,5 +24,10 @@ class Service extends Model
     public function comments():MorphMany
     {
         return $this->morphMany(Comment::class, 'commentable');
+    }
+
+    public function relatedOptions():MorphToMany
+    {
+        return $this->morphToMany(Option::class, 'optionable','model_options');
     }
 }

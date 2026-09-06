@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 
 class Product extends Model
 {
@@ -129,5 +130,10 @@ class Product extends Model
     public function comments():MorphMany
     {
         return $this->morphMany(Comment::class, 'commentable');
+    }
+
+    public function relatedOptions():MorphToMany
+    {
+        return $this->morphToMany(Option::class, 'optionable','model_options');
     }
 }
