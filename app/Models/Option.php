@@ -16,4 +16,9 @@ class Option extends Model
     {
         return $this->belongsTo(Filter::class,'filter_id','id');
     }
+
+    public function usedOptions(): BelongsToMany
+    {
+        return $this->belongsToMany(Option::class,'model_options','option_id');
+    }
 }

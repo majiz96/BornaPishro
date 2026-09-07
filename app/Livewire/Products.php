@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Models\Field;
 use App\Models\Category;
 use App\Models\Filter;
 use App\Models\Product;
@@ -19,7 +20,7 @@ class Products extends Component
 
     public $category;
     public array $activeCategory = [];
-    public array $activeFilter = [];
+    public array $activeOption = [];
     public bool $supplyCheck = false;
     public bool $priceCheck = false;
     public int $priceMin = 0;
@@ -35,7 +36,7 @@ class Products extends Component
 //    reset products page if each of these variables change
     public function updated($property)
     {
-        if (in_array($property, ['search', 'activeCategory', 'activeFilter', 'priceCheck', 'priceMin', 'priceMax', 'sort', 'direction'])) {
+        if (in_array($property, ['search', 'activeCategory', 'activeOption', 'priceCheck', 'priceMin', 'priceMax', 'sort', 'direction'])) {
             $this->resetPage();
         }
     }
@@ -97,9 +98,11 @@ class Products extends Component
         }
 
 //        get filters id values for showing related products
-        if (!empty($this->activeFilter)) {
-            $query->whereHas('specifications.groups.units.values', function($q) {
-                $q->whereIn('id', $this->activeFilter);
+        if (!empty($this->activeOption))
+        {
+            $query->whereHas('relatedOptions', function($q) {
+                $q->where('optionable_type', Product::class)
+                ->whereIn('option_id', $this->activeOption);
             });
         }
 
@@ -137,7 +140,7 @@ class Products extends Component
     }
 
     #[Computed]
-    public function filters()
+    public function Filters()
     {
 //         get categories id from their general category for showing related filters
         $allCategories = array_merge(
@@ -146,18 +149,25 @@ class Products extends Component
         );
 
 // show all filters
-        if (empty($allCategories)) {
-            return Filter::with('units.values')
-                ->where('field_id', $this->field_id)
-                ->where('show', 1)
-                ->get();
-        }
+
+        $query = Filter::with(['options'=> function($q){
+            $q->whereHas('usedOptions', function($q){
+                $q->where('optionable_type', Product::class);
+            });
+        }])
+            ->where('field_id', $this->field_id)
+            ->where('show', 1);
 
 //        show filters in selected categories
-        return Filter::with('units.values')
-            ->whereIn('category_id', $allCategories)
-            ->where('show', 1)
-            ->get();
+        if (!empty($allCategories))
+        {
+            $query->where(function ($q) use ($allCategories) {
+                $q->whereIn('category_id', $allCategories)
+                ->orWhereNull('category_id');
+            });
+        }
+
+        return $query->get();
     }
 
 //    reset products page when price indicators changed for updating the page
@@ -179,7 +189,7 @@ class Products extends Component
     public function categoryReset()
     {
         $this->activeCategory = [];
-        $this->activeFilter = [];
+        $this->activeOption = [];
         $this->resetPage();
     }
 

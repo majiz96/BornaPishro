@@ -159,33 +159,68 @@
 
                 </div>
 
-                {{--       Filters        --}}
-                <div class="row">
-                    @if($this->filters->isNotEmpty())
-                        @foreach($this->filters as $filter)
+            {{--       Filters        --}}
+            <div class="row my-4">
 
-                            <div class="row m-2 text-end border-bottom mx-auto">
+                @if($this->Filters->isNotEmpty())
+                    @foreach($this->Filters as $filter)
 
-                                <div class="row">
-                                    <div class="col-xl-8 text-end">
-                                        {{$filter->title}}
+                        @if($filter->options->count() == 1)
+
+                            <div class="row mt-2">
+                                @foreach($filter->options as $option)
+                                    <div class="row my-1 d-flex">
+                                        <div class="col-auto text-end {{$activeOption == $option->id ? 'text-primary fw-bolder' : 'fw-bold'}}">
+                                            {{$filter->title}}
+                                        </div>
+
+                                        <div class="col-1 text-end flex-fill">
+                                            ( {{$option->usedOptions->count()}} )
+                                        </div>
+
+                                        <div class="col-1 text-start">
+                                            <input type="checkbox" class="form-check-input" value="{{$option->id}}" wire:model.live="activeOption">
+                                        </div>
                                     </div>
-
-                                    <div class="col-xl-4 text-start">
-                                        <input type="{{$filter->type}}" wire:model.live="activeFilter" value="{{$filter->id}}">
-                                    </div>
-                                </div>
-
-                                <br>
-
-
+                                @endforeach
                             </div>
-                        @endforeach
-                    @endif
-                </div>
+
+                        @else
+
+                            <div class="row my-2">
+
+                                <div class="row py-1 cs-navbar text-end"> {{$filter->title}} </div>
+
+                                @foreach($filter->options as $option)
+                                    <div class="row my-1 d-flex">
+                                        <div class="col-auto text-end {{$activeOption == $option->id ? 'text-primary' : ''}}">
+                                            {{$option->name}}
+                                        </div>
+
+                                        <div class="col-1 text-end flex-fill">
+                                            ( {{$option->usedOptions->count()}} )
+                                        </div>
+
+                                        <div class="col-1 text-start">
+                                            <input type="checkbox" class="form-check-input" value="{{$option->id}}" wire:model.live="activeOption">
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
+
+                        @endif
+
+
+
+
+                    @endforeach
+
+                @endif
 
             </div>
+        </div>
 
+            {{--     Show Products      --}}
             <div class="col-lg-10 border home-blocks rounded-start-4 my-3 px-4">
 
                 <div class="row">
