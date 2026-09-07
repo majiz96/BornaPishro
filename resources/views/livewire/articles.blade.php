@@ -74,7 +74,7 @@
                                 @foreach($filter->options as $option)
                                     <div class="row my-1 d-flex mx-auto">
                                         <div class="col-auto text-end mx-auto {{$activeOption == $option->id ? 'text-primary fw-bolder' : 'fw-bold'}}">
-                                            {{$filter->title}}
+                                            {{$option->name}}
                                         </div>
 
                                         <div class="col-1 text-end flex-fill">
