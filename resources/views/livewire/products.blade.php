@@ -165,7 +165,7 @@
                 @if($this->Filters->isNotEmpty())
                     @foreach($this->Filters as $filter)
 
-                        @if($filter->options->count() == 1)
+                        @if($filter->options->count() <= 1)
 
                             <div class="row mt-2 mx-auto px-0">
 
