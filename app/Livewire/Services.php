@@ -17,9 +17,9 @@ class Services extends Component
     use WithPagination;
     protected $paginationTheme = 'bootstrap';
 
-    public $field_id;
+    public $field_id,$field_class;
     public array $activeCategory = [];
-    public array $activeFilter = [];
+    public array $activeOption = [];
 
     public $category;
 
@@ -38,7 +38,8 @@ class Services extends Component
 
     public function mount(Category $category)
     {
-        $this->field_id = Field::where('model',Service::class)->first()?->id;
+        $this->field_class = Service::class;
+        $this->field_id = Field::where('model',$this->field_class)->first()?->id;
 
         $this->category = $category->id;
 
@@ -60,7 +61,7 @@ class Services extends Component
     }
 
     #[Computed]
-    public function filters()
+    public function Filters()
     {
 //         get categories id from their general category for showing related filters
         $allCategories = array_merge(
@@ -68,18 +69,24 @@ class Services extends Component
             Category::whereIn('parent_id', $this->activeCategory)->pluck('id')->toArray()
         );
 
-// show all filters
-        if (empty($allCategories)) {
-            return Filter::where('field_id', $this->field_id)
-                ->where('show', 1)
-                ->get();
+
+        $query = Filter::with(['options'=>function($options){
+            $options->whereHas('usedOptions',function($used){
+                $used->where('optionable_type',$this->field_class);
+            });
+        }])->where('field_id', $this->field_id)
+            ->where('show',1);
+
+        if(!empty($allCategories))
+        {
+            $query->where(function($option) use($allCategories){
+                $option->whereIn('category_id', $allCategories);
+                $option->orWhereNull('category_id');
+            });
         }
 
-//        show filters in selected categories
-        return Filter::where('field_id', $this->field_id)
-            ->whereIn('category_id', $allCategories)
-            ->where('show', 1)
-            ->get();
+        return $query->get();
+
     }
 
     #[Computed]
@@ -94,9 +101,10 @@ class Services extends Component
             $query->whereIn('category_id', $allCategories);
         }
 
-        if (!empty($this->activeFilter)) {
-            $query->whereHas('filter', function($q) {
-                $q->whereIn('id', $this->activeFilter);
+        if (!empty($this->activeOption)) {
+            $query->whereHas('relatedOptions', function($option) {
+                $option->where('optionable_type', $this->field_class)
+                ->whereIn('option_id', $this->activeOption);
             });
         }
 
@@ -117,7 +125,7 @@ class Services extends Component
     public function categoryReset()
     {
         $this->activeCategory = [];
-        $this->activeFilter = [];
+        $this->activeOption = [];
         $this->resetPage();
     }
 

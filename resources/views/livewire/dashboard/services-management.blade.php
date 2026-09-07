@@ -182,48 +182,14 @@
 
                     </div>
 
-                    <div class="card-footer">
+                    <div class="card-footer row">
 
-                        <div class="row d-flex">
+                        <div class="d-flex">
 
                             <div class="col-xl-auto text-xl-start my-auto"><label for="show"> نمایش </label></div>
-                            <div class="col-xl-auto my-auto"><input type="checkbox" id="show" wire:change="toggleShow({{$service->id}})" @checked($service->show == 1)></div>
+                            <div class="col-xl-auto px-3 my-auto"><input type="checkbox" id="show" wire:change="toggleShow({{$service->id}})" @checked($service->show == 1)></div>
 
                             <div class="col-auto flex-fill"></div>
-
-{{--                            <div class="col-xl-auto my-auto text-center">--}}
-{{--                                @if($this->commentAlert($service->id))--}}
-{{--                                    <a href="{{ route('comments', [--}}
-{{--                                        'type' => Article::Class,--}}
-{{--                                        'id'   => $service->id,--}}
-{{--                                    ]) }}" class="dropdown-item" wire:navigate>--}}
-
-{{--                                        <button class="btn btn-sm btn-secondary rounded-3" wire:click="edit({{$service->id}})">--}}
-{{--                                            کامنتها--}}
-{{--                                            <span class="mx-auto text-bg-danger px-1 py-0 rounded-5 me-2">--}}
-{{--                                                    {{ $this->commentAlert($service->id) }}--}}
-{{--                                                </span>--}}
-{{--                                        </button>--}}
-
-{{--                                    </a>--}}
-{{--                                @elseif($this->commentCount($service->id))--}}
-{{--                                    <a href="{{ route('comments', [--}}
-{{--                                        'type' => Article::Class,--}}
-{{--                                        'id'   => $service->id,--}}
-{{--                                    ]) }}" class="dropdown-item" wire:navigate>--}}
-
-{{--                                        <button class="btn btn-sm btn-secondary rounded-3" wire:click="edit({{$service->id}})">--}}
-{{--                                            کامنتها--}}
-{{--                                            <span class="mx-auto text-bg-secondary px-1 py-0 rounded-5 me-2">--}}
-{{--                                                    {{ $this->commentCount($service->id) }}--}}
-{{--                                                </span>--}}
-{{--                                        </button>--}}
-
-{{--                                    </a>--}}
-{{--                                @endif--}}
-
-
-{{--                            </div>--}}
 
                             <div class="col-xl-auto my-auto text-center">
                                 <a href="{{ route('select-filter', [
