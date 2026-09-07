@@ -160,17 +160,18 @@
                 </div>
 
             {{--       Filters        --}}
-            <div class="row my-4">
+            <div class="row my-4 mx-auto bg-body">
 
                 @if($this->Filters->isNotEmpty())
                     @foreach($this->Filters as $filter)
 
                         @if($filter->options->count() == 1)
 
-                            <div class="row mt-2">
+                            <div class="row mt-2 mx-auto px-0">
+
                                 @foreach($filter->options as $option)
-                                    <div class="row my-1 d-flex">
-                                        <div class="col-auto text-end {{$activeOption == $option->id ? 'text-primary fw-bolder' : 'fw-bold'}}">
+                                    <div class="row my-1 d-flex mx-auto">
+                                        <div class="col-auto text-end mx-auto {{$activeOption == $option->id ? 'text-primary fw-bolder' : 'fw-bold'}}">
                                             {{$filter->title}}
                                         </div>
 
@@ -182,30 +183,34 @@
                                             <input type="checkbox" class="form-check-input" value="{{$option->id}}" wire:model.live="activeOption">
                                         </div>
                                     </div>
+
                                 @endforeach
                             </div>
 
                         @else
 
-                            <div class="row my-2">
+                            <div class="card my-2 mx-auto px-0">
+                                <div class="card-header cs-navbar">
+                                    <div class=" py-1 text-end mt-0 mx-auto"> {{$filter->title}} </div>
+                                </div>
 
-                                <div class="row py-1 cs-navbar text-end"> {{$filter->title}} </div>
+                                <div class="card-body">
+                                    @foreach($filter->options as $option)
+                                        <div class="row my-1 d-flex mx-auto">
+                                            <div class="col-auto text-end {{$activeOption == $option->id ? 'text-primary' : ''}}">
+                                                {{$option->name}}
+                                            </div>
 
-                                @foreach($filter->options as $option)
-                                    <div class="row my-1 d-flex">
-                                        <div class="col-auto text-end {{$activeOption == $option->id ? 'text-primary' : ''}}">
-                                            {{$option->name}}
+                                            <div class="col-1 text-end flex-fill">
+                                                ( {{$option->usedOptions->count()}} )
+                                            </div>
+
+                                            <div class="col-1 text-start">
+                                                <input type="checkbox" class="form-check-input" value="{{$option->id}}" wire:model.live="activeOption">
+                                            </div>
                                         </div>
-
-                                        <div class="col-1 text-end flex-fill">
-                                            ( {{$option->usedOptions->count()}} )
-                                        </div>
-
-                                        <div class="col-1 text-start">
-                                            <input type="checkbox" class="form-check-input" value="{{$option->id}}" wire:model.live="activeOption">
-                                        </div>
-                                    </div>
-                                @endforeach
+                                    @endforeach
+                                </div>
                             </div>
 
                         @endif
@@ -266,12 +271,8 @@
         </div>
 
 
-    {{--  Showing & selecting products --}}
 
 
-
-
-</div>
 
 <script>
     document.addEventListener('livewire:init', function() {
