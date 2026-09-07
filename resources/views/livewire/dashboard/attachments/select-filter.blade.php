@@ -18,7 +18,9 @@
                 <div class="row">
                     @forelse($filter->options as $option)
 
-                        <input type="checkbox" class="btn-check" id="btn-check-{{$option->id}}-outlined" wire:model.live="activeCategory" value="{{$option->id}}">
+                        <input type="checkbox" class="btn-check" id="btn-check-{{$option->id}}-outlined"
+                               wire:model.live="activeCategory" value="{{$option->id}}" @checked($this->selectedOptions($option->id) >= 1)>
+
                         <label class="col-auto mx-auto rounded-3 btn btn-outline-success border border-2 border-success fw-bolder"
                                for="btn-check-{{$option->id}}-outlined"
                                 wire:click="toggleOption({{$option->id}})">

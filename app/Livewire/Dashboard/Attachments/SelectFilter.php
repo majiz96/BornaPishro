@@ -12,6 +12,8 @@ class SelectFilter extends Component
 {
     public $type,$id,$model,$field,$category;
 
+    public $selected = [];
+
     public function mount($type,$id)
     {
         $this->type = $type;
@@ -47,6 +49,15 @@ class SelectFilter extends Component
             ->where('field_id', $this->field->id)
             ->where('show',1)
             ->get();
+    }
+
+    #[Computed]
+    public function selectedOptions($id)
+    {
+      return $this->model->relatedOptions()
+          ->where('option_id',$id)
+          ->where('optionable_id',$this->id)
+          ->count();
     }
 
     public function render()
