@@ -19,7 +19,7 @@ class Articles extends Component
     public $field_id;
 
     public array $activeCategory = [];
-    public array $activeFilter = [];
+    public array $activeOption = [];
 
     public $category;
 
@@ -59,7 +59,7 @@ class Articles extends Component
     }
 
     #[Computed]
-    public function filters()
+    public function Filters()
     {
 //         get categories id from their general category for showing related filters
         $allCategories = array_merge(
@@ -67,18 +67,24 @@ class Articles extends Component
             Category::whereIn('parent_id', $this->activeCategory)->pluck('id')->toArray()
         );
 
+        $query = Filter::with(['options'=>function($option){
+            $option->whereHas('usedOptions',function($relation){
+                $relation->where('optionable_type',Article::class);
+            });
+        }])->where('field_id', $this->field_id)
+            ->where('show', 1);
+
 // show all filters
-        if (empty($allCategories)) {
-            return Filter::where('field_id', $this->field_id)
-                ->where('show', 1)
-                ->get();
+        if (!empty($allCategories)) {
+           $query->where(function($option) use ($allCategories) {
+               $option->whereIn('category_id', $allCategories)
+               ->orWhereNull('category_id');
+
+           });
         }
 
 //        show filters in selected categories
-        return Filter::where('field_id', $this->field_id)
-            ->whereIn('category_id', $allCategories)
-            ->where('show', 1)
-            ->get();
+        return $query->get();
     }
 
     #[Computed]
@@ -95,9 +101,10 @@ class Articles extends Component
             $query->whereIn('category_id', $allCategories);
         }
 
-        if (!empty($this->activeFilter)) {
-            $query->whereHas('filter', function($q) {
-                $q->whereIn('id', $this->activeFilter);
+        if (!empty($this->activeOption)) {
+            $query->whereHas('relatedOptions', function($q) {
+                $q->where('optionable_type', Article::class)
+                    ->whereIn('option_id', $this->activeOption);
             });
         }
 
@@ -120,7 +127,7 @@ class Articles extends Component
     public function categoryReset()
     {
         $this->activeCategory = [];
-        $this->activeFilter = [];
+        $this->activeOptions = [];
         $this->resetPage();
     }
 
