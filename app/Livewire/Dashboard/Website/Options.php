@@ -51,9 +51,9 @@ class Options extends Component
         }
     }
 
-    public function delete(Options $option)
+    public function delete($id)
     {
-
+        Option::findOrFail($id)->delete();
     }
 
     #[Computed]
