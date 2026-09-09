@@ -112,26 +112,14 @@ class Filters extends Component
     public function showAll()
     {
         Filter::where('field_id', $this->activeField)->where('show', 0)->update(['show' => 1]);
+        $this->showed = Filter::where('field_id',$this->activeField)->where('show',1)->pluck('id')->toArray();
     }
 
     public function showNone()
     {
         Filter::where('field_id', $this->activeField)->where('show', 1)->update(['show' => 0]);
         $this->showed = [];
-    }
-
-    public function toggleDisplay()
-    {
-        if($this->showed)
-        {
-            Filter::where('field_id', $this->activeField)->where('show', 1)->update(['show' => 0]);
-            $this->showed = [];
-        }
-        else
-        {
-            Filter::where('field_id', $this->activeField)->where('show', 0)->update(['show' => 1]);
-        }
-
+        $this->showed = Filter::where('field_id',$this->activeField)->where('show',1)->pluck('id')->toArray();
     }
 
     public function updatedSelectAll($value)
