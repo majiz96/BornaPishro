@@ -34,7 +34,6 @@
 
     </form>
 
-
     <div class="row my-4 text-center">
 
         @if($this->Options->isNotEmpty())
@@ -42,21 +41,44 @@
             <div class="row my-3">
 
                 <div class="col-1 text-end px-3 my-auto">
-                        <input type="checkbox">
+                        <input type="checkbox" wire:model.live="selectAll">
                 </div>
 
                 <lable class="col-1 text-start my-auto">
-                    نمایش همه
+                    نمایش
+                    {{count($showed)}}
+                    /
+                    {{count($this->Options)}}
                 </lable>
 
-                <div class="col-1 text-end px-2 my-auto">
-                    <input type="checkbox">
-                </div>
+                @if(count($showed) == count($this->Options))
+                    <div class="col-1 text-end px-2 my-auto">
+                        <input type="checkbox" wire:change="showNone" checked>
+                    </div>
+                @else
+                    <div class="col-1 text-end px-2 my-auto">
+                        <input type="checkbox" wire:change="showAll">
+                    </div>
+                @endif
+
+
 
                 <dvi class="col-7 pe-4 text-end">نام گزینه</dvi>
 
 
-                <dvi class="col-1 text-end"> حذف </dvi>
+                <dvi class="col-1 text-end">
+
+                    @if(count($selected) > 1)
+                        <button class="col-1 btn btn-sm btn-danger w-auto offset-1"
+                                wire:click="deleteAll" wire:confirm="آیا از حذف آپشنهای انتخاب شده مطمئن هستید؟">
+                            حذف همه
+                        </button>
+                    @else
+                        حذف
+                    @endif
+
+                </dvi>
+
                 <dvi class="col-1 text-end"> ویرایش </dvi>
 
             </div>
@@ -69,7 +91,7 @@
                     <div class="accordion-item row px-0 d-flex">
 
                         <div class="col-1 text-end px-3 my-auto">
-                            <input type="checkbox">
+                            <input type="checkbox" wire:model.live="selected" value="{{$option->id}}">
                         </div>
 
                         <lable class="col-1 text-start my-auto">
@@ -77,7 +99,7 @@
                         </lable>
 
                         <div class="col-1 text-end px-2 my-auto">
-                            <input type="checkbox">
+                            <input type="checkbox" wire:change="toggleShow({{$option->id}})" @checked($option->show == true)>
                         </div>
 
                         <h2 class="accordion-header col-9 px-0" id="heading{{$option->id}}">

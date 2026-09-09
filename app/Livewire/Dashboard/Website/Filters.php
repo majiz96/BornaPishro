@@ -107,6 +107,8 @@ class Filters extends Component
         $filter = Filter::findOrFail($id);
         $filter->show = $filter->show == true ? false : true;
         $filter->save();
+
+        $this->showed = Filter::where('field_id',$this->activeField)->where('show',1)->pluck('id')->toArray();
     }
 
     public function showAll()

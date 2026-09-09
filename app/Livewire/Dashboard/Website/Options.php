@@ -16,6 +16,7 @@ class Options extends Component
     public $editing = false;
 
     public $selected = [];
+    public $selectAll = false;
     public $showed = [];
 
     public int $selected_id = 0;
@@ -25,6 +26,11 @@ class Options extends Component
         $this->filter = $filter;
 
         $this->model = $filter->field->model;
+
+        $this->showed = Option::where('filter_id', $filter->id)
+            ->where('show',1)
+            ->pluck('id')
+            ->toArray();
     }
 
     public function edit($id)
@@ -62,9 +68,56 @@ class Options extends Component
         }
     }
 
-    public function delete($id)
+    public function toggleShow($id)
     {
-        Option::findOrFail($id)->delete();
+        $option = Option::findOrFail($id);
+        $option->show = $option->show == true ? false : true;
+        $option->save();
+
+        $this->showed = Option::where('filter_id', $this->filter->id)
+            ->where('show',1)
+            ->pluck('id')
+            ->toArray();
+    }
+
+    public function showAll()
+    {
+        Option::where('filter_id', $this->filter->id)
+            ->where('show',0)
+            ->update(['show' => 1]);
+
+        $this->showed = Option::where('filter_id', $this->filter->id)
+            ->where('show',1)
+            ->pluck('id')
+            ->toArray();
+    }
+    public function updatedSelectAll($value)
+    {
+        if ($value)
+        {
+           $this->selected = Option::where('filter_id', $this->filter->id)
+                ->pluck('id')
+                ->toArray();
+        }
+        else
+        {
+            $this->selectAll = false;
+            $this->selected = [];
+        }
+    }
+
+    public function showNone()
+    {
+        Option::where('filter_id', $this->filter->id)
+            ->where('show',1)
+            ->update(['show' => 0]);
+
+        $this->showed = Option::where('filter_id', $this->filter->id)
+            ->where('show',1)
+            ->pluck('id')
+            ->toArray();
+
+        $this->showed = [];
     }
     public function redirectItem($id)
     {
@@ -75,6 +128,19 @@ class Options extends Component
             'id'=>$id
         ]));
     }
+
+
+    public function delete($id)
+    {
+        Option::findOrFail($id)->delete();
+    }
+    public function deleteAll()
+    {
+        Option::where('filter_id', $this->filter->id)
+            ->whereIn('id',$this->selected)
+            ->delete();
+    }
+
 
 
 
