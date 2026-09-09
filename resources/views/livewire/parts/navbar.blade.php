@@ -32,7 +32,7 @@
                                 @foreach($this->getField as $field)
                                     <li class="nav-item">
                                         <a
-                                            href="{{$field->route == '' ? $field->route : '../'.$field->route}}"
+                                            href="/{{ $field->route }}"
                                             class="nav-link text-light delete-badge"
                                             wire:mouseover="showMenu({{$field->id}})"
                                             wire:mouseout="hideMenu">{{$field->name}}
@@ -58,7 +58,7 @@
                             @foreach($this->getField as $field)
                                 <li class="nav-item">
                                     <a
-                                        href="{{$field->route == '' ? $field->route : '../'.$field->route}}"
+                                        href="/{{ $field->route }}"
                                         class="nav-link text-light delete-badge"
                                        wire:mouseover="showMenu({{$field->id}})"
                                        wire:mouseout="hideMenu">{{$field->name}}
@@ -161,7 +161,7 @@
                                         <div class="col text-center mx-auto p-2 delete-badge" wire:mouseover="showChildren({{$category->id}})">
 
                                             <a class="text-decoration-none nav-item text-body h5 fw-bold mb-5 py-1 megamenutitle"
-                                               href="{{$this->currentField->route == '' ? $this->currentField->route.'/'.$category->id : '../'.$this->currentField->route.'/'.$category->id}}">
+                                               href="/{{$this->currentField->route.'/'.$category->id}}">
                                                 {{$category->name}}
                                             </a>
 
@@ -171,7 +171,7 @@
                                                 <div class="row text-center my-2">
                                                     <a class="text-decoration-none nav-item text-body"
 
-                                                       href="{{$this->currentField->route == '' ? $this->currentField->route.'/'.$children->id : '../'.$this->currentField->route.'/'.$children->id}}">
+                                                       href="/{{$this->currentField->route.'/'.$children->id}}">
                                                         {{$children->name}}
                                                     </a>
                                                 </div>
@@ -181,7 +181,7 @@
                                     @else
                                         <div class="col text-center mx-auto p-2 delete-badge">
                                             <a class="text-decoration-none nav-item text-body h5 fw-bold"
-                                               href="{{$this->currentField->route == '' ? $this->currentField->route.'/'.$category->id : '../'.$this->currentField->route.'/'.$category->id}}">
+                                               href="/{{$this->currentField->route.'/'.$children->id}}">
                                                 {{$category->name}}
                                             </a>
                                         </div>
