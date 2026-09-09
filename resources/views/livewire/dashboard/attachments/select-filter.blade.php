@@ -9,8 +9,18 @@
     @forelse($this->Filters as $filter)
 
         <div class="card my-5">
-            <div class="card-header h4">
-                {{$filter->title}}
+            <div class="card-header h4 px-2">
+
+                    <div class="row">
+                        <div class="col text-end px-4">{{$filter->title}}</div>
+
+                        <div class="col text-start">
+                            <a href="{{route('options',$filter->id)}}" class="btn btn-sm btn-primary">
+                                مدیریت گزینه ها
+                            </a>
+                        </div>
+                    </div>
+
             </div>
 
             <div class="card-body text-center">

@@ -17,16 +17,17 @@
         </div>
 
 
-        <div class="col-auto flex-fill"></div>
+        <div class="col-auto flex-fill"> </div>
 
-        <div class="col-xl-1 text-start">
+        <div class="col-xl-auto text-start">
             <div class="row text-start">
 
                @if($editing)
-                    <button class="btn btn-danger w-auto mx-auto left" type="button" wire:click="cancel"> انصراف </button>
+                    <button class="btn btn-danger w-auto me-2 col-1" type="button" wire:click="cancel"> انصراف </button>
+                   <div class="col-1"></div>
                @endif
 
-                <button class="btn rounded-3 w-auto cs-button mx-auto left" type="submit"> ذخیره </button>
+                <button class="btn rounded-3 w-auto cs-button ms-2 col-1" type="submit"> ذخیره </button>
 
             </div>
         </div>
@@ -104,7 +105,33 @@
 
                         <div id="collapse{{$option->id}}" class="accordion-collapse collapse" aria-labelledby="heading{{$option->id}}" data-bs-parent="#FilterAccordion">
                             <div class="accordion-body">
-                                <strong>This is the first item's accordion body.</strong> It is shown by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
+
+                                @if($this->Items($option->id)->isNotEmpty())
+
+
+                                    @foreach($this->Items($option->id) as $item)
+                                        <div class="row py-1 border rounded-4 my-2 d-flex">
+                                            <div class="col-auto text-end">{{$item->name ?? $item->title}}</div>
+
+                                            <div class="col-auto flex-fill"></div>
+
+                                            <div class="col-auto text-start px-1">
+                                                <button class="btn btn-sm btn-success rounded-4 text-start" wire:click="redirectItem({{$item->id}})">
+                                                    مشاهده تمام فیلترهای مربوطه
+                                                </button>
+                                            </div>
+
+                                        </div>
+                                    @endforeach
+
+                                @else
+                                    <div class="row text-center text-danger">
+                                        <h2> این گزینه در هیچ موردی استفاده نشده است </h2>
+                                    </div>
+                                @endif
+
+
+
                             </div>
                         </div>
 
