@@ -39,7 +39,7 @@
                 </div>
 
             <div class="col-auto text-start mx-auto">
-                {{$article->created_at}}
+                {{$article->created_at->diffForHumans()}}
             </div>
         </div>
     @endif

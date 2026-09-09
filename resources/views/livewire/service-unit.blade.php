@@ -34,7 +34,7 @@
 
 
             <div class="col-auto text-start mx-auto">
-                {{$service->created_at}}
+                {{$service->created_at->diffForHumans()}}
             </div>
         </div>
     @endif
