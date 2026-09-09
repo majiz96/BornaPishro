@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\ToJalai;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
@@ -9,6 +10,8 @@ use Illuminate\Database\Eloquent\Relations\MorphToMany;
 
 class Service extends Model
 {
+    use ToJalai;
+
     protected $table = 'services';
     protected $fillable = ['category_id', 'title', 'intro', 'description', 'cover', 'thumbnail', 'show', 'filter_id'];
 

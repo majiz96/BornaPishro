@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\ToJalai;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -12,6 +13,8 @@ use Illuminate\Support\Facades\Auth;
 
 class Comment extends Model
 {
+    use ToJalai;
+
     protected $table = 'comments';
     protected $fillable = ['user_id', 'parent_id', 'text', 'votes','show','see',
         'commentable_id',

@@ -2,11 +2,14 @@
 
 namespace App\Models;
 
+use App\Traits\ToJalai;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Cache;
 
 class Information extends Model
 {
+    use ToJalai;
+
     protected $table = 'information';
     protected $primaryKey = 'id';
     protected $fillable = ['phone', 'mobile', 'email', 'address','activity','response','start_date', 'about_us'];

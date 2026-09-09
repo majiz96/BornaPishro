@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\ToJalai;
 use Carbon\Traits\Creator;
 use Dom\Comment;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -18,7 +19,7 @@ use Illuminate\Support\Str;
 class User extends Authenticatable implements MustVerifyEmail
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable,ToJalai;
 
     /**
      * The attributes that are mass assignable.

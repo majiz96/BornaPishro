@@ -170,7 +170,7 @@
 
                     <div class="card-header row">
                         <div class="col-xl-8"><h5>{{$service->title}}</h5></div>
-                        <div class="col-xl-4 text-xl-start">{{$service->created_at}}</div>
+                        <div class="col-xl-4 text-xl-start">{{$service->toJalaiDateByHours($service->created_at)}}</div>
                     </div>
                     <div class="card-body delete-badge" wire:click="see({{$service->id}})">
 

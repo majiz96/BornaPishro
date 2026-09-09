@@ -205,9 +205,11 @@
                     <div class="card rounded-4 my-2 mx-auto">
 
                         <div class="card-header">
-                            <div class="row">
-                                <div class="col-xl-8"><h5>{{$article->title}}</h5></div>
-                                <div class="col-xl-4 text-xl-start">{{$article->created_at}}</div>
+                            <div class="row d-flex">
+                                <div class="col-xl-auto flex-fill"><h5>{{$article->title}}</h5></div>
+                                <div class="col-xl-auto text-xl-start">
+                                    {{$article->toJalaiDateByHours($article->created_at)}}
+                                </div>
                             </div>
                         </div>
 

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\ToJalai;
 use Illuminate\Database\Eloquent\Model;
 
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -13,6 +14,8 @@ use Illuminate\Database\Eloquent\Relations\MorphToMany;
 
 class Product extends Model
 {
+    use ToJalai;
+
     protected $table = 'products';
     protected $fillable = ['category_id', 'brand_id', 'name', 'fullname', 'intro', 'price','discount','supply','image','show',
         'brand_name'

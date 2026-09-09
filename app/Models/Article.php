@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\ToJalai;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -10,6 +11,8 @@ use Illuminate\Database\Eloquent\Relations\MorphToMany;
 
 class Article extends Model
 {
+    use ToJalai;
+
     protected $table = 'articles';
     protected $fillable = ['writer_id','editor_id','filter_id','category_id', 'title', 'intro', 'content', 'cover', 'show'];
 

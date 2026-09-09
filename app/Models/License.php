@@ -2,11 +2,14 @@
 
 namespace App\Models;
 
+use App\Traits\ToJalai;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Cache;
 
 class License extends Model
 {
+    use ToJalai;
+
 //    protected $table = 'licenses';
     protected $fillable = ['name','link','icon','description','expire','active','show'];
 
