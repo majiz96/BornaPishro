@@ -19,7 +19,7 @@ class Comments extends Component
 
     public function mount(string $type, int $id)
     {
-        $modelClass = "App\\Models\\{$type}";
+        $modelClass = "App\\Models\\".ucfirst($type);
 
        $allFields = Field::all();
 
