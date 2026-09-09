@@ -43,7 +43,9 @@ class SelectFilter extends Component
     #[Computed]
     public function Filters()
     {
-        return Filter::with('options')
+        return Filter::with(['options'=>function($query){
+            $query->where('show',1);
+        }])
             ->where('category_id', $this->category->id)
             ->OrWhereNull('category_id')
             ->where('field_id', $this->field->id)
