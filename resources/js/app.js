@@ -1,6 +1,9 @@
 import * as bootstrap from 'bootstrap';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 
+import '@jalali-js/web';
+import '@jalali-js/web/date-picker.css';
+
 import $ from 'jquery';
 
 window.$ = $;
