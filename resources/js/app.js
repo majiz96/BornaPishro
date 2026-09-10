@@ -4,6 +4,102 @@ import 'bootstrap-icons/font/bootstrap-icons.css';
 import '@jalali-js/web';
 import '@jalali-js/web/date-picker.css';
 
+import { fromGregorian } from 'jalali-js';
+
+
+// ======================================================
+// Jalali Date Picker
+// ======================================================
+
+function initJalaliDatePickers() {
+
+    document.querySelectorAll('[data-jalali-date-picker-wrapper]').forEach((wrapper) => {
+
+        if (wrapper.querySelector('jalali-date-picker')) {
+            return;
+        }
+
+        const value = wrapper.dataset.value;
+
+        const picker = document.createElement('jalali-date-picker');
+
+        picker.id = 'start_date';
+        picker.setAttribute('system', 'jalali');
+        picker.setAttribute('locale', 'fa');
+
+        if (value) {
+
+            const [year, month, day] = value
+                .split('-')
+                .map(Number);
+
+            const date = fromGregorian(
+                { year, month, day },
+                'jalali'
+            );
+
+            picker.defaultDate = {
+                precision: 'date',
+                system: 'jalali',
+                year: date.year,
+                month: date.month,
+                day: date.day
+            };
+        }
+
+        wrapper.appendChild(picker);
+    });
+}
+
+document.addEventListener(
+    'livewire:navigated',
+    () => {
+        initJalaliDatePickers();
+    }
+);
+
+// Fix initial popup position
+document.addEventListener('click', (event) => {
+
+    const input = event.target.closest('[data-jalali-datepicker-input]');
+
+    if (!input) {
+        return;
+    }
+
+    requestAnimationFrame(() => {
+        window.dispatchEvent(new Event('resize'));
+    });
+
+});
+
+
+// Send Gregorian value to Livewire
+document.addEventListener('change', (event) => {
+
+    const picker = event.target.closest('jalali-date-picker');
+
+    if (!picker) {
+        return;
+    }
+
+    const value = event.detail.value;
+
+    const component = picker.closest('[wire\\:id]');
+
+    if (!component) {
+        return;
+    }
+
+    Livewire.find(
+        component.getAttribute('wire:id')
+    ).set(
+        'start_date',
+        value
+    );
+
+});
+
 import $ from 'jquery';
 
 window.$ = $;

@@ -11,6 +11,10 @@
             </div>
         @endif
 
+            <div class="row text-center">
+                <h1>{{ $model::first()->fromJalaliDatePickerDiff($start_date) }}</h1>
+            </div>
+
         <form wire:submit.prevent="save">
 
             @csrf
@@ -38,8 +42,16 @@
 
                 <div class="col-md-3 mb-3">
                     <label class="form-label">تاریخ شروع</label>
-                    <input type="text" class="form-control" wire:model="start_date" placeholder="1404/xx/xx">
-                    @error('start_date') <small class="text-danger">{{ $message }}</small> @enderror
+
+                    <div
+                        data-jalali-date-picker-wrapper
+                        data-value="{{ $start_date ?? '' }}"
+                        wire:ignore
+                    ></div>
+
+                    @error('start_date')
+                    <small class="text-danger">{{ $message }}</small>
+                    @enderror
                 </div>
 
                 <div class="col-md-6 mb-3">

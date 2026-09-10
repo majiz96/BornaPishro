@@ -34,4 +34,9 @@ trait ToJalai
             $date->timezone('Asia/Tehran')
         )->format('d F Y H:i');
     }
+    public function fromJalaliDatePicker($date): string
+    {
+        return Jalalian::fromDateTime($date)->format('d F Y');
+    }
+
 }

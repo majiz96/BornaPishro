@@ -6,19 +6,23 @@ use Illuminate\Support\Facades\Cache;
 use Livewire\Component;
 
 use App\Models\Information;
+use Morilog\Jalali\Jalalian;
 
 class Info extends Component
 {
-    public $phone, $mobile, $email, $address, $activity ,$response, $start_date, $about_us;
+    public $phone, $mobile, $email, $address, $activity ,$response, $about_us,$start_date;
 
+    public $model = Information::class;
 
     public function mount()
     {
         $data = Information::Cached();
 
         $this->fill($data->only([
-            'phone', 'mobile', 'email', 'address', 'activity', 'response', 'location', 'start_date', 'about_us'
+            'phone', 'mobile', 'email', 'address', 'activity', 'response', 'location', 'about_us', 'start_date'
         ]));
+
+        $this->dispatch('date-picker-set', value: $this->start_date);
     }
     public function save()
     {
