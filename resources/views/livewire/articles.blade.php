@@ -175,7 +175,7 @@
 
                 <button class="col-md-2 col-sm-3 col-5 btn btn-danger mx-auto mt-md-0 mt-4"
                         wire:click="openFilters">
-                    <i class="bi-tag"></i> برچسب ها
+                    <i class="bi-funnel"></i> فیلترها
                 </button>
 
                 <button class="col-md-2 col-sm-3 col-11 btn btn-success mx-auto mt-md-0 mt-4"
@@ -260,7 +260,7 @@
 
                     @empty
 
-                        خدماتی در این گروه ثبت نشده است
+                      <div class="row text-danger text-center"> <h3> هیچ مقاله ای ثبت نشده است </h3> </div>
 
                     @endforelse
 
