@@ -34,9 +34,13 @@ trait ToJalai
             $date->timezone('Asia/Tehran')
         )->format('d F Y H:i');
     }
-    public function fromJalaliDatePicker($date): string
+    public function fromJalaliDatePicker($data): string
     {
-        return Jalalian::fromDateTime($date)->format('d F Y');
+        return Jalalian::fromDateTime($data)->format('d F Y');
+    }
+    public function fromJalaliDatePickerDiff($data): string
+    {
+        return Jalalian::fromDateTime($data)->toCarbon()->diffForHumans();
     }
 
 }

@@ -11,9 +11,9 @@
             </div>
         @endif
 
-            <div class="row text-center">
-                <h1>{{ $model::first()->fromJalaliDatePickerDiff($start_date) }}</h1>
-            </div>
+{{--            <div class="row text-center">--}}
+{{--                <h1>{{ $model::first()->fromJalaliDatePicker($date_picker) }}</h1>--}}
+{{--            </div>--}}
 
         <form wire:submit.prevent="save">
 
@@ -45,11 +45,11 @@
 
                     <div
                         data-jalali-date-picker-wrapper
-                        data-value="{{ $start_date ?? '' }}"
+                        data-value="{{ $date_picker ?? '' }}"
                         wire:ignore
                     ></div>
 
-                    @error('start_date')
+                    @error('$date_picker')
                     <small class="text-danger">{{ $message }}</small>
                     @enderror
                 </div>

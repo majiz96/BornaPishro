@@ -10,7 +10,7 @@ use Morilog\Jalali\Jalalian;
 
 class Info extends Component
 {
-    public $phone, $mobile, $email, $address, $activity ,$response, $about_us,$start_date;
+    public $phone, $mobile, $email, $address, $activity ,$response, $about_us,$date_picker;
 
     public $model = Information::class;
 
@@ -19,10 +19,12 @@ class Info extends Component
         $data = Information::Cached();
 
         $this->fill($data->only([
-            'phone', 'mobile', 'email', 'address', 'activity', 'response', 'location', 'about_us', 'start_date'
+            'phone', 'mobile', 'email', 'address', 'activity', 'response', 'location', 'about_us'
         ]));
 
-        $this->dispatch('date-picker-set', value: $this->start_date);
+        $this->date_picker = $data->start_date;
+
+        $this->dispatch('date-picker-set', value: $this->date_picker);
     }
     public function save()
     {
@@ -33,7 +35,7 @@ class Info extends Component
             'address' => 'required|string',
             'activity' => 'required|string',
             'response' => 'required|string',
-            'start_date' => 'required|date',
+            'date_picker' => 'required|date',
             'about_us' => 'required|string|max:1000'
         ]
         ,
@@ -50,8 +52,8 @@ class Info extends Component
             'activity.string'=>'زمان فعالیت وارد شده معتبر نیست',
             'response.required'=>'زمان پاسخگویی باید وارد شود',
             'response.string'=>'زمان پاسخگویی وارد شده معتبر نیست',
-            'start_date.required'=>'تاریخ آغاز فعالیت باید وارد شود',
-            'start_date.date'=>'تاریخ وارد شده معتبر نیست',
+            'date_picker.required'=>'تاریخ آغاز فعالیت باید وارد شود',
+            'date_picker.date'=>'تاریخ وارد شده معتبر نیست',
             'about_us.required'=>'بخش درباره ما باید پر شود',
             'about_us.string'=>'بخش درباره ما باید به صورت متنی باشد'
         ]);
@@ -65,7 +67,7 @@ class Info extends Component
             'address' => $this->address,
             'activity' => $this->activity,
             'response' => $this->response,
-            'start_date' => $this->start_date,
+            'start_date' => $this->date_picker,
             'about_us' => $this->about_us
         ]);
 

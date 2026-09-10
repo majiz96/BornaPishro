@@ -23,7 +23,7 @@ function initJalaliDatePickers() {
 
         const picker = document.createElement('jalali-date-picker');
 
-        picker.id = 'start_date';
+        picker.id = 'date_picker';
         picker.setAttribute('system', 'jalali');
         picker.setAttribute('locale', 'fa');
 
@@ -57,6 +57,51 @@ document.addEventListener(
         initJalaliDatePickers();
     }
 );
+
+Livewire.on('date-picker-set', ({ value }) => {
+
+    const wrapper = document.querySelector(
+        '[data-jalali-date-picker-wrapper]'
+    );
+
+    if (!wrapper || !value) {
+        return;
+    }
+
+    const [year, month, day] = value
+        .split('-')
+        .map(Number);
+
+    const date = fromGregorian(
+        { year, month, day },
+        'jalali'
+    );
+
+    const oldPicker = wrapper.querySelector(
+        'jalali-date-picker'
+    );
+
+    const picker = document.createElement(
+        'jalali-date-picker'
+    );
+
+    picker.id = 'date_picker';
+    picker.setAttribute('system', 'jalali');
+    picker.setAttribute('locale', 'fa');
+
+    picker.defaultDate = {
+        precision: 'date',
+        system: 'jalali',
+        year: date.year,
+        month: date.month,
+        day: date.day
+    };
+
+    oldPicker?.remove();
+
+    wrapper.appendChild(picker);
+
+});
 
 // Fix initial popup position
 document.addEventListener('click', (event) => {
@@ -94,7 +139,7 @@ document.addEventListener('change', (event) => {
     Livewire.find(
         component.getAttribute('wire:id')
     ).set(
-        'start_date',
+        'date_picker',
         value
     );
 

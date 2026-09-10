@@ -42,8 +42,15 @@
 
         <div class="col-xl-2">
             <label class="form-label">تاریخ انقضاء</label>
-            <input type="text" class="form-control" wire:model="expire" placeholder="1404/xx/xx">
-            @error('expire') <small class="text-danger">{{ $message }}</small> @enderror
+            <div
+                data-jalali-date-picker-wrapper
+                data-value="{{ $date_picker ?? '' }}"
+                wire:ignore
+            ></div>
+
+            @error('$date_picker')
+            <small class="text-danger">{{ $message }}</small>
+            @enderror
         </div>
 
 
@@ -80,7 +87,7 @@
 
                             <div class="col-xl-4"> {{$license->name}} </div>
                             <div class="col-xl-4"></div>
-                            <div class="col-xl-4 text-start">انقضاء : {{$license->expire}}</div>
+                            <div class="col-xl-4 text-start">انقضاء : {{$model::first()->fromJalaliDatePickerDiff($license->expire)}}</div>
 
 
                         </div>

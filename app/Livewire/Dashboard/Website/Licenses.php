@@ -16,10 +16,9 @@ class Licenses extends Component
 {
     use WithFileUploads;
 
-   public $name, $link, $icon, $description, $expire;
+   public $name, $link, $icon, $description, $date_picker;
 
    public int $active = 1;
-   public int $show = 0;
 
    public $editing = null;
    public $rules = [
@@ -27,7 +26,7 @@ class Licenses extends Component
        'link' => 'required|string|unique:licenses,link',
        'icon' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
        'description' => 'string|nullable|max:300',
-       'expire' => 'required|date',
+       'date_picker' => 'required|date',
    ];
 
    public $messages = [
@@ -43,8 +42,8 @@ class Licenses extends Component
        'icon.max' => 'تصویر انتخاب شده باید کوچکتر از ۲ مگابایت باشد',
        'description.string' => 'توضیحات باید متنی باشد',
        'description.max' => 'توضیحات حداکثر ۳۰۰ کرکتر می تواند باشد',
-       'expire.required' => 'تاریخ انقضا باید وارد شود',
-       'expire.date' => 'تاریخ انقضا وارد شده فرم صحیحی ندارد',
+       'date_picker.required' => 'تاریخ انقضا باید وارد شود',
+       'date_picker.date' => 'تاریخ انقضا وارد شده فرم صحیحی ندارد',
    ];
 
    public function edit($id)
@@ -55,7 +54,10 @@ class Licenses extends Component
        $this->link = $license->link;
        $this->icon = $license->icon;
        $this->description = $license->description;
-       $this->expire = $license->expire;
+       $this->show = $license->show;
+       $this->date_picker = $license->expire;
+       $this->dispatch('date-picker-set', value: $this->date_picker);
+
    }
 
    public function cancel()
@@ -74,7 +76,7 @@ class Licenses extends Component
             'name' => 'required|string',
             'link' => 'required|string',
             'description' => 'string|nullable|max:300',
-            'expire' => 'required|date',
+            'date_picker' => 'required|date',
         ];
 
         $update_messages = [
@@ -84,8 +86,8 @@ class Licenses extends Component
             'link.string' => 'فرمت لینک معتبر نیست',
             'description.string' => 'توضیحات باید متنی باشد',
             'description.max' => 'توضیحات حداکثر ۳۰۰ کرکتر می تواند باشد',
-            'expire.required' => 'تاریخ انقضا باید وارد شود',
-            'expire.date' => 'تاریخ انقضا وارد شده فرم صحیحی ندارد',
+            'date_picker.required' => 'تاریخ انقضا باید وارد شود',
+            'date_picker.date' => 'تاریخ انقضا وارد شده فرم صحیحی ندارد',
         ];
 
         $this->validate($update_rules, $update_messages);
@@ -113,10 +115,11 @@ class Licenses extends Component
         }
 
 
-        $data = $this->pull(['name', 'link','description','expire']);
+        $data = $this->pull(['name', 'link','description']);
+        $data['expire'] = $this->date_picker;
         $data['icon'] = $filename ?? $this->icon;
         $data['active'] = $this->active;
-        $data['show'] = $this->show;
+        $data['show'] = $this->show ?? 0;
 
         $license->update($data);
 
@@ -140,10 +143,11 @@ class Licenses extends Component
 
         $this->validate($this->rules, $this->messages);
 
-        $data = $this->pull(['name', 'link','description','expire']);
+        $data = $this->pull(['name', 'link','description']);
+        $data['expire'] = $this->date_picker;
         $data['icon'] = $filename;
         $data['active'] = $this->active;
-        $data['show'] = $this->show;
+        $data['show'] = $this->show ?? 0;
 
         if(License::create($data))
         {
@@ -151,7 +155,7 @@ class Licenses extends Component
             Cache::forget('website-licenses');
             session()->flash('success','مجوز ثبت شد');
 
-            $this->reset(['expire','icon']);
+            $this->reset(['date_picker','icon']);
         }
 
 
