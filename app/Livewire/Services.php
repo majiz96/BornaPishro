@@ -33,8 +33,6 @@ class Services extends Component
     public $showFilters = false;
     public $showOrders = false;
 
-    public $modalCategories,$modalFilters,$modalOrders;
-
 
     public function mount(Category $category)
     {
@@ -68,7 +66,6 @@ class Services extends Component
             $this->activeCategory,
             Category::whereIn('parent_id', $this->activeCategory)->pluck('id')->toArray()
         );
-
 
         $query = Filter::with(['options'=>function($options){
             $options->whereHas('usedOptions',function($used){
@@ -128,11 +125,9 @@ class Services extends Component
         $this->activeOption = [];
         $this->resetPage();
     }
-
     public function openCategories()
     {
         $this->showCategories = true;
-        $this->modalCategories = $this->categories;
     }
     public function closeCategories()
     {
@@ -142,7 +137,6 @@ class Services extends Component
     public function openFilters()
     {
         $this->showFilters = true;
-        $this->modalFilters = $this->filters;
     }
     public function closeFilters()
     {

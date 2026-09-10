@@ -1,8 +1,5 @@
 <!-- Modal -->
 
-
-@if($showFilters)
-
     <div class="modal fade show d-block" tabindex="-1" style="background: rgba(0,0,0,0.5);">
         <div class="modal-dialog modal-fullscreen">
             <div class="modal-content">
@@ -10,7 +7,7 @@
                 <div class="modal-header row">
 
                     <div class="col-md-11 col-9">
-                        دسته ها
+                        فیلترها
                     </div>
 
                     <div class="col-md-1 col-2 text-start">
@@ -18,31 +15,70 @@
                     </div>
                 </div>
 
-                <div class="modal-body px-5">
+                <div class="modal-body ps-4">
 
-                    <div class="row">
-                        @if($this->filters->isNotEmpty())
-                            @foreach($this->filters as $filter)
+                    <div class="row my-4 mx-auto bg-body">
+                        @if($this->Filters->isNotEmpty())
+                            @foreach($this->Filters as $filter)
 
+                                @if($filter->options->count() <= 1)
 
-                                @if($filter->type == 'checkbox')
+                                    <div class="row mt-2 mx-auto px-0">
 
-                                    <input type="checkbox" class="btn-check" id="btn-check-{{$filter->id}}-outlined-filter" wire:model.live="activeFilter" value="{{$filter->id}}">
+                                        @foreach($filter->options as $option)
 
-                                    <label class="col-md-3 col-sm-5 col-10 rounded-4 btn btn-outline-primary fw-bold border my-2 mx-auto" for="btn-check-{{$filter->id}}-outlined-filter">{{$filter->title}}</label>
+                                            <div class="row my-1 d-flex mx-auto">
+
+                                                <input type="checkbox" class="btn-check" id="btn-check-{{$option->id}}-outlined"
+                                                       wire:model.live="activeOption" value="{{$option->id}}">
+
+                                                <label class="col-auto mx-auto rounded-3 btn btn-outline-success border border-2 border-success fw-bolder"
+                                                       for="btn-check-{{$option->id}}-outlined">
+                                                    {{$option->name}}
+                                                    ( {{$option->usedOptions()->count()}} )
+                                                </label>
+
+                                            </div>
+
+                                        @endforeach
+                                    </div>
 
                                 @else
-                                    <label class="" for="range-{{$filter->id}}">{{$filter->title}}</label>
 
-                                    <input type="range" class="form-range" id="range-{{$filter->id}}">
+                                    <div class="card my-2 mx-auto px-0">
+
+                                        <div class="card-header">
+                                            <div class=" py-1 text-end mt-0 mx-auto"> {{$filter->title}} </div>
+                                        </div>
+
+                                        <div class="card-body px-0 row">
+                                            @foreach($filter->options as $option)
+
+                                                <input type="checkbox" class="btn-check" id="btn-check-{{$option->id}}-outlined"
+                                                       wire:model.live="activeOption" value="{{$option->id}}">
+
+                                                <label class="col-auto mx-auto rounded-3 btn btn-outline-success border border-2 border-success fw-bolder"
+                                                       for="btn-check-{{$option->id}}-outlined">
+                                                    {{$option->name}}
+                                                    ( {{$option->usedOptions()->count()}} )
+                                                </label>
+
+                                            @endforeach
+                                        </div>
+                                    </div>
+
+                                @endif
+
+                                    @endforeach
 
                                 @endif
 
 
 
-                            @endforeach
-                        @endif
-                    </div>
+                 </div>
+
+
+
 
 
 
@@ -58,6 +94,5 @@
             </div>
         </div>
     </div>
-@endif
 
 

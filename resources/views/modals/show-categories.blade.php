@@ -1,8 +1,6 @@
 <!-- Modal -->
 
 
-@if($showCategories)
-
     <div class="modal fade show d-block" tabindex="-1" style="background: rgba(0,0,0,0.5);">
         <div class="modal-dialog modal-fullscreen">
             <div class="modal-content">
@@ -83,6 +81,5 @@
             </div>
         </div>
     </div>
-@endif
 
 

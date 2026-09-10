@@ -176,7 +176,7 @@
 
                 <button class="col-md-2 col-sm-3 col-5 btn btn-danger mx-auto mt-md-0 mt-4"
                 wire:click="openFilters">
-                    <i class="bi-tag"></i> برچسب ها
+                    <i class="bi-funnel"></i> فیلتر ها
                 </button>
 
                 <button class="col-md-2 col-sm-3 col-11 btn btn-success mx-auto mt-md-0 mt-4"
@@ -261,7 +261,7 @@
 
                 @empty
 
-                    خدماتی در این گروه ثبت نشده است
+                   <div class="row text-center text-danger"> <h3> خدماتی ثبت نشده است </h3> </div>
 
                 @endforelse
 
@@ -269,22 +269,26 @@
 
 
         </div>
+
+
+        </div>
+
+        @if($perPage !== 'all')
+            {{$this->services->links(data:['scrollTo',false])}}
+        @endif
+
+        @if($showFilters && $this->Filters->isNotEmpty())
+            @include('modals.show-filters')
+        @endif
+
+        @if($showCategories)
+            @include('modals.show-categories')
+        @endif
+
+        @if($showOrders)
+            @include('modals.show-orders')
+        @endif
+
     </div>
-
-    @if($perPage !== 'all')
-        {{$this->services->links(data:['scrollTo',false])}}
-    @endif
-
-    @if($showCategories)
-        @include('modals.show-categories')
-    @endif
-
-    @if($showFilters)
-        @include('modals.show-filters')
-    @endif
-
-    @if($showOrders)
-        @include('modals.show-orders')
-    @endif
 
 </div>
