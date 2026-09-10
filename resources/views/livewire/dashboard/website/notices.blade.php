@@ -95,10 +95,18 @@
 
         {{-- تاریخ انقضا (شمسی) --}}
         <div class="col-md-4">
-            <label for="expired_at" class="form-label">تاریخ انقضا</label>
-            <input type="text" id="expired_at" wire:model.blur="expired_at" class="form-control"
-                   placeholder="مثلاً 1404/10/05">
-            @error('expired_at') <span class="text-danger">{{ $message }}</span> @enderror
+            <label for="date_picker" class="form-label">تاریخ انقضا</label>
+
+            <div
+                data-jalali-date-picker-wrapper
+                data-value="{{ $date_picker ?? '' }}"
+                wire:ignore
+            ></div>
+
+            @error('$date_picker')
+            <small class="text-danger">{{ $message }}</small>
+            @enderror
+
         </div>
 
         {{-- دکمه ذخیره --}}
@@ -209,7 +217,7 @@
                 <div class="col-xl-1 pt-1 text-center"> {{$notice->position->title}} </div>
                 <div class="col-xl-1 pt-1 text-{{$notice->style}}  text-center"> {{$notice->style}} </div>
 
-                <div class="col-xl-2 text-center"> {{$notice->expired_at}} </div>
+                <div class="col-xl-2 text-center"> {{\App\Models\Notice::first()->fromJalaliDatePicker($notice->expired_at)}} </div>
 
                 <div class="col-xl-1 text-center">
                     <input class="mt-2" type="checkbox" id="active" wire:change="toggleStatus({{$notice->id}})" @checked($notice->status == 1)>

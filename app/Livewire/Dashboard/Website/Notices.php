@@ -25,7 +25,7 @@ class Notices extends Component
     public string $contact;
     public int $position_id = 4;
     public string $style;
-    public $expired_at;
+    public $date_picker;
 
 //    public $status;
 
@@ -53,7 +53,9 @@ class Notices extends Component
         $this->contact = $notice->contact;
         $this->position_id = $notice->position_id;
         $this->style = $notice->style;
-        $this->expired_at = $notice->expired_at;
+
+        $this->date_picker = $notice->expired_at;
+        $this->dispatch('date-picker-set', value: $this->date_picker);
     }
 
     public function cancel()
@@ -73,7 +75,7 @@ class Notices extends Component
                 'description' => 'required|string',
                 'display' => 'required|string',
                 'contact' => 'required|string',
-                'expired_at' => 'required|date_format:Y-m-d'
+                'date_picker' => 'required'
             ];
 
             $messages = [
@@ -81,8 +83,7 @@ class Notices extends Component
                 'description.required'=>'پیام خالی نمی توان فرستاد',
                 'display.required'=>'باید مشخص کنید که پیام چگونه نمایش داده شود',
                 'contact.required'=>'باید مخاطب پیام را مشخص کنید',
-                'expired_at.required'=>'تاریخ انقضاء پیام را باید مشخص کنید',
-                'expired_at.date_format'=>'تاریخ انقضاء پیام را باید مشخص کنید'
+                'date_picker.required'=>'تاریخ انقضاء پیام را باید مشخص کنید',
             ];
 
 
@@ -91,12 +92,13 @@ class Notices extends Component
 
             $notice = Notice::findOrFail($this->editing);
 
-            $data = $this->pull(['title','description','display','contact','position_id','style','expired_at']);
+            $data = $this->pull(['title','description','display','contact','position_id','style']);
+            $data['expired_at'] = $this->date_picker;
 
             $notice->update($data);
 
             $this->editing = null;
-//            $this->reset(['title','description','display','contact','position_id','style','expired_at']);
+//            $this->reset(['title','description','display','contact','position_id','style','date_picker']);
 
 
         }
@@ -110,7 +112,7 @@ class Notices extends Component
                     'contact' => 'required|string',
                     'position_id' => 'nullable|integer',
                     'style' => 'nullable|string',
-                    'expired_at' => 'required|date_format:Y/m/d'
+                    'date_picker' => 'required'
                 ]
                 ,
                 [
@@ -119,11 +121,11 @@ class Notices extends Component
                     'display.required'=>'باید مشخص کنید که پیام چگونه نمایش داده شود',
                     'contact.required'=>'باید مخاطب پیام را مشخص کنید',
                     'position_id.integer'=>'سطح کاربری انتخاب شده معتبر نیست',
-                    'expired_at.required'=>'تاریخ انقضاء پیام را باید مشخص کنید',
-                    'expired_at.date_format'=>'تاریخ انقضاء پیام را باید مشخص کنید'
+                    'date_picker.required'=>'تاریخ انقضاء پیام را باید مشخص کنید',
                 ]);
 
-            $data = $this->pull(['title','description','display','position_id','contact','style','expired_at']);
+            $data = $this->pull(['title','description','display','position_id','contact','style']);
+            $data['expired_at'] = $this->date_picker;
 
             $notice = Notice::create($data);
 
@@ -215,7 +217,6 @@ class Notices extends Component
 
         $query = Notice::with('position')
             ->where('title','like','%'.$this->search.'%')
-            ->orWhere('expired_at','like','%'.$this->search.'%')
             ->orWhere('contact','like','%'.$this->search.'%')
             ->orWhere('display','like','%'.$this->search.'%')
             ->orWhere('style','like','%'.$this->search.'%')

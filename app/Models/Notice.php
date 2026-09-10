@@ -6,9 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use App\Traits\ToJalai;
 
 class Notice extends Model
 {
+    use ToJalai;
     protected $table = 'notices';
     protected $fillable = ['title', 'description', 'display', 'contact','style','position_id','status','expired_at'];
 
