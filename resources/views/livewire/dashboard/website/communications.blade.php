@@ -46,13 +46,14 @@
 
             <div class="row cs-navbar border rounded-4 py-1 mx-auto">
 
-                <div class="col-xl-1 text-center py-2"><input type="checkbox" wire:model.live="selectAll"></div>
+                <div class="col-xl-auto text-center py-2"><input type="checkbox" wire:model.live="selectAll"></div>
 
-                <div class="col-xl-1 text-center py-2">ردیف</div>
+                <div class="col-xl-auto text-center py-2">#</div>
                 <div class="col-xl-3 text-center py-2"> عنوان</div>
                 <div class="col-xl-1 text-center py-2"> نام و نام خانوادگی</div>
                 <div class="col-xl-2 text-center py-2"> ایمیل</div>
                 <div class="col-xl-1 text-center py-2"> شماره همراه</div>
+                <div class="col-xl-1 text-center py-2">تاریخ</div>
                 <div class="col-xl-1 text-center py-2">مشاهده</div>
                 <div class="col-xl-1 text-center py-2">فایلها</div>
 
@@ -74,9 +75,9 @@
             @foreach($comm as $com)
                 <div class="row mx-auto border rounded-4 my-3">
 
-                    <div class="col-xl-1 text-center pt-2"><input type="checkbox" value="{{$com->id}}"
+                    <div class="col-xl-auto text-center pt-2"><input type="checkbox" value="{{$com->id}}"
                                                                   wire:model.live="selected"></div>
-                    <div class="col-xl-1 text-center pt-2">{{$row++}}</div>
+                    <div class="col-xl-auto text-center pt-2">{{$row++}}</div>
                     <div class="col-xl-3 text-center pt-2"> {{$com->subject}} </div>
 
                     <div
@@ -84,13 +85,18 @@
                     <div
                         class="col-xl-2 text-center pt-2"> {{ $com->email !== null ? $com->email : $com->user->email }} </div>
 
-                    <div class="col-xl-1 text-center pt-2"
-                         dir="ltr"> {{ $com->phone !== null ? $com->phone : '' }} </div>
+                    <div class="col-xl-1 text-center pt-2" dir="ltr"> {{ $com->phone !== null ? $com->phone : '' }} </div>
+
+
+                    <div class="col-xl-1 text-center pt-2"> {{ $com->created_at->diffForHumans() }} </div>
+
+
 
                     <div class="col-xl-1 text-center py-1">
                         <span class="btn btn-link text-decoration-none text-success fw-bold"
                               wire:click="seeMessage({{$com->id}})"> مشاهده </span>
                     </div>
+
 
                     <div class="col-xl-1 text-center py-1">
 

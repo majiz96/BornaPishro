@@ -36,7 +36,7 @@ trait ToJalai
     }
     public function fromJalaliDatePicker($data): string
     {
-        return Jalalian::fromDateTime($data)->format('d F Y');
+        return Jalalian::fromDateTime($data)->format('j F Y');
     }
     public function fromJalaliDatePickerDiff($data): string
     {
