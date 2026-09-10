@@ -18,6 +18,8 @@ class Licenses extends Component
 
    public $name, $link, $icon, $description, $date_picker;
 
+   public $model = License::class;
+
    public int $active = 1;
 
    public $editing = null;
