@@ -34,7 +34,7 @@ class Login extends Component
         {
             $user = Auth::user();
             if (!$user||!$user->hasVerifiedEmail()) {
-                return redirect(route('verification.notice'));
+                return redirect()->route('verification.notice');
             }
             return redirect()->intended('/');
         }

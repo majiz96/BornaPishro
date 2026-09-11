@@ -24,6 +24,9 @@ class Register extends Component
     public $password;
     public $password_confirmation;
 
+
+    public $showPassword = false;
+
     public function save()
     {
         $this->validate([
@@ -55,6 +58,11 @@ class Register extends Component
         Auth::login($user);
         event(new Registered($user));
         return redirect()->route('verification.notice');
+    }
+
+    public function togglePassword()
+    {
+        $this->showPassword = !$this->showPassword;
     }
 
     public function render()

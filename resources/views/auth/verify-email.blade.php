@@ -1,5 +1,5 @@
 <x-layouts.app>
-    <div class="container mt-5">
+    <div class="container mt-5 avoid-emptiness">
         <div class="alert alert-info">
             لطفاً ایمیل خود را بررسی کنید. لینک تأیید برایتان ارسال شده است.
         </div>
