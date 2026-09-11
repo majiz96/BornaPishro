@@ -33,6 +33,10 @@ class Products extends Component
     public string $sort = 'created_at';
     public string $direction = 'desc';
 
+    public $showFilters = false;
+    public $showCategories = false;
+    public $showOrders = false;
+
 //    reset products page if each of these variables change
     public function updated($property)
     {
@@ -114,11 +118,13 @@ class Products extends Component
               ->WhereBetween($finalPrice, [$this->priceMin, $this->priceMax])
               ->where($finalPrice, '>', 0);
         }
-//        show all products
+// show all products
         else
         {
-            $query->whereBetween($finalPrice, [$this->priceMin, $this->priceMax]);
-            $query->orWhereNull('price');
+            $query->where(function ($q) use ($finalPrice) {
+                $q->whereBetween($finalPrice, [$this->priceMin, $this->priceMax])
+                    ->orWhereNull('price');
+            });
         }
 
 //        show only products which have supply
@@ -192,6 +198,34 @@ class Products extends Component
         $this->activeOption = [];
         $this->resetPage();
     }
+
+    public function openFilters()
+    {
+        $this->showFilters = true;
+    }
+    public function closeFilters()
+    {
+        $this->showFilters = false;
+    }
+
+    public function openCategories()
+    {
+        $this->showCategories = true;
+    }
+    public function closeCategories()
+    {
+        $this->showCategories = false;
+    }
+
+    public function openOrders()
+    {
+        $this->showOrders = true;
+    }
+    public function closeOrders()
+    {
+        $this->showOrders = false;
+    }
+
 
     public function render()
     {

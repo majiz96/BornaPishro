@@ -1,22 +1,17 @@
-<div class="container-fluid avoid-emptiness">
+<div class="container-fluid avoid-emptiness overflow-hidden">
 
     {{--  Showing & selecting categories  --}}
 
-        <div class="row text-center px-xl-5 px-4">
+        <div class="row text-center px-xl-5 px-lg-3 px-2">
 
-            <h2 class="my-auto">
-                دسته ها
-{{--                {{$category}}--}}
-{{--                 ==--}}
-{{--                @forelse($activeCategory as $active)--}}
-{{--                    {{$active}}--}}
-{{--                @empty--}}
-{{--                    هیچ دسته منتخبی وجود ندارد--}}
-{{--                @endforelse--}}
-            </h2>
-            <div class="row text-center border rounded-4 px-xl-5 pt-3 pb-2 mx-auto">
+
+            <div class="row text-center border rounded-4 px-xl-5 pt-3 pb-2 mx-auto d-none d-xl-inline-flex">
 
                 @if($this->categories->isNotEmpty())
+
+                    <h2 class="my-2">
+                        دسته ها
+                    </h2>
 
                     @if(!empty($activeCategory) && count($activeCategory) !== count($this->categories))
 
@@ -63,14 +58,13 @@
                         @endif
 
                     @endforeach
-                @else
 
                 @endif
 
             </div>
 
 
-            <div class="row mt-3 mb-1 px-3">
+            <div class="row mt-3 mb-1 px-3 d-none d-xl-inline-flex">
 
                 <div class="col-xl-2">
                     <input type="text" wire:model.live="search" class="form-control" placeholder="جستجو...">
@@ -103,7 +97,7 @@
 
             </div>
 
-            <div class="col-lg-2 border home-blocks rounded-end-4 my-3 px-4">
+            <div class="col-xxl-2 col-xl-3 border home-blocks rounded-end-4 my-3 px-xxl-3 px-xl-2 px-1 d-none d-xl-inline-block">
 
                 <div class="row my-3 px-3">
 
@@ -226,13 +220,52 @@
             </div>
         </div>
 
+            <div class="row mt-3 mb-1 px-sm-3 py-4 rounded-4 d-xl-none d-xxl-none border mx-auto">
+
+                <div class="col-md-5 col-sm-12 col-12 mx-auto"><input type="text" wire:model.live="search" class="form-control" placeholder="جستجو..."></div>
+
+                <button class="col-md-2 col-sm-3 col-5 btn btn-primary mx-auto mt-md-0 mt-4"
+                        wire:click="openCategories">
+                    <i class="bi-folder"></i>
+                    دسته بندی
+                </button>
+
+                <button class="col-md-2 col-sm-3 col-5 btn btn-danger mx-auto mt-md-0 mt-4"
+                        wire:click="openFilters">
+                    <i class="bi-funnel"></i> فیلترها
+                </button>
+
+                <button class="col-md-2 col-sm-3 col-11 btn btn-success mx-auto mt-md-0 mt-4"
+                        wire:click="openOrders">
+                    <i class="bi-filter"></i> ترتیب
+                </button>
+
+                <div class="row my-2">
+                    <div class="my-5 px-3">
+                        <h6 class="mb-3">محدوده قیمت:</h6>
+
+                        <div wire:ignore>
+                            <div id="priceSlider2"></div>
+                        </div>
+
+                        <div class="d-flex justify-content-between mt-3">
+                            <small class="">{{ number_format($priceMin) }} تومان</small>
+                            <small class="">{{ number_format($priceMax) }} تومان</small>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
             {{--     Show Products      --}}
-            <div class="col-lg-10 border home-blocks rounded-start-4 my-3 px-4">
+            <div class="col-xxl-10 col-xl-9 col-12 border home-blocks rounded-responsive my-3 px-xl-4 px-lg-2 px-3">
 
-                <div class="row">
+                <div class="row d-flex">
 
-                    @foreach($this->products as $product)
-                        <a href="{{ route('product.show',$product->id) }}" class="col-xl-2 col-md-4 py-3 mx-auto delete-badge text-decoration-none">
+                    @forelse($this->products as $product)
+                        <a href="{{ route('product.show',$product->id) }}"
+                           class="col-xxl-2 col-xl-4 col-md-4 col-sm-6 col-12 py-3 mx-auto delete-badge text-decoration-none">
 
                             <div class="main-img text-center overflow-hidden border bg-white py-3 mb-0 rounded-top-4">
                                 <img class="rounded-top-4" src="{{asset('storage/products/'.$product->image) }}" height="180" alt="پیش نمایش">
@@ -260,7 +293,9 @@
                                 </div>
                             @endif
                         </a>
-                    @endforeach
+                    @empty
+                        <div class="row text-center text-danger mt-5"> <h3> محصولی ثبت نشده است </h3> </div>
+                    @endforelse
                 </div>
 
             </div>
@@ -269,15 +304,65 @@
             {{$this->products->links(data:['scrollTo',false])}}
             @endif
 
+            @if($showFilters && $this->Filters->isNotEmpty())
+                @include('modals.show-filters')
+            @endif
+
+            @if($showCategories)
+                @include('modals.show-categories')
+            @endif
+
+            @if($showOrders)
+                @include('modals.show-product-orders')
+            @endif
+
         </div>
 
 
 
-
+</div>
 
 <script>
     document.addEventListener('livewire:init', function() {
         const slider = document.getElementById('priceSlider');
+        if (!slider) return;
+
+        const sliderInstance = noUiSlider.create(slider, {
+            start: [@js($priceMin), @js($priceMax)],
+            connect: true,
+            direction: 'rtl',
+            range: {
+                'min': @js($priceMin),
+                'max': @js($priceMax)
+            },
+            step: 100000
+        });
+
+        sliderInstance.on('update', function(values) {
+            @this.call('updatePriceRange',
+                Math.round(values[0]),
+                Math.round(values[1])
+            );
+        });
+
+        Livewire.on('updateSlider', function(data) {
+            sliderInstance.updateOptions({
+                range: { min: data.min, max: data.max }
+            });
+
+            const currentValues = sliderInstance.get();
+            let newMin = Math.max(currentValues[0], data.min);
+            let newMax = Math.min(currentValues[1], data.max);
+
+            if (newMin !== currentValues[0] || newMax !== currentValues[1]) {
+                sliderInstance.set([newMin, newMax]);
+            }
+        });
+    });
+
+
+    document.addEventListener('livewire:init', function() {
+        const slider = document.getElementById('priceSlider2');
         if (!slider) return;
 
         const sliderInstance = noUiSlider.create(slider, {

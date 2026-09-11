@@ -1,8 +1,7 @@
 <div class="container-fluid avoid-emptiness">
 
 
-    <div class="row text-center border rounded-4 px-xl-5 pt-3 pb-2 mx-auto
-    d-none d-xl-flex">
+    <div class="row text-center border rounded-4 px-xl-5 pt-3 pb-2 mx-auto d-none d-xl-flex">
 
         @if($this->categories->isNotEmpty())
 
@@ -59,7 +58,7 @@
 
     <div class="row border rounded-4 mx-1 my-4">
 
-        <div class="col-xxl-1 col-xl-2 border rounded-end-4 d-none d-xl-inline-block">
+        <div class="col-xxl-2 col-xl-3 border rounded-end-4 d-none d-xl-inline-block">
 
             {{--       Filters        --}}
             <div class="row my-4 mx-auto bg-body">
@@ -130,7 +129,7 @@
 
         </div>
 
-        <div class="col-xxl-11 col-xl-10">
+        <div class="col-xxl-10 col-xl-9">
 
             <div class="row mt-3 mb-1 px-3 d-none d-xl-flex">
 
@@ -189,7 +188,7 @@
             <div class="row mt-3 mb-1 px-0">
 
             {{--      show services      --}}
-            <div class="row py-5 px-0 text-center border mx-auto">
+            <div class="row py-5 px-0 text-center border-top mx-auto">
 
                 @forelse($this->services as $service)
 

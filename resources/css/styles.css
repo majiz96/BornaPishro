@@ -316,3 +316,15 @@ i
     margin-right: 0;
     margin-left: auto;
 }
+
+.rounded-responsive {
+    border-radius: var(--bs-border-radius-xl);
+}
+
+@media (min-width: 1200px) {
+    .rounded-responsive {
+        border-radius: 0;
+        border-top-left-radius: var(--bs-border-radius-xl);
+        border-bottom-left-radius: var(--bs-border-radius-xl);
+    }
+}
