@@ -72,17 +72,21 @@
         <div class="col-xxl-6 pt-3 text-center mx-auto py-2">
 
 
-            <div class="row text-center"> <h4>با ما همراه باشید</h4> </div>
+
 
             <div class="row">
 
-                @forelse($socials as $social)
-                    <a class="col-auto mx-auto my-2 text-center" href="{{$social->link}}">
-                        <img src="{{ asset('storage/social_icons/'.$social->icon) }}" height="40">
-                    </a>
-                @empty
-                    <div class="col-auto"> در حال حاضر فعالیت مجازی خارج از وبسایت نداریم </div>
-                @endforelse
+                @if($socials->isNotEmpty())
+
+                    <div class="row text-center"> <h4>با ما همراه باشید</h4> </div>
+
+                    @foreach($socials as $social)
+                        <a class="col-auto mx-auto my-2 text-center" href="{{$social->link}}">
+                            <img src="{{ asset('storage/social_icons/'.$social->icon) }}" height="40">
+                        </a>
+                    @endforeach
+
+                @endif
 
             </div>
 
@@ -160,18 +164,19 @@
 
         <div class="col-xxl-6 pt-3 text-center mx-auto py-2">
 
-
-            <div class="row text-center"> <h4>با ما همراه باشید</h4> </div>
-
             <div class="row">
 
-                @forelse($socials as $social)
-                    <a class="col-auto mx-auto my-2 text-center" href="{{$social->link}}">
-                        <img src="{{ asset('storage/social_icons/'.$social->icon) }}" height="40">
-                    </a>
-                @empty
-                    <div class="col-auto"> در حال حاضر فعالیت مجازی خارج از وبسایت نداریم </div>
-                @endforelse
+                @if($socials->isNotEmpty())
+
+                    <div class="row text-center"> <h4>با ما همراه باشید</h4> </div>
+
+                    @foreach($socials as $social)
+                        <a class="col-auto mx-auto my-2 text-center" href="{{$social->link}}">
+                            <img src="{{ asset('storage/social_icons/'.$social->icon) }}" height="40">
+                        </a>
+                    @endforeach
+
+                @endif
 
             </div>
 
