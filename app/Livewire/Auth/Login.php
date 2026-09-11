@@ -13,33 +13,40 @@ use Livewire\Attributes\Validate;
 
 class Login extends Component
 {
-    ##[Validate(['required','email'=>'email'])]
-
     #[Validate("required",message : "ایمیل الزامی است")]
     #[Validate("email",message: "ایمیل معتبر نیست")]
     public string $email;
+
+    #[Validate("required",message : "گذرواژه الزامی است")]
     public string $password;
 
     public $remember;
 
+    public $message = '';
+
     public function login()
     {
 
-//        if (! Auth::attempt([
-//            'email' => $this->email,
-//            'password' => $this->password,
-//        ], $this->remember)) {
-//
-//            // نمایش خطا
-//        }
+        $this->validate();
 
-        Auth::attempt(['email' => $this->email, 'password' => $this->password],$this->remember);
 
-        $user = Auth::user();
-        if (!$user||!$user->hasVerifiedEmail()) {
-            return redirect(route('verification.notice'));
+        if(Auth::attempt(['email' => $this->email, 'password' => $this->password],$this->remember))
+        {
+            $user = Auth::user();
+            if (!$user||!$user->hasVerifiedEmail()) {
+                return redirect(route('verification.notice'));
+            }
+            return redirect()->intended('/');
         }
-        return redirect()->intended('/');
+        else
+        {
+            $this->message = 'ایمیل یا گذرواژه اشتباه است';
+        }
+
+
+
+
+
     }
     public function render()
     {

@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Livewire\Auth\Login;
 use App\Livewire\Auth\Register;
 use App\Livewire\Counter;
+use App\Livewire\Home;
 
 use App\Livewire\Products;
 use App\Livewire\ProductUnit;
@@ -41,10 +42,7 @@ use App\Livewire\Dashboard\Attachments\Specifications;
 use App\Livewire\Dashboard\Attachments\Comments;
 use App\Livewire\Dashboard\Attachments\SelectFilter;
 
-Route::get('/', function () {
-    return view('welcome');
-})->name('home');
-
+Route::get('/',Home::class)->name('home.show');
 Route::get('counter',Counter::class)->name('counter');
 Route::get('register',Register::class)->name('register');
 Route::get('login',Login::class)->name('login');
