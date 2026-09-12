@@ -6,6 +6,7 @@ use Illuminate\Foundation\Support\Providers\RouteServiceProvider;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rules\Password;
 use Illuminate\Auth\Events\Registered;
+use Laravel\Fortify\Contracts\CreatesNewUsers;
 
 use Livewire\Component;
 use Livewire\Attributes\Validate;
@@ -27,7 +28,7 @@ class Register extends Component
 
     public $showPassword = false;
 
-    public function save()
+    public function register(CreatesNewUsers $newUser)
     {
         $this->validate([
             'name' => ['required','min:3' ,'max:32'],
@@ -53,7 +54,7 @@ class Register extends Component
         ]);
 
         $data = $this->pull(['name','lastname','email','position_id','password','password_confirmation']);
-        $user = User::create($data);
+        $user = $newUser->create($data);
 
         Auth::login($user);
         event(new Registered($user));

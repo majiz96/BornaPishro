@@ -24,6 +24,8 @@ class Login extends Component
 
     public $message = '';
 
+    public $showPassword = false;
+
     public function login()
     {
 
@@ -32,22 +34,35 @@ class Login extends Component
 
         if(Auth::attempt(['email' => $this->email, 'password' => $this->password],$this->remember))
         {
+            request()->session()->regenerate();
+
             $user = Auth::user();
-            if (!$user||!$user->hasVerifiedEmail()) {
+
+            if ($user->hasVerifiedEmail()) {
+
+                return redirect()->intended(config('fortify.home'));
+            }
+            else
+            {
+                auth()->user()->sendEmailVerificationNotification();
                 return redirect()->route('verification.notice');
             }
-            return redirect()->intended('/');
+
+
+
         }
         else
         {
-            $this->message = 'ایمیل یا گذرواژه اشتباه است';
+            $this->addError('password', __('ایمیل یا گذرواژه اشتباه است'));
         }
 
-
-
-
-
     }
+
+    public function togglePassword()
+    {
+        $this->showPassword = !$this->showPassword;
+    }
+
     public function render()
     {
         return view('livewire.auth.login')

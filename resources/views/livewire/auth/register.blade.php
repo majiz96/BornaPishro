@@ -2,7 +2,7 @@
 
         <div class="row text-center">
 
-            <form wire:submit.prevent="save">
+            <form wire:submit.prevent="register">
 
                 <div class="col-xxl-3 col-xl-4 col-lg-5 col-md-6 border border-2 rounded-5 mx-auto">
                 <div class="row my-5 px-2">
