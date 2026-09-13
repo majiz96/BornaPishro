@@ -34,7 +34,7 @@
                 <div class="text-danger my-1">@error('password_confirmation') {{ $message }} @enderror</div>
 
                 <div class="row">
-                    <button type="submit" class="submit-button rounded-4 py-2 px-4 w-auto mx-auto"> ثبت نام </button>
+                    <button type="submit" class="submit-button rounded-4 py-2 px-4 w-auto mx-auto"> ویرایش </button>
                 </div class="text-danger">
 
             </div>

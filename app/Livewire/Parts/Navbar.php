@@ -11,6 +11,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Livewire\Attributes\Computed;
+use Livewire\Attributes\On;
 use Livewire\Component;
 
 
@@ -143,6 +144,13 @@ class Navbar extends Component
     public function commentAlert()
     {
         return Comment::where('see',0)->count();
+    }
+
+    #[On('user-updated')]
+    public function userUpdate()
+    {
+        $this->name = Auth::user()->name;
+        $this->lastname = Auth::user()->lastname;
     }
 
     public function render()

@@ -53,7 +53,7 @@ class EditProfile extends Component
             'password.*'=>'رمز عبور باید حداقل ۸ کرکتر باشد و شامل نمادها،اعداد، حروف کوچک و بزرگ باشد.'
         ]);
 
-        $data = $this->pull(['name','lastname','email','position_id','password','password_confirmation']);
+        $data = $this->pull(['name','lastname','email','password','password_confirmation']);
 
         $id = Auth::user()->id;
 
@@ -63,7 +63,7 @@ class EditProfile extends Component
         $this->lastname = $data['lastname'];
         $this->email = $data['email'];
 
-
+        $this->dispatch('user-updated',userUpdat: $user);
     }
     public function render()
     {
