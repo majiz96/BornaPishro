@@ -8,24 +8,24 @@
 
     <div class="row text-center my-2"><h1>{{$model->name ?? $model->title}}</h1></div>
 
-    @if($comments->isNotEmpty())
+    @if($this->Comments->isNotEmpty())
 
         <div class="row mt-3 px-0">
 
-            @if(count($showed_comments) == count($comments))
-                <div class="col-xl-1 mt-2 text-start"><label for="show"> دیدن همه </label></div>
+            @if(count($this->ShowedComments) == count($comments))
+                <div class="col-xl-1 mt-2 text-start"><label for="show"> نمایش همه </label></div>
                 <div class="col-xl-1 mt-2"><input type="checkbox" id="show" wire:change="showNone" checked></div>
             @else
-                <div class="col-xl-2 mt-2 text-end"><label for="show"> نمایش {{count($showed_comments)}} از {{count($comments)}} </label></div>
+                <div class="col-xl-2 mt-2 text-end"><label for="show"> نمایش {{count($this->ShowedComments)}} از {{count($comments)}} </label></div>
                 <div class="col-xl-1 mt-2"><input type="checkbox" id="show" wire:change="showAll"></div>
             @endif
 
 
-            @if(count($seen_comments) == count($comments))
+            @if(count($this->SeenComments) == count($comments))
                 <div class="col-xl-1 mt-2 text-end"><label for="see"> دیدن همه </label></div>
                 <div class="col-xl-1 mt-2 text-end"><input type="checkbox" id="see" wire:change="seeNone" checked></div>
             @else
-                <div class="col-xl-1 mt-2 text-end"><label for="see"> نمایش {{count($seen_comments)}} از {{count($comments)}} </label></div>
+                <div class="col-xl-1 mt-2 text-end"><label for="see"> نمایش {{count($this->SeenComments)}} از {{count($comments)}} </label></div>
                 <div class="col-xl-1 mt-2 text-end"><input type="checkbox" id="see" wire:change="seeAll"></div>
             @endif
 
@@ -33,7 +33,7 @@
 
         <div class="row mt-3 px-0">
 
-        @foreach($comments as $comment)
+        @foreach($this->Comments as $comment)
           <div class="row border rounded-4 mt-3 py-2">
 
             <div class="row border-bottom mx-auto">

@@ -6,6 +6,7 @@ use App\Models\Comment;
 use App\Models\Field;
 use App\Models\Product;
 use App\Models\User;
+use Livewire\Attributes\Computed;
 use Livewire\Component;
 use Illuminate\Database\Eloquent\Relations\Relation;
 class Comments extends Component
@@ -95,15 +96,36 @@ class Comments extends Component
         $comment->deleteWithChildren();
     }
 
+    #[Computed]
+    public function Comments()
+    {
+        return Comment::where('commentable_id', $this->id)
+            ->where('commentable_type', $this->type)
+            ->with('Users')
+            ->get();
+    }
+
+    #[Computed]
+    public function ShowedComments()
+    {
+        return Comment::where('commentable_id', $this->id)
+            ->where('commentable_type', $this->type)
+            ->where('show', 1)
+            ->get();
+    }
+    #[Computed]
+    public function SeenComments()
+    {
+        return Comment::where('commentable_id', $this->id)
+            ->where('commentable_type', $this->type)
+            ->where('see', 1)
+            ->get();
+    }
+
+
     public function render()
     {
-        $comments = Comment::where('commentable_id', $this->id)->where('commentable_type', $this->type)->with('Users')->get();
-
-        $showed_comments = Comment::where('commentable_id', $this->id)->where('commentable_type', $this->type)->where('show', 1)->get();
-        $seen_comments = Comment::where('commentable_id', $this->id)->where('commentable_type', $this->type)->where('see', 1)->get();
-
-
-        return view('livewire.dashboard.attachments.comments', compact('comments','showed_comments','seen_comments'))
+        return view('livewire.dashboard.attachments.comments')
             ->layout('components.layouts.dashboards');
     }
 }
