@@ -213,7 +213,7 @@
             <div class="d-flex align-items-center w-100 position-relative">
 
                 <!-- راست: آیکن همبرگر (تریگر منو) -->
-                <button class="navbar-toggler position-absolute top-50 translate-middle-y text-white"
+                <button class="navbar-toggler position-absolute top-50 translate-middle-y text-white mobile-menu-icon"
                         style="right: 1.5rem; color:white !important;"
                         type="button" data-bs-toggle="collapse"
                         data-bs-target="#fullscreenMenu" aria-controls="fullscreenMenu"
