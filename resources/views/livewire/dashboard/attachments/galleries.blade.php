@@ -7,7 +7,7 @@
         <div class="col-xl-5"></div>
     </div>
 
-    <div class="row text-center my-2"><h1>{{$products->name}}</h1></div>
+    <div class="row text-center my-2"><h1>{{$product->name}}</h1></div>
 
 
     <form enctype="multipart/form-data" class="row text-center mx-auto mt-3 py-3 border rounded-4" wire:submit.prevent="save">
@@ -40,7 +40,13 @@
     {{--  Show files of this product  --}}
 
 
-    @if($galleries->isNotEmpty())
+    <div class="row">
+        @foreach($selected as $image)
+            {{$image ,}}
+        @endforeach
+    </div>
+
+    @if($this->Galleries->isNotEmpty())
 
         <div class="row mt-3 border-bottom py-3 text-center">
             <div class="col-xl-1 my-auto"><input type="checkbox" wire:model.live="selectAll"></div>
@@ -48,11 +54,11 @@
             <div class="col-xl-1">
 
 
-                @if(count($imagesShow) == count($galleries))
+                @if(count($this->ImageShow) == count($this->Galleries))
                     <label for="show">نمایش همه </label>
                     <input type="checkbox" id="show" class="mx-3" wire:change="showNone" checked>
                 @else
-                    <label for="show"> {{count($imagesShow)}} عکس </label>
+                    <label for="show">نمایش {{count($this->ImageShow)}} عکس </label>
                     <input type="checkbox" id="show" class="mx-3" wire:change="showAll">
                 @endif
 
@@ -66,7 +72,7 @@
 
             <div class="col-xl-1">
 
-                @if(count($selected)>1)
+                @if(count($selected) > 1)
                     <button class="btn btn-sm btn-danger rounded-3" wire:change="deleteSelected" wire:confirm="آیا از حذف برند همه برندها مطمئن هستید؟">
                         حذف انتخابی
                     </button>
@@ -77,7 +83,7 @@
             </div>
         </div>
 
-        @foreach($galleries as $image)
+        @foreach($this->Galleries as $image)
 
             <div class="row mt-3 border rounded-4 py-3 text-center">
 
