@@ -7,7 +7,7 @@
         <div class="col-xl-5"></div>
     </div>
 
-    <div class="row text-center my-2"><h1>{{$products->name}}</h1></div>
+    <div class="row text-center my-2"><h1>{{$product->name}}</h1></div>
 
 
     <form class="row text-center mx-auto mt-3 py-3 border rounded-4" wire:submit.prevent="save">
@@ -71,19 +71,19 @@
 
     {{--  Show files of this product  --}}
 
-    @if($product_videos->isNotEmpty())
+    @if($this->Videos->isNotEmpty())
 
         <div class="row mt-3 border-bottom py-3 text-center">
             <div class="col-xl-1"><input type="checkbox" wire:model.live="selectAll"></div>
 
 
             <div class="col-xl-1">
-                @if(count($showed_videos) == count($product_videos))
+                @if(count($this->ShowedVideos) == count($this->Videos))
                     <label for="show"> نمایش همه </label>
                     <input type="checkbox" id="show" wire:change="showNone" checked>
 
                 @else
-                    <label for="show"> {{count($showed_videos)}} ویدیو </label>
+                    <label for="show"> {{count($this->ShowedVideos)}} ویدیو </label>
                     <input type="checkbox" id="show" wire:change="showAll">
                 @endif
             </div>
@@ -109,7 +109,7 @@
             <div class="col-xl-1 text-end"> ویرایش </div>
         </div>
 
-        @foreach($product_videos as $video)
+        @foreach($this->Videos as $video)
 
             <div class="row mt-3 border rounded-4 py-3 text-center">
 

@@ -4,6 +4,7 @@ namespace App\Livewire\Dashboard\Attachments;
 
 use App\Models\Product;
 use App\Models\Video;
+use Livewire\Attributes\Computed;
 use Livewire\Component;
 
 class Videos extends Component
@@ -181,13 +182,25 @@ class Videos extends Component
         $this->videoModal = true;
     }
 
+    #[Computed]
+    public function ShowedVideos()
+    {
+        return Video::where('videoable_id', $this->product->id)
+            ->where(['videoable_type' => Product::class])
+            ->where('show', 1)
+            ->pluck('id')
+            ->toArray();
+    }
+
+    #[Computed]
+    public function Videos()
+    {
+        return $this->product->videos;
+    }
+
     public function render()
     {
-        $products = Product::findOrFail($this->product->id);
-        $product_videos = $products->videos;
-        $showed_videos = Video::where('videoable_id', $this->product->id)->where(['videoable_type' => Product::class])->where('show', 1)->pluck('id')->toArray();
-
-        return view('livewire.dashboard.attachments.videos',['products'=>$products, 'product_videos'=>$product_videos,'showed_videos'=>$showed_videos])
+        return view('livewire.dashboard.attachments.videos')
             ->layout('components.layouts.dashboards');
     }
 }
