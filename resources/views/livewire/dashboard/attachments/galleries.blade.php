@@ -39,13 +39,6 @@
 
     {{--  Show files of this product  --}}
 
-
-    <div class="row">
-        @foreach($selected as $image)
-            {{$image ,}}
-        @endforeach
-    </div>
-
     @if($this->Galleries->isNotEmpty())
 
         <div class="row mt-3 border-bottom py-3 text-center">
@@ -73,7 +66,7 @@
             <div class="col-xl-1">
 
                 @if(count($selected) > 1)
-                    <button class="btn btn-sm btn-danger rounded-3" wire:change="deleteSelected" wire:confirm="آیا از حذف برند همه برندها مطمئن هستید؟">
+                    <button class="btn btn-sm btn-danger rounded-3" wire:click="deleteSelected" wire:confirm="آیا از حذف برند همه برندها مطمئن هستید؟">
                         حذف انتخابی
                     </button>
                 @else
