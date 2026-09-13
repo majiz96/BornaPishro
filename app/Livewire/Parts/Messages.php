@@ -3,6 +3,7 @@
 namespace App\Livewire\Parts;
 
 use App\Livewire\Dashboard\Website\Notices;
+use Livewire\Attributes\Computed;
 use Livewire\Component;
 
 use App\Models\Notice;
@@ -24,10 +25,18 @@ class Messages extends Component
         auth()->user()->notices()->updateExistingPivot($this->notice->id, ['read_at' => now()]);
     }
 
+    #[Computed]
+    public function Messages()
+    {
+        return auth()->user()?->notices()
+            ->whereNull('user_notice.read_at')
+            ->where('notices.status', 1)
+            ->latest()
+            ->get();
+    }
+
     public function render()
     {
-        return view('livewire.parts.messages',['messages'=>auth()->user()?->notices()->whereNull('user_notice.read_at')
-            ->where('notices.status', 1)->latest()->get()
-        ]);
+        return view('livewire.parts.messages');
     }
 }

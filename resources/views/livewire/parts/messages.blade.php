@@ -3,9 +3,9 @@
     <div class="row px-3">
 
         <div class="col-xxl-2 col-xl-3 col-lg-4 px-4 py-3">
-            @if($messages->isNotEmpty())
+            @if($this->Messages->isNotEmpty())
 
-                @foreach($messages as $message)
+                @foreach($this->Messages as $message)
 
                     <div class="row border text-end py-1 px-2 rounded mt-3">
 
