@@ -12,20 +12,20 @@
 
         <div class="row mt-3 px-0">
 
-            @if(count($this->ShowedComments) == count($comments))
+            @if(count($this->ShowedComments) == count($this->Comments))
                 <div class="col-xl-1 mt-2 text-start"><label for="show"> نمایش همه </label></div>
                 <div class="col-xl-1 mt-2"><input type="checkbox" id="show" wire:change="showNone" checked></div>
             @else
-                <div class="col-xl-2 mt-2 text-end"><label for="show"> نمایش {{count($this->ShowedComments)}} از {{count($comments)}} </label></div>
+                <div class="col-xl-2 mt-2 text-end"><label for="show"> نمایش {{count($this->ShowedComments)}} از {{count($this->Comments)}} </label></div>
                 <div class="col-xl-1 mt-2"><input type="checkbox" id="show" wire:change="showAll"></div>
             @endif
 
 
-            @if(count($this->SeenComments) == count($comments))
+            @if(count($this->SeenComments) == count($this->Comments))
                 <div class="col-xl-1 mt-2 text-end"><label for="see"> دیدن همه </label></div>
                 <div class="col-xl-1 mt-2 text-end"><input type="checkbox" id="see" wire:change="seeNone" checked></div>
             @else
-                <div class="col-xl-1 mt-2 text-end"><label for="see"> نمایش {{count($this->SeenComments)}} از {{count($comments)}} </label></div>
+                <div class="col-xl-1 mt-2 text-end"><label for="see"> نمایش {{count($this->SeenComments)}} از {{count($this->Comments)}} </label></div>
                 <div class="col-xl-1 mt-2 text-end"><input type="checkbox" id="see" wire:change="seeAll"></div>
             @endif
 
