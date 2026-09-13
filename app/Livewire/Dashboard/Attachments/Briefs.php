@@ -6,11 +6,12 @@ use App\Models\Brief;
 use App\Models\BriefUnit;
 use App\Models\BriefValue;
 use App\Models\Product;
+use Livewire\Attributes\Lazy;
 use Livewire\Component;
 
 class Briefs extends Component
 {
-    public $product,$title,$value;
+    public $product,$brief,$title,$value;
 
     public $editing = null;
     public $selected = [];
@@ -20,6 +21,7 @@ class Briefs extends Component
     public function mount(Product $product)
     {
         $this->product = $product;
+        $this->brief = $this->product->brief;
     }
 
     public function edit($id)
@@ -94,14 +96,16 @@ class Briefs extends Component
         $this->selectAll = false;
     }
 
+    #[Computed]
+    public function Units()
+    {
+       return BriefUnit::with('values')->where('brief_id',$this->brief->id)->get();
+    }
+
+
     public function render()
     {
-
-        $product = $this->product;
-        $briefs = $this->product->brief;
-        $units = BriefUnit::with('values')->where('brief_id',$briefs->id)->get();
-
-        return view('livewire.dashboard.attachments.briefs', compact('product', 'briefs','units'))
+        return view('livewire.dashboard.attachments.briefs')
             ->layout('components.layouts.dashboards');
     }
 }

@@ -41,7 +41,7 @@
        </div>
 
 
-       @if($units->isNotEmpty())
+       @if($this->Units->isNotEmpty())
 
            <div class="cs-navbar row text-center py-2 border rounded-3 mt-5 mb-2">
 
