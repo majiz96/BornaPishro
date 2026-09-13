@@ -144,9 +144,9 @@
     <div class="row">
 
         @if($tab && $tab == 'products')
-            @if($products->isNotEmpty())
+            @if($this->Products->isNotEmpty())
 
-                @foreach($products as $product)
+                @foreach($this->Products as $product)
 
                     <div class="row border-bottom my-3 py-2">
 
@@ -214,7 +214,7 @@
 
             @endif
 
-            {{$products->links(data:['scrollTo',false])}}
+            {{$this->Products->links(data:['scrollTo',false])}}
 
         @else
                                                                             {{--        Category Discount        --}}

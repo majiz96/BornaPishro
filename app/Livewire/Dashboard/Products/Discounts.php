@@ -161,18 +161,21 @@ class Discounts extends Component
         return Product::whereIn('category_id',$this->grouped)->get();
     }
 
-
-    public function render()
+    #[Computed]
+    public function Products()
     {
-        $products = Product::with('category','brand')
+        return Product::with('category','brand')
             ->where('price','>',0)
             ->where('name','like','%'.$this->search.'%')
             ->orWhere('fullname','like','%'.$this->search.'%')
             ->orWhere('brand_name','like','%'.$this->search.'%')
             ->orderBy($this->sort, $this->direction)
             ->paginate($this->perPage);
+    }
 
-        return view('livewire.dashboard.products.discounts',compact('products'))
+    public function render()
+    {
+        return view('livewire.dashboard.products.discounts')
             ->layout('components.layouts.dashboards');
     }
 }
