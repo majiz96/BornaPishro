@@ -7,7 +7,7 @@
         <div class="col-xl-5"></div>
     </div>
 
-    <div class="row text-center my-2"><h1>{{$products->name}}</h1></div>
+    <div class="row text-center my-2"><h1>{{$product->name}}</h1></div>
 
 
     <form enctype="multipart/form-data" class="row text-center mx-auto mt-3 py-3 border rounded-4" wire:submit.prevent="save">
@@ -40,7 +40,7 @@
 
         {{--  Show files of this product  --}}
 
-    @if($product_files->isNotEmpty())
+    @if($this->ProductFiles->isNotEmpty())
 
     <div class="row mt-3 border-bottom py-3 text-center">
         <div class="col-xl-1"><input type="checkbox" wire:model.live="selectAll"></div>
@@ -59,7 +59,7 @@
         </div>
     </div>
 
-        @foreach($product_files as $file)
+        @foreach($this->ProductFiles as $file)
 
             <div class="row mt-3 border rounded-4 py-3 text-center">
 
