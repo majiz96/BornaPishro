@@ -1,12 +1,14 @@
 <div class="container">
 
+    <div class="row text-center">
+        <h1>{{$product->name}}</h1>
+    </div>
+
     <div class="row">
 
     <div class="col-xl-4 side-img text-center mx-auto overflow-hidden">
 
       <img class="mx-auto mt-4 rounded-5" src="{{asset('storage/products/'.$product->image) }}"  alt="پیش نمایش">
-
-      <h1>{{$products->name}}</h1>
 
     </div>
 
@@ -49,7 +51,7 @@
 
     {{--  Show files of this product  --}}
 
-    @if($product_sources->isNotEmpty())
+    @if($this->Sources->isNotEmpty())
 
         <div class="row mt-3 border-bottom py-3 text-center">
 
@@ -76,7 +78,7 @@
             <div class="col-xl-1 text-end"> ویرایش </div>
         </div>
 
-        @foreach($product_sources as $source)
+        @foreach($this->Sources as $source)
 
             <div class="row mt-3 border rounded-4 py-3 text-center">
 

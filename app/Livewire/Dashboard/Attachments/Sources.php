@@ -4,6 +4,7 @@ namespace App\Livewire\Dashboard\Attachments;
 
 use App\Models\Product;
 use App\Models\Source;
+use Livewire\Attributes\Computed;
 use Livewire\Component;
 
 class Sources extends Component
@@ -111,12 +112,18 @@ class Sources extends Component
         $this->selected = [];
     }
 
+    #[Computed]
+    public function Sources()
+    {
+        return Source::where('sourceable_id', $this->product->id)
+            ->where('sourceable_type', Product::class)
+            ->get();
+    }
+
 
     public function render()
     {
-        $product_sources = Source::where('sourceable_id', $this->product->id)->where('sourceable_type', Product::class)->get();
-
-        return view('livewire.dashboard.attachments.sources',['products'=>$this->product,'product_sources'=>$product_sources])
+        return view('livewire.dashboard.attachments.sources')
             ->layout('components.layouts.dashboards');
     }
 }
