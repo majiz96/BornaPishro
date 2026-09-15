@@ -137,11 +137,10 @@ class CommentSection extends Component
                 $cooldownKey = 'comment-cooldown:'. (auth()->id() ?? request()->ip());
                 $delayKey    =    'comment-delay:'. (auth()->id() ?? request()->ip());
 
-                $expireAt = Cache::get($cooldownKey);
 
-                if ($expireAt && now()->timestamp < $expireAt) {
+                if (RateLimiter::tooManyAttempts($cooldownKey, 1)) {
 
-                    $this->commentCountDown = $expireAt - now()->timestamp;
+                    $this->commentCountDown = RateLimiter::availableIn($cooldownKey);
                     $this->countDownMessage = "لطفاً {$this->commentCountDown} ثانیه دیگر تلاش کنید.";
 
                     return;
@@ -159,16 +158,11 @@ class CommentSection extends Component
                     $delay = Cache::get($delayKey, 20);
 
                     Cache::put(
-                        $cooldownKey,
-                        now()->timestamp + $delay,
-                        now()->addSeconds($delay)
-                    );
-
-                    Cache::put(
                         $delayKey,
                         min($delay + 10, 60),
                         now()->addMinutes(10)
                     );
+                    RateLimiter::hit($cooldownKey, $delay);
 
                     $this->reset('text','countDownMessage');
                 }

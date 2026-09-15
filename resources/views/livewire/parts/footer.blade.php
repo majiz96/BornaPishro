@@ -58,6 +58,9 @@
                         <div class="text-danger text-nowrap">{{ $message }}</div>
                         @enderror
 
+                        <div class="text-danger">
+                            {{$cooldownMessage}}
+                        </div>
 
                     </div>
                 </form>
@@ -132,6 +135,10 @@
                         @error('files.*')
                         <div class="text-danger text-nowrap">{{ $message }}</div>
                         @enderror
+
+                        <div class="text-danger">
+                            {{$cooldownMessage}}
+                        </div>
 
                     </div>
 

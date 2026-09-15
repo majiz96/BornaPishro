@@ -13,6 +13,7 @@ use Livewire\Attributes\Computed;
 use Livewire\Attributes\On;
 use Livewire\Component;
 use Livewire\WithFileUploads;
+use Illuminate\Support\Facades\RateLimiter;
 
 class Footer extends Component
 {
@@ -20,6 +21,9 @@ class Footer extends Component
 
     public $panelShow = false;
     public $user_id,$subject,$text,$name,$guest_email,$guest_phone;
+
+    public int $cooldownCounter;
+    public string $cooldownMessage = '';
 
     public string $uploadTip='فقط فایلهای آفیس و یا pdf و rar و zip ';
     public  $files = [];
@@ -137,29 +141,45 @@ class Footer extends Component
             ]);
         }
 
-        $comm= Communication::create([
-            'subject'=>$this->subject,
-            'message'=>$this->text,
-            'user_id'=>$this->user_id,
-        ]);
+        $cooldownKey = 'comment-cooldown :'.auth()->id() ?? request()->ip();
+        $delayKey    = 'comment-delay    :'.auth()->id() ?? request()->ip();
 
-        foreach($this->files as $file){
+        if (RateLimiter::tooManyAttempts($cooldownKey, 1)) {
 
-            $filestore = uniqid('auth_'.Auth::user()->id.'_') . '.' . $file->getClientOriginalExtension();
-            $file->storeAs('attachments', $filestore, 'public');
-
-            File::create([
-                'filename'=>$file->getClientOriginalName(),
-                'file'=>$filestore,
-                'size'=>($file->getSize())/1024 / 1024, 2,
-                'fileable_id'=>$comm->id,
-                'fileable_type'=> Communication::class
+            $this->cooldownCounter = RateLimiter::availableIn($cooldownKey);
+            $this->cooldownMessage = " {$this->cooldownCounter} ثانیه دیگر تلاش کنید ";
+            return;
+        }
+        else
+        {
+            $comm= Communication::create([
+                'subject'=>$this->subject,
+                'message'=>$this->text,
+                'user_id'=>$this->user_id,
             ]);
 
-        }
+            foreach($this->files as $file){
+
+                $filestore = uniqid('auth_'.Auth::user()->id.'_') . '.' . $file->getClientOriginalExtension();
+                $file->storeAs('attachments', $filestore, 'public');
+
+                File::create([
+                    'filename'=>$file->getClientOriginalName(),
+                    'file'=>$filestore,
+                    'size'=>($file->getSize())/1024 / 1024, 2,
+                    'fileable_id'=>$comm->id,
+                    'fileable_type'=> Communication::class
+                ]);
+
+            }
+
+            // ############################################################################ Cache Codes You've learnt
 
 //        $this->files = [];
-        $this->reset('uploadedFiles', 'files','subject','text');
+            $this->reset('uploadedFiles', 'files','subject','text');
+        }
+
+
     }
 
 //    get uploaded file's names and send it's names for showing in UI for messages attachments
