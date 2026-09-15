@@ -461,3 +461,7 @@ $(document).on('input', 'textarea', function () {
 
     $('#textcount').text(textcount);
 });
+
+$(document).on('submit', 'form', function () {
+    $('#textcount').html('');
+})
