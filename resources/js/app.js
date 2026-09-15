@@ -443,19 +443,20 @@ Livewire.on(
     }
 );
 
-$('textarea').on('input', function () {
+$(document).on('input', 'textarea', function () {
 
     var textcount = this.value.length;
 
-    $('#textcount').removeClass('text-warning text-danger');
+    $('#textcount').removeClass('text-warning text-orange text-danger');
 
-    if (textcount > 1800)
+
+    if (textcount > 2000)
     {
         $('#textcount').addClass('text-danger');
     }
-    else if (textcount > 1500)
+    else if (textcount > 1800)
     {
-        $('#textcount').addClass('text-warning');
+        $('#textcount').addClass('text-orange');
     }
 
     $('#textcount').text(textcount);
