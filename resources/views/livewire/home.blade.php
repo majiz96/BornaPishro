@@ -60,11 +60,9 @@
 
     </div>
 
-{{--        <div class="row border text-secondary text-center mx-2 rounded-5 py-5 my-5"><h2 class="mx-auto my-auto">نمادهای محصولات</h2></div>--}}
-    <h2 class="mt-5 mx-5"> خدمات </h2>
     {{--    Service Slider    --}}
     @if($this->serviceSlider->isNotEmpty() && count($this->serviceSlider) > 1)
-
+        <h2 class="mt-5 mx-5"> خدمات </h2>
         {{-- resources/views/livewire/slider-component.blade.php --}}
         <div id="ServiceSlider" class="carousel slide" data-bs-ride="carousel">
             <!-- Indicators/dots -->
@@ -128,11 +126,13 @@
         @endforeach
     @endif
 
+
+
+        @if($this->productSlider->isNotEmpty())
         <h2 class="mt-5 mx-5">آخرین محصولات</h2>
         {{-- فقط در این صفحه، فایل مخصوص سوییپر از طریق Vite لود می‌شود --}}
         @vite(['resources/js/home-swiper.js'])
 
-        @if($this->productSlider->isNotEmpty())
             <div wire:ignore class="product-swiper swiper" style="position: relative;">
                 <div class="swiper-wrapper">
                     @foreach($this->productSlider as $product)
@@ -172,15 +172,15 @@
                 <div class="swiper-button-next"></div>
                 <div class="swiper-button-prev"></div>
             </div>
-        @else
-            <p>محصولی برای نمایش وجود ندارد.</p>
         @endif
 
 
 
-        <h2 class="mt-5 mx-5"> آخرین مقالات </h2>
+
         {{--    Magazine Slider    --}}
         @if($this->articleSlider->isNotEmpty() && count($this->articleSlider) > 1)
+
+        <h2 class="mt-5 mx-5"> آخرین مقالات </h2>
 
             {{-- resources/views/livewire/slider-component.blade.php --}}
             <div id="MagSlider" class="carousel slide" data-bs-ride="carousel">
