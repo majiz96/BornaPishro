@@ -1,4 +1,4 @@
-<div class="container-fluid py-0 d-flex flex-column" style="min-height: 100%;">
+<div class="container-fluid py-0" style="min-height: 100%;">
 
     <div class="row text-center">
         <h2 id="showScreenSize"></h2>
