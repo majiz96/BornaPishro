@@ -17,6 +17,14 @@ i
 {
     min-height: 65vh;
 }
+.avoid-emptiness-tall
+{
+    min-height: 80vh;
+}
+.latin-font
+{
+    font-family: "Segoe UI" !important;
+}
 .cs-navbar
 {
     /*background-color:#096781;*/
