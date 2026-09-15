@@ -1,6 +1,8 @@
-<div class="container-fluid py-0">
+<div class="container-fluid py-0 auto-height" id="screen">
 
-
+    <div class="row text-center">
+        <h2 id="showScreenSize"></h2>
+    </div>
 
         {{--  Notice Slider  --}}
     @if($this->notificationSlider->isNotEmpty() && count($this->notificationSlider) > 1)
@@ -266,6 +268,7 @@
                         <div class="col-xl-12">
                             <textarea rows="5" class="form-control h-auto" wire:model.blur="text"></textarea>
                             @error('text')<div class="text-danger">{{$message}}</div>@enderror
+                            <small class="row pe-3 text-end" id="textcount">0</small>
                         </div>
                     </div>
 
@@ -339,6 +342,7 @@
                             <div class="col-xl-12">
                                 <textarea rows="5" class="form-control h-auto" wire:model.blur="text"></textarea>
                                 @error('text')<div class="text-danger">{{$message}}</div>@enderror
+                                <small class="row pe-3 text-end" id="textcount">0</small>
                             </div>
                         </div>
 

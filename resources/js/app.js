@@ -443,3 +443,20 @@ Livewire.on(
     }
 );
 
+$('textarea').on('input', function () {
+
+    var textcount = this.value.length;
+
+    $('#textcount').removeClass('text-warning text-danger');
+
+    if (textcount > 1800)
+    {
+        $('#textcount').addClass('text-danger');
+    }
+    else if (textcount > 1500)
+    {
+        $('#textcount').addClass('text-warning');
+    }
+
+    $('#textcount').text(textcount);
+});
