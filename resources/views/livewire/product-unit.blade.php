@@ -250,10 +250,6 @@
                 <div class="row mx-auto my-1">
                     @if($video->priority == 'آپارات')
 
-                        @if($video->youtube)
-                            <a href="https://youtu.be/{{$modalYoutube}}?si=c9qstIRQBH-kUg8P" class="text-danger text-decoration-none"> دیدن ویدیو در یوتوب </a>
-                        @endif
-
                         <style>
                             .h_iframe-aparat_embed_frame{position:relative;}.h_iframe-aparat_embed_frame .ratio{display:block;width:100%;height:auto;}
                             .h_iframe-aparat_embed_frame iframe{position:absolute;top:0;left:0;width:100%;height:100%;}</style>
@@ -264,15 +260,18 @@
                                     allowFullScreen="true" webkitallowfullscreen="true" mozallowfullscreen="true"></iframe>
                         </div>
 
+                        @if($video->aparat && $video->priority == 'آپارات')
+                            <div class="row">
+                                <a href="https://www.aparat.com/v/{{$video->aparat}}" class="text-decoration-none text-center aparat-text my-2" target="_blank">
+                                    دیدن ویدیو در آپارات
+                                </a>
+                            </div>
+                        @endif
+
 
 
                     @else
 
-                        @if($modalAparat)
-                            <div class="row">
-                                <a href="https://www.aparat.com/v/{{$video->aparat}}" class="text-danger text-decoration-none"> دیدن ویدیو در آپارات </a>
-                            </div>
-                        @endif
 
                         <div class="row">
                             <iframe width="2240" height="1100" src="https://www.youtube.com/embed/{{$video->youtube}}?si=Z8XTCDCeU9G-MZim"
@@ -281,9 +280,18 @@
                                     referrerpolicy="strict-origin-when-cross-origin" allowfullscreen>
                             </iframe>
                         </div>
-
+                        @if($video->youtube && $video->priority == 'یوتوب')
+                            <a href="https://youtu.be/{{$video->youtube}}?si=c9qstIRQBH-kUg8P" class="text-danger mx-auto text-decoration-none text-center my-2" target="_blank">
+                                دیدن ویدیو در یوتوب
+                            </a>
+                        @endif
 
                     @endif
+
+                    <div class="row my-2">
+                        {{$video->description}}
+                    </div>
+
                 </div>
             @empty
                 <div class="row text-center h5"> ویدیویی برای این محصول درج ثبت نشده است </div>
