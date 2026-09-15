@@ -1,6 +1,15 @@
 *{
     font-family:"B Yekan", sans-serif;
 }
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex: 1;
+}
 input:focus
 {
     outline-color: #84919e;
@@ -13,14 +22,14 @@ i
 {
    transition: border-radius 0.2s ease;
 }
-.avoid-emptiness
-{
-    min-height: 65vh;
-}
-.avoid-emptiness-tall
-{
-    min-height: 80vh;
-}
+/*.avoid-emptiness*/
+/*{*/
+/*    min-height: 65vh;*/
+/*}*/
+/*.avoid-emptiness-tall*/
+/*{*/
+/*    min-height: 80vh;*/
+/*}*/
 .latin-font
 {
     font-family: "Segoe UI" !important;
