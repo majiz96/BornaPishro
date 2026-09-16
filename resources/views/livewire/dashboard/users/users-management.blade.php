@@ -12,7 +12,7 @@
 
                     <select class="col-xxl-7 col-lg-4 text-lg-start my-lg-2 cs-navbar rounded-3 text-center py-1 mx-auto" wire:model.blur="position_id">
                         <option class="text-center bg-body text-body rounded-4"> سطح دسترسی </option>
-                        @foreach($positions as $pose)
+                        @foreach($this->Positions as $pose)
                             <option class="text-center bg-body text-body rounded-4" value="{{$pose->id}}">{{$pose->title}}</option>
                         @endforeach
                     </select>
@@ -63,42 +63,42 @@
 
     <div class="col-xl-8 my-5 mx-auto">
 
-        <div class="row my-3 px-5">
+        @if($this->Users->isNotEmpty())
 
-            <div class="col-xl-3">
-            <input type="text" class="form-control" placeholder="جستجو..." wire:model.live="search">
+            <div class="row my-3 px-5">
+
+                <div class="col-xl-3">
+                    <input type="text" class="form-control" placeholder="جستجو..." wire:model.live="search">
+                </div>
+
+                <div class="col-xl-2 my-auto">
+                    <select wire:model.live="sort" class="form-select">
+                        <option value="created_at">تاریخ ثبت نام</option>
+                        <option value="email_verified_at">تاریخ تایید اکانت</option>
+                        <option value="name">نام</option>
+                        <option value="lastname">نام خانوادگی</option>
+                        <option value="email">ایمیل</option>
+                        <option value="position_id">جایگاه</option>
+                    </select>
+                </div>
+
+                <div class="col-xl-2 my-auto">
+                    <select wire:model.live="direction" class="form-select">
+                        <option value="desc">نزولی</option>
+                        <option value="asc">صعودی</option>
+                    </select>
+                </div>
+
+                <div class="col-xl-1 my-auto">
+                    <select wire:model.live="perPage" class="form-select">
+                        <option value="5">5</option>
+                        <option value="10">10</option>
+                        <option value="25">25</option>
+                        <option value="">همه</option>
+                    </select>
+                </div>
+
             </div>
-
-            <div class="col-xl-2 my-auto">
-                <select wire:model.live="sort" class="form-select">
-                    <option value="created_at">تاریخ ثبت نام</option>
-                    <option value="email_verified_at">تاریخ تایید اکانت</option>
-                    <option value="name">نام</option>
-                    <option value="lastname">نام خانوادگی</option>
-                    <option value="email">ایمیل</option>
-                    <option value="position_id">جایگاه</option>
-                </select>
-            </div>
-
-            <div class="col-xl-2 my-auto">
-                <select wire:model.live="direction" class="form-select">
-                    <option value="desc">نزولی</option>
-                    <option value="asc">صعودی</option>
-                </select>
-            </div>
-
-            <div class="col-xl-1 my-auto">
-                <select wire:model.live="perPage" class="form-select">
-                    <option value="5">5</option>
-                    <option value="10">10</option>
-                    <option value="25">25</option>
-                    <option value="">همه</option>
-                </select>
-            </div>
-
-        </div>
-
-        @if($users->isNotEmpty())
 
             <div class="row mx-auto py-2 px-5 mx-3 rounded-4">
 
@@ -124,7 +124,7 @@
                 <div class="col-1 text-center mx-auto h5">ویرایش</div>
 
             </div>
-            @foreach($users as $user)
+            @foreach($this->Users as $user)
 
 
 
@@ -156,7 +156,7 @@
         @endif
 
         @if($perPage !== "")
-            {{$users->links(data:['scrollTo',false])}}
+            {{$this->Users->links(data:['scrollTo',false])}}
         @endif
 
 

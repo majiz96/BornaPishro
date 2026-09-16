@@ -2,8 +2,10 @@
 
 namespace App\Livewire\Dashboard\Users;
 
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Validation\Rules\Password;
 
+use Livewire\Attributes\Computed;
 use Livewire\Component;
 use Livewire\Attributes\Validate;
 use Livewire\WithPagination;
@@ -20,11 +22,7 @@ class UsersManagement extends Component
     public string $title = 'مدیریت کاربران';
     public int $counter = 1;
 
-    public string $name;
-    public string $lastname;
-    public string $email;
-    public string $position_id;
-    public string $password;
+    public string $name,$lastname,$email,$position_id,$password;
     public string $password_confirmation;
     public $editing = null;
 
@@ -56,6 +54,9 @@ class UsersManagement extends Component
     public function save()
     {
         if($this->editing) {
+
+            Gate::authorize('update', User::class);
+
             $data = $this->pull(['position_id']);
             $update = User::findOrFail($this->editing)->update($data);
             $this->editing = null;
@@ -63,6 +64,8 @@ class UsersManagement extends Component
         }
         else
         {
+            Gate::authorize('create', User::class);
+
             $this->validate([
                 'name' => ['required','min:3' ,'max:32'],
                 'lastname' => ['required', 'min:3' ,'max:100'],
@@ -125,6 +128,8 @@ class UsersManagement extends Component
 
     public function delete($id)
     {
+        Gate::authorize('delete', User::class);
+
         User::findOrFail($id)->delete();
     }
     public function selectedDelete()
@@ -134,27 +139,34 @@ class UsersManagement extends Component
         $this->selectAll = false;
     }
 
-    public function render()
+    #[Computed]
+    public function Users()
     {
         $maxLevel = Position::max('level');
-
-        $positions = Position::with('users')->where('level', '<', $maxLevel)->get();
-
 
         $query = User::whereHas('position', function($q) use($maxLevel) {
             $q->where('level','<', $maxLevel);
         })
             ->with('position')
-            ->where(function($q){
-                $q->where('name', 'like', '%' . $this->search . '%')
-                    ->orWhere('lastname', 'like', '%' . $this->search . '%')
-                    ->orWhere('email', 'like', '%' . $this->search . '%');
-            })->orderBy($this->sort,$this->direction);
+            ->where('name', 'like', '%' . $this->search . '%')
+            ->orWhere('lastname', 'like', '%' . $this->search . '%')
+            ->orWhere('email', 'like', '%' . $this->search . '%')
+            ->orderBy($this->sort,$this->direction);
 
-        $users = ($this->perPage == "") ? $query->get() : $query->paginate($this->perPage);
+       return ($this->perPage == "") ? $query->get() : $query->paginate($this->perPage);
+    }
 
+    #[Computed]
+    public function Positions()
+    {
+        $maxLevel = Position::max('level');
 
-        return view('livewire.dashboard.users.users-management',compact('users','positions'))
+        return Position::with('users')->where('level', '<', $maxLevel)->get();
+    }
+
+    public function render()
+    {
+        return view('livewire.dashboard.users.users-management')
             ->layout('components.layouts.dashboards');
     }
 }
