@@ -3,6 +3,7 @@
 namespace App\Livewire\Dashboard\Website;
 
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Attributes\Computed;
 use Morilog\Jalali\Jalalian;
@@ -47,6 +48,11 @@ class Licenses extends Component
        'date_picker.required' => 'تاریخ انقضا باید وارد شود',
        'date_picker.date' => 'تاریخ انقضا وارد شده فرم صحیحی ندارد',
    ];
+
+   public function mount()
+   {
+       Gate::authorize('isManager');
+   }
 
    public function edit($id)
    {

@@ -3,6 +3,7 @@
 namespace App\Livewire\Dashboard\Products;
 
 use App\Models\Brand;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
 
 use Livewire\Attributes\Computed;
@@ -55,6 +56,11 @@ class Brands extends Component
         'name.string'=>'نام برند باید به صورت متن باشد',
         'description.string'=>'توضیحات باید به صورت متن باشد',
     ];
+
+    public function mount()
+    {
+        Gate::authorize('isAdmin');
+    }
 
     public function edit($id)
     {

@@ -3,6 +3,7 @@
 namespace App\Livewire\Dashboard\Website;
 
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Gate;
 use Livewire\Component;
 
 use App\Models\Information;
@@ -16,6 +17,8 @@ class Info extends Component
 
     public function mount()
     {
+        Gate::authorize('isManager');
+
         $data = Information::Cached();
 
         $this->fill($data->only([

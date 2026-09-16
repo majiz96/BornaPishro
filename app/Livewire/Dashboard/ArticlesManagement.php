@@ -10,6 +10,7 @@ use App\Models\Filter;
 use App\Models\User;
 
 
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
 
@@ -90,6 +91,8 @@ class ArticlesManagement extends Component
 
     public function mount()
     {
+        Gate::authorize('isAdmin');
+
         $this->field_id = Field::where('model',Article::class)->first()?->id;
 
         $this->canActive = Category::exists();

@@ -5,6 +5,7 @@ namespace App\Livewire\Dashboard\Products;
 use App\Livewire\Products;
 use App\Models\Category;
 use App\Models\Product;
+use Illuminate\Support\Facades\Gate;
 use Livewire\Component;
 use Livewire\Attributes\Computed;
 use Livewire\WithPagination;
@@ -32,6 +33,10 @@ class Discounts extends Component
     public $selectedProducts = [];
     public $selectedCategories = [];
 
+    public function mount()
+    {
+        Gate::authorize('isAdmin');
+    }
     public function setDiscount($id)
     {
         $product = Product::findOrFail($id);

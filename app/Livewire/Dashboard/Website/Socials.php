@@ -3,6 +3,7 @@
 namespace App\Livewire\Dashboard\Website;
 
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
@@ -20,6 +21,11 @@ class Socials extends Component
 
     public $selected = [];
     public $selectAll = false;
+
+    public function mount()
+    {
+        Gate::authorize('isManager');
+    }
 
     public function edit($id)
     {

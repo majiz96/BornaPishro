@@ -3,6 +3,7 @@
 namespace App\Livewire\Dashboard\Website;
 
 //use Illuminate\Container\Attributes\Storage;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
 
 use Livewire\Component;
@@ -22,12 +23,9 @@ class Communications extends Component
     public $filesModal = false;
 
     public int $modalId;
-    public string $modalSubject;
-    public string $modalMessage;
-    public string $modalName;
+    public string $modalSubject,$modalMessage,$modalName;
 
-    public $modalFiles;
-    public $modalFileId;
+    public $modalFiles, $modalFileId;
     public string $modalErr;
 
     public $selected = [];
@@ -37,6 +35,11 @@ class Communications extends Component
     public $search = '';
     public $sort = 'created_at';
     public $direction = 'desc';
+
+    public function mount()
+    {
+        Gate::authorize('isOperator');
+    }
 
     public function seeMessage($id)
     {

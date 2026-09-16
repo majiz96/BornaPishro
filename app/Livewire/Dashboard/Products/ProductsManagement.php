@@ -5,6 +5,7 @@ namespace App\Livewire\Dashboard\Products;
 
 use App\Models\Comment;
 use App\Models\Field;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
@@ -68,6 +69,8 @@ class ProductsManagement extends Component
 
     public function mount()
     {
+        Gate::authorize('isAdmin');
+
         $model = Product::class;
 
         $this->field_id = Field::where('model',$model)->first()->id;

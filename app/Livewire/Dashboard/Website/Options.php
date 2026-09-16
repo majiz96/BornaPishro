@@ -6,6 +6,7 @@ use App\Models\Filter;
 use App\Models\Option;
 use App\Models\Product;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Gate;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
 
@@ -23,6 +24,8 @@ class Options extends Component
 
     public function mount(Filter $filter)
     {
+        Gate::authorize('isManager');
+
         $this->filter = $filter;
 
         $this->model = $filter->field->model;

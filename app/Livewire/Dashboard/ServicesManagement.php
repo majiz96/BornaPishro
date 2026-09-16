@@ -7,6 +7,7 @@ use App\Models\Field;
 use App\Models\Filter;
 use App\Models\Service;
 
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
 
 use Livewire\Attributes\Computed;
@@ -84,6 +85,8 @@ class ServicesManagement extends Component
 
     public function mount()
     {
+        Gate::authorize('isAdmin');
+
         $this->field_id = Field::where('model',Service::class)->first()?->id;
 
         $this->canActive = Category::exists();

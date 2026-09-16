@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Models\Notice;
 use App\Models\Position;
 
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Mail;
 
 use Livewire\Component;
@@ -19,20 +20,15 @@ class Notices extends Component
     protected $paginationTheme = 'bootstrap';
 
     public $row = 1;
-    public string $title;
-    public string $description;
-    public string $display;
-    public string $contact;
+    public string $title,$description,$display,$contact,$style;
     public int $position_id = 4;
-    public string $style;
     public $date_picker;
 
 //    public $status;
 
     public $editing = null;
     public $seeModal = false;
-    public string $modalTitle;
-    public string $modalDescription;
+    public string $modalTitle,$modalDescription;
 
     public $selected = [];
     public $selectAll = false;
@@ -41,6 +37,11 @@ class Notices extends Component
     public $search = '';
     public $sort = 'created_at';
     public $direction = 'desc';
+
+    public function mount()
+    {
+        Gate::authorize('isManager');
+    }
 
     public function edit($id)
     {
