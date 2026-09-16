@@ -144,16 +144,23 @@ class UsersManagement extends Component
     {
         $maxLevel = Position::max('level');
 
-        $query = User::whereHas('position', function($q) use($maxLevel) {
-            $q->where('level','<', $maxLevel);
-        })
-            ->with('position')
-            ->where('name', 'like', '%' . $this->search . '%')
-            ->orWhere('lastname', 'like', '%' . $this->search . '%')
-            ->orWhere('email', 'like', '%' . $this->search . '%')
-            ->orderBy($this->sort,$this->direction);
+        $user = User::query();
 
-       return ($this->perPage == "") ? $query->get() : $query->paginate($this->perPage);
+        $user->whereHas('position', function($q) use($maxLevel) {
+            $q->where('level','<' ,$maxLevel);
+        });
+
+        $user->whereLike('name', '%'.$this->search.'%')
+        ->orWhereLike('lastname','%'.$this->search.'%')
+        ->orWhereLike('email', '%'.$this->search.'%')
+        ->orWhereLike('position_id', '%'.$this->search.'%')
+        ->orWhereLike('created_at', '%'.$this->search.'%')
+       ->orWhereLike('email_verified_at', '%'.$this->search.'%');
+
+        $user->orderBy($this->sort, $this->direction);
+
+
+        return ($this->perPage == "") ? $user->get() : $user->paginate($this->perPage);
     }
 
     #[Computed]
@@ -161,7 +168,10 @@ class UsersManagement extends Component
     {
         $maxLevel = Position::max('level');
 
-        return Position::with('users')->where('level', '<', $maxLevel)->get();
+        return Position::with('users')
+            ->where('level', '<', $maxLevel)
+            ->orderBy('level', 'DESC')
+            ->get();
     }
 
     public function render()
