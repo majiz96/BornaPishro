@@ -128,45 +128,46 @@
 
     </form>
 
+    <div class="row mt-4">
+
+        <div class="col-xl-3">
+            <input type="text" class="form-control" wire:model.live="search" placeholder="جستجو" autocomplete="off">
+        </div>
+
+        <div class="col-xl-1">
+            <select wire:model.live="perPage" class="form-select">
+                <option value="5">5</option>
+                <option value="10">10</option>
+                <option value="25">25</option>
+                <option value="">همه</option>
+            </select>
+        </div>
+
+        <div class="col-xl-1">
+            <select wire:model.live="sort" class="form-select">
+                <option value="created_at">تاریخ ایجاد</option>
+                <option value="name">نام</option>
+                <option value="fullname">نام کامل</option>
+                <option value="price"> قیمت </option>
+                <option value="brand_id">نام برند</option>
+                <option value="brand_name">نام کامل برند</option>
+            </select>
+        </div>
+
+        <div class="col-xl-1 my-auto">
+            <select class="form-select" wire:model.live="direction">
+                <option value="desc">نزولی</option>
+                <option value="asc">صعودی</option>
+            </select>
+        </div>
+
+    </div>
 
     {{--- showing submitted products ---}}
 
     @if($products->isNotEmpty())
 
-        <div class="row mt-4">
 
-            <div class="col-xl-3">
-                <input type="text" class="form-control" wire:model.live="search" placeholder="جستجو" autocomplete="off">
-            </div>
-
-            <div class="col-xl-1">
-                <select wire:model.live="perPage" class="form-select">
-                    <option value="5">5</option>
-                    <option value="10">10</option>
-                    <option value="25">25</option>
-                    <option value="">همه</option>
-                </select>
-            </div>
-
-            <div class="col-xl-1">
-                <select wire:model.live="sort" class="form-select">
-                    <option value="created_at">تاریخ ایجاد</option>
-                    <option value="name">نام</option>
-                    <option value="fullname">نام کامل</option>
-                    <option value="price"> قیمت </option>
-                    <option value="brand_id">نام برند</option>
-                    <option value="brand_name">نام کامل برند</option>
-                </select>
-            </div>
-
-            <div class="col-xl-1 my-auto">
-                <select class="form-select" wire:model.live="direction">
-                    <option value="desc">نزولی</option>
-                    <option value="asc">صعودی</option>
-                </select>
-            </div>
-
-        </div>
 
         <div class="row border rounded-3 mt-5 py-2">
 

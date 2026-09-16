@@ -162,41 +162,43 @@
         {{--  showing articles  --}}
     <div class="row my-4 py-2 px-0 border rounded-4">
 
+        <div class="row mt-4">
+
+            <div class="col-xl-3">
+                <input type="text" class="form-control" wire:model.live="search" placeholder="جستجو" autocomplete="off">
+            </div>
+
+            <div class="col-xl-1">
+                <select wire:model.live="perPage" class="form-select">
+                    <option value="3">3</option>
+                    <option value="6">6</option>
+                    <option value="9">9</option>
+                    <option value="12">12</option>
+                    <option value="24">24</option>
+                    <option value="32">32</option>
+                    <option value="">همه</option>
+                </select>
+            </div>
+
+            <div class="col-xl-1">
+                <select wire:model.live="sort" class="form-select">
+                    <option value="created_at">تاریخ ایجاد</option>
+                    <option value="title">عنوان</option>
+                </select>
+            </div>
+
+            <div class="col-xl-1 my-auto">
+                <select class="form-select" wire:model.live="direction">
+                    <option value="desc">نزولی</option>
+                    <option value="asc">صعودی</option>
+                </select>
+            </div>
+
+        </div>
+
         @if($this->Articles->isNotEmpty())
 
-            <div class="row mt-4">
 
-                <div class="col-xl-3">
-                    <input type="text" class="form-control" wire:model.live="search" placeholder="جستجو" autocomplete="off">
-                </div>
-
-                <div class="col-xl-1">
-                    <select wire:model.live="perPage" class="form-select">
-                        <option value="3">3</option>
-                        <option value="6">6</option>
-                        <option value="9">9</option>
-                        <option value="12">12</option>
-                        <option value="24">24</option>
-                        <option value="32">32</option>
-                        <option value="">همه</option>
-                    </select>
-                </div>
-
-                <div class="col-xl-1">
-                    <select wire:model.live="sort" class="form-select">
-                        <option value="created_at">تاریخ ایجاد</option>
-                        <option value="title">عنوان</option>
-                    </select>
-                </div>
-
-                <div class="col-xl-1 my-auto">
-                    <select class="form-select" wire:model.live="direction">
-                        <option value="desc">نزولی</option>
-                        <option value="asc">صعودی</option>
-                    </select>
-                </div>
-
-            </div>
 
             @foreach($this->Articles as $article)
 

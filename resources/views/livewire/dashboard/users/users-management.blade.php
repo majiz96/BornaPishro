@@ -63,42 +63,42 @@
 
     <div class="col-xl-8 my-5 mx-auto">
 
-        @if($this->Users->isNotEmpty())
+        <div class="row my-3 px-5">
 
-            <div class="row my-3 px-5">
-
-                <div class="col-xl-3">
-                    <input type="text" class="form-control" placeholder="جستجو..." wire:model.live="search">
-                </div>
-
-                <div class="col-xl-2 my-auto">
-                    <select wire:model.live="sort" class="form-select">
-                        <option value="created_at">تاریخ ثبت نام</option>
-                        <option value="email_verified_at">تاریخ تایید اکانت</option>
-                        <option value="name">نام</option>
-                        <option value="lastname">نام خانوادگی</option>
-                        <option value="email">ایمیل</option>
-                        <option value="position_id">جایگاه</option>
-                    </select>
-                </div>
-
-                <div class="col-xl-2 my-auto">
-                    <select wire:model.live="direction" class="form-select">
-                        <option value="desc">نزولی</option>
-                        <option value="asc">صعودی</option>
-                    </select>
-                </div>
-
-                <div class="col-xl-1 my-auto">
-                    <select wire:model.live="perPage" class="form-select">
-                        <option value="5">5</option>
-                        <option value="10">10</option>
-                        <option value="25">25</option>
-                        <option value="">همه</option>
-                    </select>
-                </div>
-
+            <div class="col-xl-3">
+                <input type="text" class="form-control" placeholder="جستجو..." wire:model.live="search">
             </div>
+
+            <div class="col-xl-2 my-auto">
+                <select wire:model.live="sort" class="form-select">
+                    <option value="created_at">تاریخ ثبت نام</option>
+                    <option value="email_verified_at">تاریخ تایید اکانت</option>
+                    <option value="name">نام</option>
+                    <option value="lastname">نام خانوادگی</option>
+                    <option value="email">ایمیل</option>
+                    <option value="position_id">جایگاه</option>
+                </select>
+            </div>
+
+            <div class="col-xl-2 my-auto">
+                <select wire:model.live="direction" class="form-select">
+                    <option value="desc">نزولی</option>
+                    <option value="asc">صعودی</option>
+                </select>
+            </div>
+
+            <div class="col-xl-1 my-auto">
+                <select wire:model.live="perPage" class="form-select">
+                    <option value="5">5</option>
+                    <option value="10">10</option>
+                    <option value="25">25</option>
+                    <option value="">همه</option>
+                </select>
+            </div>
+
+        </div>
+
+        @if($this->Users->isNotEmpty())
 
             <div class="row mx-auto py-2 px-5 mx-3 rounded-4">
 
