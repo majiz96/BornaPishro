@@ -6,6 +6,10 @@ import '@jalali-js/web/date-picker.css';
 
 import { fromGregorian } from 'jalali-js';
 
+import Swal from 'sweetalert2';
+
+window.Swal = Swal;
+
 
 // ======================================================
 // Jalali Date Picker

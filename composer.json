@@ -18,7 +18,8 @@
         "livewire/volt": "^1.7.0",
         "morilog/jalali": "^3.5",
         "paragonie/constant_time_encoding": "*",
-        "pragmarx/google2fa": "*"
+        "pragmarx/google2fa": "*",
+        "sweetalert2/laravel": "^1.4"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",
