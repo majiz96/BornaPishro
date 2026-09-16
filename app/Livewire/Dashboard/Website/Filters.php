@@ -3,6 +3,7 @@
 namespace App\Livewire\Dashboard\Website;
 
 use App\Models\Product;
+use Illuminate\Support\Facades\Gate;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -47,6 +48,8 @@ class Filters extends Component
 
     public function mount()
     {
+
+        Gate::authorize('isManager');
 
         if(!$this->activeField)
         {
