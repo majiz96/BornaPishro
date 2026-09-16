@@ -82,34 +82,57 @@ class Footer extends Component
                 'files.*.max'=>'متن پیام حداکثر ۲۰۰۰ حرف می تواند باشد'
             ]);
 
-//        save the message in database
-        $comm = Communication::create([
-            'name' => $this->name,
-            'email' => $this->guest_email,
-            'phone' => $this->guest_phone,
-            'subject' => $this->subject,
-            'message' => $this->text,
-            'user_id' => 0,
-        ]);
+        $guestCooldownKey = 'guest_cooldown_message : '.auth()->id() ?? request()->ip();
+        $guestDelayKey    = 'guest_delay_message : '   .auth()->id() ?? request()->ip();
 
-
-        foreach ($this->files as $file) {
-//            set semi-hashed name for file in storage
-            $filestore = uniqid('guest_') . '.' . $file->getClientOriginalExtension();
-//            save the file in storage by it's semi-hashed name
-            $file->storeAs('attachments', $filestore, 'public');
-
-            File::create([
-                'filename' => $file->getClientOriginalName(),
-                'file' => $filestore,
-                'size' => ($file->getSize())/1024/1024,2 ,
-                'fileable_id' => $comm->id,
-                'fileable_type' => Communication::class,
+        if(RateLimiter::tooManyAttempts($guestCooldownKey, 1))
+        {
+            $this->cooldownCounter = RateLimiter::availableIn($guestCooldownKey);
+            $this->cooldownMessage = " {$this->cooldownCounter} ثانیه دیگر تلاش کنید ";
+            return;
+        }
+        else
+        {
+            //        save the message in database
+            $comm = Communication::create([
+                'name' => $this->name,
+                'email' => $this->guest_email,
+                'phone' => $this->guest_phone,
+                'subject' => $this->subject,
+                'message' => $this->text,
             ]);
 
+
+            foreach ($this->files as $file) {
+//            set semi-hashed name for file in storage
+                $filestore = uniqid('guest_') . '.' . $file->getClientOriginalExtension();
+//            save the file in storage by it's semi-hashed name
+                $file->storeAs('attachments', $filestore, 'public');
+
+                File::create([
+                    'filename' => $file->getClientOriginalName(),
+                    'file' => $filestore,
+                    'size' => ($file->getSize())/1024/1024,2 ,
+                    'fileable_id' => $comm->id,
+                    'fileable_type' => Communication::class,
+                ]);
+
+            }
+
+            $delay = Cache::get($guestCooldownKey,20);
+
+            RateLimiter::hit($guestCooldownKey,$delay);
+
+            Cache::put(
+                $guestDelayKey,
+                min($delay+10,60),
+                now()->addMinutes(10)
+            );
+
+            $this->reset(['name','guest_email','guest_phone','subject','text','files','uploadedFiles']);
         }
 
-        $this->reset(['name','guest_email','guest_phone','subject','text','files','uploadedFiles']);
+
     }
 
     // save messages of registered users
@@ -140,43 +163,54 @@ class Footer extends Component
                 'files.*' => 'حداکثر می‌توانید ۳ فایل ارسال کنید.',
             ]);
         }
-
-        $cooldownKey = 'comment-cooldown :'.auth()->id() ?? request()->ip();
-        $delayKey    = 'comment-delay    :'.auth()->id() ?? request()->ip();
-
-        if (RateLimiter::tooManyAttempts($cooldownKey, 1)) {
-
-            $this->cooldownCounter = RateLimiter::availableIn($cooldownKey);
-            $this->cooldownMessage = " {$this->cooldownCounter} ثانیه دیگر تلاش کنید ";
-            return;
-        }
         else
         {
-            $comm= Communication::create([
-                'subject'=>$this->subject,
-                'message'=>$this->text,
-                'user_id'=>$this->user_id,
-            ]);
 
-            foreach($this->files as $file){
+            $cooldownKey = 'cooldown-message :'.auth()->id() ?? request()->ip();
+            $delayKey    = 'message-delay :'   .auth()->id() ?? request()->ip();
 
-                $filestore = uniqid('auth_'.Auth::user()->id.'_') . '.' . $file->getClientOriginalExtension();
-                $file->storeAs('attachments', $filestore, 'public');
-
-                File::create([
-                    'filename'=>$file->getClientOriginalName(),
-                    'file'=>$filestore,
-                    'size'=>($file->getSize())/1024 / 1024, 2,
-                    'fileable_id'=>$comm->id,
-                    'fileable_type'=> Communication::class
+            if (RateLimiter::tooManyAttempts($cooldownKey,1))
+            {
+                $this->cooldownCounter = RateLimiter::availableIn($cooldownKey);
+                $this->cooldownMessage = " {$this->cooldownCounter} ثانیه دیگر تلاش کنید ";
+                return;
+            }
+            else
+            {
+                $comm= Communication::create([
+                    'subject'=>$this->subject,
+                    'message'=>   $this->text,
+                    'user_id'=>$this->user_id,
                 ]);
 
+                foreach($this->files as $file){
+
+                    $filestore = uniqid('auth_'.Auth::user()->id.'_') . '.' . $file->getClientOriginalExtension();
+                    $file->storeAs('attachments', $filestore, 'public');
+
+                    File::create([
+                        'filename'=>$file->getClientOriginalName(),
+                        'file'=>$filestore,
+                        'size'=>($file->getSize())/1024 / 1024, 2,
+                        'fileable_id'=>$comm->id,
+                        'fileable_type'=> Communication::class
+                    ]);
+
+                }
+
+                $delay = Cache::get($cooldownKey,20);
+
+                RateLimiter::hit($cooldownKey,$delay);
+
+                Cache::put(
+                    $delayKey,
+                    min($delay+10,60),
+                    now()->addMinutes(10)
+                );
+
+                $this->reset('uploadedFiles', 'files','subject','text');
             }
 
-            // ############################################################################ Cache Codes You've learnt
-
-//        $this->files = [];
-            $this->reset('uploadedFiles', 'files','subject','text');
         }
 
 

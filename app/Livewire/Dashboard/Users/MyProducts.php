@@ -25,6 +25,7 @@ class MyProducts extends Component
 
     public function render()
     {
-        return view('livewire.dashboard.users.my-products')->layout('components.layouts.dashboards');;
+        return view('livewire.dashboard.users.my-products')
+            ->layout('components.layouts.dashboards');
     }
 }

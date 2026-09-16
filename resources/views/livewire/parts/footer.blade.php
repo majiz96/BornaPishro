@@ -77,23 +77,24 @@
 
                         <div class="row mx-auto my-4">
 
-                            <div class="col-xl-2 text-xl-center text-end me-2"><label class="form-label" for="name"> نام و نام خانوادگی </label></div>
+                            <div class="col-xl-auto text-xl-center text-end me-2 my-auto"><label class="form-label" for="name"> نام و نام خانوادگی </label></div>
                             <div class="col-xl-3"><input type="text" class="form-control" id="name" wire:model.blur="name"></div>
                             @error('name')<small class="text-danger text-nowrap text-xl-end">{{$message}}</small>@enderror
 
-                            <div class="col-xl-1 text-xl-start text-end mt-2 me-2"><label class="form-label" for="guest_email"> ایمیل </label></div>
+                            <div class="col-xl-auto text-xl-start text-end mt-2 me-2"><label class="form-label" for="guest_email"> ایمیل </label></div>
                             <div class="col-xl-3"><input type="text" class="form-control" id="guest_email" wire:model.blur="guest_email"></div>
                             @error('guest_email')<small class="text-danger text-nowrap text-xl-end">{{$message}}</small>@enderror
 
-                            <div class="col-xl-1 text-xl-start text-end mt-2 me-2"><label class="form-label" for="guest_phone"> شماره همراه </label></div>
+                            <div class="col-xl-auto text-xl-start text-end mt-2 me-2"><label class="form-label" for="guest_phone"> شماره همراه </label></div>
                             <div class="col-xl-2"><input type="text" class="form-control" id="guest_phone" wire:model.blur="guest_phone"></div>
                             @error('guest_phone')<small class="text-danger text-nowrap text-xl-end">{{$message}}</small>@enderror
 
-
-                            <div class="col-xl-1 text-xl-start text-end me-2 mt-3"><label class="form-label" for="subject"> موضوع </label></div>
-                            <div class="col-xl-11"><input type="text" class="form-control" id="subject" wire:model.blur="subject">
+                            <div class="row my-3">
+                                <div class="col-xl-auto text-xl-start text-end me-2 my-auto"><label class="form-label" for="subject"> موضوع </label></div>
+                                <div class="col-xl-11"><input type="text" class="form-control" id="subject" wire:model.blur="subject"></div>
+                                @error('subject')<small class="text-danger text-nowrap text-xl-end">{{$message}}</small>@enderror
                             </div>
-                            @error('subject')<small class="text-danger text-nowrap text-xl-end">{{$message}}</small>@enderror
+
 
                         </div>
 
