@@ -162,8 +162,8 @@
 
             <div class="row text-center border-top mt-5 px-3 pt-5">
 
-                @if($categories->isNotEmpty())
-                    @foreach($categories as $category)
+                @if($this->Categories->isNotEmpty())
+                    @foreach($this->Categories as $category)
 
 
 
@@ -230,9 +230,9 @@
 
             <div class="row border my-5 mx-2 rounded-4 py-3">
 
-                @if($childs->isNotEmpty())
+                @if($this->Children->isNotEmpty())
 
-                    @foreach($childs as $child)
+                    @foreach($this->Children as $child)
 
                         @if(strlen($child->name) > 35)
 

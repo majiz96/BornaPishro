@@ -3,9 +3,11 @@
 namespace App\Livewire\Dashboard\Website;
 
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 
+use Livewire\Attributes\Computed;
 use Livewire\Component;
 use Livewire\Attributes\Validate;
 use Livewire\WithFileUploads;
@@ -17,23 +19,41 @@ class Categories extends Component
 {
 
     use WithFileUploads;
-    public $editingField = null;
-    public $editingCategory = null;
-    public $editingChild = null;
-
-    public $permission = true;
+    public $editingField,$editingCategory,$editingChild = null;
 
     public $field_name,$field_route,$field_logo,$field_show,$field_order;
 
-    public string $category_name;
+    public string $category_name,$child_name;
 
-    public string $child_name;
+    public int $field_id,$parent_id;
 
-    public int $field_id;
-    public int $parent_id;
+    public $fieldActive,$categoryActive,$firstField,$firstCategory;
 
-    public $fieldActive;
-    public $categoryActive;
+    public $canActive = true;
+
+    public $permission;
+
+    public function mount()
+    {
+        Gate::authorize('isManager');
+
+
+        $this->firstField = Field::orderBy('order','ASC')->first()?->id;
+
+        $this->firstField ? $this->canActive == true : $this->canActive = false;
+
+        if (!$this->firstField)
+        {
+            $this->canActive = false;
+        }
+
+        if($this->canActive)
+        {
+            $this->fieldActive = $this->firstField;
+            $this->categoryActive = Category::where('field_id',$this->fieldActive)->first()?->id;
+        }
+
+    }
 
     public function editField(Field $field)
     {
@@ -174,13 +194,9 @@ class Categories extends Component
         $this->editingCategory = null;
         $this->reset(['field_name', 'category_name','categoryActive']);
 
-        if(Category::where('field_id', $id)->exists())
+        if ($this->canActive)
         {
-            $this->categoryActive = Category::where('field_id', $id)->first()->id;
-        }
-        else
-        {
-            $this->categoryActive = null;
+            $this->categoryActive = Category::where('field_id',$this->fieldActive)->first()?->id;
         }
     }
 
@@ -207,7 +223,8 @@ class Categories extends Component
                 'category_name'=>[
                     'required',
                     'string',
-                    Rule::unique('categories','name')->where('field_id',$this->fieldActive)
+                    Rule::unique('categories','name')
+                        ->where('field_id',$this->fieldActive)
                 ],
             ],
                 [
@@ -250,12 +267,9 @@ class Categories extends Component
             $this->reset(['category_name']);
 
 
-            if(Category::where('field_id',$this->fieldActive)->exists())
+            if ($this->canActive && !$this->categoryActive)
             {
-                if(!$this->categoryActive)
-                {
-                    $this->categoryActive = Category::where('field_id',$this->fieldActive)->first()->id;
-                }
+                $this->categoryActive = $this->firstCategory;
             }
 
 
@@ -270,12 +284,9 @@ class Categories extends Component
 
         Cache::forget("menu-categories-{$delete->field_id}");
 
-        if(Category::where('field_id',$this->fieldActive)->exists())
+        if ($this->canActive && !$this->categoryActive)
         {
-            if($this->categoryActive == $id)
-            {
-                $this->categoryActive = Category::where('field_id',$this->fieldActive)->first()->id;
-            }
+            $this->categoryActive = $this->firstCategory;
         }
 
     }
@@ -311,7 +322,8 @@ class Categories extends Component
                     'child_name'=>[
                         'required',
                         'string',
-                        Rule::unique('categories','name')->where('parent_id',$this->categoryActive)
+                        Rule::unique('categories','name')
+                            ->where('parent_id',$this->categoryActive)
                     ]
                 ]
                 ,
@@ -336,7 +348,8 @@ class Categories extends Component
                 'child_name'=>[
                     'required',
                     'string',
-                    Rule::unique('categories','name')->where('parent_id',$this->categoryActive)
+                    Rule::unique('categories','name')
+                        ->where('parent_id',$this->categoryActive)
                 ]
             ]
             ,
@@ -366,36 +379,26 @@ class Categories extends Component
     }
 
 
+    #[Computed]
+    public function Categories()
+    {
+        return Category::where('field_id', $this->fieldActive)
+            ->where('parent_id',null)
+            ->get();
+    }
+
+    #[Computed]
+    public function Children()
+    {
+        return Category::where('field_id', $this->fieldActive)
+            ->where('parent_id',$this->categoryActive)
+            ->whereNotNull('parent_id')
+            ->get();
+    }
+
     public function render()
     {
-
-        if(count(Field::all())>0)
-        {
-            if(!$this->fieldActive)
-            {
-                $this->fieldActive = Field::first()->id;
-            }
-        }
-
-        if(Category::where('field_id',$this->fieldActive)->exists())
-        {
-            if(!$this->categoryActive)
-            {
-                $this->categoryActive = Category::where('field_id',$this->fieldActive)->first()->id;
-            }
-        }
-        else
-        {
-            $this->categoryActive = null;
-            $childs = null;
-        }
-
-
-        return view('livewire.dashboard.website.categories',
-            ['fields'=>Field::Cached(),
-                'categories'=>Category::where('field_id', $this->fieldActive)->where('parent_id',null)->get(),
-                'childs'=>Category::where('parent_id', $this->categoryActive)
-                    ->whereNot('parent_id',null)->get(),
-            ])->layout('components.layouts.dashboards');
+        return view('livewire.dashboard.website.categories', ['fields'=>Field::Cached()])
+            ->layout('components.layouts.dashboards');
     }
 }
