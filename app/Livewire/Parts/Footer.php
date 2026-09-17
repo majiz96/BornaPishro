@@ -176,7 +176,6 @@ class Footer extends Component
             if (RateLimiter::tooManyAttempts($cooldownKey,1))
             {
                 $this->cooldownCounter = RateLimiter::availableIn($cooldownKey);
-//                $this->cooldownMessage = " {$this->cooldownCounter} ثانیه دیگر تلاش کنید ";
 
                 $this->toastError(" {$this->cooldownCounter} ثانیه دیگر تلاش کنید ");
                 return;

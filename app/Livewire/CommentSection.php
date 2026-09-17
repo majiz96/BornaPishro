@@ -11,9 +11,13 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
+use SweetAlert2\Laravel\Traits\WithSweetAlert;
+use App\Traits\HasToastAlert;
 
 class CommentSection extends Component
 {
+    use WithSweetAlert,HasToastAlert;
+
     public $text,$replyText,$showComment,$parent_id,$vote;
 
     public $commentable;
@@ -141,7 +145,8 @@ class CommentSection extends Component
                 if (RateLimiter::tooManyAttempts($cooldownKey, 1)) {
 
                     $this->commentCountDown = RateLimiter::availableIn($cooldownKey);
-                    $this->countDownMessage = "لطفاً {$this->commentCountDown} ثانیه دیگر تلاش کنید.";
+
+                    $this->toastError(" {$this->commentCountDown} ثانیه دیگر تلاش کنید ");
 
                     return;
                 }
