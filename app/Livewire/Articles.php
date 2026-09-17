@@ -72,7 +72,10 @@ class Articles extends Component
                 $relation->where('optionable_type',Article::class);
             });
         }])->where('field_id', $this->field_id)
-            ->where('show', 1);
+            ->where('show', 1)
+        ->whereHas('articles',function($article){
+            $article->where('show', 1);
+        });
 
 // show all filters
         if (!empty($allCategories)) {

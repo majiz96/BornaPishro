@@ -72,7 +72,10 @@ class Services extends Component
                 $used->where('optionable_type',$this->field_class);
             });
         }])->where('field_id', $this->field_id)
-            ->where('show',1);
+            ->where('show',1)
+        ->whereHas('services',function($service){
+            $service->where('show',1);
+        });
 
         if(!empty($allCategories))
         {

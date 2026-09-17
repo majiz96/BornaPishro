@@ -56,24 +56,6 @@ class Product extends Model
         return $this->hasMany(Specification::class);
     }
 
-    public function getPriceRangeAttribute()
-    {
-        $prices = $this->specifications
-            ->pluck('price')
-            ->filter();
-
-        return match (true) {
-            $prices->isEmpty()      => 0,
-            $prices->count() === 1  => number_format($prices->first()),
-            default                 => number_format($prices->min()) . ' تا ' . number_format($prices->max()),
-        };
-    }
-
-    public function getHasPriceAttribute()
-    {
-        return $this->specifications->whereNotNull('price')->isNotEmpty();
-    }
-
     public function getMinPriceAttribute()
     {
         return $this->specifications->pluck('price')->filter()->min();
@@ -82,16 +64,6 @@ class Product extends Model
     {
         return $this->specifications->pluck('price')->filter()->max();
     }
-
-//    public function isInPriceRange($min, $max)
-//    {
-//        if(!$this->has_price)
-//        {
-//            return false;
-//        }
-//
-//        return $this->specifications->pluck('price')->filter()->contains(fn($price) => $price >= $min && $price <= $max);
-//    }
 
     public function getFinalPriceAttribute()
     {

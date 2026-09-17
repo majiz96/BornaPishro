@@ -161,6 +161,9 @@ class Products extends Component
                 $q->where('optionable_type', Product::class);
             });
         }])
+            ->whereHas('options.optionables', function($q){
+                $q->where('show', true);
+            })
             ->where('field_id', $this->field_id)
             ->where('show', 1);
 
