@@ -14,10 +14,12 @@ use Livewire\Attributes\On;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Illuminate\Support\Facades\RateLimiter;
+use SweetAlert2\Laravel\Traits\WithSweetAlert;
+use App\Traits\HasToastAlert;
 
 class Footer extends Component
 {
-    use WithFileUploads;
+    use WithFileUploads,WithSweetAlert,HasToastAlert;
 
     public $panelShow = false;
     public $user_id,$subject,$text,$name,$guest_email,$guest_phone;
@@ -88,7 +90,9 @@ class Footer extends Component
         if(RateLimiter::tooManyAttempts($guestCooldownKey, 1))
         {
             $this->cooldownCounter = RateLimiter::availableIn($guestCooldownKey);
-            $this->cooldownMessage = " {$this->cooldownCounter} ثانیه دیگر تلاش کنید ";
+//            $this->cooldownMessage = " {$this->cooldownCounter} ثانیه دیگر تلاش کنید ";
+
+            $this->toastError(" {$this->cooldownCounter} ثانیه دیگر تلاش کنید ");
             return;
         }
         else
@@ -172,7 +176,9 @@ class Footer extends Component
             if (RateLimiter::tooManyAttempts($cooldownKey,1))
             {
                 $this->cooldownCounter = RateLimiter::availableIn($cooldownKey);
-                $this->cooldownMessage = " {$this->cooldownCounter} ثانیه دیگر تلاش کنید ";
+//                $this->cooldownMessage = " {$this->cooldownCounter} ثانیه دیگر تلاش کنید ";
+
+                $this->toastError(" {$this->cooldownCounter} ثانیه دیگر تلاش کنید ");
                 return;
             }
             else

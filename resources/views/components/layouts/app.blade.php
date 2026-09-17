@@ -37,6 +37,8 @@
 
     @livewireScripts
 
+    @include('sweetalert2::index')
+
     <script src="https://cdn.jsdelivr.net/npm/nouislider@15.7.0/dist/nouislider.min.js"></script>
 
     <script>

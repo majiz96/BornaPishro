@@ -368,4 +368,21 @@ i
     font-family: inherit;
     direction: rtl;
     text-align: right;
+    margin-top: 5rem;
+}
+.swal2-icon.swal2-success {
+    color: #fff;
+    border-color: #fff;
+}
+
+.swal2-icon.swal2-success [class^='swal2-success-line'] {
+    background-color: #fff;
+}
+.swal2-icon.swal2-error {
+    color: #fff;
+    border-color: #fff;
+}
+
+.swal2-icon.swal2-error [class^='swal2-x-mark-line'] {
+    background-color: #fff;
 }

@@ -1,9 +1,5 @@
 <div class="container-fluid py-0" style="min-height: 100%;">
 
-    <div class="row text-center">
-        <h2 id="showScreenSize"></h2>
-    </div>
-
         {{--  Notice Slider  --}}
     @if($this->notificationSlider->isNotEmpty() && count($this->notificationSlider) > 1)
 
