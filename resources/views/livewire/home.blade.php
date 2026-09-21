@@ -112,7 +112,7 @@
         @foreach($this->serviceSlider as $service)
 
             <a href="{{ route('service.show',$service->id) }}" class="text-decoration-none">
-                <div class="home-tile row bg-{{ $service->style }} text-light text-center mx-2 rounded-5 my-auto" style="background-image: url({{asset('storage/service_covers/'.$service->cover) }});
+                <div class="home-tile row bg-{{ $service->style }} text-light text-center mx-2 my-5 rounded-5 my-auto" style="background-image: url({{asset('storage/service_covers/'.$service->cover) }});
                                 background-size: cover;
                                 background-position: center;
                                 ">
@@ -226,6 +226,9 @@
         @endif
 
         @if(count($this->articleSlider) == 1)
+
+            <div class="row mt-5"></div>
+
             @foreach($this->articleSlider as $article)
             <a href="{{ route('article.show',$article->id) }}" class="text-decoration-none">
                 <div class="home-tile row bg-{{ $article->style }} text-light text-center mx-2 rounded-5 my-auto"
