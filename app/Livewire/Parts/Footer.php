@@ -21,6 +21,8 @@ class Footer extends Component
 {
     use WithFileUploads,WithSweetAlert,HasToastAlert;
 
+    public bool $hideFooter = false;
+
     public $panelShow = false;
     public $user_id,$subject,$text,$name,$guest_email,$guest_phone;
 
@@ -52,6 +54,16 @@ class Footer extends Component
     public function showPanel()
     {
         $this->panelShow = true;
+    }
+    #[On('hide-footer')]
+    public function hideFooter()
+    {
+        $this->hideFooter = true;
+    }
+    #[On('show-footer')]
+    public function showFooter()
+    {
+        $this->hideFooter = false;
     }
 
     //    validation of guest messages

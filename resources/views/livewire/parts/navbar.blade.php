@@ -214,6 +214,7 @@
 
                 <!-- راست: آیکن همبرگر (تریگر منو) -->
                 <button class="navbar-toggler position-absolute top-50 translate-middle-y text-white mobile-menu-icon"
+                        wire:click="hideFooter"
                         style="right: 1.5rem; color:white !important;"
                         type="button" data-bs-toggle="collapse"
                         data-bs-target="#fullscreenMenu" aria-controls="fullscreenMenu"
@@ -248,6 +249,7 @@
 
                         <!-- راست: دکمه بستن -->
                         <button type="button" class="btn-close" data-bs-toggle="collapse"
+                                wire:click="showFooter"
                                 data-bs-target="#fullscreenMenu" aria-label="Close"></button>
 
                         <!-- چپ: سوییچ حالت روشن/تیره -->
@@ -282,13 +284,6 @@
 
 
                     <!-- وسط: لینک‌ها (کاملاً وسط چین) -->
-{{--                    <ul class="navbar-nav flex-column my-auto align-items-center px-0">--}}
-{{--                        <li class="nav-item"><a class="nav-link text-body fs-3 mt-3 mx-auto" href="#">محصولات</a></li>--}}
-{{--                        <li class="nav-item"><a class="nav-link text-body fs-3 mt-3 mx-auto" href="#">خدمات</a></li>--}}
-{{--                        <li class="nav-item"><a class="nav-link text-body fs-3 mt-3 mx-auto" href="#">مقالات</a></li>--}}
-{{--                        <li class="nav-item"><a class="nav-link text-body fs-3 mt-3 mx-auto" href="#">ارتباط با ما</a></li>--}}
-{{--                        --}}
-{{--                    </ul>--}}
 
                     <ul class="navbar-nav flex-column my-auto align-items-center px-0">
 
@@ -308,7 +303,6 @@
                         <li class="nav-item"><a class="nav-link text-body fs-3 mt-3 mx-auto" href="#">ارتباط با ما</a></li>
                     </ul>
 
-                    <!-- پایین: نام راست، خروج چپ روی قرمز -->
                     @auth
                         <div class="d-flex justify-content-between align-items-center text-white px-3 py-2 cs-navbar">
                             <a href="{{ route('profile') }}" class="text-decoration-none text-white">@if($name && $lastname) {{$name}} {{$lastname}} @endif</a href=>

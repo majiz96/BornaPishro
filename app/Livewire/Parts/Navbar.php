@@ -86,6 +86,15 @@ class Navbar extends Component
         $this->submenu = '';
     }
 
+    public function hideFooter()
+    {
+        $this->dispatch('hide-footer');
+    }
+    public function showFooter()
+    {
+        $this->dispatch('show-footer');
+    }
+
     #[Computed]
     public function getField()
     {
