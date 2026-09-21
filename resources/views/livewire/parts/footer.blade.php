@@ -3,7 +3,7 @@
 
     @if($panelShow)
         {{--    Message panel    --}}
-        <div class="row border text-center mx-5 rounded-5 mt-auto mb-4 py-2 message-panel">
+        <div class="row border text-center mx-3 rounded-5 mt-auto mb-4 py-2 message-panel">
 
 
             @auth()
@@ -73,34 +73,39 @@
 
                 <form wire:submit.prevent="saveGuestMessage" class="px-0 mx-auto">
 
-                    <div class="row col-xl-6 mx-auto">
+                        <div class="row mx-auto my-4 px-xxl-5 d-xl-flex">
 
-                        <div class="row mx-auto my-4">
+                            <div class="col-xl-auto flex-fill d-xl-block d-none"></div>
 
                             <div class="col-xl-auto text-xl-center text-end me-2 my-auto"><label class="form-label" for="name"> نام و نام خانوادگی </label></div>
-                            <div class="col-xl-3"><input type="text" class="form-control" id="name" wire:model.blur="name"></div>
+                            <div class="col-xxl-2 col-xl-2">
+                                <input type="text" class="form-control" id="name" wire:model.blur="name">
                             @error('name')<small class="text-danger text-nowrap text-xl-end">{{$message}}</small>@enderror
-
-                            <div class="col-xl-auto text-xl-start text-end mt-2 me-2"><label class="form-label" for="guest_email"> ایمیل </label></div>
-                            <div class="col-xl-3"><input type="text" class="form-control" id="guest_email" wire:model.blur="guest_email"></div>
-                            @error('guest_email')<small class="text-danger text-nowrap text-xl-end">{{$message}}</small>@enderror
-
-                            <div class="col-xl-auto text-xl-start text-end mt-2 me-2"><label class="form-label" for="guest_phone"> شماره همراه </label></div>
-                            <div class="col-xl-2"><input type="text" class="form-control" id="guest_phone" wire:model.blur="guest_phone"></div>
-                            @error('guest_phone')<small class="text-danger text-nowrap text-xl-end">{{$message}}</small>@enderror
-
-                            <div class="row my-3">
-                                <div class="col-xl-auto text-xl-start text-end me-2 my-auto"><label class="form-label" for="subject"> موضوع </label></div>
-                                <div class="col-xl-11"><input type="text" class="form-control" id="subject" wire:model.blur="subject"></div>
-                                @error('subject')<small class="text-danger text-nowrap text-xl-end">{{$message}}</small>@enderror
                             </div>
 
+                            <div class="col-xl-auto text-xl-start text-end mt-2 me-2"><label class="form-label" for="guest_email"> ایمیل </label></div>
+                            <div class="col-xxl-2 col-xl-2"><input type="email" class="form-control" id="guest_email" wire:model.blur="guest_email">
+                            @error('guest_email')<small class="text-danger text-nowrap text-xl-end">{{$message}}</small>@enderror
+                            </div>
+
+                            <div class="col-xl-auto text-xl-start text-end mt-2 me-2"><label class="form-label" for="guest_phone"> شماره همراه </label></div>
+                            <div class="col-xxl-2 col-xl-2"><input type="tel" class="form-control" id="guest_phone" wire:model.blur="guest_phone">
+                                @error('guest_phone')<small class="text-danger text-nowrap text-xl-end">{{$message}}</small>@enderror
+                            </div>
+
+                            <div class="col-xl-auto flex-fill d-xl-block d-none"></div>
 
                         </div>
 
-                        <div class="row mx-auto">
+                        <div class="row my-3 mx-auto px-xxl-5">
+                            <div class="col-xl-auto text-xl-start text-end me-2 my-auto"><label class="form-label" for="subject"> موضوع </label></div>
+                            <div class="col-xl-11"><input type="text" class="form-control" id="subject" wire:model.blur="subject"></div>
+                            @error('subject')<small class="text-danger text-nowrap text-xl-end">{{$message}}</small>@enderror
+                        </div>
+
+                        <div class="row mx-auto px-xxl-5">
                             <div class="col-xl-12">
-                                <textarea rows="5" class="form-control h-auto" wire:model.blur="text"></textarea>
+                                <textarea rows="5" class="form-control h-auto" wire:model.blur="text" style="resize: vertical"></textarea>
                                 @error('text')<div class="text-danger">{{$message}}</div>@enderror
                                 <small class="row pe-3 text-end" id="textcount" wire:ignore></small>
                             </div>
@@ -108,7 +113,7 @@
 
                         <div class="row mx-auto my-4">
 
-                            <div class="col-xl-2 text-xl-end">
+                            <div class="col-xl-2 text-xl-center">
 
                                 <input type="file" id="files" wire:model="files" class="d-none" multiple>
                                 <label for="files" class="btn btn-primary my-xl-0 my-4"> <i class="bi-upload"></i> </label>
@@ -127,7 +132,7 @@
                                 </label>
                             </div>
 
-                            <div class="col-xl-2 text-xl-start">
+                            <div class="col-xl-2 text-xl-center">
                                 <button type="submit" class="cs-button ms-0 w-auto rounded-3 border-0 mx-auto py-2 px-3"> ارسال </button>
                             </div>
 
@@ -141,8 +146,6 @@
                             {{$cooldownMessage}}
                         </div>
 
-                    </div>
-
 
                 </form>
 
@@ -152,7 +155,7 @@
     @endif
 
     {{--  Desktop Footer  --}}
-    <div class="row cs-navbar rounded-top-5 sticky-bottom d-none d-xl-flex mx-xxl-5 mx-3">
+    <div class="row cs-navbar rounded-top-5 sticky-bottom d-none d-xl-flex mx-xxl-3 mx-3">
 
         <div class="col-xxl-5 col-xl-4 pt-3 px-4">
 
