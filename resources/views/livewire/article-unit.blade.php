@@ -1,4 +1,4 @@
-<div class="container-fluid avoid-emptiness">
+<div class="container-fluid overflow-x-hidden">
 
     {{--  details of post  --}}
 
@@ -12,19 +12,19 @@
 
 
                 <div class="col-auto mx-auto">
-                    <a href="" class="text-body text-decoration-none nav-link"> {{$category->field->name ?? ''}} </a>
+                    <a href="/{{$category->field->route ?? ''}}" class="text-body text-decoration-none nav-link"> {{$category->field->name ?? ''}} </a>
                 </div>
 
                 <div class="col-auto">/</div>
 
                 <div class="col-auto mx-auto">
-                    <a href="" class="text-body text-decoration-none nav-link"> {{$category->parent->name ?? ''}} </a>
+                    <a href="/{{$category->field->route.'/'.$category->parent->id ?? ''}}" class="text-body text-decoration-none nav-link"> {{$category->parent->name ?? ''}} </a>
                 </div>
 
                 <div class="col-auto">/</div>
 
                 <div class="col-auto mx-auto">
-                    <a href="" class="text-body text-decoration-none nav-link">
+                    <a href="/{{$category->field->route.'/'.$category->id ?? ''}}" class="text-body text-decoration-none nav-link">
                         {{$category->name ?? ''}}
                     </a>
                 </div>

@@ -1,4 +1,4 @@
-<div class="container-fluid avoid-emptiness">
+<div class="container-fluid">
 
 
     <div class="row text-center border rounded-4 px-xl-5 pt-3 pb-2 mx-auto
