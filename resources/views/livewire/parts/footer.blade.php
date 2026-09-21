@@ -77,19 +77,19 @@
 
                             <div class="col-xl-auto flex-fill d-xl-block d-none"></div>
 
-                            <div class="col-xl-auto text-xl-center text-end me-2 my-auto"><label class="form-label" for="name"> نام و نام خانوادگی </label></div>
-                            <div class="col-xxl-2 col-xl-2">
+                            <div class="col-lg-auto text-xl-center text-end me-2 my-auto"><label class="form-label" for="name"> نام و نام خانوادگی </label></div>
+                            <div class="col-xxl-2 col-xl-2 col-lg-3">
                                 <input type="text" class="form-control" id="name" wire:model.blur="name">
                             @error('name')<small class="text-danger text-nowrap text-xl-end">{{$message}}</small>@enderror
                             </div>
 
-                            <div class="col-xl-auto text-xl-start text-end mt-2 me-2"><label class="form-label" for="guest_email"> ایمیل </label></div>
-                            <div class="col-xxl-2 col-xl-2"><input type="email" class="form-control" id="guest_email" wire:model.blur="guest_email">
+                            <div class="col-lg-auto text-xl-start text-end mt-2 me-2"><label class="form-label" for="guest_email"> ایمیل </label></div>
+                            <div class="col-xxl-2 col-xl-2 col-lg-3"><input type="email" class="form-control" id="guest_email" wire:model.blur="guest_email">
                             @error('guest_email')<small class="text-danger text-nowrap text-xl-end">{{$message}}</small>@enderror
                             </div>
 
-                            <div class="col-xl-auto text-xl-start text-end mt-2 me-2"><label class="form-label" for="guest_phone"> شماره همراه </label></div>
-                            <div class="col-xxl-2 col-xl-2"><input type="tel" class="form-control" id="guest_phone" wire:model.blur="guest_phone">
+                            <div class="col-lg-auto text-xl-start text-end mt-2 me-2"><label class="form-label" for="guest_phone"> شماره همراه </label></div>
+                            <div class="col-xxl-2 col-xl-2 col-lg-2"><input type="tel" class="form-control" id="guest_phone" wire:model.blur="guest_phone">
                                 @error('guest_phone')<small class="text-danger text-nowrap text-xl-end">{{$message}}</small>@enderror
                             </div>
 
