@@ -1,5 +1,5 @@
 {{--        list of pages--}}
-<div class="col-1 d-none d-xl-inline">
+<div class="col-auto d-none d-xl-inline">
 
     <ul class="list-group row py-2">
 
