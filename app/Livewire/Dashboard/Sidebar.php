@@ -11,6 +11,17 @@ use Livewire\Component;
 class Sidebar extends Component
 {
 
+    public $showMenu = false;
+
+    public function menuToggle()
+    {
+        $this->showMenu = $this->showMenu == true ? false : true;
+    }
+    public function closeMenu()
+    {
+        $this->showMenu = false;
+    }
+
     #[Computed]
     public function commentAlert(string $type): int
     {
@@ -18,7 +29,6 @@ class Sidebar extends Component
             ->where('commentable_type', $type)
             ->count();
     }
-
 
     public function render()
     {
