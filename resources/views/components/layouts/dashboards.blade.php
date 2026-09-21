@@ -18,7 +18,7 @@
     @livewireStyles
 </head>
 
-<body>
+<body class="overflow-x-hidden">
 
 <livewire:parts.navbar />
 <livewire:parts.search />
@@ -32,7 +32,7 @@
         <livewire:dashboard.sidebar />
 
         {{--        show page contents         --}}
-        <div class="showbox col-10 mx-auto rounded-4">
+        <div class="showbox col-9 mx-auto rounded-4">
             {{ $slot }}
         </div>
 
