@@ -309,7 +309,7 @@
 
             @endforeach
         @else
-            <div class="row text-center my-auto"><h3 class="text-danger"> در این دسته مقاله ای ثبت نکرده اید </h3></div>
+            <div class="row text-center my-5"><h3 class="text-danger"> در این دسته مقاله ای ثبت نکرده اید </h3></div>
         @endif
 
 
