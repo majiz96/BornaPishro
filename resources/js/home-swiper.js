@@ -19,9 +19,10 @@ function initSwiper() {
             },
             breakpoints: {
                 768: { slidesPerView: 3, spaceBetween: 15 },
-                1024: { slidesPerView: 4, spaceBetween: 20 },
-                1280: { slidesPerView: 5, spaceBetween: 25 },
-                1920: { slidesPerView: 8, spaceBetween: 25 },
+                1024: { slidesPerView: 3, spaceBetween: 20 },
+                1280: { slidesPerView: 4, spaceBetween: 25 },
+                1920: { slidesPerView: 6, spaceBetween: 25 },
+                2560: { slidesPerView: 8, spaceBetween: 25 },
             },
         });
     }
