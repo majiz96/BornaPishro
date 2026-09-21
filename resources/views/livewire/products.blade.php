@@ -261,13 +261,13 @@
             {{--     Show Products      --}}
             <div class="col-xxl-10 col-xl-9 col-12 border home-blocks rounded-responsive my-3 px-xl-4 px-lg-2 px-3">
 
-                <div class="row d-flex">
+                <div class="row d-flex px-xxl-5">
 
                     @forelse($this->products as $product)
                         <a href="{{ route('product.show',$product->id) }}"
-                           class="col-xxl-2 col-xl-4 col-md-4 col-sm-6 col-12 py-3 mx-auto delete-badge text-decoration-none">
+                           class="col-xxl-3 col-xl-4 col-md-4 col-sm-6 col-12 px-xxl-3 py-3 mx-auto delete-badge text-decoration-none">
 
-                            <div class="main-img text-center overflow-hidden border bg-white py-3 mb-0 rounded-top-4">
+                            <div class="text-center overflow-hidden border bg-white py-3 mb-0 rounded-top-4">
                                 <img class="rounded-top-4" src="{{asset('storage/products/'.$product->image) }}" height="180" alt="پیش نمایش">
 
                                 <div class="row mt-3 px-4"> <h4 style="color:#84919e"> {{$product->name}} </h4> </div>
