@@ -212,7 +212,7 @@
 
             <div class="d-flex align-items-center w-100 position-relative">
 
-                <!-- راست: آیکن همبرگر (تریگر منو) -->
+                <!-- Righ : hamburger menu -->
                 <button class="navbar-toggler position-absolute top-50 translate-middle-y text-white mobile-menu-icon"
                         wire:click="hideFooter"
                         style="right: 1.5rem; color:white !important;"
@@ -228,31 +228,32 @@
                     @endauth
                 </button>
 
-                <!-- وسط: برند (واقعاً وسط صفحه) -->
+                <!-- middle : website name -->
                 <a class="navbar-brand text-light mx-auto text-center" href="/">
                     <h1 class="m-0">برناپیشرو</h1>
                 </a>
 
-                <!-- چپ: آیکن سرچ با فاصله از کنار -->
+                <!-- left : search icon -->
                 <div class="position-absolute top-50 translate-middle-y"
                      style="left: 1.5rem;">
                     <i class="bi-search fs-5" wire:click="toggleModalSearch"></i>
                 </div>
             </div>
 
-            <!-- منوی فول‌اسکرین -->
+            <!-- full screen menu -->
             <div class="collapse fullscreen-menu bg-body text-body" id="fullscreenMenu">
                 <div class="menu-content d-flex flex-column justify-content-between h-100 text-center">
 
-                    <!-- بالای بالا: کلوز راست، سوییچ چپ -->
+                    <!-- top menu -->
                     <div class="d-flex justify-content-between align-items-center p-3">
 
-                        <!-- راست: دکمه بستن -->
+                        <!-- top-right : close button -->
                         <button type="button" class="btn-close" data-bs-toggle="collapse"
                                 wire:click="showFooter"
                                 data-bs-target="#fullscreenMenu" aria-label="Close"></button>
 
                         <!-- چپ: سوییچ حالت روشن/تیره -->
+                        <!--top-left : light/dark switch -->
                         <div class="form-check form-switch ms-2">
                             <input class="form-check-input" type="checkbox" id="themeSwitch"
                                    @if($theme === 'dark') checked @endif
@@ -283,7 +284,7 @@
                     </div>
 
 
-                    <!-- وسط: لینک‌ها (کاملاً وسط چین) -->
+                    <!-- middle : links place -->
 
                     <ul class="navbar-nav flex-column my-auto align-items-center px-0">
 
