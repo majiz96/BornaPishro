@@ -30,6 +30,12 @@ class Sidebar extends Component
             ->count();
     }
 
+    #[Computed]
+    public function anyAlert()
+    {
+        return Comment::where('see', 0)->count();
+    }
+
     public function render()
     {
         return view('livewire.dashboard.sidebar')

@@ -136,20 +136,13 @@
 
     </div>
 
-    <div class="row mx-4 d-xl-none d-block mb-5">
-        <button class="mx-auto cs-button w-100 py-1 px-2 rounded-3 border border-secondary" wire:click="menuToggle">
-            {{ $showMenu == true ? 'بستن منو' : 'مشاهده منو' }}
-        </button>
-    </div>
-
-
     @if($showMenu)
 
-        <div class="row justify-content-center mb-5">
+        <div class="row mx-4 d-xl-none d-block" wire:click="closeMenu">
+            <button class="my-2 btn-close my-4"></button>
+        </div>
 
-            <div class="row mx-4 d-xl-none d-block text-center" wire:click="closeMenu">
-                <button class="my-2 btn-close mx-auto my-4"></button>
-            </div>
+        <div class="row justify-content-center mb-5">
 
             <div class="row text-center border-bottom my-2">
                 <h4>کاربری</h4>
@@ -239,9 +232,9 @@
                     مدیریت محصولات
 
                     @if($this->commentAlert(\App\Models\Product::class))
-                        <span class="mx-auto text-bg-danger px-1 rounded-5">
-                {{ $this->commentAlert(\App\Models\Product::class) }}
-                </span>
+                        <span class="mx-auto text-bg-light text-danger fw-bolder px-1 rounded-5">
+                            {{ $this->commentAlert(\App\Models\Product::class) }}
+                        </span>
                     @endif
 
                 </button>
@@ -267,7 +260,7 @@
                     <button class="my-2 btn cs-header-mag {{request()->routeIs('articles-management') ? 'active-page' : ''}}">
                         مدیریت مقالات
                         @if($this->commentAlert(\App\Models\Article::class))
-                            <span class="mx-auto text-bg-danger px-1 rounded-5">
+                            <span class="mx-auto text-bg-light text-danger fw-bolder px-1 rounded-5">
                                 {{ $this->commentAlert(\App\Models\Article::class) }}
                              </span>
                         @endif
@@ -282,7 +275,7 @@
                     <button class="my-2 btn cs-header-service {{request()->routeIs('services-management') ? 'active-page' : ''}}">
                         مدیریت خدمات
                         @if($this->commentAlert(\App\Models\Service::class))
-                            <span class="mx-auto text-bg-danger px-1 rounded-5">
+                            <span class="mx-auto text-bg-light text-danger fw-bolder px-1 rounded-5">
                                 {{ $this->commentAlert(\App\Models\Service::class) }}
                              </span>
                         @endif
@@ -292,12 +285,25 @@
                 @endcan
             @endcan
 
-
         </div>
 
     @endif
 
 
+    <div class="row mx-4 d-xl-none d-block mb-5">
+
+        <button class="mx-auto cs-button w-auto py-1 border border-secondary d-inline-flex
+        {{$this->anyAlert() ? 'pe-4 rounded-4' : 'px-2 rounded-3'}}"
+                wire:click="menuToggle">
+
+            <span class="col-auto my-auto text-center"> {{ $showMenu == true ? 'بستن منو' : 'مشاهده منو' }} </span>
+
+            @if($this->anyAlert())
+                <i class="col-auto fs-1 bi-dot text-danger my-auto"></i>
+            @endif
+
+        </button>
+    </div>
 
 </div>
 
