@@ -33,8 +33,6 @@
 
         </div>
 
-
-
     @empty
         <div class="row text-center text-danger">
             <h4> محصولی هیچ محصولی را در پروفایل خود ذخیره نکرده اید  </h4>
@@ -43,7 +41,7 @@
 </div>
 
 
-    <div class="row d-xl-none px-sm-2 border">
+    <div class="row d-xl-none px-sm-2">
         @forelse($this->MyProducts as $product)
 
 
@@ -79,7 +77,8 @@
 
 
 
-                    <button class="btn btn-danger w-100 rounded-bottom-5 rounded-top-0 mb-0 mx-auto">
+                    <button class="btn btn-danger w-100 rounded-bottom-5 rounded-top-0 mb-0 mx-auto"
+                    wire:click="deMark({{$product->id}})">
                         حذف
                     </button>
 
