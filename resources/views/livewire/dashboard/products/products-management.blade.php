@@ -277,12 +277,6 @@
                                     ]) }}" class="dropdown-item" wire:navigate>
                                     فیلتر ها
                                 </a>
-
-                                @if($this->commentAlert($product->id))
-                                    <span class="mx-auto text-bg-danger px-1 py-0 rounded-5 ms-2">
-                                        {{ $this->commentAlert($product->id) }}
-                                    </span>
-                                @endif
                             </li>
 
 
