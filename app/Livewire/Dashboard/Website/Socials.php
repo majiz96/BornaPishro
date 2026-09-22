@@ -8,12 +8,14 @@ use Illuminate\Support\Facades\Storage;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
 use Livewire\WithFileUploads;
+use SweetAlert2\Laravel\Traits\WithSweetAlert;
+use App\Traits\HasToastAlert;
 
 use App\Models\Social;
 
 class Socials extends Component
 {
-    use WithFileUploads;
+    use WithFileUploads, WithSweetAlert, HasToastAlert;
 
     public $name,$link,$icon;
     public $counter = 1;
@@ -90,7 +92,7 @@ class Socials extends Component
 
             $this->reset(['name', 'link', 'icon']);
 
-            session('success','شبکه مجازی مورد نظر ویرایش شد');
+            $this->toastSuccess("  ویرایش انجام شد ");
 
         }
         else
@@ -129,7 +131,7 @@ class Socials extends Component
 
             $this->reset(['name', 'link', 'icon']);
 
-            session()->flash('success','شبکه مجازی اضافه شد');
+            $this->toastSuccess(" شبکه مجازی جدید ساخته شد ");
         }
 
 

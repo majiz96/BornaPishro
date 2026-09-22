@@ -1,12 +1,5 @@
 <div class="container mt-4">
 
-    @if (session()->has('success'))
-        <div class="alert alert-success">
-            {{ session('success') }}
-        </div>
-    @endif
-
-
     <div class="row text-center my-5">
         <h2> تنظیم شبکه های مجازی </h2>
     </div>
