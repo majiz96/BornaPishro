@@ -1,4 +1,5 @@
-<div class="row">
+<div class="container-fluid">
+
     <h2 class="text-center my-3" wire:text="title"></h2>
 
     <div class="row text-center">
@@ -7,7 +8,7 @@
 
             @csrf
 
-            <div class="col-xxl-3 col-xl-4 col-lg-5 col-md-6 border border-2 rounded-5 mx-auto">
+            <div class="col-xxl-4 col-xl-6 border border-2 rounded-5 mx-auto">
                 <div class="row my-3 px-2">
 
                     <select class="col-xxl-7 col-lg-4 text-lg-start my-lg-2 cs-navbar rounded-3 text-center py-1 mx-auto" wire:model.blur="position_id">
@@ -61,7 +62,7 @@
 
     </div>
 
-    <div class="col-xl-8 my-5 mx-auto">
+    <div class="row my-5 mx-auto">
 
         <div class="row my-3 px-5">
 
@@ -87,7 +88,7 @@
                 </select>
             </div>
 
-            <div class="col-xl-1 my-auto">
+            <div class="col-xxl-1 col-xl-2 my-auto">
                 <select wire:model.live="perPage" class="form-select">
                     <option value="5">5</option>
                     <option value="10">10</option>
