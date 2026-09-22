@@ -4,6 +4,7 @@ namespace App\Livewire\Dashboard\Products;
 
 use App\Livewire\Products;
 use App\Models\Category;
+use App\Models\Field;
 use App\Models\Product;
 use Illuminate\Support\Facades\Gate;
 use Livewire\Component;
@@ -33,9 +34,14 @@ class Discounts extends Component
     public $selectedProducts = [];
     public $selectedCategories = [];
 
+    public $field;
+
     public function mount()
     {
         Gate::authorize('isAdmin');
+
+        $this->field = Field::where('model', Product::class)->first()?->id;
+
     }
     public function setDiscount($id)
     {
@@ -148,7 +154,7 @@ class Discounts extends Component
     public function categories()
     {
         return Category::with('children','products')
-            ->where('model',Product::class)
+            ->where('field_id', $this->field)
             ->get()
             ->filter->has_price
             ->values();
