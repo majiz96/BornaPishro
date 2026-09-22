@@ -58,6 +58,7 @@ class Search extends Component
       }
 
       return Product::where('name', 'like', '%' . $this->search . '%')
+          ->where('show',1)
           ->limit(10)
           ->orderBy('created_at','DESC')
           ->get();
@@ -72,6 +73,7 @@ class Search extends Component
 
       return Article::where('title', 'like', '%' . $this->search . '%')
           ->orWhere('intro', 'like', '%' . $this->search . '%')
+          ->where('show',1)
           ->limit(10)
           ->orderBy('created_at','DESC')
           ->get();
@@ -86,6 +88,7 @@ class Search extends Component
 
       return Service::where('title', 'like', '%' . $this->search . '%')
           ->orWhere('intro', 'like', '%' . $this->search . '%')
+          ->where('show',1)
           ->limit(10)
           ->orderBy('created_at','DESC')
           ->get();
