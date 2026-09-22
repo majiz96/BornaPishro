@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Attributes\Computed;
 use Morilog\Jalali\Jalalian;
+use SweetAlert2\Laravel\Traits\WithSweetAlert;
+use App\Traits\HasToastAlert;
 
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -15,7 +17,7 @@ use App\Models\License;
 
 class Licenses extends Component
 {
-    use WithFileUploads;
+    use WithFileUploads, HasToastAlert, WithSweetAlert;
 
    public $name, $link, $icon, $description, $date_picker;
 
@@ -136,6 +138,7 @@ class Licenses extends Component
         $this->reset(['name', 'link', 'icon']);
         $this->editing = null;
 
+        $this->toastSuccess("مجوز ویرایش شد");
     }
     else
     {
@@ -161,7 +164,8 @@ class Licenses extends Component
         {
 
             Cache::forget('website-licenses');
-            session()->flash('success','مجوز ثبت شد');
+
+            $this->toastSuccess("مجوز ثبت شد");
 
             $this->reset(['date_picker','icon']);
         }

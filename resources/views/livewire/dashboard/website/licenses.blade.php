@@ -1,10 +1,4 @@
-<div class="container mt-4">
-
-    @if (session()->has('success'))
-        <div class="alert alert-success">
-            {{ session('success') }}
-        </div>
-    @endif
+<div class="container-fluid mt-4">
 
     <div class="row text-center my-3"> <h2> مجوزهای وبسایت </h2> </div>
 
@@ -24,7 +18,7 @@
             @error('link') <small class="text-danger">{{ $message }}</small> @enderror
         </div>
 
-        <div class="col-xl-3">
+        <div class="col-xxl-3 col-xl-2">
             <label class="form-label">نماد</label>
             <input type="file" wire:model.live="icon" class="form-control">
             @error('icon') <small class="text-danger">{{ $message }}</small> @enderror
@@ -80,7 +74,7 @@
                 @foreach($this->Licenses as $license)
 
                     {{-- کارت مجوز --}}
-                    <div class="col-xl-5 card my-2 rounded-4 mx-auto">
+                    <div class="col-xxl-5 col-xl-8 card my-2 rounded-4 mx-auto">
 
                         <div class="card-header row rounded-top-4">
 
