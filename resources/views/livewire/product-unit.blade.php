@@ -157,25 +157,38 @@
     {{-- Tabs --}}
     <div class="row border rounded-top-4" style="min-height: 5vh">
 
+
+        @if(count($this->specifications) >= 1)
+
         <div class="col-xl-1 col-3 my-md-auto my-2 text-center">
             <input type="radio" class="btn-check" id="btn-check-spec-outlined" autocomplete="off" wire:model.live="tab" value="specifications">
             <label class="btn btn-outline-primary w-auto py-1 rounded-3" for="btn-check-spec-outlined">مشخصات</label>
         </div>
 
-        <div class="col-xl-1 col-3 my-auto text-center">
-            <input type="radio" class="btn-check" id="btn-check-file-outlined" autocomplete="off" wire:model.live="tab" value="files">
-            <label class="btn btn-outline-primary w-auto py-1 rounded-3" for="btn-check-file-outlined"> فایل ها </label>
-        </div>
+        @endif
 
-        <div class="col-xl-1 col-3 my-auto text-center">
-            <input type="radio" class="btn-check" id="btn-check-source-outlined" autocomplete="off" wire:model.live="tab" value="sources">
-            <label class="btn btn-outline-primary w-auto py-1 rounded-3" for="btn-check-source-outlined"> منابع </label>
-        </div>
 
-        <div class="col-xl-1 col-3 my-auto text-center">
-            <input type="radio" class="btn-check" id="btn-check-video-outlined" autocomplete="off" wire:model.live="tab" value="videos">
-            <label class="btn btn-outline-primary w-auto py-1 rounded-3" for="btn-check-video-outlined"> ویدیوها </label>
-        </div>
+            @if(count($product->files) >= 1)
+                <div class="col-xl-1 col-3 my-auto text-center">
+                    <input type="radio" class="btn-check" id="btn-check-file-outlined" autocomplete="off" wire:model.live="tab" value="files">
+                    <label class="btn btn-outline-primary w-auto py-1 rounded-3" for="btn-check-file-outlined"> فایل ها </label>
+                </div>
+            @endif
+
+        @if(count($product->sources) >= 1)
+            <div class="col-xl-1 col-3 my-auto text-center">
+                <input type="radio" class="btn-check" id="btn-check-source-outlined" autocomplete="off" wire:model.live="tab" value="sources">
+                <label class="btn btn-outline-primary w-auto py-1 rounded-3" for="btn-check-source-outlined"> منابع </label>
+            </div>
+        @endif
+
+            @if(count($product->videos))
+                <div class="col-xl-1 col-3 my-auto text-center">
+                    <input type="radio" class="btn-check" id="btn-check-video-outlined" autocomplete="off" wire:model.live="tab" value="videos">
+                    <label class="btn btn-outline-primary w-auto py-1 rounded-3" for="btn-check-video-outlined"> ویدیوها </label>
+                </div>
+            @endif
+
 
     </div>
 
