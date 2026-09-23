@@ -180,14 +180,14 @@
                 </select>
             </div>
 
-            <div class="col-xl-1">
+            <div class="col-xxl-1 col-xl-auto">
                 <select wire:model.live="sort" class="form-select">
                     <option value="created_at">تاریخ ایجاد</option>
                     <option value="title">عنوان</option>
                 </select>
             </div>
 
-            <div class="col-xl-1 my-auto">
+            <div class="col-xxl-1 col-xl-auto my-auto">
                 <select class="form-select" wire:model.live="direction">
                     <option value="desc">نزولی</option>
                     <option value="asc">صعودی</option>
@@ -202,7 +202,7 @@
 
             @foreach($this->Articles as $article)
 
-                <div class="col-xl-4 my-3">
+                <div class="col-xxl-5 col-xl-6 my-3">
 
                     <div class="card rounded-4 my-2 mx-auto">
 
@@ -239,7 +239,7 @@
                                 <div class="col-xl-auto text-xl-start my-auto"><label for="show"> نمایش </label></div>
                                 <div class="col-xl-auto my-auto"><input type="checkbox" id="show" wire:change="toggleShow({{$article->id}})" @checked($article->show == 1)></div>
 
-                                <div class="col-auto flex-fill"></div>
+                                <div class="col-auto flex-fill d-xxl-block {{$this->commentCount($article->id) >= 1 ? 'd-xl-none' : ''}} "></div>
 
                                 <div class="col-xl-auto my-auto text-center">
                                     @if($this->commentAlert($article->id))
@@ -275,7 +275,7 @@
 
                                 </div>
 
-                                <div class="col-xl-auto my-auto text-center">
+                                <div class="col-xl-auto my-auto text-center px-xl-0 pe-xl-1">
                                     <a href="{{ route('select-filter', [
                                         'type' => "article",
                                         'id'   => $article->id,
