@@ -202,7 +202,7 @@
 
             @foreach($this->Articles as $article)
 
-                <div class="col-xxl-5 col-xl-6 my-3">
+                <div class="col-xxl-5 col-xl-6 my-3 mx-xxl-auto ">
 
                     <div class="card rounded-4 my-2 mx-auto">
 
