@@ -76,13 +76,13 @@
             <label class="btn btn-outline-success w-auto py-2" for="btn-check-string-outlined">محصولات</label>
         </div>
 
-        <div class="col-xl-1 my-auto text-center">
+        <div class="col-xxl-1 col-xl-auto my-auto text-center">
             <input type="radio" class="btn-check" id="btn-check-integer-outlined" autocomplete="off" wire:model.live="tab" value="categories">
             <label class="btn btn-outline-primary w-auto py-2" for="btn-check-integer-outlined">گروه ها</label>
         </div>
 
         @if($tab == 'products')
-            <div class="col-xl-3 my-auto">
+            <div class="col-xxl-3 col-xl-4 my-auto">
                 <input type="text" class="form-control" wire:model.live="search" placeholder="جستجو" autocomplete="off">
             </div>
 

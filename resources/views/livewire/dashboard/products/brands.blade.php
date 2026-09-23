@@ -15,13 +15,13 @@
                 </div>
             </div>
 
-            <div class="col-xl-1 my-auto text-center">
+            <div class="col-xxl-1 col-xl-2 my-auto text-center">
                 <label for="logo" class="btn btn-primary px-2 rounded-3 form-label my-auto">نماد برند</label>
                 <input type="file" class="d-none" id="logo" wire:model.live="logo">
                 @error('logo') <small class="text-danger">{{ $message }}</small> @enderror
             </div>
 
-            <div class="col-xl-1 my-auto text-center">
+            <div class="col-xxl-1 col-xl-6 my-auto text-center">
                 @if($logo)
                     @if(is_string($logo) && $editing)
                         <img src="{{asset('storage/brand_logos/'.$logo) }}"  alt="پیش نمایش" height="100" class="rounded">
@@ -31,13 +31,13 @@
                 @endif
             </div>
 
-            <div class="col-xl-2 py-4 my-auto text-center">
+            <div class="col-xxl-2 col-xl-auto py-4 my-auto text-center">
                 <label for="cover" class="btn btn-success px-4 rounded-3 form-label my-auto">نماد عریض برند</label>
                 <input type="file" class="d-none" id="cover" wire:model.live="cover">
                 @error('cover') <small class="text-danger">{{ $message }}</small> @enderror
             </div>
 
-            <div class="col-xl-4 my-auto text-center overflow-hidden px-0">
+            <div class="col-xxl-4 col-xl-auto my-auto text-center overflow-hidden px-0">
                 @if($cover)
                     @if(is_string($cover) && $editing)
                         <img src="{{asset('storage/brand_covers/'.$cover) }}" alt="پیش نمایش" width="350" class="rounded">
