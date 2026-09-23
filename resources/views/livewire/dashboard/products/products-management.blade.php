@@ -4,7 +4,7 @@
 
     <form wire:submit.prevent="saveProduct" enctype="multipart/form-data" class="row border rounded-4 py-3 mt-4">
 
-        <div class="col-xl-2 my-auto">
+        <div class="col-xxl-2 col-xl-3 my-auto">
             <label for="name" class="form-label">
                 نام
             </label>
@@ -13,14 +13,14 @@
             @error('name') <small class="text-danger">{{ $message }}</small> @enderror
         </div>
 
-        <div class="col-xl-2 my-auto">
+        <div class="col-xxl-2 col-xl-4 my-auto">
             <label for="fullname" class="form-label">
                 نام کامل
             </label>
             <input type="text" id="fullname" class="form-control" wire:model.blur="fullname">
         </div>
 
-        <div class="col-xl-1 my-auto">
+        <div class="col-xxl-1 col-xl-2 my-auto">
             <label for="category" class="form-label">
                 دسته محصول
             </label>
@@ -52,7 +52,7 @@
             @error('category_id') <small class="text-danger">{{ $message }}</small> @enderror
         </div>
 
-        <div class="col-xl-1 my-auto">
+        <div class="col-xxl-1 col-xl-3 my-auto">
             <label for="brand" class="form-label">
                 انتخاب برند
             </label>
@@ -70,7 +70,7 @@
             </select>
         </div>
 
-        <div class="col-xl-2 my-auto">
+        <div class="col-xxl-2 col-xl-3 mt-xl-2 my-auto">
             <label for="brand_name" class="form-label">
                 نام برند
             </label>
@@ -78,7 +78,7 @@
 
         </div>
 
-        <div class="col-xl-1 my-auto">
+        <div class="col-xxl-1 col-xl-3 my-xxl-auto mt-xl-2 mx-xl-auto">
             <label for="price" class="form-label">
                 قیمت
             </label>
@@ -86,7 +86,7 @@
             @error('price') <small class="text-danger">{{ $message }}</small> @enderror
         </div>
 
-        <div class="col-xl-1 my-auto mt-2 bo">
+        <div class="col-xxl-1 col-xl-2 my-auto mt-2 mt-xl-3 mx-xl-auto">
 
             <label for="image" class="btn btn-primary my-auto mt-4">
                 عکس اصلی محصول
@@ -96,7 +96,7 @@
             @error('image') <small class="text-danger">{{ $message }}</small> @enderror
         </div>
 
-        <div class="col-xl-2 my-auto">
+        <div class="col-xxl-2 col-xl-2 my-auto mt-xl-2 mx-xl-auto">
 
             @if($image)
                 @if(is_string($image) && $editing)
@@ -130,7 +130,7 @@
 
     <div class="row mt-4">
 
-        <div class="col-xl-3">
+        <div class="col-xxl-3 col-xl-4">
             <input type="text" class="form-control" wire:model.live="search" placeholder="جستجو" autocomplete="off">
         </div>
 
@@ -143,7 +143,7 @@
             </select>
         </div>
 
-        <div class="col-xl-1">
+        <div class="col-xxl-1 col-xl-2">
             <select wire:model.live="sort" class="form-select">
                 <option value="created_at">تاریخ ایجاد</option>
                 <option value="name">نام</option>
@@ -154,7 +154,7 @@
             </select>
         </div>
 
-        <div class="col-xl-1 my-auto">
+        <div class="col-xxl-1 col-xl-2 my-auto">
             <select class="form-select" wire:model.live="direction">
                 <option value="desc">نزولی</option>
                 <option value="asc">صعودی</option>
@@ -171,13 +171,13 @@
 
         <div class="row border rounded-3 mt-5 py-2">
 
-            <div class="col-xl-1 my-auto text-center"> <input type="checkbox" wire:model.live="selectAll"> </div>
-            <div class="col-xl-1 my-auto text-center"> ردیف </div>
-            <div class="col-xl-1 my-auto text-center"> تصویر </div>
+            <div class="col-xl-auto my-auto text-center"> <input type="checkbox" wire:model.live="selectAll"> </div>
+            <div class="col-xxl-1 col-xl-auto my-auto text-center"> # </div>
+            <div class="col-xxl-1 col-xl-2 my-auto text-center"> تصویر </div>
             <div class="col-xl-1 my-auto text-center"> نمایش </div>
             <div class="col-xl-1 my-auto text-center"> موجودی </div>
-            <div class="col-xl-1 my-auto text-center"> نام </div>
-            <div class="col-xl-1 my-auto text-center"> نام کامل </div>
+            <div class="col-xxl-1 col-xl-2 my-auto text-center"> نام </div>
+            <div class="col-xxl-1 d-xxl-block d-xl-none my-auto text-center"> نام کامل </div>
             <div class="col-xl-1 my-auto text-center"> قیمت </div>
             <div class="col-xl-1 my-auto text-center"> دسته </div>
             <div class="col-xl-1 my-auto text-center"> برند </div>
@@ -199,17 +199,17 @@
 
     @foreach($products as $product)
 
-            <div class="row border rounded-3 my-3 py-2">
-                <div class="col-xl-1 my-auto text-center"> <input type="checkbox" value="{{$product->id}}" wire:model.live="selected"> </div>
-                <div class="col-xl-1 my-auto text-center"> {{$counter++}} </div>
-                <div class="col-xl-1 my-auto text-center side-img2"> <img src="{{asset('storage/products/'.$product->image) }}"  alt="پیش نمایش" height="100" class="rounded"> </div>
+            <div class="row border rounded-3 my-3 py-2 ps-0">
+                <div class="col-xl-auto my-auto text-center"> <input type="checkbox" value="{{$product->id}}" wire:model.live="selected"> </div>
+                <div class="col-xxl-1 col-xl-auto my-auto text-center"> {{$counter++}} </div>
+                <div class="col-xxl-1 col-xl-2 my-auto text-center side-img2"> <img src="{{asset('storage/products/'.$product->image) }}"  alt="پیش نمایش" height="100" class="rounded"> </div>
 
-                <div class="col-xl-1 my-auto text-center"><input type="checkbox" wire:change="toggleShow({{$product->id}})" @checked($product->show == 1)></div>
+                <div class="col-xxl-1 col-xl-1 my-auto text-center"><input type="checkbox" wire:change="toggleShow({{$product->id}})" @checked($product->show == 1)></div>
 
-                <div class="col-xl-1 my-auto text-center"> <input type="checkbox" wire:change="toggleSupply({{$product->id}})" @checked($product->supply == 1)> </div>
+                <div class="col-xxl-1 col-xl-1 my-auto text-center"> <input type="checkbox" wire:change="toggleSupply({{$product->id}})" @checked($product->supply == 1)> </div>
 
-                <div class="col-xl-1 my-auto text-center"> {{$product->name}} </div>
-                <div class="col-xl-1 my-auto text-center"> {{$product->fullname}} </div>
+                <div class="col-xxl-1 col-xl-2 my-auto text-center"> {{$product->name}} </div>
+                <div class="col-xxl-1 d-xxl-block d-xl-none my-auto text-center"> {{$product->fullname}} </div>
                 <div class="col-xl-1 my-auto text-center">
                 @if($product->price)
                     {{number_format($product->price)}} تومان
@@ -234,9 +234,7 @@
 
                 <div class="col-xl-1 my-auto text-center"> {{$product->brand->name ?? $product->brand_name ?? 'فاقد برند'}} </div>
 
-                <div class="col-xl-1 my-auto text-center">
-                    <!-- Example single danger button -->
-                    <div class="btn-group me-0 text-center">
+                <div class="col-xl-1 overflow-x-hidden my-auto text-xxl-center text-xl-end px-xl-0">
 
                         <button type="button" class="btn btn-secondary dropdown-toggle text-light" id="dropdownOptions" data-bs-toggle="dropdown" aria-expanded="false">
                             پیوست ها
@@ -282,11 +280,9 @@
 
 
                         </ul>
-
-                    </div>
                 </div>
 
-                <div class="col-xl-1 my-auto text-center">
+                <div class="col-xxl-auto col-xl-1 me-2 my-auto text-center">
 
                     <button class="btn btn-sm btn-danger rounded-3"
                     wire:click="delete({{$product->id}})" wire:confirm="آیا از حذف برند ({{$product->name}}) مطمئن هستید؟">
