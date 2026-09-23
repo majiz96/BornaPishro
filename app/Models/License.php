@@ -18,7 +18,7 @@ class License extends Model
         return Cache::remember(
             'website-licenses',
             now()->addDays(3)
-            ,fn()=>License::all()
+            ,fn()=>License::where('show',true)->orderBy('created_at','desc')->get()
         );
     }
 
