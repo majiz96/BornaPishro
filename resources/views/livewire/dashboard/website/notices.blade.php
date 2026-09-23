@@ -1,4 +1,4 @@
-<div class="container my-4">
+<div class="container-fluid my-4">
 
     <form wire:submit.prevent="save" class="row g-3">
 
@@ -84,15 +84,6 @@
             @error('style') <span class="text-danger">{{ $message }}</span> @enderror
         </div>
 
-{{--        --}}{{-- وضعیت --}}
-{{--        <div class="col-md-6 d-flex align-items-center">--}}
-{{--            <div class="form-check mt-4">--}}
-{{--                <input type="checkbox" id="status" wire:model.blur="status" class="form-check-input" value="1">--}}
-{{--                <label for="status" class="form-check-label">فعال</label>--}}
-{{--            </div>--}}
-{{--            @error('status') <span class="text-danger">{{ $message }}</span> @enderror--}}
-{{--        </div>--}}
-
         {{-- تاریخ انقضا (شمسی) --}}
         <div class="col-md-4">
             <label for="date_picker" class="form-label">تاریخ انقضا</label>
@@ -157,7 +148,7 @@
                 </select>
             </div>
 
-            <div class="col-xl-1 my-auto">
+            <div class="col-xxl-1 col-xl-2 my-auto">
                 <select class="form-select" wire:model.live="direction">
                     <option value="desc">نزولی</option>
                     <option value="asc">صعودی</option>
@@ -170,20 +161,21 @@
 
         <div class="cs-navbar row mx-auto py-3 border rounded-3">
 
-            <div class="col-xl-1 text-end">
+            <div class="col-xl-auto text-end">
 
                 <input type="checkbox" class="mx-2" wire:model.live="selectAll">
                 ردیف
             </div>
 
             <div class="col-xl-2 text-center">عنوان</div>
-            <div class="col-xl-1 text-center"> نحوه نمایش </div>
+            <div class="col-xxl-1 col-xl-auto text-center"> نحوه نمایش </div>
             <div class="col-xl-1 text-center"> مخاطب </div>
             <div class="col-xl-1 text-center"> جایگاه </div>
             <div class="col-xl-1 text-center"> تم </div>
-            <div class="col-xl-2 text-center"> انقضاء </div>
+            <div class="col-xxl-2 col-xl-auto text-center"> انقضاء </div>
             <div class="col-xl-1 text-center"> فعال </div>
-            <div class="col-xl-2 text-center">
+
+            <div class="col-xxl-auto col-xl-3 text-center">
 
                 @if( count($selected) > 1)
 
@@ -206,7 +198,7 @@
 
             <div class="row mx-auto py-2 border rounded-3 my-4 mb-1">
 
-                <div class="col-xl-1 text-end">
+                <div class="col-xl-auto text-end">
                     <input class="mt-2 mx-3" type="checkbox" value="{{$notice->id}}" wire:model.live="selected">
                     {{$row++}}
                 </div>
@@ -217,13 +209,13 @@
                 <div class="col-xl-1 pt-1 text-center"> {{$notice->position->title}} </div>
                 <div class="col-xl-1 pt-1 text-{{$notice->style}}  text-center"> {{$notice->style}} </div>
 
-                <div class="col-xl-2 text-center"> {{\App\Models\Notice::first()->fromJalaliDatePicker($notice->expired_at)}} </div>
+                <div class="col-xxl-2 col-xl-auto text-center"> {{\App\Models\Notice::first()->fromJalaliDatePicker($notice->expired_at)}} </div>
 
                 <div class="col-xl-1 text-center">
                     <input class="mt-2" type="checkbox" id="active" wire:change="toggleStatus({{$notice->id}})" @checked($notice->status == 1)>
                 </div>
 
-                <div class="col-xl-2 px-0">
+                <div class="col-xl-auto px-0">
 
                     <button class="btn btn-sm btn-success mt-1 rounded-2 ms-3" wire:click="see({{$notice->id}})"> مشاهده </button>
 
