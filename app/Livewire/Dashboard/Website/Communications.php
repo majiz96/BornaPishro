@@ -23,7 +23,7 @@ class Communications extends Component
     public $filesModal = false;
 
     public int $modalId;
-    public string $modalSubject,$modalMessage,$modalName;
+    public string $modalSubject,$modalMessage,$modalName,$modalMail;
 
     public $modalFiles, $modalFileId;
     public string $modalErr;
@@ -46,7 +46,8 @@ class Communications extends Component
         $this->messageModal = true;
 
         $message = Communication::with('user')->findOrFail($id);
-        $this->modalId = $id;
+        $this->modalId      = $id;
+        $this->modalMail    = $message->email ?? $message->user->email;
         $this->modalSubject = $message->subject;
         $this->modalMessage = $message->message;
         $this->modalName    = $message->name ?? $message->user->name ." ". $message->user->lastname;

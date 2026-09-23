@@ -12,7 +12,7 @@
 
             <div class="row my-2">
 
-                <div class="col-xl-3">
+                <div class="col-xxl-3 col-xl-6">
                     <input type="text" class="form-control" wire:model.live="search" placeholder="جستجو..." autocomplete="off">
                 </div>
 
@@ -25,7 +25,7 @@
                     </select>
                 </div>
 
-                <div class="col-xl-1 my-auto">
+                <div class="col-xxl-1 col-xl-auto my-auto">
                     <select class="form-select" wire:model.live="sort">
                         <option value="created_at">تاریخ</option>
                         <option value="name">نام</option>
@@ -35,7 +35,7 @@
                     </select>
                 </div>
 
-                <div class="col-xl-1 my-auto">
+                <div class="col-xxl-1 col-xl-auto my-auto">
                     <select class="form-select" wire:model.live="direction">
                         <option value="desc">نزولی</option>
                         <option value="asc">صعودی</option>
@@ -50,9 +50,9 @@
 
                 <div class="col-xl-auto text-center py-2">#</div>
                 <div class="col-xl-3 text-center py-2"> عنوان</div>
-                <div class="col-xl-1 text-center py-2"> نام و نام خانوادگی</div>
-                <div class="col-xl-2 text-center py-2"> ایمیل</div>
-                <div class="col-xl-1 text-center py-2"> شماره همراه</div>
+                <div class="col-xxl-1 col-xl-auto text-center py-2"> نام و نام خانوادگی</div>
+                <div class="col-xxl-2 d-xl-none d-xxl-block text-center py-2"> ایمیل</div>
+                <div class="col-xxl-1 col-xl-auto text-center py-2"> شماره همراه</div>
                 <div class="col-xl-1 text-center py-2">تاریخ</div>
                 <div class="col-xl-1 text-center py-2">مشاهده</div>
                 <div class="col-xl-1 text-center py-2">فایلها</div>
@@ -81,11 +81,11 @@
                     <div class="col-xl-3 text-center pt-2"> {{$com->subject}} </div>
 
                     <div
-                        class="col-xl-1 text-center pt-2"> {{ $com->name !== null ? $com->name : $com->user->name .' '. $com->user->lastname }} </div>
+                        class="col-xxl-1 col-xl-auto text-center pt-2"> {{ $com->name !== null ? $com->name : $com->user->name .' '. $com->user->lastname }} </div>
                     <div
-                        class="col-xl-2 text-center pt-2"> {{ $com->email !== null ? $com->email : $com->user->email }} </div>
+                        class="col-xxl-2 d-xl-none d-xxl-block text-center pt-2"> {{ $com->email !== null ? $com->email : $com->user->email }} </div>
 
-                    <div class="col-xl-1 text-center pt-2" dir="ltr"> {{ $com->phone !== null ? $com->phone : '' }} </div>
+                    <div class="col-xxl-1 col-xl-auto text-center pt-2" dir="ltr"> {{ $com->phone !== null ? $com->phone : '' }} </div>
 
 
                     <div class="col-xl-1 text-center pt-2"> {{ $com->created_at->diffForHumans() }} </div>
