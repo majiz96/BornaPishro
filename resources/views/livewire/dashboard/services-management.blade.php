@@ -6,7 +6,7 @@
 
         @csrf
 
-        <div class="col-xl-1 my-auto mx-auto text-start"><label for="title">عنوان</label></div>
+        <div class="col-xxl-1 col-xl-auto my-auto mx-auto text-start"><label for="title">عنوان</label></div>
 
         <div class="col-xl-5 my-auto mx-auto">
             <input type="text" id="title" class="form-control" wire:model.blur="title">
@@ -16,7 +16,7 @@
         <div class="col-xl-auto flex-fill"></div>
 
         {{--   Category Dropdown    --}}
-        <div class="col-xl-2 my-auto">
+        <div class="col-xxl-2 col-xl-auto my-auto">
             <select class="form-select" wire:model="category_id">
                 <option value=""> دسته را انتخاب کنید </option>
 
@@ -53,45 +53,50 @@
         </div>
 
 
+        <div class="row mt-3">
 
-        <div class="col-xl-1 my-auto text-xl-start mx-auto mt-3"><label for="cover">انتخاب نمایه</label></div>
-        <div class="col-xl-2 my-auto mx-auto">
-            <input type="file" id="cover" class="form-control" wire:model.blur="cover">
-            @error('cover') <small class="text-danger"> {{$message}} </small> @enderror
-        </div>
-
-
-        <div class="col-xl-3 my-auto text-xl-end mx-auto side-img2">
-            @if($cover)
-                @if(is_string($cover) && $editing)
-                    <img src="{{asset('storage/service_covers/'.$cover) }}"  alt="پیش نمایش" class="mt-3">
-                @else
-                    <img src="{{$cover->temporaryUrl()}}" alt="پیش نمایش" class="mt-3 rounded">
+            <div class="col-xl-auto my-auto text-xl-start mx-auto mt-3"><label for="cover">انتخاب نمایه</label></div>
+            <div class="col-xl-3 my-auto mx-auto">
+                <input type="file" id="cover" class="form-control" wire:model.blur="cover">
+                @error('cover') <small class="text-danger"> {{$message}} </small> @enderror
+            </div>
+            <div class="col-xl-7 my-auto text-xl-end mx-auto side-img2">
+                @if($cover)
+                    @if(is_string($cover) && $editing)
+                        <img src="{{asset('storage/service_covers/'.$cover) }}"  alt="پیش نمایش" class="mt-3">
+                    @else
+                        <img src="{{$cover->temporaryUrl()}}" alt="پیش نمایش" class="mt-3 rounded">
+                    @endif
                 @endif
-            @endif
-
-
-
+            </div>
         </div>
 
 
-        <div class="col-xl-1 my-auto text-xl-start mx-auto mt-3"><label for="thumbnail">انتخاب نمایه کوچک</label></div>
-        <div class="col-xl-2 my-auto mx-auto mt-3">
-            <input type="file" id="thumbnail" class="form-control" wire:model.blur="thumbnail">
-            @error('thumbnail') <small class="text-danger"> {{$message}} </small> @enderror
-        </div>
 
 
-        <div class="col-xl-2 my-auto text-xl-end mx-auto side-img2 mt-3">
-            @if($thumbnail)
-                @if(is_string($thumbnail) && $editing)
-                    <img src="{{asset('storage/service_thumbnails/'.$thumbnail) }}"  alt="پیش نمایش" class="mt-3">
-                @else
-                    <img src="{{$thumbnail->temporaryUrl()}}" alt="پیش نمایش" class="mt-3 rounded">
+
+
+        <div class="row my-2">
+            <div class="col-xl-auto my-auto text-xl-start mx-auto mt-3"><label for="thumbnail">انتخاب نمایه کوچک</label></div>
+            <div class="col-xl-3  my-auto mx-auto mt-3">
+                <input type="file" id="thumbnail" class="form-control" wire:model.blur="thumbnail">
+                @error('thumbnail') <small class="text-danger"> {{$message}} </small> @enderror
+            </div>
+
+
+            <div class="col-xl-7 my-auto text-xl-end mx-auto side-img2 mt-3">
+                @if($thumbnail)
+                    @if(is_string($thumbnail) && $editing)
+                        <img src="{{asset('storage/service_thumbnails/'.$thumbnail) }}"  alt="پیش نمایش" class="mt-3">
+                    @else
+                        <img src="{{$thumbnail->temporaryUrl()}}" alt="پیش نمایش" class="mt-3 rounded">
+                    @endif
                 @endif
-            @endif
+
+            </div>
 
         </div>
+
 
         <div class="row mx-auto mt-3">
             <label for="intro">مقدمه</label>
@@ -125,7 +130,7 @@
 
     <div class="row mt-3">
 
-        <div class="col-xl-1 border rounded-4 pb-2">
+        <div class="col-xxl-1 col-xl-2 border rounded-4 pb-2">
             @if($this->Categories->isNotEmpty())
                 @foreach($this->Categories as $category)
 
@@ -140,7 +145,7 @@
             @endif
         </div>
 
-        <div class="col-xl-11 my-auto py-5 border rounded-start-4">
+        <div class="col-xxl-11 col-xl-10 my-auto py-5 border rounded-start-4">
             <div class="row">
 
                 @if($this->Children->isNotEmpty() && $activeParent)
@@ -166,7 +171,7 @@
 
             @foreach($this->Services as $service)
 
-                <div class="col-xl-4 card rounded-4 my-2 mx-auto">
+                <div class="col-xxl-5 col-xl-6 card rounded-4 my-2 mx-auto">
 
                     <div class="card-header row">
                         <div class="col-xl-8"><h5>{{$service->title}}</h5></div>
