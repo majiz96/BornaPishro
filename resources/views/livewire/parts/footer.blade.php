@@ -213,7 +213,7 @@
 
                     @forelse($licenses as $license)
                         <a class="col-auto mx-auto my-2 text-center" href="{{$license->link}}">
-                            <img src="{{ asset('storage/license_icons/'.$license->icon) }}">
+                            <img src="{{ asset('storage/license_icons/'.$license->icon) }}" height="150">
                         </a>
                     @empty
 
