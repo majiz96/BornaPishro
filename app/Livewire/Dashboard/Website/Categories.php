@@ -141,7 +141,8 @@ class Categories extends Component
                 'image' => $logoname,
                 'show_menu' => $this->field_show,
             ]);
-            $this->reset();
+
+            $this->reset('field_name','field_route','field_logo','field_order');
         }
         else
         {
@@ -166,7 +167,7 @@ class Categories extends Component
                 'show_menu'=>$this->field_show,
             ]);
 
-            $this->reset();
+            $this->reset('field_name','field_route','field_logo','field_order','image');
         }
     }
 
