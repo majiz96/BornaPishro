@@ -42,6 +42,7 @@ Home extends Component
     {
         return Notice::where('display','اسلایدر')
             ->where('status',1)
+            ->where('expired_at', '>', now())
             ->limit($this->NotificationLimit)
             ->orderBy('created_at','DESC')
             ->get();
