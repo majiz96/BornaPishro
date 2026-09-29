@@ -225,6 +225,8 @@ class Footer extends Component
                     now()->addMinutes(10)
                 );
 
+                $this->toastSuccess("پیام شما با موفقیت ارسال شد");
+
                 $this->reset('uploadedFiles', 'files','subject','text');
             }
 
