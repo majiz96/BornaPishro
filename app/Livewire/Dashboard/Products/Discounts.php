@@ -177,9 +177,12 @@ class Discounts extends Component
     {
         return Product::with('category','brand')
             ->where('price','>',0)
-            ->where('name','like','%'.$this->search.'%')
-            ->orWhere('fullname','like','%'.$this->search.'%')
-            ->orWhere('brand_name','like','%'.$this->search.'%')
+            ->where(function($query){
+               $query->where('name','like','%'.$this->search.'%')
+                    ->orWhere('fullname','like','%'.$this->search.'%')
+                    ->orWhere('brand_name','like','%'.$this->search.'%');
+            })
+
             ->orderBy($this->sort, $this->direction)
             ->paginate($this->perPage);
     }
