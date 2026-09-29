@@ -143,7 +143,7 @@ class ProductsManagement extends Component
             ]);
 
             $this->editing = null;
-            $this->reset();
+            $this->reset(['name','fullname','category_id','brand_id','brand_name','intro','price','image']);
 
         }
         else
@@ -245,9 +245,11 @@ class ProductsManagement extends Component
      $brands = Brand::all();
 
      $query = Product::with('category','brand','brief','specifications','comments')
-         ->where('name','LIKE','%'.$this->search.'%')
-         ->orWhere('fullname','LIKE','%'.$this->search.'%')
-         ->orWhere('brand_name','LIKE','%'.$this->search.'%')
+         ->where(function($q){
+             $q->where('name','LIKE','%'.$this->search.'%')
+                 ->orWhere('fullname','LIKE','%'.$this->search.'%')
+                 ->orWhere('brand_name','LIKE','%'.$this->search.'%');
+         })
          ->orderBy($this->sort,$this->direction);
 
         $products = ($this->perPage == "") ? $query->get() : $query->paginate($this->perPage);
