@@ -23,12 +23,6 @@ class Service extends Model
     {
         return $this->belongsTo(Filter::class);
     }
-
-    public function comments():MorphMany
-    {
-        return $this->morphMany(Comment::class, 'commentable');
-    }
-
     public function relatedOptions():MorphToMany
     {
         return $this->morphToMany(Option::class, 'optionable','model_options');

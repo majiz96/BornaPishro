@@ -4,8 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Database\Eloquent\Relations\MorphToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Option extends Model
 {
@@ -19,24 +18,29 @@ class Option extends Model
 
     public function filter(): BelongsTo
     {
-        return $this->belongsTo(Filter::class, 'filter_id', 'id');
-    }
-
-    public function usedOptions(): BelongsToMany
-    {
-        return $this->belongsToMany(
-            Option::class,
-            'model_options',
-            'option_id'
+        return $this->belongsTo(
+            Filter::class,
+            'filter_id',
+            'id'
         );
     }
 
-    public function optionables(): MorphToMany
+    public function modelOptions(): HasMany
     {
-        return $this->morphedByMany(
-            Product::class,
-            'optionable',
-            'model_options'
+        return $this->hasMany(
+            ModelOption::class,
+            'option_id',
+            'id'
         );
+    }
+
+    public function scopeVisible($query)
+    {
+        return $query->where('show', true)
+            ->whereHas('modelOptions',function($q){
+                $q->whereHasMorph('optionable','*',function($q){
+                    $q->where('show', true);
+                });
+            });
     }
 }

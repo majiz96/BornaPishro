@@ -36,4 +36,18 @@ class Filter extends Model
     {
         return $this->hasMany(Service::class);
     }
+
+    public function scopeWithVisibleOption($query)
+    {
+        return $query->with(['options'=>function($q){
+            $q->visible();
+        }]);
+    }
+
+    public function scopeHasVisibleOption($query)
+    {
+        return $query->whereHas('options',function($q){
+            $q->visible();
+        });
+    }
 }

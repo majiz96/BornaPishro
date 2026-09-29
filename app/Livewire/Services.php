@@ -67,15 +67,10 @@ class Services extends Component
             Category::whereIn('parent_id', $this->activeCategory)->pluck('id')->toArray()
         );
 
-        $query = Filter::with(['options'=>function($options){
-            $options->whereHas('usedOptions',function($used){
-                $used->where('optionable_type',$this->field_class);
-            });
-        }])->where('field_id', $this->field_id)
-            ->where('show',1)
-        ->whereHas('services',function($service){
-            $service->where('show',1);
-        });
+        $query = Filter::withVisibleOption()
+            ->hasVisibleOption()
+            ->where('field_id', $this->field_id)
+            ->where('show',true);
 
         if(!empty($allCategories))
         {

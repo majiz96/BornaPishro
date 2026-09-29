@@ -78,15 +78,15 @@ class Filters extends Component
 
         if($this->editing)
         {
-           $filter = Filter::findOrFail($this->editing);
+            $filter = Filter::findOrFail($this->editing);
 
-           $filter->update([
-               'field_id' => $this->field_id,
-               'category_id' => $this->category_id,
-               'title' => $this->title,
-           ]);
+            $filter->update([
+                'field_id' => $this->field_id,
+                'category_id' => $this->category_id,
+                'title' => $this->title,
+            ]);
 
-           $this->reset(['field_id','category_id','title','editing']);
+            $this->reset(['field_id','category_id','title','editing']);
         }
         else
         {

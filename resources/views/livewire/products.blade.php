@@ -171,7 +171,7 @@
                                         </div>
 
                                         <div class="col-1 text-end flex-fill">
-                                            ( {{$option->usedOptions->count()}} )
+                                            ( {{$option->modelOptions->count()}} )
                                         </div>
 
                                         <div class="col-1 text-start">
@@ -197,7 +197,7 @@
                                             </div>
 
                                             <div class="col-1 text-end flex-fill">
-                                                ( {{$option->usedOptions->count()}} )
+                                                ( {{$option->modelOptions->count()}} )
                                             </div>
 
                                             <div class="col-1 text-start">
