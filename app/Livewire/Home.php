@@ -61,7 +61,6 @@ Home extends Component
     {
          return Product::where('show',1)
             ->where('supply',1)
-            ->where('price','!=',0)
             ->limit($this->ProductLimit)
             ->orderBy('created_at','DESC')->get();
     }
