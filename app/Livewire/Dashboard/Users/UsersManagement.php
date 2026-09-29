@@ -34,6 +34,15 @@ class UsersManagement extends Component
     public $sort = 'created_at';
     public $direction = 'desc';
 
+    public int $maxLevel;
+
+    public function mount()
+    {
+        $this->authorize('isOperator');
+
+        $this->maxLevel = Position::max('level');
+    }
+
     public function edit($id)
     {
         $user = User::findOrFail($id);
@@ -142,20 +151,21 @@ class UsersManagement extends Component
     #[Computed]
     public function Users()
     {
-        $maxLevel = Position::max('level');
-
         $user = User::query();
 
-        $user->whereHas('position', function($q) use($maxLevel) {
-            $q->where('level','<' ,$maxLevel);
+            $user->whereHas('position',function($q){
+                $q->where('level', '<' , Position::max('level'));
+            });
+
+        $user->where(function($q){
+           $q-> whereLike('name', '%'.$this->search.'%')
+                ->orWhereLike('lastname','%'.$this->search.'%')
+                ->orWhereLike('email', '%'.$this->search.'%')
+                ->orWhereLike('position_id', '%'.$this->search.'%')
+                ->orWhereLike('created_at', '%'.$this->search.'%')
+                ->orWhereLike('email_verified_at', '%'.$this->search.'%');
         });
 
-        $user->whereLike('name', '%'.$this->search.'%')
-        ->orWhereLike('lastname','%'.$this->search.'%')
-        ->orWhereLike('email', '%'.$this->search.'%')
-        ->orWhereLike('position_id', '%'.$this->search.'%')
-        ->orWhereLike('created_at', '%'.$this->search.'%')
-       ->orWhereLike('email_verified_at', '%'.$this->search.'%');
 
         $user->orderBy($this->sort, $this->direction);
 

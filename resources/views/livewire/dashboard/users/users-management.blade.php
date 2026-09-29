@@ -142,7 +142,7 @@
 
                         <div class="col-3 text-center mx-auto">{{$user->email}}</div>
 
-                        <div class="col-1 text-center mx-auto"> {{ $user->position->title}}
+                        <div class="col-1 text-center mx-auto"> {{ $user->position->title ?? 'کاربر'}}
                         </div>
 
                         <div class="col-1 text-center mx-auto"><button class="btn btn-sm btn-danger" wire:click="delete({{$user->id}})" wire:confirm="آیا از حذف (( {{$user->name}}  {{$user->lastname}} )) مطمئن هستید؟">حذف</button></div>
