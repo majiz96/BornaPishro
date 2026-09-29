@@ -51,6 +51,7 @@ Home extends Component
     {
         return Notice::where('display','کاشی ها')
             ->where('status',1)
+            ->where('expired_at', '>', now())
             ->orderBy('created_at','DESC')
             ->get();
     }
