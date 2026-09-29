@@ -111,4 +111,11 @@ class Product extends Model
     {
         return $this->morphToMany(Option::class, 'optionable','model_options');
     }
+
+    public static function booted()
+    {
+        static::deleting(function($product){
+            $product->relatedOptions()->detach();
+        });
+    }
 }

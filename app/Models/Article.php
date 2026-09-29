@@ -45,4 +45,12 @@ class Article extends Model
     {
         return $this->morphToMany(Option::class, 'optionable','model_options');
     }
+
+
+    public static function booted()
+    {
+        static::deleting(function ($article) {
+            $article->relatedOptions()->detach();
+        });
+    }
 }

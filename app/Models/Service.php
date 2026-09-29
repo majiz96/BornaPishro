@@ -33,4 +33,11 @@ class Service extends Model
     {
         return $this->morphToMany(Option::class, 'optionable','model_options');
     }
+
+    public static function booted()
+    {
+        static::deleting(function($service){
+            $service->relatedOptions()->detach();
+        });
+    }
 }
