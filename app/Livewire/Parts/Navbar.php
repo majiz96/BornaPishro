@@ -51,11 +51,15 @@ class Navbar extends Component
 
             $this->unreadNotice = auth()->user()
                 ->notices()->whereNull('user_notice.read_at')
-                ->where('notices.status', 1)->latest()->get();
+                ->where('notices.status', 1)
+                ->where('expired_at', '>', now())
+                ->latest()->get();
 
             $this->lastUnreadNotice = auth()->user()
                 ->notices()->whereNull('user_notice.read_at')
-                ->where('notices.status', 1)->latest()->limit(1)->get();
+                ->where('notices.status', 1)
+                ->where('expired_at', '>', now())
+                ->latest()->limit(1)->get();
         }
 
     }
