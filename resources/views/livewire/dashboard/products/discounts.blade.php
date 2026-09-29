@@ -155,7 +155,7 @@
                         <div class="col-xl-1 my-auto text-end"> {{$counter++}} </div>
 
                         <div class="col-xl-1 px-0 text-center my-auto">
-                            <img src="{{asset('storage/products/'.$product->image) }}"  alt="پیش نمایش" height="64" class="rounded">
+                            <img src="{{asset('storage/app/public/products/'.$product->image) }}"  alt="پیش نمایش" height="64" class="rounded">
                         </div>
 
                         <div class="col-xl-2 my-auto text-center"> {{$product->name}} </div>
