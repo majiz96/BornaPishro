@@ -115,7 +115,7 @@
 
         @if(count($this->specifications) <= 1)
 
-            @if($product->price !== 0 || $product->price !== null)
+            @if($product->price != 0 || $product->price != null)
                 <h3 class="text-success"> {{ number_format($product->price) }} تومان</h3>
             @elseif($product->supply == 0)
                 <h3 class="text-danger"> ناموجود </h3>
