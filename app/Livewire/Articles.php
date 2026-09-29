@@ -67,15 +67,10 @@ class Articles extends Component
             Category::whereIn('parent_id', $this->activeCategory)->pluck('id')->toArray()
         );
 
-        $query = Filter::with(['options'=>function($option){
-            $option->whereHas('usedOptions',function($relation){
-                $relation->where('optionable_type',Article::class);
-            });
-        }])->where('field_id', $this->field_id)
-            ->where('show', 1)
-        ->whereHas('articles',function($article){
-            $article->where('show', 1);
-        });
+        $query = Filter::withVisibleOption()
+            ->hasVisibleOption()
+            ->where('field_id', $this->field_id)
+            ->where('show', 1);
 
 // show all filters
         if (!empty($allCategories)) {
