@@ -21,9 +21,24 @@
                 {{$product->name}}
             </div>
 
-            <div class="col-2 my-auto text-center h4 text-success">
-                {{number_format($product->price)}} تومان
-            </div>
+            @if($product->supply == 1)
+                @if($product->price || $product->price > 0)
+                    <div class="col-2 my-auto text-center h4 text-success">
+                        {{number_format($product->price)}} تومان
+                    </div>
+                @else
+                    <div class="col-2 my-auto text-center h4 bg-secondary rounded py-1 px-2 text-white w-auto">
+                        استعلامی
+                    </div>
+                @endif
+            @else
+                <div class="col-2 my-auto text-center h4 bg-danger rounded py-1 px-2 text-white w-auto">
+                    ناموجود
+                </div>
+            @endif
+
+
+
 
             <div class="col-auto flex-fill"></div>
 
